@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dkart | Online Shopping</title>
+    <title>Dkart | Shop Online</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -11,49 +11,27 @@
 
     <header class="navbar">
         <div class="nav-top">
-            <div class="logo" onclick="filterProduct('all')">Dkart</div>
+            <div class="logo">Dkart</div>
             <div class="search-box">
                 <input type="text" id="searchInput" placeholder="Search products...">
-                <button onclick="searchFunction()"><i class="fa fa-search"></i></button>
+                <button onclick="searchFunction()">🔍</button>
             </div>
             <div class="nav-links">
-                <button class="icon-btn" onclick="filterProduct('all')"><i class="fa fa-home"></i></button>
-                <div class="cart-btn"><i class="fa fa-shopping-cart"></i><span id="cart-count">0</span></div>
+                <div class="cart-btn">🛒 <span id="cart-count">0</span></div>
             </div>
         </div>
-
-        <nav class="category-nav">
-            <div class="cat-item" onclick="filterProduct('men')"><span>Men</span></div>
-            <div class="cat-item" onclick="filterProduct('women')"><span>Women</span></div>
-            <div class="cat-item" onclick="filterProduct('boy')"><span>Boy</span></div>
-            <div class="cat-item" onclick="filterProduct('toys')"><span>Toys</span></div>
-            <div class="cat-item" onclick="filterProduct('shoes')"><span>Shoes</span></div>
-            <div class="cat-item" onclick="filterProduct('gadgets')"><span>Gadgets</span></div>
-        </nav>
     </header>
 
     <main class="container">
-        <h2 id="section-title">All Products</h2>
-        <div class="product-grid" id="productGrid">
-            <div class="product-card" data-category="men">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_6uP77_k8W1z0vj_k67eBvA0u6p7B6X3x9A&s" alt="Men Shirt">
+        <div class="product-grid">
+            <div class="product-card">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_6uP77_k8W1z0vj_k67eBvA0u6p7B6X3x9A&s" alt="Shirt">
                 <div class="p-info">
-                    <h4>Premium Men's Shirt</h4>
-                    <p class="p-price">₹599 <del>₹999</del></p>
+                    <h4>Premium Cotton Shirt</h4>
+                    <p class="p-price">₹599</p>
                     <div class="p-btns">
                         <button class="btn-cart" onclick="addToCart()">Add to Cart</button>
-                        <button class="btn-buy" onclick="buyNow('Premium Men Shirt', '599')">Buy Now</button>
-                    </div>
-                </div>
-            </div>
-            <div class="product-card" data-category="women">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQW9q1A_m_N1_9I9S_A1_7C_K_W_F_H_N_I_G_A&s" alt="Saree">
-                <div class="p-info">
-                    <h4>Fancy Designer Saree</h4>
-                    <p class="p-price">₹899 <del>₹1599</del></p>
-                    <div class="p-btns">
-                        <button class="btn-cart" onclick="addToCart()">Add to Cart</button>
-                        <button class="btn-buy" onclick="buyNow('Fancy Designer Saree', '899')">Buy Now</button>
+                        <button class="btn-buy" onclick="buyNow('Premium Cotton Shirt', '599')">Buy Now</button>
                     </div>
                 </div>
             </div>
@@ -63,10 +41,10 @@
     <div id="orderModal" class="modal">
         <div class="modal-content">
             <h3>Order Details</h3>
-            <input type="text" id="custName" placeholder="Aapka Naam" required>
-            <input type="number" id="custPhone" placeholder="Mobile Number" required>
-            <textarea id="custAddress" placeholder="Pura Address aur Pin Code" required></textarea>
-            <div id="orderSummary"></div>
+            <input type="text" id="custName" placeholder="Aapka Naam">
+            <input type="number" id="custPhone" placeholder="Mobile Number">
+            <textarea id="custAddress" placeholder="Pura Address"></textarea>
+            <div id="orderSummary" style="margin: 10px 0; color: #2874f0; font-weight: bold;"></div>
             <button class="confirm-btn" onclick="sendToWhatsApp()">Confirm Order</button>
             <button class="close-btn" onclick="closeModal()">Cancel</button>
         </div>

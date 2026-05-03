@@ -1,36 +1,60 @@
-// 1. Filter Function: Categories ke hisaab se product dikhane ke liye
+let currentProduct = "";
+let currentPrice = "";
+
 function filterProduct(category) {
     let products = document.querySelectorAll('.product-card');
-    
-    products.forEach(product => {
-        // Agar 'all' select hai ya category match karti hai
-        if (category === 'all' || product.getAttribute('data-category') === category) {
-            product.style.display = 'block'; // Dikhayein
+    document.getElementById('section-title').innerText = category.toUpperCase() + " Products";
+    products.forEach(p => {
+        if (category === 'all' || p.getAttribute('data-category') === category) {
+            p.style.display = 'block';
         } else {
-            product.style.display = 'none'; // Chupayein
+            p.style.display = 'none';
         }
     });
 }
 
-// 2. Cart Logic: Add to cart button ke liye
-let cartCount = 0;
 function addToCart() {
-    cartCount++;
-    document.getElementById('cart-count').innerText = cartCount;
-    alert("Product aapke cart mein jod diya gaya hai!");
+    let count = document.getElementById('cart-count');
+    count.innerText = parseInt(count.innerText) + 1;
+    alert("Added to cart!");
 }
 
-// 3. Search Logic: Search bar mein dhundhne ke liye
-document.querySelector('.search-container button').addEventListener('click', () => {
-    let searchTerm = document.querySelector('.search-container input').value.toLowerCase();
-    let products = document.querySelectorAll('.product-card');
+function buyNow(name, price) {
+    currentProduct = name;
+    currentPrice = price;
+    document.getElementById('orderSummary').innerHTML = `<p>Order: ${name} (₹${price})</p>`;
+    document.getElementById('orderModal').style.display = "block";
+}
 
-    products.forEach(product => {
-        let title = product.querySelector('h4').innerText.toLowerCase();
-        if (title.includes(searchTerm)) {
-            product.style.display = 'block';
-        } else {
-            product.style.display = 'none';
-        }
+function closeModal() {
+    document.getElementById('orderModal').style.display = "none";
+}
+
+function sendToWhatsApp() {
+    let name = document.getElementById('custName').value;
+    let phone = document.getElementById('custPhone').value;
+    let address = document.getElementById('custAddress').value;
+
+    if(name == "" || phone == "" || address == "") {
+        alert("Saari jankari bhariye!");
+        return;
+    }
+
+    let myNumber = "918521684137"; 
+    let message = `*Dkart Naya Order*%0A------------------%0A*Product:* ${currentProduct}%0A*Price:* ₹${currentPrice}%0A%0A*Customer:* ${name}%0A*Mob:* ${phone}%0A*Address:* ${address}`;
+
+    let url = `https://api.whatsapp.com/send?phone=${myNumber}&text=${message}`;
+    
+    window.open(url, '_blank');
+    alert("Order Confirmed!");
+    closeModal();
+}
+
+function searchFunction() {
+    let input = document.getElementById('searchInput').value.toLowerCase();
+    let cards = document.querySelectorAll('.product-card');
+    cards.forEach(card => {
+        let title = card.querySelector('h4').innerText.toLowerCase();
+        card.style.display = title.includes(input) ? "block" : "none";
     });
-});
+}

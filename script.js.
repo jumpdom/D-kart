@@ -1,23 +1,28 @@
 let currentProduct = "";
 let currentPrice = "";
+let cartCount = 0;
 
-// Modal kholne ka sahi tarika
+// 1. Add to Cart Function
+function addToCart() {
+    cartCount++;
+    document.getElementById('cart-count').innerText = cartCount;
+    alert("Saman cart mein jud gaya hai! Kul saman: " + cartCount);
+}
+
+// 2. Buy Now Function
 function buyNow(name, price) {
-    console.log("Button Clicked: " + name); // Testing ke liye
     currentProduct = name;
     currentPrice = price;
     
+    // Popup dikhayein
     const modal = document.getElementById('orderModal');
     const summary = document.getElementById('orderSummary');
     
-    if(modal && summary) {
-        summary.innerHTML = `<div style="background:#f9f9f9; padding:10px; margin-bottom:10px; border-radius:4px;">
-            <b>Product:</b> ${name}<br>
-            <b>Price:</b> ₹${price}
-        </div>`;
+    if(modal) {
+        summary.innerHTML = "Product: " + name + " | Price: ₹" + price;
         modal.style.display = "block";
     } else {
-        console.error("Modal elements not found!");
+        alert("Error: Modal nahi mila!");
     }
 }
 
@@ -25,30 +30,22 @@ function closeModal() {
     document.getElementById('orderModal').style.display = "none";
 }
 
-// Bahar click karne par modal band ho jaye
-window.onclick = function(event) {
-    let modal = document.getElementById('orderModal');
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-}
-
+// 3. WhatsApp Message Sending
 function sendToWhatsApp() {
     let name = document.getElementById('custName').value;
     let phone = document.getElementById('custPhone').value;
     let address = document.getElementById('custAddress').value;
 
-    if(!name || !phone || !address) {
-        alert("Kripya saari jankari bhariye!");
+    if(name == "" || phone == "" || address == "") {
+        alert("Kripya saari details bhariye!");
         return;
     }
 
     let myNumber = "918521684137";
-    let message = `*Dkart - Naya Order*%0A--------------------------%0A*Product:* ${currentProduct}%0A*Price:* ₹${currentPrice}%0A%0A*Customer Details:*%0AName: ${name}%0ANumber: ${phone}%0AAddress: ${address}%0A--------------------------`;
+    let message = `*Dkart Order*%0A*Product:* ${currentProduct}%0A*Price:* ₹${currentPrice}%0A*Customer:* ${name}%0A*Address:* ${address}`;
 
-    let url = `https://api.whatsapp.com/send?phone=${myNumber}&text=${message}`;
+    let url = "https://api.whatsapp.com/send?phone=" + myNumber + "&text=" + message;
     window.open(url, '_blank');
     
-    alert("Shukriya! Aapka order confirm karne ke liye WhatsApp open ho raha hai.");
     closeModal();
 }

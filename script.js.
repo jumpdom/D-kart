@@ -1,0 +1,36 @@
+// 1. Filter Function: Categories ke hisaab se product dikhane ke liye
+function filterProduct(category) {
+    let products = document.querySelectorAll('.product-card');
+    
+    products.forEach(product => {
+        // Agar 'all' select hai ya category match karti hai
+        if (category === 'all' || product.getAttribute('data-category') === category) {
+            product.style.display = 'block'; // Dikhayein
+        } else {
+            product.style.display = 'none'; // Chupayein
+        }
+    });
+}
+
+// 2. Cart Logic: Add to cart button ke liye
+let cartCount = 0;
+function addToCart() {
+    cartCount++;
+    document.getElementById('cart-count').innerText = cartCount;
+    alert("Product aapke cart mein jod diya gaya hai!");
+}
+
+// 3. Search Logic: Search bar mein dhundhne ke liye
+document.querySelector('.search-container button').addEventListener('click', () => {
+    let searchTerm = document.querySelector('.search-container input').value.toLowerCase();
+    let products = document.querySelectorAll('.product-card');
+
+    products.forEach(product => {
+        let title = product.querySelector('h4').innerText.toLowerCase();
+        if (title.includes(searchTerm)) {
+            product.style.display = 'block';
+        } else {
+            product.style.display = 'none';
+        }
+    });
+});

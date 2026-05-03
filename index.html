@@ -1,0 +1,41 @@
+<!-- Header Section -->
+<header>
+    <div class="top-nav">
+        <div class="logo">Dkart</div>
+        <div class="search-container">
+            <input type="text" placeholder="Search products...">
+            <button>🔍</button>
+        </div>
+        <div class="nav-icons">
+            <button class="home-btn">🏠 Home</button>
+            <div class="cart-icon">🛒 <span id="cart-count">0</span></div>
+        </div>
+    </div>
+
+    <!-- Category Section -->
+    <nav class="category-bar">
+        <button onclick="filterProduct('men')">Men</button>
+        <button onclick="filterProduct('women')">Women</button>
+        <button onclick="filterProduct('boy')">Boy</button>
+        <button onclick="filterProduct('toys')">Toys</button>
+        <button onclick="filterProduct('shoes')">Shoes</button>
+        <button onclick="filterProduct('gadgets')">Gadgets</button>
+    </nav>
+</header>
+
+<!-- Main Product Area -->
+<main id="product-display">
+    <!-- Yahan Mix Products aur Filtered Products dikhenge -->
+    <div class="product-grid" id="main-grid">
+        <!-- Ek Sample Product -->
+        <div class="product-card" data-category="men">
+            <img src="product_photo.jpg" alt="Men T-Shirt">
+            <h4>Premium Men T-Shirt</h4>
+            <p class="price">₹499</p>
+            <div class="btn-group">
+                <button class="add-cart">Add to Cart</button>
+                <button class="buy-now">Buy Now</button>
+            </div>
+        </div>
+    </div>
+</main>

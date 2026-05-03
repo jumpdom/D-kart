@@ -1,24 +1,37 @@
-body { margin: 0; font-family: sans-serif; background: #f1f3f6; }
-.navbar { background: #2874f0; color: white; position: sticky; top: 0; z-index: 100; padding: 10px; }
-.nav-top { display: flex; align-items: center; justify-content: space-between; max-width: 1200px; margin: auto; }
-.logo { font-size: 22px; font-weight: bold; cursor: pointer; }
-.search-box { display: flex; flex-grow: 1; margin: 0 15px; background: white; border-radius: 2px; }
-.search-box input { border: none; padding: 8px; width: 100%; outline: none; }
-.search-box button { border: none; background: white; color: #2874f0; padding: 0 10px; }
-.category-nav { display: flex; background: white; overflow-x: auto; padding: 10px; gap: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); justify-content: center; }
-.cat-item { cursor: pointer; font-size: 14px; font-weight: 500; padding: 5px 10px; }
-.container { max-width: 1200px; margin: 20px auto; padding: 0 10px; }
-.product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
-.product-card { background: white; padding: 10px; border-radius: 4px; text-align: center; }
-.product-card img { width: 100%; height: 200px; object-fit: contain; }
-.p-price { font-size: 18px; font-weight: bold; color: #388e3c; }
-.p-btns { display: flex; gap: 5px; margin-top: 10px; }
-.btn-cart { background: #ff9f00; color: white; border: none; padding: 10px; flex: 1; cursor: pointer; }
-.btn-buy { background: #fb641b; color: white; border: none; padding: 10px; flex: 1; cursor: pointer; }
+/* Modern Layout */
+body { margin: 0; font-family: 'Roboto', sans-serif; background: #f1f3f6; color: #212121; }
+.navbar { background: #2874f0; color: white; position: sticky; top: 0; z-index: 1000; padding: 10px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+.nav-top { display: flex; align-items: center; max-width: 1200px; margin: auto; padding: 0 15px; }
+.logo { font-size: 24px; font-weight: bold; font-style: italic; cursor: pointer; margin-right: 20px; }
 
-/* Modal Box */
-.modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); }
-.modal-content { background: white; width: 90%; max-width: 350px; margin: 20% auto; padding: 20px; border-radius: 8px; }
-.modal-content input, .modal-content textarea { width: 100%; margin-bottom: 10px; padding: 10px; border: 1px solid #ddd; box-sizing: border-box; }
-.confirm-btn { background: #28a745; color: white; border: none; width: 100%; padding: 12px; cursor: pointer; font-size: 16px; }
-.close-btn { background: #ccc; border: none; width: 100%; padding: 10px; margin-top: 5px; cursor: pointer; }
+/* Professional Search */
+.search-box { display: flex; flex: 1; background: white; border-radius: 2px; overflow: hidden; }
+.search-box input { border: none; padding: 10px; width: 100%; outline: none; font-size: 14px; }
+.search-box button { border: none; background: white; color: #2874f0; padding: 0 15px; cursor: pointer; }
+
+/* Category Bar (Mobile Friendly) */
+.category-nav { display: flex; background: white; overflow-x: auto; padding: 12px; gap: 25px; border-bottom: 1px solid #ddd; justify-content: flex-start; scrollbar-width: none; }
+.cat-item { cursor: pointer; text-align: center; min-width: 60px; font-size: 13px; font-weight: 500; transition: 0.2s; }
+.cat-item:hover { color: #2874f0; }
+
+/* Improved Product Cards */
+.container { max-width: 1200px; margin: 20px auto; padding: 0 10px; }
+.product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; }
+.product-card { background: white; border-radius: 4px; overflow: hidden; transition: 0.3s; border: 1px solid #e0e0e0; position: relative; }
+.product-card:hover { box-shadow: 0 4px 15px rgba(0,0,0,0.15); }
+.product-card img { width: 100%; height: 180px; object-fit: contain; padding: 10px; box-sizing: border-box; }
+.p-info { padding: 10px; text-align: left; }
+.p-info h4 { margin: 5px 0; font-size: 14px; color: #212121; height: 35px; overflow: hidden; }
+.p-price { font-size: 16px; font-weight: bold; margin: 5px 0; }
+.p-price del { font-size: 12px; color: #878787; font-weight: normal; }
+
+/* Flipkart Style Buttons */
+.p-btns { display: flex; flex-direction: column; gap: 5px; margin-top: 10px; }
+.btn-buy { background: #fb641b; color: white; border: none; padding: 10px; font-weight: bold; cursor: pointer; border-radius: 2px; font-size: 13px; text-transform: uppercase; }
+
+/* Fixed Modal Popup */
+.modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); }
+.modal-content { background: white; width: 85%; max-width: 400px; margin: 15vh auto; padding: 25px; border-radius: 8px; box-shadow: 0 5px 20px rgba(0,0,0,0.3); }
+.modal-content h3 { margin-top: 0; color: #2874f0; }
+.modal-content input, .modal-content textarea { width: 100%; margin-bottom: 12px; padding: 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; box-sizing: border-box; }
+.confirm-btn { background: #388e3c; color: white; border: none; width: 100%; padding: 14px; font-size: 16px; font-weight: bold; cursor: pointer; border-radius: 4px; }

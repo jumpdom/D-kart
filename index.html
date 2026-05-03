@@ -3,117 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dkart | Online Shopping Platform</title>
+    <title>Dkart | Online Shopping</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Font Awesome icons ke liye link -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
-    <!-- 1. Header & Search Bar -->
     <header class="navbar">
         <div class="nav-top">
             <div class="logo" onclick="filterProduct('all')">Dkart</div>
-            
             <div class="search-box">
-                <input type="text" id="searchInput" placeholder="Search for products, brands and more">
+                <input type="text" id="searchInput" placeholder="Search products...">
                 <button onclick="searchFunction()"><i class="fa fa-search"></i></button>
             </div>
-
             <div class="nav-links">
-                <button class="icon-btn" onclick="filterProduct('all')">
-                    <i class="fa fa-home"></i> <span>Home</span>
-                </button>
-                <div class="cart-btn">
-                    <i class="fa fa-shopping-cart"></i>
-                    <span id="cart-count">0</span>
-                    <span>Cart</span>
-                </div>
+                <button class="icon-btn" onclick="filterProduct('all')"><i class="fa fa-home"></i></button>
+                <div class="cart-btn"><i class="fa fa-shopping-cart"></i><span id="cart-count">0</span></div>
             </div>
         </div>
 
-        <!-- 2. Category Navigation -->
         <nav class="category-nav">
-            <div class="cat-item" onclick="filterProduct('men')">
-                <img src="https://cdn-icons-png.flaticon.com/512/1051/1051280.png" alt="Men">
-                <span>Men</span>
-            </div>
-            <div class="cat-item" onclick="filterProduct('women')">
-                <img src="https://cdn-icons-png.flaticon.com/512/3257/3257850.png" alt="Women">
-                <span>Women</span>
-            </div>
-            <div class="cat-item" onclick="filterProduct('boy')">
-                <img src="https://cdn-icons-png.flaticon.com/512/3069/3069232.png" alt="Boy">
-                <span>Boy</span>
-            </div>
-            <div class="cat-item" onclick="filterProduct('toys')">
-                <img src="https://cdn-icons-png.flaticon.com/512/3082/3082060.png" alt="Toys">
-                <span>Toys</span>
-            </div>
-            <div class="cat-item" onclick="filterProduct('shoes')">
-                <img src="https://cdn-icons-png.flaticon.com/512/2742/2742633.png" alt="Shoes">
-                <span>Shoes</span>
-            </div>
-            <div class="cat-item" onclick="filterProduct('gadgets')">
-                <img src="https://cdn-icons-png.flaticon.com/512/4359/4359915.png" alt="Gadgets">
-                <span>Gadgets</span>
-            </div>
+            <div class="cat-item" onclick="filterProduct('men')"><span>Men</span></div>
+            <div class="cat-item" onclick="filterProduct('women')"><span>Women</span></div>
+            <div class="cat-item" onclick="filterProduct('boy')"><span>Boy</span></div>
+            <div class="cat-item" onclick="filterProduct('toys')"><span>Toys</span></div>
+            <div class="cat-item" onclick="filterProduct('shoes')"><span>Shoes</span></div>
+            <div class="cat-item" onclick="filterProduct('gadgets')"><span>Gadgets</span></div>
         </nav>
     </header>
 
-    <!-- 3. Main Product Display Section -->
     <main class="container">
         <h2 id="section-title">All Products</h2>
         <div class="product-grid" id="productGrid">
-            
-            <!-- Sample Product 1: Men -->
             <div class="product-card" data-category="men">
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_6uP77_k8W1z0vj_k67eBvA0u6p7B6X3x9A&s" alt="Men Shirt">
                 <div class="p-info">
-                    <h4>Premium Men's Cotton Shirt</h4>
-                    <p class="p-price">₹599 <del>₹999</del> <span class="discount">40% off</span></p>
+                    <h4>Premium Men's Shirt</h4>
+                    <p class="p-price">₹599 <del>₹999</del></p>
                     <div class="p-btns">
                         <button class="btn-cart" onclick="addToCart()">Add to Cart</button>
                         <button class="btn-buy" onclick="buyNow('Premium Men Shirt', '599')">Buy Now</button>
                     </div>
                 </div>
             </div>
-
-            <!-- Sample Product 2: Women -->
             <div class="product-card" data-category="women">
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQW9q1A_m_N1_9I9S_A1_7C_K_W_F_H_N_I_G_A&s" alt="Saree">
                 <div class="p-info">
                     <h4>Fancy Designer Saree</h4>
-                    <p class="p-price">₹899 <del>₹1599</del> <span class="discount">43% off</span></p>
+                    <p class="p-price">₹899 <del>₹1599</del></p>
                     <div class="p-btns">
                         <button class="btn-cart" onclick="addToCart()">Add to Cart</button>
                         <button class="btn-buy" onclick="buyNow('Fancy Designer Saree', '899')">Buy Now</button>
                     </div>
                 </div>
             </div>
-
-            <!-- Sample Product 3: Gadgets -->
-            <div class="product-card" data-category="gadgets">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_G_W_Y_S_X_Q_Q_Q_Q_Q_Q_Q_Q_Q_Q_Q_Q_Q&s" alt="Smartwatch">
-                <div class="p-info">
-                    <h4>Smartwatch Series 7</h4>
-                    <p class="p-price">₹1,299 <del>₹2,999</del> <span class="discount">56% off</span></p>
-                    <div class="p-btns">
-                        <button class="btn-cart" onclick="addToCart()">Add to Cart</button>
-                        <button class="btn-buy" onclick="buyNow('Smartwatch Series 7', '1299')">Buy Now</button>
-                    </div>
-                </div>
-            </div>
-
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2026 Dkart - Managed by Das Digital</p>
-    </footer>
+    <div id="orderModal" class="modal">
+        <div class="modal-content">
+            <h3>Order Details</h3>
+            <input type="text" id="custName" placeholder="Aapka Naam" required>
+            <input type="number" id="custPhone" placeholder="Mobile Number" required>
+            <textarea id="custAddress" placeholder="Pura Address aur Pin Code" required></textarea>
+            <div id="orderSummary"></div>
+            <button class="confirm-btn" onclick="sendToWhatsApp()">Confirm Order</button>
+            <button class="close-btn" onclick="closeModal()">Cancel</button>
+        </div>
+    </div>
 
-    <!-- JavaScript Link -->
     <script src="script.js"></script>
 </body>
 </html>

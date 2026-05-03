@@ -1,0 +1,62 @@
+/* Navigation Bar Design */
+.top-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #2874f0; /* Flipkart Blue */
+    color: white;
+}
+
+.search-container {
+    display: flex;
+    flex-grow: 1;
+    margin: 0 15px;
+}
+
+.search-container input {
+    width: 100%;
+    padding: 8px;
+    border: none;
+    border-radius: 2px 0 0 2px;
+}
+
+/* Category Bar Design */
+.category-bar {
+    display: flex;
+    overflow-x: auto; /* Mobile par scroll hoga */
+    background: white;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.category-bar button {
+    background: none;
+    border: none;
+    margin: 0 10px;
+    font-weight: bold;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+/* Product Buttons */
+.btn-group {
+    display: flex;
+    gap: 5px;
+}
+
+.add-cart {
+    background: #ff9f00; /* Yellow-Orange */
+    color: white;
+    border: none;
+    padding: 8px;
+    flex: 1;
+}
+
+.buy-now {
+    background: #fb641b; /* Dark Orange */
+    color: white;
+    border: none;
+    padding: 8px;
+    flex: 1;
+}

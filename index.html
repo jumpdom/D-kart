@@ -3,29 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dkart | Online Shopping</title>
+    <title>Dkart | Premium Store</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --primary: #2874f0; --secondary: #fb641b; }
-        body { font-family: Arial, sans-serif; background: #f1f3f6; margin: 0; }
-        header { background: var(--primary); color: white; padding: 15px; text-align: center; font-size: 24px; font-weight: bold; italic; }
-        .search-box { padding: 10px; background: var(--primary); display: flex; justify-content: center; }
-        #search { width: 90%; padding: 10px; border-radius: 4px; border: none; }
+        :root { --primary: #2874f0; --secondary: #fb641b; --bg: #f1f3f6; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding-bottom: 60px; }
+        
+        /* Header & Navigation */
+        header { background: var(--primary); color: white; padding: 12px 15px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .nav-top { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: auto; }
+        .menu-btn { font-size: 20px; cursor: pointer; }
+        .logo { font-size: 20px; font-weight: 800; font-style: italic; }
+        
+        /* Sidebar Menu */
+        .sidebar { position: fixed; left: -280px; top: 0; width: 280px; height: 100%; background: white; z-index: 2000; transition: 0.3s; box-shadow: 2px 0 10px rgba(0,0,0,0.2); }
+        .sidebar.active { left: 0; }
+        .sidebar-header { background: var(--primary); color: white; padding: 20px; font-size: 18px; font-weight: bold; display: flex; align-items: center; gap: 10px; }
+        .sidebar-menu { padding: 10px 0; }
+        .menu-item { padding: 15px 20px; display: flex; align-items: center; gap: 15px; color: #333; text-decoration: none; border-bottom: 1px solid #f0f0f0; transition: 0.2s; }
+        .menu-item:active { background: #f5f5f5; }
+        .menu-item i { color: #878787; width: 20px; }
+
+        /* Overlay */
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; z-index: 1500; }
+        .overlay.active { display: block; }
+
+        /* Bottom Navigation */
+        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid #ddd; z-index: 1000; }
+        .nav-item { text-align: center; color: #666; text-decoration: none; font-size: 12px; flex: 1; }
+        .nav-item i { font-size: 20px; display: block; margin-bottom: 2px; }
+        .nav-item.active { color: var(--primary); }
+
+        /* Product UI */
+        .search-container { padding: 10px; background: var(--primary); }
+        #search { width: 100%; padding: 10px; border-radius: 4px; border: none; outline: none; box-sizing: border-box; }
         .container { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 10px; }
-        .card { background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; flex-direction: column; }
-        .img-box { width: 100%; height: 180px; background: #fff; display: flex; align-items: center; justify-content: center; }
+        .card { background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); position: relative; }
+        .img-box { width: 100%; height: 170px; background: white; display: flex; align-items: center; justify-content: center; }
         .img-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
-        .info { padding: 10px; flex-grow: 1; }
-        .p-name { font-size: 14px; margin-bottom: 5px; height: 35px; overflow: hidden; }
-        .p-price { font-size: 18px; font-weight: bold; }
+        .wishlist-icon { position: absolute; top: 8px; right: 8px; color: #ccc; font-size: 18px; }
+        .info { padding: 8px; }
+        .p-name { font-size: 13px; color: #212121; height: 32px; overflow: hidden; margin-bottom: 4px; }
+        .p-price { font-size: 16px; font-weight: bold; }
         .buy-btn { background: var(--secondary); color: white; border: none; padding: 10px; width: 100%; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
 
-<header>Dkart</header>
-<div class="search-box"><input type="text" id="search" placeholder="Search products..."></div>
+<header>
+    <div class="nav-top">
+        <div class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
+        <div class="logo">D<span style="color:var(--secondary)">kart</span></div>
+        <div class="cart-btn"><i class="fas fa-shopping-cart"></i></div>
+    </div>
+</header>
 
-<div class="container" id="productList"></div>
+<div class="search-container">
+    <input type="text" id="search" placeholder="Search for products..." onkeyup="filterData()">
+</div>
+
+<div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+<div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <i class="fas fa-user-circle" style="font-size: 30px;"></i> Amit Das
+    </div>
+    <div class="sidebar-menu">
+        <a href="#" class="menu-item"><i class="fas fa-box"></i> My Orders</a>
+        <a href="#" class="menu-item"><i class="fas fa-heart"></i> My Wishlist</a>
+        <a href="#" class="menu-item"><i class="fas fa-shopping-bag"></i> My Cart</a>
+        <a href="#" class="menu-item"><i class="fas fa-user"></i> My Account</a>
+        <hr style="border: 0; border-top: 1px solid #eee;">
+        <a href="#" class="menu-item"><i class="fas fa-headset"></i> Help Center</a>
+    </div>
+</div>
+
+<div class="container" id="productList">
+    </div>
+
+<div class="bottom-nav">
+    <a href="#" class="nav-item active"><i class="fas fa-home"></i>Home</a>
+    <a href="#" class="nav-item" onclick="alert('Wishlist empty!')"><i class="fas fa-heart"></i>Wishlist</a>
+    <a href="#" class="nav-item"><i class="fas fa-th-large"></i>Categories</a>
+    <a href="#" class="nav-item"><i class="fas fa-shopping-bag"></i>Orders</a>
+</div>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
@@ -43,7 +103,13 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    async function loadProducts() {
+    // Sidebar toggle function
+    window.toggleMenu = function() {
+        document.getElementById('sidebar').classList.toggle('active');
+        document.getElementById('overlay').classList.toggle('active');
+    }
+
+    async function loadData() {
         const list = document.getElementById('productList');
         const q = query(collection(db, "products"), orderBy("time", "desc"));
         const querySnapshot = await getDocs(q);
@@ -51,28 +117,27 @@
 
         querySnapshot.forEach((doc) => {
             const data = doc.data();
-            
-            // PHOTO FIX: Naye array aur purane link dono ko check karega
-            let finalImg = "https://via.placeholder.com/200";
-            if (data.images && data.images.length > 0) {
-                finalImg = data.images[0]; 
-            } else if (data.imgUrl) {
-                finalImg = data.imgUrl;
-            }
+            let img = (data.images && data.images.length > 0) ? data.images[0] : (data.imgUrl || "https://via.placeholder.com/150");
 
             list.innerHTML += `
                 <div class="card">
-                    <div class="img-box"><img src="${finalImg}"></div>
+                    <i class="far fa-heart wishlist-icon"></i>
+                    <div class="img-box"><img src="${img}"></div>
                     <div class="info">
                         <div class="p-name">${data.name}</div>
                         <div class="p-price">₹${data.price}</div>
-                        <div style="font-size:11px; color:gray;">${data.details || ''}</div>
                     </div>
-                    <button class="buy-btn">BUY NOW</button>
+                    <button class="buy-btn" onclick="order('${data.name}', '${data.price}')">BUY NOW</button>
                 </div>`;
         });
     }
-    loadProducts();
+
+    window.order = function(n, p) {
+        window.open(`https://wa.me/91XXXXXXXXXX?text=I want to buy: ${n} (₹${p})`);
+    }
+
+    loadData();
 </script>
+
 </body>
 </html>

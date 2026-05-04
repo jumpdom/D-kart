@@ -1,70 +1,157 @@
-<!-- index.html mein ye CSS add karein -->
-<style>
-    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 3000; justify-content: center; align-items: center; }
-    .modal-content { background: white; padding: 20px; border-radius: 12px; width: 90%; max-width: 400px; }
-    .modal-content h3 { margin-top: 0; color: var(--primary); }
-    .modal-content input, .modal-content textarea { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; }
-    .order-summary { background: #f9f9f9; padding: 10px; border-radius: 5px; margin-bottom: 10px; font-size: 14px; }
-    .cod-box { border: 2px solid var(--primary); padding: 10px; border-radius: 5px; display: flex; align-items: center; gap: 10px; margin: 10px 0; }
-    .conf-btn { background: var(--success, #28a745); color: white; border: none; padding: 12px; width: 100%; font-weight: bold; border-radius: 5px; cursor: pointer; }
-</style>
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dkart | Shop Online</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --primary: #2874f0; --secondary: #fb641b; --bg: #f1f3f6; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding-bottom: 60px; }
+        
+        /* Header */
+        header { background: var(--primary); color: white; padding: 12px 15px; position: sticky; top: 0; z-index: 1000; }
+        .nav-top { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: auto; }
+        .logo { font-size: 22px; font-weight: 800; font-style: italic; }
+        
+        /* Search */
+        .search-box { padding: 10px; background: var(--primary); }
+        #search { width: 100%; padding: 10px; border-radius: 4px; border: none; box-sizing: border-box; }
 
-<!-- Body ke aakhir mein ye HTML add karein -->
+        /* Product Grid */
+        .container { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 10px; max-width: 1200px; margin: auto; }
+        .card { background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); display: flex; flex-direction: column; }
+        .img-box { width: 100%; height: 160px; background: white; display: flex; align-items: center; justify-content: center; }
+        .img-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        .info { padding: 10px; flex-grow: 1; }
+        .p-name { font-size: 14px; color: #212121; height: 35px; overflow: hidden; }
+        .p-price { font-size: 17px; font-weight: bold; margin-top: 5px; }
+        
+        /* Buy Button */
+        .buy-btn { background: var(--secondary); color: white; border: none; padding: 12px; width: 100%; font-weight: bold; cursor: pointer; }
+
+        /* Order Modal */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center; }
+        .modal-content { background: white; padding: 20px; border-radius: 12px; width: 90%; max-width: 400px; }
+        .modal-content h3 { margin: 0 0 15px 0; color: var(--primary); }
+        .modal-content input, .modal-content textarea { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-size: 14px; }
+        .summary-box { background: #f9f9f9; padding: 10px; border-radius: 6px; margin-bottom: 15px; border-left: 4px solid var(--secondary); }
+        .conf-btn { background: #28a745; color: white; border: none; padding: 15px; width: 100%; font-weight: bold; border-radius: 6px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="nav-top">
+        <div class="logo">Dkart</div>
+        <div class="cart"><i class="fas fa-shopping-cart"></i></div>
+    </div>
+</header>
+
+<div class="search-box">
+    <input type="text" id="search" placeholder="Search products..." onkeyup="filterProducts()">
+</div>
+
+<div class="container" id="productList">
+    <!-- Products will be loaded here -->
+</div>
+
+<!-- Order Modal -->
 <div class="modal" id="orderModal">
     <div class="modal-content">
-        <h3>Confirm Your Order</h3>
-        <div id="itemSummary" class="order-summary"></div>
+        <h3>Order Details</h3>
+        <div id="itemSummary" class="summary-box"></div>
         
-        <input type="text" id="custName" placeholder="Aapka Naam" required>
-        <input type="number" id="custPhone" placeholder="Mobile Number" required>
-        <textarea id="custAddr" placeholder="Pura Address (House No, Area, City, PIN)" rows="3" required></textarea>
+        <input type="text" id="custName" placeholder="Aapka Naam (Full Name)">
+        <input type="number" id="custPhone" placeholder="Mobile Number">
+        <textarea id="custAddr" placeholder="Full Address (PIN Code ke sath)" rows="3"></textarea>
         
-        <div class="cod-box">
-            <input type="radio" checked> 
-            <span><strong>Cash on Delivery (COD)</strong></span>
+        <div style="margin: 10px 0; color: green; font-weight: bold;">
+            <i class="fas fa-check-circle"></i> Cash on Delivery (COD)
         </div>
         
-        <button class="conf-btn" onclick="placeOrder()">Confirm Order</button>
-        <button onclick="closeModal()" style="width:100%; border:none; background:none; color:gray; margin-top:10px;">Cancel</button>
+        <button class="conf-btn" onclick="placeOrder()">CONFIRM ORDER</button>
+        <button onclick="closeModal()" style="width:100%; border:none; background:transparent; color:gray; margin-top:10px;">Close</button>
     </div>
 </div>
 
 <script type="module">
-    // ... (Firebase Initialize wala purana code) ...
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
     import { getFirestore, collection, addDoc, getDocs, orderBy, query } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
-    let currentItem = {};
+    const firebaseConfig = {
+      apiKey: "AIzaSyAchWzhIxqmS7G0HPpvuq6WBwcr8pXzFAE",
+      authDomain: "dkart-87860.firebaseapp.com",
+      projectId: "dkart-87860",
+      storageBucket: "dkart-87860.firebasestorage.app",
+      messagingSenderId: "894407834952",
+      appId: "1:894407834952:web:3067589b758c9819fe877d"
+    };
 
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    let selectedProduct = {};
+
+    // 1. Load Products
+    async function loadData() {
+        const list = document.getElementById('productList');
+        const q = query(collection(db, "products"), orderBy("time", "desc"));
+        const snap = await getDocs(q);
+        list.innerHTML = "";
+
+        snap.forEach(doc => {
+            const data = doc.data();
+            let img = (data.images && data.images.length > 0) ? data.images[0] : (data.imgUrl || "");
+
+            list.innerHTML += `
+                <div class="card">
+                    <div class="img-box"><img src="${img}"></div>
+                    <div class="info">
+                        <div class="p-name">${data.name}</div>
+                        <div class="p-price">₹${data.price}</div>
+                    </div>
+                    <button class="buy-btn" onclick="openOrderForm('${data.name}', '${data.price}')">BUY NOW</button>
+                </div>`;
+        });
+    }
+
+    // 2. Open Order Form
     window.openOrderForm = function(name, price) {
-        currentItem = { name, price };
-        document.getElementById('itemSummary').innerHTML = `<strong>Item:</strong> ${name}<br><strong>Total:</strong> ₹${price}`;
+        selectedProduct = { name, price };
+        document.getElementById('itemSummary').innerHTML = `Product: <b>${name}</b><br>Price: <b>₹${price}</b>`;
         document.getElementById('orderModal').style.display = 'flex';
     }
 
-    window.closeModal = function() { document.getElementById('orderModal').style.display = 'none'; }
+    window.closeModal = function() {
+        document.getElementById('orderModal').style.display = 'none';
+    }
 
+    // 3. Place Order to Firebase
     window.placeOrder = async function() {
-        const name = document.getElementById('custName').value;
-        const phone = document.getElementById('custPhone').value;
-        const addr = document.getElementById('custAddr').value;
+        const n = document.getElementById('custName').value;
+        const p = document.getElementById('custPhone').value;
+        const a = document.getElementById('custAddr').value;
 
-        if(!name || !phone || !addr) { alert("Sari details bhariye!"); return; }
+        if(!n || !p || !a) { alert("Please fill all details!"); return; }
 
         try {
             await addDoc(collection(db, "orders"), {
-                customerName: name,
-                customerPhone: phone,
-                address: addr,
-                productName: currentItem.name,
-                price: currentItem.price,
-                status: "Pending",
-                method: "COD",
+                customerName: n,
+                customerPhone: p,
+                address: a,
+                productName: selectedProduct.name,
+                price: selectedProduct.price,
+                status: "New Order",
                 time: new Date()
             });
-            alert("Order Successful! Hum aapse jaldi contact karenge.");
+            alert("Order Placed Successfully!");
             closeModal();
         } catch(e) { alert("Error: " + e.message); }
     }
-    // Update LoadData function mein Buy Now button ko badle:
-    // list.innerHTML += `... <button class="buy-btn" onclick="openOrderForm('${data.name}', '${data.price}')">BUY NOW</button> ...`;
+
+    loadData();
 </script>
+
+</body>
+</html>

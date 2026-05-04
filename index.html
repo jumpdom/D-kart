@@ -3,34 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dkart | Premium Shopping</title>
+    <title>Dkart | Shop</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Montserrat:wght@900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         :root { --primary: #1a237e; --accent: #3d5afe; --bg: #f4f6f8; --card: #ffffff; }
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding-bottom: 85px; }
 
-        /* Header & Search */
+        /* Header */
         header { background: var(--card); padding: 10px 15px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
         .top-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
         .logo-box { display: flex; align-items: center; gap: 8px; }
         .logo-img { width: 35px; height: 35px; border-radius: 8px; }
         .brand-name { font-family: 'Montserrat', sans-serif; font-size: 20px; font-weight: 900; color: var(--primary); text-transform: uppercase; }
         
-        .search-box { background: #f0f2f5; border-radius: 12px; display: flex; align-items: center; padding: 8px 15px; }
-        .search-box input { border: none; background: none; width: 100%; padding: 5px; font-family: inherit; }
-
-        /* Cart Floating Icon */
-        .cart-icon { position: relative; font-size: 20px; color: var(--primary); }
+        /* Floating Cart */
+        .cart-icon { position: relative; font-size: 20px; color: var(--primary); cursor: pointer; }
         .cart-count { position: absolute; top: -8px; right: -8px; background: #ff1744; color: white; font-size: 10px; padding: 2px 5px; border-radius: 50%; font-weight: 800; }
 
-        /* Categories */
-        .cat-container { padding: 15px; background: white; display: flex; gap: 20px; overflow-x: auto; scrollbar-width: none; }
-        .cat-container::-webkit-scrollbar { display: none; }
+        /* Search & Categories */
+        .search-box { background: #f0f2f5; border-radius: 12px; display: flex; align-items: center; padding: 8px 15px; margin-bottom: 5px; }
+        .search-box input { border: none; background: none; width: 100%; padding: 5px; font-family: inherit; outline: none; }
+        .cat-container { padding: 15px; background: white; display: flex; gap: 20px; overflow-x: auto; scrollbar-width: none; border-bottom: 1px solid #eee; }
         .cat-card { text-align: center; min-width: 60px; }
-        .cat-circle { width: 50px; height: 50px; background: #f0f2f5; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 18px; margin-bottom: 5px; }
-        .cat-card span { font-size: 11px; font-weight: 600; }
+        .cat-circle { width: 45px; height: 45px; background: #f0f2f5; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 16px; margin-bottom: 5px; }
 
         /* Product Grid */
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px; }
@@ -38,24 +35,22 @@
         .img-box { height: 130px; display: flex; align-items: center; justify-content: center; background: #fff; padding: 10px; }
         .img-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
         .p-info { padding: 10px; }
-        .btn-cart { background: #f0f2f5; color: var(--primary); border: none; padding: 8px; border-radius: 8px; width: 100%; font-weight: 700; margin-bottom: 5px; font-size: 12px; }
-        .btn-buy { background: var(--primary); color: #fff; border: none; padding: 8px; border-radius: 8px; width: 100%; font-weight: 700; font-size: 12px; }
+        .btn-cart { background: #f0f2f5; color: var(--primary); border: none; padding: 8px; border-radius: 8px; width: 100%; font-weight: 700; margin-bottom: 5px; font-size: 11px; cursor: pointer; }
+        .btn-buy { background: var(--primary); color: #fff; border: none; padding: 8px; border-radius: 8px; width: 100%; font-weight: 700; font-size: 11px; cursor: pointer; }
 
-        /* Sections */
+        /* Forms & Checkout */
         .section { display: none; }
         .section.active { display: block; }
-
-        /* Profile Style */
-        .prof-header { background: var(--primary); color: white; padding: 30px 20px; border-radius: 0 0 25px 25px; text-align: center; }
-        .menu-list { background: white; margin: -20px 15px 15px; border-radius: 20px; padding: 5px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border: 1px solid #eee; }
-        .menu-item { display: flex; align-items: center; padding: 15px; border-bottom: 1px solid #f9f9f9; font-weight: 600; cursor: pointer; color: #333; }
-        .menu-item i { width: 35px; color: var(--primary); }
+        .box { background: white; margin: 15px; padding: 20px; border-radius: 20px; border: 1px solid #eee; }
+        .form-group { margin-bottom: 12px; }
+        .form-group label { display: block; font-size: 10px; font-weight: 800; color: #888; text-transform: uppercase; margin-bottom: 4px; }
+        input, select, textarea { width: 100%; padding: 12px; border: 1.5px solid #eee; border-radius: 10px; font-family: inherit; }
 
         /* Navigation */
-        .nav-bar { position: fixed; bottom: 0; width: 100%; background: #fff; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #eee; }
-        .nav-tab { text-align: center; color: #999; font-size: 11px; font-weight: 600; flex: 1; }
+        .nav-bar { position: fixed; bottom: 0; width: 100%; background: #fff; display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid #eee; z-index: 1000; }
+        .nav-tab { text-align: center; color: #999; font-size: 11px; font-weight: 600; flex: 1; cursor: pointer; }
         .nav-tab.active { color: var(--primary); }
-        .nav-tab i { font-size: 22px; display: block; margin-bottom: 4px; }
+        .nav-tab i { font-size: 20px; display: block; margin-bottom: 3px; }
     </style>
 </head>
 <body>
@@ -63,59 +58,77 @@
 <header>
     <div class="top-row">
         <div class="logo-box">
-            <img src="Dkart.jpg" class="logo-img">
+            <img src="Dkart.jpg" class="logo-img" alt="Logo">
             <span class="brand-name">Dkart</span>
         </div>
-        <div class="cart-icon" onclick="alert('Cart coming soon!')">
+        <div class="cart-icon" onclick="showPage('cart-sec')">
             <i class="fa-solid fa-cart-shopping"></i>
             <span class="cart-count">0</span>
         </div>
     </div>
     <div class="search-box">
-        <i class="fa-solid fa-magnifying-glass" style="color:#aaa; margin-right:10px;"></i>
-        <input type="text" placeholder="Search products..." onkeyup="searchProduct(this.value)">
+        <i class="fa-solid fa-magnifying-glass" style="color:#aaa;"></i>
+        <input type="text" placeholder="Search brands..." onkeyup="searchProduct(this.value)">
     </div>
 </header>
 
+<!-- Home -->
 <div id="home-sec" class="section active">
     <div class="cat-container">
         <div class="cat-card" onclick="filterCat('All')"><div class="cat-circle"><i class="fa-solid fa-border-all"></i></div><span>All</span></div>
         <div class="cat-card" onclick="filterCat('Men')"><div class="cat-circle"><i class="fa-solid fa-user-tie"></i></div><span>Men</span></div>
         <div class="cat-card" onclick="filterCat('Women')"><div class="cat-circle"><i class="fa-solid fa-person-dress"></i></div><span>Women</span></div>
-        <div class="cat-card" onclick="filterCat('Tech')"><div class="cat-circle"><i class="fa-solid fa-mobile-screen"></i></div><span>Tech</span></div>
+        <div class="cat-card" onclick="filterCat('Tech')"><div class="cat-circle"><i class="fa-solid fa-laptop"></i></div><span>Tech</span></div>
     </div>
     <div class="grid" id="productList"></div>
 </div>
 
-<div id="order-sec" class="section">
-    <h3 style="padding:15px 20px; margin:0;">Track Orders</h3>
-    <div id="orderList" style="text-align:center; padding:50px; color:#999;">Login to see orders.</div>
+<!-- Cart Section -->
+<div id="cart-sec" class="section">
+    <div class="box">
+        <h2 style="font-weight: 800; margin-top: 0;">My Cart</h2>
+        <div id="cartList" style="text-align: center; color: #999; padding: 20px;">Your cart is empty.</div>
+        <button class="btn-buy" style="margin-top: 20px;" onclick="showPage('home-sec')">Continue Shopping</button>
+    </div>
 </div>
 
+<!-- Checkout Section -->
+<div id="checkout-sec" class="section">
+    <div class="box">
+        <h2 style="font-weight: 800; margin-top: 0;">Confirm Order</h2>
+        <div style="background:#f0f4ff; padding:12px; border-radius:12px; margin-bottom:15px;">
+            <p id="ck-title" style="margin:0; font-weight:700; color:var(--primary);"></p>
+            <p id="ck-price" style="margin:5px 0 0; font-weight:800;"></p>
+        </div>
+        <div class="form-group"><label>Name</label><input type="text" id="order-name"></div>
+        <div class="form-group"><label>Phone</label><input type="tel" id="order-phone"></div>
+        <div class="form-group"><label>Quantity</label><select id="order-qty" onchange="updatePrice()"><option value="1">1</option><option value="2">2</option><option value="5">5</option></select></div>
+        <div class="form-group"><label>Address</label><textarea id="order-addr" rows="3"></textarea></div>
+        <p style="font-weight:700; color:#2e7d32; font-size:13px;"><i class="fa-solid fa-check-circle"></i> Cash on Delivery Available</p>
+        <div style="display:flex; justify-content:space-between; font-weight:800; font-size:18px; margin:15px 0;">
+            <span>Total:</span><span id="ck-total">₹0</span>
+        </div>
+        <button class="btn-buy" onclick="placeOrder()">Place Order</button>
+    </div>
+</div>
+
+<!-- Profile Section -->
 <div id="profile-sec" class="section">
-    <div id="prof-dashboard">
-        <div class="prof-header">
-            <h2 id="u-name" style="margin:0;">Guest</h2>
-            <p id="u-phone" style="font-size:14px; opacity:0.8;"></p>
-        </div>
-        <div class="menu-list">
-            <div class="menu-item" onclick="showPage('order-sec')"><i class="fa-solid fa-box-open"></i> My Orders</div>
-            <div class="menu-item" onclick="alert('Wishlist is empty!')"><i class="fa-solid fa-heart"></i> My Wishlist</div>
-            <div class="menu-item" onclick="alert('WhatsApp Help: 123456789')"><i class="fa-solid fa-headset"></i> Help & Support</div>
-            <div class="menu-item" onclick="localStorage.removeItem('dk_user'); location.reload()"><i class="fa-solid fa-right-from-bracket" style="color:red;"></i> Logout</div>
-        </div>
+    <div class="box" id="profile-dash" style="text-align: center;">
+        <h3 id="u-display-name" style="margin-bottom: 20px;">Guest User</h3>
+        <button class="btn-buy" style="background: red;" onclick="localStorage.clear(); location.reload();">Reset Everything</button>
     </div>
 </div>
 
 <nav class="nav-bar">
-    <div class="nav-tab active" onclick="showPage('home-sec', this)"><i class="fa-solid fa-house"></i>Home</div>
-    <div class="nav-tab" onclick="showPage('order-sec', this)"><i class="fa-solid fa-box"></i>Orders</div>
+    <div class="nav-tab active" onclick="location.reload();"><i class="fa-solid fa-house"></i>Home</div>
+    <div class="nav-tab" onclick="showPage('cart-sec', this)"><i class="fa-solid fa-cart-shopping"></i>Cart</div>
     <div class="nav-tab" onclick="showPage('profile-sec', this)"><i class="fa-solid fa-user-circle"></i>Profile</div>
 </nav>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
-    import { getFirestore, collection, getDocs, addDoc, query, where, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+    import { getFirestore, collection, getDocs, addDoc, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyAchWzhIxqmS7G0HPpvuq6WBwcr8pXzFAE",
@@ -128,13 +141,14 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     let allItems = [];
+    let activePrice = 0;
+    let activeName = "";
 
     async function loadData() {
         const q = query(collection(db, "products"), orderBy("time", "desc"));
         const snap = await getDocs(q);
-        allItems = snap.docs.map(d => ({id: d.id, ...d.data()}));
+        allItems = snap.docs.map(d => d.data());
         render(allItems);
-        checkUser();
     }
 
     function render(data) {
@@ -145,44 +159,48 @@
                 <div class="product-card">
                     <div class="img-box"><img src="${p.images[0] || 'Dkart.jpg'}"></div>
                     <div class="p-info">
-                        <div style="font-size:12px; font-weight:600; height:35px; overflow:hidden;">${p.name}</div>
-                        <div style="font-size:16px; font-weight:800; color:var(--primary); margin:5px 0;">₹${p.price}</div>
+                        <div style="font-size:11px; font-weight:600; height:32px; overflow:hidden;">${p.name}</div>
+                        <div style="font-size:15px; font-weight:800; color:var(--primary); margin:5px 0;">₹${p.price}</div>
                         <button class="btn-cart" onclick="addToCart('${p.name}')">Add to Cart</button>
-                        <button class="btn-buy" onclick="buyNow('${p.name}', ${p.price})">Buy Now</button>
+                        <button class="btn-buy" onclick="openCheckout('${p.name}', ${p.price})">Buy Now</button>
                     </div>
                 </div>`;
         });
     }
 
-    window.searchProduct = (val) => {
-        const filtered = allItems.filter(p => p.name.toLowerCase().includes(val.toLowerCase()));
-        render(filtered);
+    window.openCheckout = (name, price) => {
+        activeName = name;
+        activePrice = price;
+        document.getElementById('ck-title').innerText = name;
+        document.getElementById('ck-price').innerText = "₹" + price;
+        updatePrice();
+        showPage('checkout-sec');
     }
 
-    window.filterCat = (cat) => {
-        if(cat === 'All') render(allItems);
-        else render(allItems.filter(p => p.category === cat));
+    window.updatePrice = () => {
+        const qty = document.getElementById('order-qty').value;
+        document.getElementById('ck-total').innerText = "₹" + (activePrice * qty);
+    }
+
+    window.placeOrder = async () => {
+        const name = document.getElementById('order-name').value;
+        const phone = document.getElementById('order-phone').value;
+        const addr = document.getElementById('order-addr').value;
+        const qty = document.getElementById('order-qty').value;
+
+        if(!name || !phone || !addr) return alert("Pehle sab details bhariye!");
+
+        await addDoc(collection(db, "orders"), {
+            customer: name, phone, address: addr, product: activeName, qty, total: (activePrice * qty), status: "New", date: serverTimestamp()
+        });
+        alert("Order Successful! ✅");
+        location.reload();
     }
 
     window.addToCart = (name) => {
-        alert(name + " added to cart! 🛒");
         let count = parseInt(document.querySelector('.cart-count').innerText);
         document.querySelector('.cart-count').innerText = count + 1;
-    }
-
-    window.buyNow = (name, price) => {
-        const user = JSON.parse(localStorage.getItem('dk_user'));
-        if(!user) { alert("Pehle Profile setup karein!"); showPage('profile-sec'); return; }
-        // Simple Order Logic
-        alert("Redirecting to payment for: " + name);
-    }
-
-    function checkUser() {
-        const user = JSON.parse(localStorage.getItem('dk_user'));
-        if(user) {
-            document.getElementById('u-name').innerText = user.name;
-            document.getElementById('u-phone').innerText = "+91 " + user.phone;
-        }
+        alert(name + " added to cart!");
     }
 
     window.showPage = (id, el) => {
@@ -192,6 +210,15 @@
             document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
             el.classList.add('active');
         }
+    }
+
+    window.searchProduct = (val) => {
+        render(allItems.filter(p => p.name.toLowerCase().includes(val.toLowerCase())));
+    }
+
+    window.filterCat = (cat) => {
+        if(cat === 'All') render(allItems);
+        else render(allItems.filter(p => p.category === cat));
     }
 
     loadData();

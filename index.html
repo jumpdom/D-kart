@@ -18,7 +18,6 @@
         .brand { font-family: 'Montserrat', sans-serif; font-size: 26px; font-weight: 900; color: var(--accent); font-style: italic; }
         .trust-text { font-size: 10px; color: var(--accent); text-align: center; font-weight: 700; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px; }
         
-        /* Search Box & Help Icon Row */
         .header-action-row { display: flex; align-items: center; gap: 10px; padding: 0 5px; }
         .search-box { flex: 1; background: #1a1a1a; border-radius: 8px; display: flex; align-items: center; padding: 10px 15px; border: 1px solid #333; }
         .search-box input { background: transparent; border: none; color: white; width: 100%; margin-left: 10px; font-size: 14px; }
@@ -40,6 +39,12 @@
         .p-name { font-size: 12px; font-weight: 600; color: var(--accent); margin-top: 10px; height: 35px; overflow: hidden; text-transform: uppercase; }
         .p-price { font-size: 17px; font-weight: 800; color: var(--white); margin: 5px 0; }
 
+        /* NEW: Description & Size Styling */
+        .size-header { font-size: 14px; font-weight: 700; margin: 15px 0 8px; color: #fff; text-align: left; }
+        .size-wrap { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 15px; }
+        .size-box { border: 1px solid #444; padding: 6px 12px; border-radius: 6px; font-size: 12px; background: #1a1a1a; color: var(--accent); font-weight: 600; }
+        .description-box { background: #111; padding: 12px; border-radius: 8px; border: 1px solid #222; font-size: 13px; color: #ccc; line-height: 1.6; text-align: left; margin-bottom: 80px; }
+
         /* Bottom Nav */
         .nav-bar { position: fixed; bottom: 0; width: 100%; background: #000; display: flex; border-top: 2px solid var(--accent); z-index: 2000; height: 65px; align-items: center; }
         .nav-tab { flex: 1; text-align: center; color: #777; cursor: pointer; font-size: 10px; font-weight: 700; }
@@ -48,7 +53,7 @@
 
         /* Views */
         .full-view { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 3000; display: none; overflow-y: auto; }
-        .view-header { padding: 15px; display: flex; align-items: center; border-bottom: 1px solid #333; background: var(--primary); position: sticky; top: 0; }
+        .view-header { padding: 15px; display: flex; align-items: center; border-bottom: 1px solid #333; background: var(--primary); position: sticky; top: 0; z-index: 10; }
         .view-header span { color: var(--accent); font-weight: 700; margin-left: 15px; text-transform: uppercase; }
 
         .order-card { background: #1a1a1a; margin: 10px; padding: 12px; border-radius: 10px; display: flex; gap: 15px; border-left: 4px solid var(--accent); }
@@ -91,10 +96,17 @@
 
 <div id="detail-view" class="full-view">
     <div class="view-header"><i class="fa-solid fa-arrow-left" onclick="closeAll()"></i><span>Details</span></div>
-    <div style="padding: 20px; text-align: center;">
-        <img id="det-img" style="width: 100%; border-radius: 12px; border: 1px solid #333;">
-        <h2 id="det-name" style="color: var(--accent); margin-top: 15px;"></h2>
-        <div id="det-price" style="font-size: 26px; font-weight: 800;"></div>
+    <div style="padding: 15px; text-align: center;">
+        <img id="det-img" style="width: 100%; border-radius: 12px; border: 1px solid #333; max-height: 350px; object-fit: contain; background: #111;">
+        <h2 id="det-name" style="color: var(--accent); margin-top: 15px; text-align: left; text-transform: uppercase;"></h2>
+        <div id="det-price" style="font-size: 26px; font-weight: 800; text-align: left; color: #fff;"></div>
+        
+        <!-- NEW: Size and Description Display -->
+        <div class="size-header">Available Sizes</div>
+        <div id="det-sizes" class="size-wrap"></div>
+        
+        <div class="size-header">Product Details</div>
+        <div id="det-desc" class="description-box"></div>
     </div>
     <div class="btn-box"><button class="btn-main" onclick="openCheckout()">Buy Now (COD)</button></div>
 </div>
@@ -164,6 +176,16 @@
                 document.getElementById('det-img').src = p.images[0] || 'Dkart.jpg';
                 document.getElementById('det-name').innerText = p.name;
                 document.getElementById('det-price').innerText = "₹" + p.price;
+                
+                // Set Description
+                document.getElementById('det-desc').innerText = p.desc || "No extra details available.";
+                
+                // Set Sizes
+                const sCont = document.getElementById('det-sizes');
+                sCont.innerHTML = p.sizes && p.sizes.length > 0 
+                    ? p.sizes.map(s => `<div class="size-box">${s}</div>`).join('') 
+                    : '<span style="color:#666; font-size:12px;">Standard Size</span>';
+
                 document.getElementById('detail-view').style.display = 'block';
             };
             list.appendChild(card);

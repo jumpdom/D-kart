@@ -4,104 +4,130 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Dkart | Premium Shopping</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Montserrat:wght@800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Montserrat:wght@900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        :root { --primary: #1a237e; --bg: #f4f6f8; --card: #ffffff; }
+        :root { --primary: #1a237e; --accent: #3d5afe; --bg: #f4f6f8; --card: #ffffff; }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
-        body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding-bottom: 80px; }
+        body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding-bottom: 85px; }
 
+        /* Stylish Header with Trust Tagline */
         header { 
-            background: var(--card); padding: 15px; position: sticky; top: 0; z-index: 1000; 
+            background: var(--card); padding: 15px 20px; position: sticky; top: 0; z-index: 1000; 
             display: flex; justify-content: space-between; align-items: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
         }
         .brand-name { 
-            font-family: 'Montserrat', sans-serif; font-size: 24px; font-weight: 800; 
-            background: linear-gradient(45deg, #1a237e, #304ffe);
+            font-family: 'Montserrat', sans-serif; font-size: 30px; font-weight: 900; 
+            background: linear-gradient(45deg, #1a237e, #3d5afe, #1a237e);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            text-transform: uppercase;
+            text-transform: uppercase; line-height: 0.9;
+        }
+        .trust-tagline {
+            font-size: 10px; font-weight: 700; color: #555; margin-top: 4px;
+            letter-spacing: 0.5px; text-transform: uppercase;
         }
 
-        .section { display: none; }
-        .section.active { display: block; }
+        /* Categories Section */
+        .cat-container { padding: 15px; background: white; margin-bottom: 10px; overflow-x: auto; white-space: nowrap; }
+        .cat-card { display: inline-block; text-align: center; margin-right: 20px; vertical-align: top; }
+        .cat-icon { width: 55px; height: 55px; background: #f0f2f5; border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 20px; color: var(--primary); margin-bottom: 6px; }
+        .cat-card span { font-size: 11px; font-weight: 600; color: #444; }
 
-        /* Products Grid */
+        /* Product Grid */
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px; }
         .product-card { 
             background: var(--card); border-radius: 20px; overflow: hidden; border: 1px solid #eee;
-            transition: background 0.3s, transform 0.1s; position: relative;
+            transition: transform 0.1s; position: relative;
         }
         .product-card:active { background-color: #e3f2fd; transform: scale(0.97); }
-        
-        .img-box { height: 140px; padding: 12px; display: flex; align-items: center; justify-content: center; background: #fff; }
+        .img-box { height: 150px; padding: 15px; display: flex; align-items: center; justify-content: center; background: #fff; }
         .img-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
         .p-info { padding: 12px; }
-        .p-title { font-size: 13px; font-weight: 600; height: 38px; overflow: hidden; }
-        .p-price { font-size: 16px; font-weight: 800; color: var(--primary); margin: 5px 0; }
-        
-        .btn-buy { background: var(--primary); color: #fff; border: none; padding: 10px; border-radius: 12px; font-weight: 700; width: 100%; cursor: pointer; }
-        .delete-btn { position: absolute; top: 8px; right: 8px; background: #fff0f0; color: #ff1744; border: none; width: 28px; height: 28px; border-radius: 50%; z-index: 5; }
+        .p-title { font-size: 13px; font-weight: 600; height: 38px; overflow: hidden; color: #333; }
+        .p-price { font-size: 17px; font-weight: 800; color: var(--primary); margin: 5px 0; }
+        .btn-buy { background: var(--primary); color: #fff; border: none; padding: 12px; border-radius: 12px; font-weight: 700; width: 100%; cursor: pointer; }
 
-        /* Profile & Forms */
-        .profile-box { background: white; padding: 25px; border-radius: 25px; margin: 15px; border: 1px solid #eee; }
-        input, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 12px; margin-bottom: 15px; font-family: inherit; }
-        
-        /* Bottom Navigation */
-        .nav-bar { position: fixed; bottom: 0; width: 100%; background: #fff; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #eee; }
+        /* Profile & 3-Line Address Form */
+        .form-box { background: white; padding: 25px; border-radius: 25px; margin: 15px; border: 1px solid #eee; }
+        .form-label { font-size: 11px; font-weight: 800; color: #888; margin-bottom: 5px; display: block; text-transform: uppercase; }
+        input, textarea { width: 100%; padding: 13px; border: 1.5px solid #eee; border-radius: 12px; margin-bottom: 12px; font-family: inherit; background: #fafafa; }
+        input:focus { border-color: var(--accent); background: #fff; }
+
+        /* Navigation */
+        .nav-bar { position: fixed; bottom: 0; width: 100%; background: #fff; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #eee; box-shadow: 0 -4px 15px rgba(0,0,0,0.05); }
         .nav-tab { text-align: center; color: #999; font-size: 11px; font-weight: 600; flex: 1; }
-        .nav-tab i { font-size: 22px; display: block; margin-bottom: 4px; }
         .nav-tab.active { color: var(--primary); }
+        .nav-tab i { font-size: 22px; display: block; margin-bottom: 4px; }
+
+        .section { display: none; }
+        .section.active { display: block; }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="logo-section">
-        <span class="brand-name">Dkart</span>
+    <div>
+        <div class="brand-name">Dkart</div>
+        <div class="trust-tagline">Quality You Trust • Fast Delivery</div>
     </div>
-    <div style="font-size: 20px;"><i class="fa-solid fa-bag-shopping" onclick="showPage('order-sec', document.getElementById('cartTab'))"></i></div>
+    <div style="font-size: 20px; color: var(--primary);"><i class="fa-solid fa-magnifying-glass"></i></div>
 </header>
 
 <!-- Home Section -->
 <div id="home-sec" class="section active">
-    <div style="padding: 15px 15px 5px;"><input type="text" id="search" placeholder="Search products..." style="background:#f1f3f4; border:none;"></div>
+    <div class="cat-container">
+        <div class="cat-card" onclick="filterItems('All')"><div class="cat-icon"><i class="fa-solid fa-house"></i></div><span>All</span></div>
+        <div class="cat-card" onclick="filterItems('Men')"><div class="cat-icon"><i class="fa-solid fa-user-tie"></i></div><span>Men</span></div>
+        <div class="cat-card" onclick="filterItems('Women')"><div class="cat-icon"><i class="fa-solid fa-person-dress"></i></div><span>Women</span></div>
+        <div class="cat-card" onclick="filterItems('Shoes')"><div class="cat-icon"><i class="fa-solid fa-shoe-prints"></i></div><span>Shoes</span></div>
+        <div class="cat-card" onclick="filterItems('Electronics')"><div class="cat-icon"><i class="fa-solid fa-laptop"></i></div><span>Tech</span></div>
+    </div>
     <div class="grid" id="productList"></div>
 </div>
 
-<!-- Cart Section -->
-<div id="order-sec" class="section">
-    <div style="padding: 20px; font-weight: 800; font-size: 18px;">My Cart</div>
-    <div class="grid" id="cartList"></div>
-</div>
-
-<!-- Profile Section -->
+<!-- Profile Section with 3-Line Address -->
 <div id="profile-sec" class="section">
-    <div class="profile-box">
+    <div class="form-box">
         <div id="login-form">
-            <h2 style="font-weight: 800;">Customer Login</h2>
-            <input type="text" id="uName" placeholder="Full Name">
-            <input type="tel" id="uPhone" placeholder="Mobile Number">
-            <textarea id="uAddr" rows="3" placeholder="Full Delivery Address"></textarea>
+            <h2 style="font-weight: 800; margin-bottom: 20px;">Customer Login</h2>
+            
+            <span class="form-label">Full Name</span>
+            <input type="text" id="uName" placeholder="Enter your name">
+            
+            <span class="form-label">Phone Number</span>
+            <input type="tel" id="uPhone" placeholder="Mobile number">
+            
+            <span class="form-label">Village / House No / Area</span>
+            <textarea id="uAddr" rows="2" placeholder="Ghar ka address"></textarea>
+            
+            <span class="form-label">State</span>
+            <input type="text" id="uState" placeholder="Enter State">
+            
+            <span class="form-label">Pincode</span>
+            <input type="number" id="uPin" placeholder="6 Digit Pincode">
+            
             <button class="btn-buy" onclick="saveProfile()">Save Profile</button>
         </div>
+
         <div id="profile-display" style="display:none; text-align:center;">
-            <div style="background:var(--primary); color:white; width:60px; height:60px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 15px; font-size:24px;"><i class="fa-solid fa-user"></i></div>
-            <h3 id="dName" style="margin:0;"></h3>
-            <p id="dPhone" style="color:#666; margin:5px 0 20px;"></p>
-            <div style="text-align:left; background:#f9f9f9; padding:15px; border-radius:15px;">
-                <small style="color:#999; font-weight:700;">ADDRESS</small>
-                <p id="dAddr" style="margin:5px 0 0; font-size:14px;"></p>
+            <div style="background:var(--primary); color:white; width:65px; height:65px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 15px; font-size:26px;"><i class="fa-solid fa-user-check"></i></div>
+            <h3 id="dName" style="margin:0; font-weight:800;"></h3>
+            <p id="dPhone" style="color:#666; margin:5px 0 20px; font-weight:600;"></p>
+            
+            <div style="text-align:left; background:#f9f9f9; padding:18px; border-radius:18px; border:1px solid #eee;">
+                <small style="color:#999; font-weight:800; font-size:10px;">VERIFIED DELIVERY ADDRESS</small>
+                <p id="dFullAddr" style="margin:8px 0 0; font-size:14px; line-height:1.6; color:#333; font-weight:500; white-space: pre-line;"></p>
             </div>
-            <button onclick="logout()" style="margin-top:20px; background:none; border:none; color:#ff1744; font-weight:700;">Logout / Edit</button>
+            
+            <button onclick="logout()" style="margin-top:30px; background:none; border:none; color:#ff1744; font-weight:800; cursor:pointer; font-size:14px;">LOGOUT / EDIT DETAILS</button>
         </div>
     </div>
 </div>
 
 <nav class="nav-bar">
-    <div class="nav-tab active" onclick="showPage('home-sec', this)"><i class="fa-solid fa-house"></i>Home</div>
-    <div class="nav-tab" id="cartTab" onclick="showPage('order-sec', this)"><i class="fa-solid fa-cart-shopping"></i>Cart</div>
-    <div class="nav-tab" onclick="showPage('profile-sec', this)"><i class="fa-solid fa-user"></i>Profile</div>
+    <div class="nav-tab active" onclick="showPage('home-sec', this)"><i class="fa-solid fa-store"></i>Shop</div>
+    <div class="nav-tab" onclick="showPage('profile-sec', this)"><i class="fa-solid fa-user-check"></i>Profile</div>
 </nav>
 
 <script type="module">
@@ -120,85 +146,93 @@
     const db = getFirestore(app);
     let allProducts = [];
 
-    // Initialize Page
-    async function init() {
+    async function loadData() {
         const q = query(collection(db, "products"), orderBy("time", "desc"));
         const snap = await getDocs(q);
         allProducts = snap.docs.map(doc => ({id: doc.id, ...doc.data()}));
-        render(allProducts, 'productList');
-        checkLogin();
+        render(allProducts);
+        checkLoginStatus();
     }
 
-    function render(data, targetId) {
-        const list = document.getElementById(targetId);
-        list.innerHTML = "";
+    function render(data) {
+        const list = document.getElementById('productList');
+        list.innerHTML = data.length ? "" : "<p style='text-align:center; width:100%; padding:50px;'>No items found.</p>";
         data.forEach(p => {
-            const isCart = (targetId === 'cartList');
             list.innerHTML += `
                 <div class="product-card">
-                    ${isCart ? `<button class="delete-btn" onclick="removeFromCart('${p.id}')"><i class="fa-solid fa-trash"></i></button>` : ''}
                     <div class="img-box"><img src="${p.images[0] || 'Dkart.jpg'}"></div>
                     <div class="p-info">
                         <div class="p-title">${p.name}</div>
                         <div class="p-price">₹${p.price}</div>
-                        <button class="btn-buy" onclick="handleBuy('${p.name}', '${p.price}')">Buy Now</button>
+                        <button class="btn-buy" onclick="doOrder('${p.name}', '${p.price}')">Buy Now</button>
                     </div>
                 </div>`;
         });
     }
 
-    // Buy Logic
-    window.handleBuy = async (name, price) => {
-        const user = JSON.parse(localStorage.getItem('dk_user'));
-        if(!user) { alert("Pehle Profile section mein Login karein!"); showPage('profile-sec', document.querySelector('.nav-tab:last-child')); return; }
+    window.filterItems = (cat) => {
+        if(cat === 'All') render(allProducts);
+        else render(allProducts.filter(p => p.category === cat));
+    }
 
-        if(confirm(`Order ${name} for ₹${price}?`)) {
-            await addDoc(collection(db, "orders"), {
-                customerName: user.name,
-                customerPhone: user.phone,
-                customerAddress: user.address,
-                productName: name,
-                productPrice: price,
-                status: "Pending",
-                orderDate: serverTimestamp()
-            });
-            alert("Order placed successfully! ✅");
+    window.doOrder = async (name, price) => {
+        const user = JSON.parse(localStorage.getItem('dk_user'));
+        if(!user) { 
+            alert("Bhai, pehle Profile save karein tabhi order ho payega!"); 
+            showPage('profile-sec', document.querySelector('.nav-tab:last-child')); 
+            return; 
+        }
+
+        if(confirm(`Confirm Order: ${name} for ₹${price}?`)) {
+            try {
+                await addDoc(collection(db, "orders"), {
+                    customerName: user.name,
+                    customerPhone: user.phone,
+                    customerAddress: `${user.address}, ${user.state} - ${user.pin}`,
+                    productName: name,
+                    productPrice: price,
+                    status: "Pending",
+                    orderDate: serverTimestamp()
+                });
+                alert("Order Placed! Aapke Admin Panel mein details bhej di gayi hain. ✅");
+            } catch(e) { alert("Error placing order."); }
         }
     }
 
-    // Profile Logic
     window.saveProfile = () => {
         const name = document.getElementById('uName').value;
         const phone = document.getElementById('uPhone').value;
         const address = document.getElementById('uAddr').value;
-        if(!name || !phone || !address) return alert("Fill all details!");
-        localStorage.setItem('dk_user', JSON.stringify({name, phone, address}));
-        checkLogin();
+        const state = document.getElementById('uState').value;
+        const pin = document.getElementById('uPin').value;
+
+        if(!name || !phone || !address || !state || !pin) return alert("Please fill all details!");
+
+        localStorage.setItem('dk_user', JSON.stringify({name, phone, address, state, pin}));
+        checkLoginStatus();
     }
 
-    function checkLogin() {
+    function checkLoginStatus() {
         const user = JSON.parse(localStorage.getItem('dk_user'));
         document.getElementById('login-form').style.display = user ? 'none' : 'block';
         document.getElementById('profile-display').style.display = user ? 'block' : 'none';
         if(user) {
             document.getElementById('dName').innerText = user.name;
-            document.getElementById('dPhone').innerText = user.phone;
-            document.getElementById('dAddr').innerText = user.address;
+            document.getElementById('dPhone').innerText = "+91 " + user.phone;
+            document.getElementById('dFullAddr').innerText = `${user.address}\n${user.state}\nPIN: ${user.pin}`;
         }
     }
 
-    window.logout = () => { localStorage.removeItem('dk_user'); checkLogin(); }
+    window.logout = () => { if(confirm("Change details?")) { localStorage.removeItem('dk_user'); checkLoginStatus(); } }
 
-    // Navigation
     window.showPage = (id, el) => {
         document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
         document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
         document.getElementById(id).classList.add('active');
         el.classList.add('active');
-        if(id === 'order-sec') displayCart();
     }
 
-    init();
+    loadData();
 </script>
 </body>
 </html>

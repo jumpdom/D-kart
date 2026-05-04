@@ -17,69 +17,55 @@
         .logo-img { width: 45px; height: 45px; border-radius: 8px; border: 1.5px solid var(--white); object-fit: cover; }
         .brand { font-family: 'Montserrat', sans-serif; font-size: 28px; font-weight: 900; color: var(--accent); font-style: italic; }
         
-        .header-action-row { display: flex; align-items: center; gap: 10px; }
-        .search-box { flex: 1; background: #1a1a1a; border-radius: 8px; display: flex; align-items: center; padding: 10px 15px; border: 1px solid #333; }
-        .search-box input { background: transparent; border: none; color: white; width: 100%; margin-left: 10px; outline: none; }
-
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px; }
         .p-card { background: #111; padding: 12px; border-radius: 12px; border: 1.5px solid #333; }
         .p-card img { width: 100%; height: 140px; object-fit: contain; border-radius: 8px; background: #050505; }
-        .p-name { font-size: 12px; font-weight: 600; color: #fff; margin: 10px 0 5px; height: 35px; overflow: hidden; text-transform: uppercase; }
-        .p-price { font-size: 18px; font-weight: 800; color: var(--accent); }
         
-        .size-list { display: flex; gap: 5px; overflow-x: auto; margin: 10px 0; scrollbar-width: none; }
-        .s-box { min-width: 35px; height: 30px; border: 1px solid #444; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold; cursor: pointer; }
-        .s-box.selected { background: var(--accent); color: #000; border-color: #fff; }
-        
-        .buy-btn { width: 100%; background: var(--accent); color: #000; border: none; padding: 12px; border-radius: 8px; font-weight: 900; font-size: 13px; text-transform: uppercase; cursor: pointer; }
-
         .full-view { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 3000; display: none; overflow-y: auto; padding-bottom: 90px; }
         .view-header { padding: 15px; background: #000; display: flex; align-items: center; border-bottom: 1px solid #333; position: sticky; top: 0; }
         .view-header span { margin-left: 15px; font-weight: 800; color: var(--accent); }
 
+        .desc-container { padding: 15px; }
+        .desc-img { width: 100%; border-radius: 15px; border: 1px solid #333; margin-bottom: 15px; }
+        .desc-title { font-size: 20px; font-weight: 800; color: var(--accent); margin-bottom: 10px; }
+        .desc-text { color: #ccc; font-size: 14px; line-height: 1.6; margin-bottom: 20px; white-space: pre-wrap; }
+
+        .size-list { display: flex; gap: 8px; margin: 15px 0; }
+        .s-box { padding: 8px 15px; border: 1px solid #444; border-radius: 5px; font-weight: bold; cursor: pointer; }
+        .s-box.selected { background: var(--accent); color: #000; border-color: #fff; }
+
         .form-group { padding: 20px; }
         .form-group input, .form-group textarea { width: 100%; padding: 15px; margin-bottom: 10px; background: #111; color: white; border: 1px solid #333; border-radius: 8px; }
         
-        .nav-bar { position: fixed; bottom: 0; width: 100%; background: #000; display: flex; border-top: 2px solid var(--accent); height: 65px; align-items: center; z-index: 2000; }
-        .nav-tab { flex: 1; text-align: center; color: #666; font-size: 10px; font-weight: 700; }
-        .nav-tab.active { color: var(--accent); }
+        .action-btn { width: 100%; background: var(--accent); color: #000; border: none; padding: 15px; border-radius: 8px; font-weight: 900; font-size: 15px; cursor: pointer; }
     </style>
 </head>
 <body>
 
 <div id="home-sec">
     <header>
-        <div class="logo-row">
-            <img src="IMG_6363.jpeg" class="logo-img">
-            <span class="brand">DKART</span>
-        </div>
-        <div class="header-action-row">
-            <div class="search-box">
-                <i class="fa-solid fa-magnifying-glass" style="color:var(--accent)"></i>
-                <input type="text" id="searchInput" placeholder="Search brands...">
-            </div>
-            <a href="https://wa.me/918521694137" style="color:#25D366; font-size:28px;"><i class="fa-brands fa-whatsapp"></i></a>
-        </div>
+        <div class="logo-row"><img src="IMG_6363.jpeg" class="logo-img"><span class="brand">DKART</span></div>
     </header>
     <div class="grid" id="productList"></div>
+</div>
+
+<!-- Description View -->
+<div id="desc-view" class="full-view">
+    <div class="view-header"><i class="fa-solid fa-arrow-left" onclick="closeView('desc-view')"></i><span>PRODUCT DETAILS</span></div>
+    <div class="desc-container" id="desc-content"></div>
 </div>
 
 <!-- Checkout View -->
 <div id="checkout-view" class="full-view">
     <div class="view-header"><i class="fa-solid fa-arrow-left" onclick="closeView('checkout-view')"></i><span>CONFIRM ORDER</span></div>
     <div class="form-group">
-        <p id="order-summary" style="color:var(--accent); font-weight:bold; margin-bottom:20px;"></p>
-        <input type="text" id="c-name" placeholder="Full Name">
+        <h3 id="order-item"></h3>
+        <input type="text" id="c-name" placeholder="Apna Naam">
         <input type="tel" id="c-phone" placeholder="Mobile Number">
-        <textarea id="c-addr" placeholder="Full Address" rows="3"></textarea>
-        <button class="buy-btn" id="confirm-order-btn">PLACE ORDER (COD)</button>
+        <textarea id="c-addr" placeholder="Pura Address" rows="3"></textarea>
+        <button class="action-btn" id="confirm-order-btn">ORDER CONFIRM (COD)</button>
     </div>
 </div>
-
-<nav class="nav-bar">
-    <div class="nav-tab active" onclick="location.reload()"><i class="fa-solid fa-house"></i><span>Home</span></div>
-    <div class="nav-tab" onclick="alert('Profile Coming Soon')"><i class="fa-solid fa-user"></i><span>Profile</span></div>
-</nav>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
@@ -94,7 +80,7 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-    let allProducts = [], selectedProduct = null, selectedSize = null;
+    let allProducts = [], currentProduct = null, selectedSize = null;
 
     async function load() {
         const q = query(collection(db, "products"), orderBy("time", "desc"));
@@ -109,34 +95,43 @@
         data.forEach(p => {
             const card = document.createElement('div');
             card.className = 'p-card';
-            
-            let sizes = p.sizes ? p.sizes.map(s => `<div class="s-box" onclick="selectSize(this, '${s}')">${s}</div>`).join('') : '<div class="s-box selected">Free</div>';
-
+            card.onclick = () => openDescription(p.id);
             card.innerHTML = `
                 <img src="${p.images[0]}" onerror="this.src='Dkart.jpg'">
-                <div class="p-name">${p.name}</div>
-                <div class="p-price">₹${p.price}</div>
-                <div class="size-list">${sizes}</div>
-                <button class="buy-btn" onclick="openCheckout('${p.id}')">BUY NOW</button>
+                <div style="font-weight:600; margin-top:10px;">${p.name}</div>
+                <div style="color:var(--accent); font-weight:800;">₹${p.price}</div>
             `;
             list.appendChild(card);
         });
     }
 
-    window.selectSize = (el, size) => {
-        const parent = el.parentElement;
-        parent.querySelectorAll('.s-box').forEach(b => b.classList.remove('selected'));
-        el.classList.add('selected');
-        selectedSize = size;
+    window.openDescription = (id) => {
+        currentProduct = allProducts.find(p => p.id === id);
+        selectedSize = null;
+        const cont = document.getElementById('desc-content');
+        let sizes = currentProduct.sizes ? currentProduct.sizes.map(s => `<div class="s-box" onclick="selectS(this, '${s}')">${s}</div>`).join('') : '';
+
+        cont.innerHTML = `
+            <img src="${currentProduct.images[0]}" class="desc-img">
+            <div class="desc-title">${currentProduct.name}</div>
+            <div style="font-size:24px; font-weight:900; color:var(--accent);">₹${currentProduct.price}</div>
+            <p class="desc-text">${currentProduct.description || 'No description available.'}</p>
+            <div style="margin-bottom:10px; font-weight:bold;">CHOOSE SIZE:</div>
+            <div class="size-list">${sizes || 'Free Size'}</div>
+            <button class="action-btn" onclick="openCheckout()">BUY NOW</button>
+        `;
+        document.getElementById('desc-view').style.display = 'block';
     };
 
-    window.openCheckout = (id) => {
-        selectedProduct = allProducts.find(p => p.id === id);
-        if(selectedProduct.sizes && !selectedSize) {
-            alert("Please select a size first!");
-            return;
-        }
-        document.getElementById('order-summary').innerText = `Buying: ${selectedProduct.name} (${selectedSize || 'Free Size'}) - ₹${selectedProduct.price}`;
+    window.selectS = (el, s) => {
+        document.querySelectorAll('.s-box').forEach(b => b.classList.remove('selected'));
+        el.classList.add('selected');
+        selectedSize = s;
+    };
+
+    window.openCheckout = () => {
+        if(currentProduct.sizes && !selectedSize) return alert("Pehle Size chunein!");
+        document.getElementById('order-item').innerText = `${currentProduct.name} (${selectedSize || 'Free'})`;
         document.getElementById('checkout-view').style.display = 'block';
     };
 
@@ -145,31 +140,20 @@
         const phone = document.getElementById('c-phone').value;
         const addr = document.getElementById('c-addr').value;
 
-        if(!name || !phone || !addr) return alert("Fill details!");
+        if(!name || !phone || !addr) return alert("Puri jankari bharein!");
 
-        try {
-            await addDoc(collection(db, "orders"), {
-                product: selectedProduct.name,
-                price: selectedProduct.price,
-                size: selectedSize || "Free",
-                customer: name,
-                phone: phone,
-                address: addr,
-                status: "Pending",
-                time: serverTimestamp()
-            });
-            alert("Order Placed! ✅");
-            location.reload();
-        } catch(e) { alert("Error!"); }
+        await addDoc(collection(db, "orders"), {
+            product: currentProduct.name,
+            price: currentProduct.price,
+            size: selectedSize || "Free",
+            customer: name, phone, address: addr,
+            time: serverTimestamp()
+        });
+        alert("Order Successful! ✅");
+        location.reload();
     };
 
     window.closeView = (id) => document.getElementById(id).style.display = 'none';
-    
-    document.getElementById('searchInput').oninput = (e) => {
-        const val = e.target.value.toLowerCase();
-        render(allProducts.filter(p => p.name.toLowerCase().includes(val)));
-    };
-
     load();
 </script>
 </body>

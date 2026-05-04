@@ -5,88 +5,107 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dkart | Professional Shopping</title>
     <style>
-        /* Professional CSS */
-        body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f1f3f6; color: #333; }
+        /* Modern & Professional Theme */
+        body { margin: 0; font-family: 'Segoe UI', Roboto, sans-serif; background: #f1f3f6; color: #212121; }
         
         /* Header & Navbar */
         .navbar { background: #2874f0; color: white; padding: 10px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .nav-container { max-width: 1200px; margin: auto; display: flex; flex-direction: column; gap: 8px; }
+        .nav-container { max-width: 1200px; margin: auto; display: flex; flex-direction: column; gap: 10px; }
         
         .nav-top { display: flex; align-items: center; justify-content: space-between; }
         
-        /* Logo Style */
-        .logo img { height: 45px; width: auto; object-fit: contain; cursor: pointer; vertical-align: middle; }
-        
-        /* Search Box */
-        .search-area { display: flex; background: white; border-radius: 4px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
-        .search-area input { border: none; padding: 10px; flex: 1; outline: none; font-size: 14px; }
-        .search-area button { border: none; background: white; padding: 0 15px; color: #2874f0; cursor: pointer; font-size: 18px; }
+        /* Logo & Brand Name Design */
+        .brand-box { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+        .brand-box img { height: 38px; width: auto; border-radius: 4px; border: 1.5px solid white; }
+        .brand-name { font-size: 24px; font-weight: 900; font-style: italic; letter-spacing: 0.5px; color: white; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); }
+        .brand-name span { color: #fb641b; } /* Orange color for 'kart' */
 
-        /* Categories Scroll Bar */
-        .category-bar { display: flex; background: white; overflow-x: auto; padding: 10px; gap: 12px; border-bottom: 1px solid #ddd; scrollbar-width: none; }
-        .category-bar::-webkit-scrollbar { display: none; }
-        .cat-btn { background: #f0f2f5; border: 1px solid #ddd; padding: 6px 18px; border-radius: 20px; white-space: nowrap; cursor: pointer; font-size: 14px; font-weight: 500; transition: 0.3s; }
+        /* User Options (Wishlist & Orders) */
+        .user-options { display: flex; gap: 15px; font-size: 13px; font-weight: 500; }
+        .option-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; color: white; text-decoration: none; }
+        .option-item i { font-size: 18px; margin-bottom: 2px; }
+
+        /* Search Box */
+        .search-area { display: flex; background: white; border-radius: 2px; overflow: hidden; }
+        .search-area input { border: none; padding: 10px; flex: 1; outline: none; font-size: 14px; }
+        .search-area button { border: none; background: white; padding: 0 15px; color: #2874f0; cursor: pointer; font-size: 16px; }
+
+        /* Category Bar */
+        .category-bar { display: flex; background: white; overflow-x: auto; padding: 12px; gap: 12px; border-bottom: 1px solid #ddd; scrollbar-width: none; }
+        .cat-btn { background: #f0f2f5; border: 1px solid #ddd; padding: 6px 15px; border-radius: 4px; white-space: nowrap; cursor: pointer; font-size: 13px; font-weight: 500; }
         .cat-btn.active { background: #2874f0; color: white; border-color: #2874f0; }
 
         /* Product Grid */
-        .container { max-width: 1200px; margin: 15px auto; padding: 0 10px; }
+        .container { max-width: 1200px; margin: 10px auto; padding: 0 10px; }
         .product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
         @media (min-width: 768px) { .product-grid { grid-template-columns: repeat(4, 1fr); } }
 
-        .product-card { background: white; border-radius: 4px; overflow: hidden; border: 1px solid #e0e0e0; display: flex; flex-direction: column; transition: 0.3s; }
-        .product-card:hover { box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .product-card img { width: 100%; height: 160px; object-fit: contain; padding: 10px; box-sizing: border-box; background: #fff; }
-        .p-info { padding: 10px; flex-grow: 1; text-align: left; }
-        .p-info h4 { margin: 5px 0; font-size: 14px; color: #212121; height: 35px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
-        .p-price { font-size: 18px; font-weight: bold; color: #212121; margin: 5px 0; }
-        .discount { color: #388e3c; font-size: 12px; font-weight: bold; }
+        .product-card { background: white; border-radius: 4px; overflow: hidden; border: 1px solid #e0e0e0; display: flex; flex-direction: column; }
+        .product-card img { width: 100%; height: 160px; object-fit: contain; padding: 10px; box-sizing: border-box; }
+        .p-info { padding: 10px; flex-grow: 1; }
+        .p-info h4 { margin: 5px 0; font-size: 13px; height: 35px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+        .p-price { font-size: 16px; font-weight: bold; }
+        .btn-buy { background: #fb641b; color: white; border: none; padding: 10px; width: 100%; cursor: pointer; font-weight: bold; border-radius: 2px; margin-top: 5px; }
 
-        .btn-buy { background: #fb641b; color: white; border: none; padding: 10px; width: 100%; cursor: pointer; font-weight: bold; font-size: 14px; text-transform: uppercase; border-radius: 2px; margin-top: auto; }
-
-        /* Order Form Popup */
+        /* Order Modal */
         .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); }
-        .modal-content { background: white; width: 85%; max-width: 380px; margin: 15vh auto; padding: 20px; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
-        .modal-content h3 { margin: 0 0 15px 0; color: #2874f0; border-bottom: 1px solid #eee; padding-bottom: 10px; }
-        .modal-content input, .modal-content textarea { width: 100%; margin-bottom: 12px; padding: 12px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 14px; outline: none; }
+        .modal-content { background: white; width: 85%; max-width: 380px; margin: 15vh auto; padding: 20px; border-radius: 8px; }
+        .modal-content input, .modal-content textarea { width: 100%; margin-bottom: 12px; padding: 12px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
         .confirm-btn { background: #388e3c; color: white; border: none; width: 100%; padding: 14px; cursor: pointer; font-size: 16px; font-weight: bold; border-radius: 4px; }
-        .close-btn { background: #f1f3f6; border: none; width: 100%; padding: 10px; margin-top: 8px; cursor: pointer; border-radius: 4px; color: #666; font-weight: bold; }
+        .close-btn { background: #f1f3f6; border: none; width: 100%; padding: 10px; margin-top: 5px; cursor: pointer; width: 100%; border-radius: 4px; }
     </style>
+    <!-- Icons for Wishlist/Orders -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
     <header class="navbar">
         <div class="nav-container">
             <div class="nav-top">
-                <div class="logo" onclick="location.reload()">
-                    <img src="Dkart.jpg" alt="Dkart Logo">
+                <!-- Logo + Brand Name Text -->
+                <div class="brand-box" onclick="location.reload()">
+                    <img src="Dkart.jpg" alt="Logo">
+                    <div class="brand-name">D<span>kart</span></div>
                 </div>
-                <div style="font-size: 22px; cursor: pointer;">🛒</div>
+                
+                <!-- Wishlist & Orders -->
+                <div class="user-options">
+                    <div class="option-item" onclick="alert('Wishlist abhi khali hai!')">
+                        <i class="fa-regular fa-heart"></i>
+                        <span>Wishlist</span>
+                    </div>
+                    <div class="option-item" onclick="alert('Pehle koi order karein!')">
+                        <i class="fa-solid fa-box-open"></i>
+                        <span>Orders</span>
+                    </div>
+                </div>
             </div>
+
+            <!-- Search Bar -->
             <div class="search-area">
-                <input type="text" id="searchInput" onkeyup="searchProduct()" placeholder="Search for products, brands and more">
-                <button>🔍</button>
+                <input type="text" id="searchInput" onkeyup="searchProduct()" placeholder="Search products...">
+                <button><i class="fa-solid fa-magnifying-glass"></i></button>
             </div>
         </div>
     </header>
 
+    <!-- Categories -->
     <nav class="category-bar">
-        <button class="cat-btn active" onclick="filterCategory('all', event)">All Products</button>
-        <button class="cat-btn" onclick="filterCategory('men', event)">Men</button>
-        <button class="cat-btn" onclick="filterCategory('women', event)">Women</button>
-        <button class="cat-btn" onclick="filterCategory('gadgets', event)">Gadgets</button>
-        <button class="cat-btn" onclick="filterCategory('toys', event)">Toys</button>
-        <button class="cat-btn" onclick="filterCategory('shoes', event)">Shoes</button>
+        <button class="cat-btn active" onclick="filterCat('all', event)">All</button>
+        <button class="cat-btn" onclick="filterCat('men', event)">Men</button>
+        <button class="cat-btn" onclick="filterCat('women', event)">Women</button>
+        <button class="cat-btn" onclick="filterCat('gadgets', event)">Gadgets</button>
     </nav>
 
     <main class="container">
         <div class="product-grid" id="product-list">
-            
+            <!-- Sample Products -->
             <div class="product-card" data-cat="men">
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_6uP77_k8W1z0vj_k67eBvA0u6p7B6X3x9A&s" alt="Shirt">
                 <div class="p-info">
                     <h4>Premium Cotton Men's Shirt</h4>
-                    <p class="p-price">₹599 <span class="discount">45% OFF</span></p>
-                    <button class="btn-buy" onclick="openOrder('Premium Cotton Men Shirt', '599')">Buy Now</button>
+                    <p class="p-price">₹599</p>
+                    <button class="btn-buy" onclick="openOrder('Premium Cotton Shirt', '599')">BUY NOW</button>
                 </div>
             </div>
 
@@ -94,97 +113,60 @@
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQW9q1A_m_N1_9I9S_A1_7C_K_W_F_H_N_I_G_A&s" alt="Saree">
                 <div class="p-info">
                     <h4>Fancy Designer Silk Saree</h4>
-                    <p class="p-price">₹899 <span class="discount">50% OFF</span></p>
-                    <button class="btn-buy" onclick="openOrder('Fancy Designer Silk Saree', '899')">Buy Now</button>
+                    <p class="p-price">₹899</p>
+                    <button class="btn-buy" onclick="openOrder('Fancy Designer Saree', '899')">BUY NOW</button>
                 </div>
             </div>
-
-            <div class="product-card" data-cat="gadgets">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6-m7_K2j0U6i6Z-p-yY6_1L5e_f9L0e-zJw&s" alt="Watch">
-                <div class="p-info">
-                    <h4>Smart Digital Watch - Bluetooth Calling</h4>
-                    <p class="p-price">₹1,249 <span class="discount">60% OFF</span></p>
-                    <button class="btn-buy" onclick="openOrder('Smart Digital Watch', '1249')">Buy Now</button>
-                </div>
-            </div>
-
         </div>
     </main>
 
+    <!-- Order Popup -->
     <div id="orderModal" class="modal">
         <div class="modal-content">
-            <h3>Order Details</h3>
-            <p id="item-summary" style="background: #f9f9f9; padding: 10px; font-weight: bold; border-left: 4px solid #2874f0;"></p>
-            <input type="text" id="custName" placeholder="Enter Full Name">
-            <input type="number" id="custPhone" placeholder="WhatsApp Number">
-            <textarea id="custAddress" placeholder="Full Address with Pin Code" rows="3"></textarea>
-            <button class="confirm-btn" onclick="sendToWhatsApp()">Confirm Order</button>
-            <button class="close-btn" onclick="closeOrderModal()">Cancel</button>
+            <h3>Confirm Order</h3>
+            <p id="item-info" style="font-weight:bold; color:#2874f0"></p>
+            <input type="text" id="cName" placeholder="Aapka Naam">
+            <input type="number" id="cPhone" placeholder="WhatsApp Number">
+            <textarea id="cAddr" placeholder="Pura Address aur Pin Code" rows="3"></textarea>
+            <button class="confirm-btn" onclick="sendOrder()">Order on WhatsApp</button>
+            <button class="close-btn" onclick="document.getElementById('orderModal').style.display='none'">Cancel</button>
         </div>
     </div>
 
     <script>
-        let selectedPName = "";
-        let selectedPPrice = "";
+        let pName = ""; let pPrice = "";
 
-        // 1. Real-time Search Function
         function searchProduct() {
             let input = document.getElementById('searchInput').value.toLowerCase();
-            let cards = document.querySelectorAll('.product-card');
-            
-            cards.forEach(card => {
+            document.querySelectorAll('.product-card').forEach(card => {
                 let title = card.querySelector('h4').innerText.toLowerCase();
-                if(title.includes(input)) {
-                    card.style.display = "flex";
-                } else {
-                    card.style.display = "none";
-                }
+                card.style.display = title.includes(input) ? "flex" : "none";
             });
         }
 
-        // 2. Category Filter Function
-        function filterCategory(cat, event) {
-            let cards = document.querySelectorAll('.product-card');
-            cards.forEach(card => {
-                if (cat === 'all' || card.getAttribute('data-cat') === cat) {
-                    card.style.display = "flex";
-                } else {
-                    card.style.display = "none";
-                }
+        function filterCat(cat, event) {
+            document.querySelectorAll('.product-card').forEach(card => {
+                card.style.display = (cat === 'all' || card.getAttribute('data-cat') === cat) ? "flex" : "none";
             });
-            // Update active button color
-            document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
             event.target.classList.add('active');
         }
 
-        // 3. Order Management
-        function openOrder(name, price) {
-            selectedPName = name;
-            selectedPPrice = price;
-            document.getElementById('item-summary').innerText = name + " - ₹" + price;
+        function openOrder(n, p) {
+            pName = n; pPrice = p;
+            document.getElementById('item-info').innerText = n + " - ₹" + p;
             document.getElementById('orderModal').style.display = "block";
         }
 
-        function closeOrderModal() {
-            document.getElementById('orderModal').style.display = "none";
-        }
+        function sendOrder() {
+            let n = document.getElementById('cName').value;
+            let ph = document.getElementById('cPhone').value;
+            let ad = document.getElementById('cAddr').value;
+            if(!n || !ph || !ad) { alert("Details bhariye!"); return; }
 
-        function sendToWhatsApp() {
-            let name = document.getElementById('custName').value;
-            let phone = document.getElementById('custPhone').value;
-            let address = document.getElementById('custAddress').value;
-
-            if(!name || !phone || !address) {
-                alert("Please fill all details correctly!");
-                return;
-            }
-
-            let myWhatsAppNum = "918521684137";
-            let orderMessage = `*Dkart - New Order Confirmed!*%0A%0A*Item:* ${selectedPName}%0A*Price:* ₹${selectedPPrice}%0A%0A*Customer Info:*%0A- Name: ${name}%0A- Mobile: ${phone}%0A- Address: ${address}`;
-            
-            // Open WhatsApp with pre-filled message
-            window.open(`https://api.whatsapp.com/send?phone=${myWhatsAppNum}&text=${orderMessage}`, '_blank');
-            closeOrderModal();
+            let msg = `*Dkart New Order*%0A*Product:* ${pName}%0A*Price:* ₹${pPrice}%0A%0A*Name:* ${n}%0A*Address:* ${ad}`;
+            window.open(`https://api.whatsapp.com/send?phone=918521684137&text=${msg}`, '_blank');
+            document.getElementById('orderModal').style.display='none';
         }
     </script>
 </body>

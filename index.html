@@ -3,98 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dkart | Premium Shop</title>
+    <title>Dkart | Premium Shopping</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Montserrat:wght@900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         :root { --primary: #2874f0; --bg: #f1f3f6; --white: #ffffff; }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
-        body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding-bottom: 70px; }
+        body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding-bottom: 70px; overflow-x: hidden; }
 
-        /* Header */
+        /* Header & Search */
         header { background: var(--primary); color: white; padding: 10px 15px; position: sticky; top: 0; z-index: 1000; }
         .top-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
         .logo-box { display: flex; align-items: center; gap: 8px; }
-        .logo-img { width: 30px; height: 30px; border-radius: 4px; }
+        .logo-img { width: 30px; height: 30px; border-radius: 4px; object-fit: cover; }
         .brand { font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 900; font-style: italic; }
+        .search-box { background: var(--white); border-radius: 4px; display: flex; align-items: center; padding: 8px 12px; }
+        .search-box input { border: none; width: 100%; margin-left: 10px; font-size: 14px; color: #333; }
 
-        /* Home View Styles */
-        .search-box { background: var(--white); border-radius: 4px; display: flex; align-items: center; padding: 8px 12px; margin-bottom: 5px; }
-        .search-box input { border: none; width: 100%; margin-left: 10px; font-size: 14px; }
+        /* Categories */
+        .cat-row { display: flex; overflow-x: auto; background: var(--white); padding: 10px; gap: 20px; scrollbar-width: none; border-bottom: 1px solid #ddd; }
+        .cat-item { text-align: center; min-width: 65px; cursor: pointer; }
+        .cat-item img { width: 40px; height: 40px; object-fit: contain; }
+        .cat-item span { display: block; font-size: 11px; font-weight: 600; margin-top: 5px; color: #333; }
+
+        /* Product Grid */
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 8px; }
         .p-card { background: var(--white); padding: 10px; border-radius: 4px; box-shadow: 0 1px 2px rgba(0,0,0,0.1); cursor: pointer; }
         .p-card img { width: 100%; height: 140px; object-fit: contain; }
         .p-name { font-size: 13px; height: 36px; overflow: hidden; margin-top: 8px; color: #212121; }
         .p-price { font-weight: 800; font-size: 16px; margin: 5px 0; color: #000; }
 
-        /* Product Detail View (Hidden by default) */
+        /* Product Detail Page (Flipkart Style) */
         #detail-view { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 2000; display: none; overflow-y: auto; }
         .det-header { padding: 15px; display: flex; align-items: center; background: white; border-bottom: 1px solid #eee; position: sticky; top: 0; }
-        .det-img-container { width: 100%; height: 350px; background: white; display: flex; align-items: center; justify-content: center; padding: 20px; }
-        .det-img-container img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        .det-img-box { width: 100%; height: 350px; background: white; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .det-img-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
         .det-info { padding: 20px; }
         .det-price { font-size: 24px; font-weight: 800; color: #000; margin: 10px 0; }
-        .det-btn-box { position: fixed; bottom: 0; width: 100%; display: flex; height: 55px; border-top: 1px solid #ddd; }
-        .btn-cart { flex: 1; background: white; font-weight: 700; border: none; }
-        .btn-buy { flex: 1; background: #ff9f00; color: white; font-weight: 700; border: none; }
+        .det-btn-box { position: fixed; bottom: 0; width: 100%; display: flex; height: 55px; border-top: 1px solid #ddd; z-index: 2001; }
+        .btn-cart { flex: 1; background: white; font-weight: 700; border: none; cursor: pointer; }
+        .btn-buy { flex: 1; background: #ff9f00; color: white; font-weight: 700; border: none; cursor: pointer; }
 
-        /* Navigation */
+        /* Sections */
+        .section { display: none; }
+        .active { display: block; }
+
+        /* Profile & Orders */
+        .prof-card { background: var(--primary); color: white; padding: 30px 20px; }
+        .menu-list { background: white; border-radius: 15px 15px 0 0; margin-top: -15px; padding: 10px 0; }
+        .menu-item { display: flex; align-items: center; padding: 15px 20px; border-bottom: 1px solid #f0f0f0; font-weight: 600; cursor: pointer; }
+        .menu-item i { margin-right: 15px; color: var(--primary); }
+        .order-card { background: white; margin: 10px; padding: 15px; border-radius: 8px; border: 1px solid #ddd; }
+        .status-badge { font-size: 11px; padding: 3px 8px; border-radius: 4px; font-weight: 700; }
+
+        /* Bottom Nav */
         .nav-bar { position: fixed; bottom: 0; width: 100%; background: white; display: flex; border-top: 1px solid #ddd; z-index: 1000; }
         .nav-tab { flex: 1; text-align: center; padding: 10px 0; color: #666; font-size: 10px; font-weight: 600; cursor: pointer; }
         .nav-tab.active { color: var(--primary); }
+        .nav-tab i { font-size: 20px; display: block; margin-bottom: 2px; }
     </style>
 </head>
 <body>
 
-<!-- Home Page -->
-<div id="home-page">
+<!-- Home Section -->
+<div id="home-sec" class="section active">
     <header>
         <div class="top-bar">
             <div class="logo-box">
-                <img src="Dkart.jpg" class="logo-img">
+                <img src="Dkart.jpg" class="logo-img" alt="Logo">
                 <span class="brand">Dkart</span>
             </div>
             <i class="fa-solid fa-cart-shopping"></i>
         </div>
         <div class="search-box">
             <i class="fa-solid fa-magnifying-glass" style="color: #999;"></i>
-            <input type="text" placeholder="Search for products...">
+            <input type="text" id="searchInput" placeholder="Search for products..." onkeyup="searchProduct()">
         </div>
     </header>
-    <div class="grid" id="productList">
-        <!-- Products load here -->
+    <div class="cat-row">
+        <div class="cat-item" onclick="filterCat('All')"><img src="https://cdn-icons-png.flaticon.com/512/1239/1239922.png"><span>All</span></div>
+        <div class="cat-item" onclick="filterCat('Fashion')"><img src="https://cdn-icons-png.flaticon.com/512/3159/3159614.png"><span>Fashion</span></div>
+        <div class="cat-item" onclick="filterCat('Mobiles')"><img src="https://cdn-icons-png.flaticon.com/512/644/644458.png"><span>Mobiles</span></div>
+        <div class="cat-item" onclick="filterCat('Gadgets')"><img src="https://cdn-icons-png.flaticon.com/512/3659/3659899.png"><span>Gadgets</span></div>
+    </div>
+    <div class="grid" id="productList"></div>
+</div>
+
+<!-- Profile Section -->
+<div id="profile-sec" class="section">
+    <div class="prof-card">
+        <h2 style="margin:0;">Amit Das</h2>
+        <p style="font-size:13px; opacity:0.8;">IT Student & Entrepreneur</p>
+    </div>
+    <div class="menu-list">
+        <div class="menu-item" onclick="showPage('orders-sec')"><i class="fa-solid fa-box"></i> My Orders</div>
+        <div class="menu-item" onclick="alert('Wishlist Empty')"><i class="fa-solid fa-heart"></i> Wishlist</div>
+        <div class="menu-item" onclick="location.reload()" style="color:red;"><i class="fa-solid fa-power-off"></i> Logout</div>
     </div>
 </div>
 
-<!-- Flipkart Style Detail Page -->
+<!-- My Orders Section -->
+<div id="orders-sec" class="section">
+    <div style="background: white; padding: 15px; display: flex; align-items: center; border-bottom: 1px solid #ddd;">
+        <i class="fa-solid fa-arrow-left" onclick="showPage('profile-sec')" style="margin-right: 15px; font-size: 18px;"></i>
+        <h3 style="margin:0;">My Orders</h3>
+    </div>
+    <div id="orderContainer"></div>
+</div>
+
+<!-- Full Product Detail View -->
 <div id="detail-view">
     <div class="det-header">
         <i class="fa-solid fa-arrow-left" onclick="closeDetails()" style="font-size: 20px; margin-right: 20px;"></i>
         <span style="font-weight: 600;">Product View</span>
     </div>
-    <div class="det-img-container">
-        <img id="det-img" src="">
-    </div>
+    <div class="det-img-box"><img id="det-img" src=""></div>
     <div class="det-info">
         <div id="det-name" style="font-size: 16px; font-weight: 600;"></div>
         <div style="color: #388e3c; font-weight: 700; font-size: 14px; margin-top: 10px;">Special Price</div>
         <div id="det-price" class="det-price"></div>
-        <p style="color: #666; font-size: 14px;">High quality product. Fast delivery guaranteed by Dkart.</p>
+        <p style="color: #666; font-size: 13px;">Free Delivery & Cash on Delivery available across Bihar & West Bengal.</p>
     </div>
     <div class="det-btn-box">
-        <button class="btn-cart">ADD TO CART</button>
-        <button class="btn-buy" id="buy-btn">BUY NOW</button>
+        <button class="btn-cart" onclick="alert('Added to Cart!')">ADD TO CART</button>
+        <button class="btn-buy" id="final-buy-btn">BUY NOW</button>
     </div>
 </div>
 
+<!-- Bottom Navigation -->
 <nav class="nav-bar">
-    <div class="nav-tab active"><i class="fa-solid fa-house" style="display:block; font-size:18px;"></i>Home</div>
-    <div class="nav-tab" onclick="alert('Profile section under update!')"><i class="fa-solid fa-user" style="display:block; font-size:18px;"></i>Profile</div>
+    <div class="nav-tab active" id="tab-home" onclick="showPage('home-sec', this)"><i class="fa-solid fa-house"></i>Home</div>
+    <div class="nav-tab" id="tab-prof" onclick="showPage('profile-sec', this)"><i class="fa-solid fa-user-circle"></i>Account</div>
 </nav>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
-    import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+    import { getFirestore, collection, getDocs, addDoc, query, orderBy, serverTimestamp, updateDoc, doc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyAchWzhIxqmS7G0HPpvuq6WBwcr8pXzFAE",
@@ -105,16 +149,20 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
+    let allProducts = [];
 
-    // 1. Products Load Karne Ka Function
-    async function loadProducts() {
+    // 1. Load Products
+    async function initApp() {
         const q = query(collection(db, "products"), orderBy("time", "desc"));
         const snap = await getDocs(q);
+        allProducts = snap.docs.map(d => ({id: d.id, ...d.data()}));
+        renderProducts(allProducts);
+    }
+
+    function renderProducts(data) {
         const list = document.getElementById('productList');
         list.innerHTML = "";
-
-        snap.forEach(d => {
-            const p = d.data();
+        data.forEach(p => {
             const card = document.createElement('div');
             card.className = 'p-card';
             card.innerHTML = `
@@ -122,29 +170,93 @@
                 <div class="p-name">${p.name}</div>
                 <div class="p-price">₹${p.price}</div>
             `;
-            // Click Event Add Kiya
-            card.onclick = () => openProduct(p);
+            card.onclick = () => openDetails(p);
             list.appendChild(card);
         });
     }
 
-    // 2. Product Detail Kholne Ka Function
-    window.openProduct = (p) => {
+    // 2. Open Product Details (Flipkart Effect)
+    window.openDetails = (p) => {
         document.getElementById('det-img').src = p.images[0] || 'Dkart.jpg';
         document.getElementById('det-name').innerText = p.name;
         document.getElementById('det-price').innerText = "₹" + p.price;
         
-        // Detail View Show Karna
+        // Buy Now - Send to Admin Firebase
+        document.getElementById('final-buy-btn').onclick = async () => {
+            const btn = document.getElementById('final-buy-btn');
+            btn.innerText = "Processing...";
+            btn.disabled = true;
+
+            await addDoc(collection(db, "orders"), {
+                product: p.name,
+                price: p.price,
+                customer: "Amit Das",
+                status: "Pending",
+                date: serverTimestamp()
+            });
+
+            alert("Order Success! Check your Admin Panel. ✅");
+            btn.innerText = "BUY NOW";
+            btn.disabled = false;
+            closeDetails();
+        };
+
         document.getElementById('detail-view').style.display = 'block';
-        window.scrollTo(0, 0); // Page ke upar le jane ke liye
+        window.scrollTo(0,0);
     };
 
-    // 3. Detail Page Close Karne Ka Function
     window.closeDetails = () => {
         document.getElementById('detail-view').style.display = 'none';
     };
 
-    loadProducts();
+    // 3. Page Navigation
+    window.showPage = (id, el) => {
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        if(el) {
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            el.classList.add('active');
+        }
+        if(id === 'orders-sec') loadOrders();
+    };
+
+    // 4. Load Orders for Profile
+    window.loadOrders = async () => {
+        const container = document.getElementById('orderContainer');
+        container.innerHTML = "<p style='text-align:center; padding:20px;'>Fetching Orders...</p>";
+        const snap = await getDocs(collection(db, "orders"));
+        container.innerHTML = "";
+        snap.forEach(d => {
+            const o = d.data();
+            container.innerHTML += `
+                <div class="order-card">
+                    <div style="font-weight:700;">${o.product}</div>
+                    <div style="font-weight:800; color:var(--primary); margin:5px 0;">₹${o.price}</div>
+                    <span class="status-badge" style="background:${o.status==='Cancelled'?'#ffebee':'#e8f5e9'}; color:${o.status==='Cancelled'?'red':'green'}">${o.status}</span>
+                    ${o.status === 'Pending' ? `<br><button style="color:red; border:none; background:none; padding:0; margin-top:10px; cursor:pointer;" onclick="cancelMyOrder('${d.id}')">Cancel Order</button>` : ''}
+                </div>`;
+        });
+    };
+
+    window.cancelMyOrder = async (id) => {
+        if(confirm("Cancel this order?")) {
+            await updateDoc(doc(db, "orders", id), { status: "Cancelled" });
+            loadOrders();
+        }
+    };
+
+    // 5. Search & Filter
+    window.searchProduct = () => {
+        const val = document.getElementById('searchInput').value.toLowerCase();
+        renderProducts(allProducts.filter(p => p.name.toLowerCase().includes(val)));
+    };
+
+    window.filterCat = (cat) => {
+        if(cat === 'All') renderProducts(allProducts);
+        else renderProducts(allProducts.filter(p => p.category === cat));
+    };
+
+    initApp();
 </script>
 </body>
 </html>

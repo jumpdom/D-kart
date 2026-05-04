@@ -39,25 +39,17 @@
         .p-name { font-size: 12px; font-weight: 600; color: var(--accent); margin-top: 10px; height: 35px; overflow: hidden; text-transform: uppercase; }
         .p-price { font-size: 17px; font-weight: 800; color: var(--white); margin: 5px 0; }
 
-        /* NEW: Description & Size Styling */
+        /* Description & Size Styling */
         .size-header { font-size: 14px; font-weight: 700; margin: 15px 0 8px; color: #fff; text-align: left; }
         .size-wrap { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 15px; }
-        .size-box { border: 1px solid #444; padding: 6px 12px; border-radius: 6px; font-size: 12px; background: #1a1a1a; color: var(--accent); font-weight: 600; }
+        .size-box { border: 1px solid #444; padding: 8px 15px; border-radius: 6px; font-size: 12px; background: #1a1a1a; color: #fff; font-weight: 600; cursor: pointer; transition: 0.3s; }
+        .size-box.selected { background: var(--accent) !important; color: #000 !important; border-color: #fff !important; transform: scale(1.05); }
         .description-box { background: #111; padding: 12px; border-radius: 8px; border: 1px solid #222; font-size: 13px; color: #ccc; line-height: 1.6; text-align: left; margin-bottom: 80px; }
-
-        /* Bottom Nav */
-        .nav-bar { position: fixed; bottom: 0; width: 100%; background: #000; display: flex; border-top: 2px solid var(--accent); z-index: 2000; height: 65px; align-items: center; }
-        .nav-tab { flex: 1; text-align: center; color: #777; cursor: pointer; font-size: 10px; font-weight: 700; }
-        .nav-tab.active { color: var(--accent); }
-        .nav-tab i { font-size: 20px; display: block; margin-bottom: 3px; }
 
         /* Views */
         .full-view { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 3000; display: none; overflow-y: auto; }
         .view-header { padding: 15px; display: flex; align-items: center; border-bottom: 1px solid #333; background: var(--primary); position: sticky; top: 0; z-index: 10; }
         .view-header span { color: var(--accent); font-weight: 700; margin-left: 15px; text-transform: uppercase; }
-
-        .order-card { background: #1a1a1a; margin: 10px; padding: 12px; border-radius: 10px; display: flex; gap: 15px; border-left: 4px solid var(--accent); }
-        .order-img { width: 70px; height: 70px; border-radius: 8px; object-fit: cover; background: #222; }
 
         .btn-box { position: fixed; bottom: 0; width: 100%; height: 60px; z-index: 3500; }
         .btn-main { width: 100%; height: 100%; border: none; font-weight: 900; background: var(--accent); color: #000; font-size: 16px; text-transform: uppercase; }
@@ -90,7 +82,6 @@
         <div class="cat-item" onclick="filterCat('Fashion')"><div class="cat-icon" style="background: #2ED573;"><i class="fa-solid fa-shirt"></i></div><span>Fashion</span></div>
         <div class="cat-item" onclick="filterCat('Gadgets')"><div class="cat-icon" style="background: #1E90FF;"><i class="fa-solid fa-headphones"></i></div><span>Gadgets</span></div>
     </div>
-
     <div class="grid" id="productList"></div>
 </div>
 
@@ -100,11 +91,8 @@
         <img id="det-img" style="width: 100%; border-radius: 12px; border: 1px solid #333; max-height: 350px; object-fit: contain; background: #111;">
         <h2 id="det-name" style="color: var(--accent); margin-top: 15px; text-align: left; text-transform: uppercase;"></h2>
         <div id="det-price" style="font-size: 26px; font-weight: 800; text-align: left; color: #fff;"></div>
-        
-        <!-- NEW: Size and Description Display -->
         <div class="size-header">Available Sizes</div>
         <div id="det-sizes" class="size-wrap"></div>
-        
         <div class="size-header">Product Details</div>
         <div id="det-desc" class="description-box"></div>
     </div>
@@ -121,20 +109,20 @@
     <div class="btn-box"><button class="btn-main" id="order-btn">Confirm Order</button></div>
 </div>
 
+<!-- Nav Bar & Views remain same as your original -->
 <div id="orders-view" class="full-view">
     <div class="view-header"><i class="fa-solid fa-arrow-left" onclick="hideAllViews()"></i><span>My Orders</span></div>
     <div id="orderListContainer"></div>
 </div>
-
 <div id="wishlist-view" class="full-view">
     <div class="view-header"><i class="fa-solid fa-arrow-left" onclick="hideAllViews()"></i><span>Wishlist</span></div>
     <div class="grid" id="wishlistGrid"></div>
 </div>
 
-<nav class="nav-bar">
-    <div class="nav-tab active" onclick="location.reload()"><i class="fa-solid fa-house"></i><span>Home</span></div>
-    <div class="nav-tab" onclick="showOrders()"><i class="fa-solid fa-bag-shopping"></i><span>Orders</span></div>
-    <div class="nav-tab" onclick="showWishlist()"><i class="fa-solid fa-heart"></i><span>Wishlist</span></div>
+<nav class="nav-bar" style="position: fixed; bottom: 0; width: 100%; background: #000; display: flex; border-top: 2px solid var(--accent); z-index: 2000; height: 65px; align-items: center;">
+    <div class="nav-tab active" onclick="location.reload()" style="flex:1; text-align:center; color:var(--accent); cursor:pointer;"><i class="fa-solid fa-house" style="display:block; font-size:20px;"></i><span style="font-size:10px;">Home</span></div>
+    <div class="nav-tab" onclick="showOrders()" style="flex:1; text-align:center; color:#777; cursor:pointer;"><i class="fa-solid fa-bag-shopping" style="display:block; font-size:20px;"></i><span style="font-size:10px;">Orders</span></div>
+    <div class="nav-tab" onclick="showWishlist()" style="flex:1; text-align:center; color:#777; cursor:pointer;"><i class="fa-solid fa-heart" style="display:block; font-size:20px;"></i><span style="font-size:10px;">Wishlist</span></div>
 </nav>
 
 <script type="module">
@@ -150,7 +138,7 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-    let allP = [], currentP = null;
+    let allP = [], currentP = null, selectedSize = null;
 
     async function load() {
         const q = query(collection(db, "products"), orderBy("time", "desc"));
@@ -173,17 +161,15 @@
             `;
             card.onclick = () => {
                 currentP = p;
+                selectedSize = null; // New selection reset
                 document.getElementById('det-img').src = p.images[0] || 'Dkart.jpg';
                 document.getElementById('det-name').innerText = p.name;
                 document.getElementById('det-price').innerText = "₹" + p.price;
-                
-                // Set Description
                 document.getElementById('det-desc').innerText = p.desc || "No extra details available.";
                 
-                // Set Sizes
                 const sCont = document.getElementById('det-sizes');
                 sCont.innerHTML = p.sizes && p.sizes.length > 0 
-                    ? p.sizes.map(s => `<div class="size-box">${s}</div>`).join('') 
+                    ? p.sizes.map(s => `<div class="size-box" onclick="window.setS(this, '${s}')">${s}</div>`).join('') 
                     : '<span style="color:#666; font-size:12px;">Standard Size</span>';
 
                 document.getElementById('detail-view').style.display = 'block';
@@ -191,6 +177,13 @@
             list.appendChild(card);
         });
     }
+
+    // NEW: Function to set selected size
+    window.setS = (btn, s) => {
+        document.querySelectorAll('.size-box').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        selectedSize = s;
+    };
 
     window.toggleWish = (e, id) => {
         e.stopPropagation();
@@ -211,20 +204,32 @@
         const cont = document.getElementById('orderListContainer');
         cont.innerHTML = orders.length ? "" : "<p style='text-align:center;padding:20px;'>No orders yet.</p>";
         orders.forEach(o => {
-            cont.innerHTML += `<div class="order-card"><img src="${o.img}" class="order-img"><div><h4 style="margin:0;color:var(--accent)">${o.name}</h4><p style="margin:5px 0;font-size:12px;">Price: ₹${o.price}</p><p style="margin:0;font-size:10px;color:#0f0;">Status: Pending</p></div></div>`;
+            cont.innerHTML += `<div class="order-card" style="background:#1a1a1a; margin:10px; padding:12px; border-radius:10px; display:flex; gap:15px; border-left:4px solid var(--accent);"><img src="${o.img}" style="width:70px; height:70px; border-radius:8px; object-fit:cover; background:#222;"><div><h4 style="margin:0;color:var(--accent)">${o.name}</h4><p style="margin:5px 0;font-size:12px;">Price: ₹${o.price} | Size: ${o.size || 'N/A'}</p><p style="margin:0;font-size:10px;color:#0f0;">Status: Pending</p></div></div>`;
         });
         document.getElementById('orders-view').style.display = 'block';
     };
 
     document.getElementById('order-btn').onclick = async () => {
         const n = document.getElementById('c-name').value, ph = document.getElementById('c-phone').value, ad = document.getElementById('c-addr').value;
+        
+        // Size Check
+        if(currentP.sizes && currentP.sizes.length > 0 && !selectedSize) return alert("Please select a size!");
         if(!n || !ph || !ad) return alert("Fill all details!");
-        const orderInfo = { name: currentP.name, price: currentP.price, img: currentP.images[0] };
+
+        const orderInfo = { 
+            name: currentP.name, 
+            price: currentP.price, 
+            img: currentP.images[0], 
+            size: selectedSize || "Standard" 
+        };
+
         await addDoc(collection(db, "orders"), { ...orderInfo, customer: n, phone: ph, address: ad, time: serverTimestamp() });
+        
         let myOrders = JSON.parse(localStorage.getItem('dk_orders')) || [];
         myOrders.unshift(orderInfo);
         localStorage.setItem('dk_orders', JSON.stringify(myOrders));
-        alert("Order Placed! ✅");
+        
+        alert("Order Placed Successfully! ✅");
         location.reload();
     };
 

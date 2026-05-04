@@ -16,15 +16,18 @@
         .logo-row { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 5px; }
         .logo-img { width: 40px; height: 40px; border-radius: 5px; border: 1.5px solid var(--white); }
         .brand { font-family: 'Montserrat', sans-serif; font-size: 26px; font-weight: 900; color: var(--accent); font-style: italic; }
-        .trust-text { font-size: 10px; color: var(--accent); text-align: center; font-weight: 700; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
+        .trust-text { font-size: 10px; color: var(--accent); text-align: center; font-weight: 700; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px; }
         
-        .search-box { background: #1a1a1a; border-radius: 8px; display: flex; align-items: center; padding: 10px 15px; border: 1px solid #333; margin: 0 5px; }
+        /* Search Box & Help Icon Row */
+        .header-action-row { display: flex; align-items: center; gap: 10px; padding: 0 5px; }
+        .search-box { flex: 1; background: #1a1a1a; border-radius: 8px; display: flex; align-items: center; padding: 10px 15px; border: 1px solid #333; }
         .search-box input { background: transparent; border: none; color: white; width: 100%; margin-left: 10px; font-size: 14px; }
+        .help-btn { background: #25D366; color: white; width: 42px; height: 42px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 22px; text-decoration: none; border: 1px solid white; }
 
         /* Categories */
         .cat-row { display: flex; overflow-x: auto; padding: 15px 10px; gap: 15px; scrollbar-width: none; background: #111; }
         .cat-row::-webkit-scrollbar { display: none; }
-        .cat-item { min-width: 70px; text-align: center; }
+        .cat-item { min-width: 70px; text-align: center; cursor: pointer; }
         .cat-icon { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; font-size: 20px; color: #000; border: 2px solid #fff; }
         .cat-item span { font-size: 10px; font-weight: 700; color: #fff; }
 
@@ -43,7 +46,7 @@
         .nav-tab.active { color: var(--accent); }
         .nav-tab i { font-size: 20px; display: block; margin-bottom: 3px; }
 
-        /* Full Views */
+        /* Views */
         .full-view { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 3000; display: none; overflow-y: auto; }
         .view-header { padding: 15px; display: flex; align-items: center; border-bottom: 1px solid #333; background: var(--primary); position: sticky; top: 0; }
         .view-header span { color: var(--accent); font-weight: 700; margin-left: 15px; text-transform: uppercase; }
@@ -63,10 +66,16 @@
             <img src="Dkart.jpg" class="logo-img" onerror="this.src='https://via.placeholder.com/40'">
             <span class="brand">DKART</span>
         </div>
-        <div class="trust-text"><i class="fa-solid fa-shield-check"></i> 100% Trusted • Cash On Delivery</div>
-        <div class="search-box">
-            <i class="fa-solid fa-magnifying-glass" style="color:var(--accent)"></i>
-            <input type="text" id="searchInput" placeholder="Search products..." onkeyup="searchFun()">
+        <div class="trust-text"><i class="fa-solid fa-shield-check"></i> 100% Trusted • Fast Delivery</div>
+        
+        <div class="header-action-row">
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass" style="color:var(--accent)"></i>
+                <input type="text" id="searchInput" placeholder="Search products..." onkeyup="searchFun()">
+            </div>
+            <a href="https://wa.me/918521694137?text=Hello%20Dkart%20Help%20Needed" target="_blank" class="help-btn">
+                <i class="fa-brands fa-whatsapp"></i>
+            </a>
         </div>
     </header>
 
@@ -80,7 +89,6 @@
     <div class="grid" id="productList"></div>
 </div>
 
-<!-- All Full Views -->
 <div id="detail-view" class="full-view">
     <div class="view-header"><i class="fa-solid fa-arrow-left" onclick="closeAll()"></i><span>Details</span></div>
     <div style="padding: 20px; text-align: center;">
@@ -97,9 +105,6 @@
         <input type="text" id="c-name" placeholder="Full Name" style="width:100%; padding:15px; margin-bottom:10px; background:#111; color:white; border:1px solid #333; border-radius:8px;">
         <input type="tel" id="c-phone" placeholder="Mobile Number" style="width:100%; padding:15px; margin-bottom:10px; background:#111; color:white; border:1px solid #333; border-radius:8px;">
         <textarea id="c-addr" placeholder="Full Address" style="width:100%; padding:15px; background:#111; color:white; border:1px solid #333; border-radius:8px;" rows="3"></textarea>
-        <div style="margin-top:20px; padding:15px; border:1.5px dashed var(--accent); color:var(--accent); text-align:center; font-weight:900;">
-            <i class="fa-solid fa-truck"></i> CASH ON DELIVERY SELECTED
-        </div>
     </div>
     <div class="btn-box"><button class="btn-main" id="order-btn">Confirm Order</button></div>
 </div>
@@ -114,7 +119,6 @@
     <div class="grid" id="wishlistGrid"></div>
 </div>
 
-<!-- Bottom Nav -->
 <nav class="nav-bar">
     <div class="nav-tab active" onclick="location.reload()"><i class="fa-solid fa-house"></i><span>Home</span></div>
     <div class="nav-tab" onclick="showOrders()"><i class="fa-solid fa-bag-shopping"></i><span>Orders</span></div>
@@ -183,9 +187,9 @@
     window.showOrders = () => {
         const orders = JSON.parse(localStorage.getItem('dk_orders')) || [];
         const cont = document.getElementById('orderListContainer');
-        cont.innerHTML = orders.length ? "" : "<p style='text-align:center;padding:20px;'>No orders found.</p>";
+        cont.innerHTML = orders.length ? "" : "<p style='text-align:center;padding:20px;'>No orders yet.</p>";
         orders.forEach(o => {
-            cont.innerHTML += `<div class="order-card"><img src="${o.img}" class="order-img"><div><h4 style="margin:0;color:var(--accent)">${o.name}</h4><p style="margin:5px 0;font-size:12px;">Price: ₹${o.price}</p><p style="margin:0;font-size:10px;color:#0f0;">Status: Confirmed</p></div></div>`;
+            cont.innerHTML += `<div class="order-card"><img src="${o.img}" class="order-img"><div><h4 style="margin:0;color:var(--accent)">${o.name}</h4><p style="margin:5px 0;font-size:12px;">Price: ₹${o.price}</p><p style="margin:0;font-size:10px;color:#0f0;">Status: Pending</p></div></div>`;
         });
         document.getElementById('orders-view').style.display = 'block';
     };

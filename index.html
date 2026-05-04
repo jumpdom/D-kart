@@ -7,200 +7,123 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Montserrat:wght@900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        :root { 
-            --primary: #000000; 
-            --accent: #ffff00; /* Yellow */
-            --white: #ffffff; 
-            --bg: #0a0a0a; 
-        }
+        :root { --primary: #000000; --accent: #ffff00; --white: #ffffff; --bg: #0a0a0a; }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
         body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding-bottom: 70px; color: var(--white); }
 
-        /* Header with Logo & Trust Tagline */
-        header { 
-            background: var(--primary); 
-            padding: 15px 10px; 
-            text-align: center; 
-            border-bottom: 2px solid var(--accent);
-            position: sticky; top: 0; z-index: 1000;
-        }
-        .logo-container { display: flex; flex-direction: column; align-items: center; gap: 5px; }
-        .logo-row { display: flex; align-items: center; gap: 10px; }
-        .logo-img { width: 40px; height: 40px; border-radius: 5px; border: 1.5px solid var(--white); object-fit: cover; }
-        .brand { 
-            font-family: 'Montserrat', sans-serif; 
-            font-size: 28px; 
-            font-weight: 900; 
-            color: var(--accent); 
-            font-style: italic;
-            letter-spacing: 1px;
-        }
-        .trust-tagline {
-            font-size: 10px;
-            color: var(--accent);
-            font-weight: 700;
-            letter-spacing: 1.2px;
-            text-transform: uppercase;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
+        /* Header & Search */
+        header { background: var(--primary); padding: 15px 10px; border-bottom: 2px solid var(--accent); position: sticky; top: 0; z-index: 1000; }
+        .logo-row { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 12px; }
+        .logo-img { width: 35px; height: 35px; border-radius: 5px; border: 1px solid var(--white); }
+        .brand { font-family: 'Montserrat', sans-serif; font-size: 24px; font-weight: 900; color: var(--accent); font-style: italic; }
+        
+        .search-container { padding: 0 10px; margin-bottom: 5px; }
+        .search-box { background: #222; border-radius: 8px; display: flex; align-items: center; padding: 10px 15px; border: 1px solid #444; }
+        .search-box input { background: transparent; border: none; color: white; width: 100%; margin-left: 10px; font-size: 14px; }
 
-        /* Product Grid & Card Styling */
+        /* Colourful Horizontal Categories */
+        .cat-row { display: flex; overflow-x: auto; padding: 15px 10px; gap: 15px; scrollbar-width: none; background: #111; }
+        .cat-row::-webkit-scrollbar { display: none; }
+        .cat-item { min-width: 75px; text-align: center; }
+        .cat-icon { width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; font-size: 22px; color: #000; border: 2px solid #fff; }
+        .cat-item span { font-size: 11px; font-weight: 700; color: #fff; text-transform: uppercase; }
+
+        /* Product Grid */
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px; }
-        
-        .p-card { 
-            background: #181818; 
-            padding: 10px; 
-            border-radius: 12px; 
-            border: 1.5px solid var(--white); /* White border on black */
-            box-shadow: 0 5px 15px rgba(0,0,0,0.8);
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .p-card img { 
-            width: 100%; 
-            height: 150px; 
-            object-fit: contain; 
-            border-radius: 8px;
-            background: #222;
-            padding: 5px;
-            border-bottom: 1px solid #333;
-        }
-        
-        .p-name { 
-            font-size: 13px; 
-            font-weight: 600; 
-            color: var(--accent); /* Yellow Text */
-            margin-top: 10px; 
-            height: 38px; 
-            overflow: hidden; 
-            text-transform: uppercase;
-        }
-        .p-price { 
-            font-size: 18px; 
-            font-weight: 800; 
-            color: var(--white); 
-            margin: 5px 0;
-        }
+        .p-card { background: #181818; padding: 10px; border-radius: 12px; border: 1.5px solid var(--white); box-shadow: 0 5px 15px rgba(0,0,0,0.8); cursor: pointer; }
+        .p-card img { width: 100%; height: 140px; object-fit: contain; border-radius: 8px; background: #222; }
+        .p-name { font-size: 12px; font-weight: 600; color: var(--accent); margin-top: 10px; height: 35px; overflow: hidden; text-transform: uppercase; }
+        .p-price { font-size: 17px; font-weight: 800; color: var(--white); margin: 5px 0; }
 
-        /* Full View Windows (Detail & Checkout) */
-        .full-view { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: var(--bg); z-index: 2000; display: none; overflow-y: auto; 
-        }
-        .view-header { 
-            padding: 15px; display: flex; align-items: center; 
-            border-bottom: 1px solid #333; background: var(--primary);
-        }
+        /* Full Views */
+        .full-view { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 2000; display: none; overflow-y: auto; }
+        .view-header { padding: 15px; display: flex; align-items: center; border-bottom: 1px solid #333; background: var(--primary); }
         .view-header span { color: var(--accent); font-weight: 700; margin-left: 15px; }
 
-        .det-content { padding: 20px; text-align: center; }
-        .det-img { width: 100%; max-height: 350px; object-fit: contain; border-radius: 15px; border: 1px solid #333; margin-bottom: 20px; }
-
-        /* Input Fields */
-        .input-group { margin-bottom: 15px; text-align: left; }
-        .input-group label { display: block; font-size: 11px; color: var(--accent); margin-bottom: 5px; font-weight: 800; }
-        .input-group input, .input-group textarea { 
-            width: 100%; padding: 14px; border-radius: 10px; border: 1px solid #444; 
-            background: #1a1a1a; color: white; font-family: inherit; font-size: 14px;
-        }
-
-        /* Fixed Buttons */
         .btn-box { position: fixed; bottom: 0; width: 100%; display: flex; height: 60px; z-index: 2500; }
-        .btn-main { 
-            flex: 1; border: none; font-weight: 900; font-size: 18px; cursor: pointer;
-            background: var(--accent); color: black; transition: 0.3s;
-            text-transform: uppercase;
-        }
+        .btn-main { flex: 1; border: none; font-weight: 900; font-size: 18px; background: var(--accent); color: black; text-transform: uppercase; }
 
-        /* Navigation */
-        .nav-bar { 
-            position: fixed; bottom: 0; width: 100%; background: #000; 
-            display: flex; border-top: 2px solid #222; z-index: 1000; 
-        }
-        .nav-tab { flex: 1; text-align: center; padding: 12px 0; color: #555; font-size: 10px; font-weight: 700; }
-        .nav-tab.active { color: var(--accent); }
+        .input-group { margin-bottom: 15px; padding: 0 20px; }
+        .input-group label { display: block; font-size: 11px; color: var(--accent); margin-bottom: 5px; font-weight: 800; }
+        .input-group input, .input-group textarea { width: 100%; padding: 14px; border-radius: 10px; border: 1px solid #444; background: #1a1a1a; color: white; }
     </style>
 </head>
 <body>
 
-<!-- Home Section -->
 <div id="home-sec">
     <header>
-        <div class="logo-container">
-            <div class="logo-row">
-                <img src="Dkart.jpg" class="logo-img" alt="Logo">
-                <span class="brand">DKART</span>
-            </div>
-            <div class="trust-tagline">
-                <i class="fa-solid fa-circle-check"></i> Premium Quality • Trusted Shop
+        <div class="logo-row">
+            <img src="Dkart.jpg" class="logo-img">
+            <span class="brand">DKART</span>
+        </div>
+        <div class="search-container">
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass" style="color: #ffff00;"></i>
+                <input type="text" id="searchInput" placeholder="Search products..." onkeyup="searchFun()">
             </div>
         </div>
     </header>
+
+    <div class="cat-row">
+        <div class="cat-item" onclick="filterCat('All')">
+            <div class="cat-icon" style="background: #FFD700;"><i class="fa-solid fa-border-all"></i></div>
+            <span>All</span>
+        </div>
+        <div class="cat-item" onclick="filterCat('Mobile')">
+            <div class="cat-icon" style="background: #FF5733;"><i class="fa-solid fa-mobile-screen"></i></div>
+            <span>Mobile</span>
+        </div>
+        <div class="cat-item" onclick="filterCat('Fashion')">
+            <div class="cat-icon" style="background: #C70039;"><i class="fa-solid fa-shirt"></i></div>
+            <span>Fashion</span>
+        </div>
+        <div class="cat-item" onclick="filterCat('Electronics')">
+            <div class="cat-icon" style="background: #900C3F;"><i class="fa-solid fa-plug"></i></div>
+            <span>Gadgets</span>
+        </div>
+        <div class="cat-item" onclick="filterCat('Watch')">
+            <div class="cat-icon" style="background: #581845;"><i class="fa-solid fa-clock"></i></div>
+            <span>Watch</span>
+        </div>
+    </div>
+
     <div class="grid" id="productList"></div>
 </div>
 
-<!-- Product Detail View -->
 <div id="detail-view" class="full-view">
     <div class="view-header">
-        <i class="fa-solid fa-arrow-left" onclick="closeAll()" style="font-size: 20px; color: white;"></i>
-        <span>PRODUCT DETAILS</span>
+        <i class="fa-solid fa-arrow-left" onclick="closeAll()" style="font-size: 20px;"></i>
+        <span>PRODUCT VIEW</span>
     </div>
-    <div class="det-content">
-        <img id="det-img" class="det-img">
-        <h2 id="det-name" style="color: var(--accent); margin-bottom: 5px; text-transform: uppercase;"></h2>
-        <div id="det-price" style="font-size: 28px; font-weight: 900; margin-bottom: 20px;"></div>
-        <div style="background: #111; padding: 15px; border-radius: 10px; text-align: left; border: 1px solid #333;">
-            <p style="margin:0; font-size: 13px; color: #aaa;"><i class="fa-solid fa-truck-fast" style="color: var(--accent);"></i> Fast delivery in Bihar & West Bengal.</p>
-            <p style="margin:10px 0 0 0; font-size: 13px; color: #aaa;"><i class="fa-solid fa-rotate-left" style="color: var(--accent);"></i> Easy 7-day return policy.</p>
-        </div>
+    <div style="padding: 20px; text-align: center;">
+        <img id="det-img" style="width: 100%; border-radius: 12px; border: 1px solid #333;">
+        <h2 id="det-name" style="color: var(--accent); margin-top: 15px;"></h2>
+        <div id="det-price" style="font-size: 26px; font-weight: 800;"></div>
     </div>
     <div class="btn-box">
         <button class="btn-main" onclick="openCheckout()">BUY NOW</button>
     </div>
 </div>
 
-<!-- Checkout View -->
 <div id="checkout-view" class="full-view">
     <div class="view-header">
-        <i class="fa-solid fa-arrow-left" onclick="closeCheckout()" style="font-size: 20px; color: white;"></i>
-        <span>DELIVERY ADDRESS</span>
+        <i class="fa-solid fa-arrow-left" onclick="closeCheckout()" style="font-size: 20px;"></i>
+        <span>CHECKOUT</span>
     </div>
-    <div style="padding: 20px;">
-        <div class="input-group">
-            <label>NAME</label>
-            <input type="text" id="c-name" placeholder="Enter your full name">
-        </div>
-        <div class="input-group">
-            <label>MOBILE NUMBER</label>
-            <input type="tel" id="c-phone" placeholder="Enter 10-digit number">
-        </div>
-        <div class="input-group">
-            <label>FULL ADDRESS</label>
-            <textarea id="c-addr" rows="4" placeholder="House No, Road, City, Pin Code"></textarea>
-        </div>
-        <div style="background: #1a1a1a; padding: 15px; border-radius: 10px; border: 1.5px dashed var(--accent); margin-top: 10px;">
-            <p style="margin:0; color: var(--accent); font-weight: 900; font-size: 14px; text-align: center;">
-                <i class="fa-solid fa-hand-holding-dollar"></i> CASH ON DELIVERY AVAILABLE
-            </p>
-        </div>
+    <div style="padding-top: 20px;">
+        <div class="input-group"><label>NAME</label><input type="text" id="c-name" placeholder="Full Name"></div>
+        <div class="input-group"><label>MOBILE</label><input type="tel" id="c-phone" placeholder="10 Digit Number"></div>
+        <div class="input-group"><label>ADDRESS</label><textarea id="c-addr" rows="3" placeholder="Full Delivery Address"></textarea></div>
     </div>
     <div class="btn-box">
         <button class="btn-main" id="order-btn">CONFIRM ORDER</button>
     </div>
 </div>
 
-<nav class="nav-bar">
-    <div class="nav-tab active"><i class="fa-solid fa-house" style="display:block; font-size:18px; margin-bottom:3px;"></i>HOME</div>
-    <div class="nav-tab" onclick="alert('Profile section coming soon!')"><i class="fa-solid fa-user" style="display:block; font-size:18px; margin-bottom:3px;"></i>ACCOUNT</div>
-</nav>
-
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
     import { getFirestore, collection, getDocs, addDoc, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
-    // Firebase Config
     const firebaseConfig = {
       apiKey: "AIzaSyAchWzhIxqmS7G0HPpvuq6WBwcr8pXzFAE",
       authDomain: "dkart-87860.firebaseapp.com",
@@ -210,22 +133,23 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
+    let allP = [];
     let currentP = null;
 
-    async function fetchProducts() {
+    async function load() {
         const q = query(collection(db, "products"), orderBy("time", "desc"));
         const snap = await getDocs(q);
+        allP = snap.docs.map(d => ({...d.data()}));
+        render(allP);
+    }
+
+    function render(data) {
         const list = document.getElementById('productList');
         list.innerHTML = "";
-        snap.forEach(d => {
-            const p = d.data();
+        data.forEach(p => {
             const card = document.createElement('div');
             card.className = 'p-card';
-            card.innerHTML = `
-                <img src="${p.images[0] || 'Dkart.jpg'}">
-                <div class="p-name">${p.name}</div>
-                <div class="p-price">₹${p.price}</div>
-            `;
+            card.innerHTML = `<img src="${p.images[0] || 'Dkart.jpg'}"><div class="p-name">${p.name}</div><div class="p-price">₹${p.price}</div>`;
             card.onclick = () => {
                 currentP = p;
                 document.getElementById('det-img').src = p.images[0] || 'Dkart.jpg';
@@ -237,6 +161,16 @@
         });
     }
 
+    window.searchFun = () => {
+        const val = document.getElementById('searchInput').value.toLowerCase();
+        render(allP.filter(p => p.name.toLowerCase().includes(val)));
+    };
+
+    window.filterCat = (cat) => {
+        if(cat === 'All') render(allP);
+        else render(allP.filter(p => p.category === cat));
+    };
+
     window.closeAll = () => document.getElementById('detail-view').style.display = 'none';
     window.openCheckout = () => document.getElementById('checkout-view').style.display = 'block';
     window.closeCheckout = () => document.getElementById('checkout-view').style.display = 'none';
@@ -245,32 +179,18 @@
         const n = document.getElementById('c-name').value;
         const ph = document.getElementById('c-phone').value;
         const ad = document.getElementById('c-addr').value;
-
-        if(!n || !ph || !ad) return alert("Pehle apni details sahi se bhariye!");
-
-        const btn = document.getElementById('order-btn');
-        btn.innerText = "Placing Order...";
-        btn.disabled = true;
-
-        try {
-            await addDoc(collection(db, "orders"), {
-                productName: currentP.name,
-                price: currentP.price,
-                customerName: n,
-                customerPhone: ph,
-                address: ad,
-                status: "Pending",
-                orderTime: serverTimestamp()
-            });
-            alert("Order Success! Hum aapse jald hi contact karenge. ✅");
-            location.reload();
-        } catch(e) {
-            alert("Kuch galti hui: " + e.message);
-            btn.disabled = false;
-        }
+        if(!n || !ph || !ad) return alert("Details bhariye!");
+        
+        await addDoc(collection(db, "orders"), {
+            productName: currentP.name, price: currentP.price,
+            customerName: n, customerPhone: ph, address: ad,
+            status: "Pending", orderTime: serverTimestamp()
+        });
+        alert("Order Success! ✅");
+        location.reload();
     };
 
-    fetchProducts();
+    load();
 </script>
 </body>
 </html>

@@ -11,50 +11,63 @@
             --primary: #000000; 
             --accent: #ffff00; /* Yellow */
             --white: #ffffff; 
-            --bg: #121212; 
+            --bg: #0a0a0a; 
         }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
         body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding-bottom: 70px; color: var(--white); }
 
-        /* Header Fix */
+        /* Header with Logo & Trust Tagline */
         header { 
             background: var(--primary); 
-            padding: 15px; 
+            padding: 15px 10px; 
             text-align: center; 
             border-bottom: 2px solid var(--accent);
             position: sticky; top: 0; z-index: 1000;
         }
+        .logo-container { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+        .logo-row { display: flex; align-items: center; gap: 10px; }
+        .logo-img { width: 40px; height: 40px; border-radius: 5px; border: 1.5px solid var(--white); object-fit: cover; }
         .brand { 
             font-family: 'Montserrat', sans-serif; 
-            font-size: 24px; 
+            font-size: 28px; 
             font-weight: 900; 
             color: var(--accent); 
             font-style: italic;
+            letter-spacing: 1px;
+        }
+        .trust-tagline {
+            font-size: 10px;
+            color: var(--accent);
+            font-weight: 700;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
         /* Product Grid & Card Styling */
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px; }
         
         .p-card { 
-            background: #1e1e1e; 
+            background: #181818; 
             padding: 10px; 
             border-radius: 12px; 
-            /* Black & White Border Fix */
-            border: 1.5px solid var(--white); 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            border: 1.5px solid var(--white); /* White border on black */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.8);
             cursor: pointer;
             transition: 0.3s;
         }
         .p-card img { 
             width: 100%; 
-            height: 140px; 
+            height: 150px; 
             object-fit: contain; 
             border-radius: 8px;
-            background: #252525;
+            background: #222;
             padding: 5px;
+            border-bottom: 1px solid #333;
         }
         
-        /* Yellow Text Styling */
         .p-name { 
             font-size: 13px; 
             font-weight: 600; 
@@ -65,13 +78,13 @@
             text-transform: uppercase;
         }
         .p-price { 
-            font-size: 17px; 
+            font-size: 18px; 
             font-weight: 800; 
             color: var(--white); 
             margin: 5px 0;
         }
 
-        /* Detail & Checkout Views */
+        /* Full View Windows (Detail & Checkout) */
         .full-view { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: var(--bg); z-index: 2000; display: none; overflow-y: auto; 
@@ -83,29 +96,30 @@
         .view-header span { color: var(--accent); font-weight: 700; margin-left: 15px; }
 
         .det-content { padding: 20px; text-align: center; }
-        .det-img { width: 100%; max-height: 300px; object-fit: contain; border-radius: 10px; margin-bottom: 20px; }
+        .det-img { width: 100%; max-height: 350px; object-fit: contain; border-radius: 15px; border: 1px solid #333; margin-bottom: 20px; }
 
-        /* Forms & Buttons */
+        /* Input Fields */
         .input-group { margin-bottom: 15px; text-align: left; }
-        .input-group label { display: block; font-size: 12px; color: var(--accent); margin-bottom: 5px; font-weight: 600; }
+        .input-group label { display: block; font-size: 11px; color: var(--accent); margin-bottom: 5px; font-weight: 800; }
         .input-group input, .input-group textarea { 
-            width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #444; 
-            background: #222; color: white; font-family: inherit;
+            width: 100%; padding: 14px; border-radius: 10px; border: 1px solid #444; 
+            background: #1a1a1a; color: white; font-family: inherit; font-size: 14px;
         }
 
-        .btn-box { position: fixed; bottom: 0; width: 100%; display: flex; height: 55px; }
+        /* Fixed Buttons */
+        .btn-box { position: fixed; bottom: 0; width: 100%; display: flex; height: 60px; z-index: 2500; }
         .btn-main { 
-            flex: 1; border: none; font-weight: 800; font-size: 16px; cursor: pointer;
+            flex: 1; border: none; font-weight: 900; font-size: 18px; cursor: pointer;
             background: var(--accent); color: black; transition: 0.3s;
+            text-transform: uppercase;
         }
-        .btn-main:active { background: #d4d400; }
 
         /* Navigation */
         .nav-bar { 
             position: fixed; bottom: 0; width: 100%; background: #000; 
-            display: flex; border-top: 1px solid #333; z-index: 1000; 
+            display: flex; border-top: 2px solid #222; z-index: 1000; 
         }
-        .nav-tab { flex: 1; text-align: center; padding: 12px 0; color: #777; font-size: 10px; font-weight: 600; }
+        .nav-tab { flex: 1; text-align: center; padding: 12px 0; color: #555; font-size: 10px; font-weight: 700; }
         .nav-tab.active { color: var(--accent); }
     </style>
 </head>
@@ -114,7 +128,15 @@
 <!-- Home Section -->
 <div id="home-sec">
     <header>
-        <span class="brand">DKART</span>
+        <div class="logo-container">
+            <div class="logo-row">
+                <img src="Dkart.jpg" class="logo-img" alt="Logo">
+                <span class="brand">DKART</span>
+            </div>
+            <div class="trust-tagline">
+                <i class="fa-solid fa-circle-check"></i> Premium Quality • Trusted Shop
+            </div>
+        </div>
     </header>
     <div class="grid" id="productList"></div>
 </div>
@@ -123,13 +145,16 @@
 <div id="detail-view" class="full-view">
     <div class="view-header">
         <i class="fa-solid fa-arrow-left" onclick="closeAll()" style="font-size: 20px; color: white;"></i>
-        <span>Product View</span>
+        <span>PRODUCT DETAILS</span>
     </div>
     <div class="det-content">
         <img id="det-img" class="det-img">
-        <h2 id="det-name" style="color: var(--accent); margin-bottom: 5px;"></h2>
-        <div id="det-price" style="font-size: 26px; font-weight: 800; margin-bottom: 20px;"></div>
-        <p style="color: #bbb; font-size: 13px;">Special handcrafted quality. Faster delivery in Bangalore & nearby areas.</p>
+        <h2 id="det-name" style="color: var(--accent); margin-bottom: 5px; text-transform: uppercase;"></h2>
+        <div id="det-price" style="font-size: 28px; font-weight: 900; margin-bottom: 20px;"></div>
+        <div style="background: #111; padding: 15px; border-radius: 10px; text-align: left; border: 1px solid #333;">
+            <p style="margin:0; font-size: 13px; color: #aaa;"><i class="fa-solid fa-truck-fast" style="color: var(--accent);"></i> Fast delivery in Bihar & West Bengal.</p>
+            <p style="margin:10px 0 0 0; font-size: 13px; color: #aaa;"><i class="fa-solid fa-rotate-left" style="color: var(--accent);"></i> Easy 7-day return policy.</p>
+        </div>
     </div>
     <div class="btn-box">
         <button class="btn-main" onclick="openCheckout()">BUY NOW</button>
@@ -140,24 +165,24 @@
 <div id="checkout-view" class="full-view">
     <div class="view-header">
         <i class="fa-solid fa-arrow-left" onclick="closeCheckout()" style="font-size: 20px; color: white;"></i>
-        <span>Delivery Details</span>
+        <span>DELIVERY ADDRESS</span>
     </div>
     <div style="padding: 20px;">
         <div class="input-group">
-            <label>FULL NAME</label>
-            <input type="text" id="c-name" placeholder="Enter your name">
+            <label>NAME</label>
+            <input type="text" id="c-name" placeholder="Enter your full name">
         </div>
         <div class="input-group">
             <label>MOBILE NUMBER</label>
-            <input type="tel" id="c-phone" placeholder="Enter 10-digit phone">
+            <input type="tel" id="c-phone" placeholder="Enter 10-digit number">
         </div>
         <div class="input-group">
             <label>FULL ADDRESS</label>
-            <textarea id="c-addr" rows="3" placeholder="Village/City, Pin Code, Landmark"></textarea>
+            <textarea id="c-addr" rows="4" placeholder="House No, Road, City, Pin Code"></textarea>
         </div>
-        <div style="background: #222; padding: 15px; border-radius: 8px; border: 1px dashed var(--accent);">
-            <p style="margin:0; color: var(--accent); font-weight: 800; font-size: 14px;">
-                <i class="fa-solid fa-truck"></i> Cash on Delivery Available
+        <div style="background: #1a1a1a; padding: 15px; border-radius: 10px; border: 1.5px dashed var(--accent); margin-top: 10px;">
+            <p style="margin:0; color: var(--accent); font-weight: 900; font-size: 14px; text-align: center;">
+                <i class="fa-solid fa-hand-holding-dollar"></i> CASH ON DELIVERY AVAILABLE
             </p>
         </div>
     </div>
@@ -167,14 +192,15 @@
 </div>
 
 <nav class="nav-bar">
-    <div class="nav-tab active"><i class="fa-solid fa-house" style="display:block; font-size:18px;"></i>HOME</div>
-    <div class="nav-tab" onclick="alert('Wait for Login feature!')"><i class="fa-solid fa-user" style="display:block; font-size:18px;"></i>ACCOUNT</div>
+    <div class="nav-tab active"><i class="fa-solid fa-house" style="display:block; font-size:18px; margin-bottom:3px;"></i>HOME</div>
+    <div class="nav-tab" onclick="alert('Profile section coming soon!')"><i class="fa-solid fa-user" style="display:block; font-size:18px; margin-bottom:3px;"></i>ACCOUNT</div>
 </nav>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
     import { getFirestore, collection, getDocs, addDoc, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
+    // Firebase Config
     const firebaseConfig = {
       apiKey: "AIzaSyAchWzhIxqmS7G0HPpvuq6WBwcr8pXzFAE",
       authDomain: "dkart-87860.firebaseapp.com",
@@ -186,7 +212,7 @@
     const db = getFirestore(app);
     let currentP = null;
 
-    async function getProducts() {
+    async function fetchProducts() {
         const q = query(collection(db, "products"), orderBy("time", "desc"));
         const snap = await getDocs(q);
         const list = document.getElementById('productList');
@@ -220,7 +246,7 @@
         const ph = document.getElementById('c-phone').value;
         const ad = document.getElementById('c-addr').value;
 
-        if(!n || !ph || !ad) return alert("Bhai, saari details dalo!");
+        if(!n || !ph || !ad) return alert("Pehle apni details sahi se bhariye!");
 
         const btn = document.getElementById('order-btn');
         btn.innerText = "Placing Order...";
@@ -230,21 +256,21 @@
             await addDoc(collection(db, "orders"), {
                 productName: currentP.name,
                 price: currentP.price,
-                customer: n,
-                phone: ph,
+                customerName: n,
+                customerPhone: ph,
                 address: ad,
                 status: "Pending",
-                time: serverTimestamp()
+                orderTime: serverTimestamp()
             });
-            alert("Order Ho Gaya! Admin Panel check karein. ✅");
+            alert("Order Success! Hum aapse jald hi contact karenge. ✅");
             location.reload();
         } catch(e) {
-            alert("Error: " + e.message);
+            alert("Kuch galti hui: " + e.message);
             btn.disabled = false;
         }
     };
 
-    getProducts();
+    fetchProducts();
 </script>
 </body>
 </html>

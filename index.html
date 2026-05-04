@@ -11,49 +11,41 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
         body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding-bottom: 85px; }
 
-        /* Professional Header with Image Logo */
         header { 
             background: var(--card); padding: 10px 15px; position: sticky; top: 0; z-index: 1000; 
             display: flex; justify-content: space-between; align-items: center;
             box-shadow: 0 4px 15px rgba(0,0,0,0.08);
         }
         .logo-box { display: flex; align-items: center; gap: 10px; }
-        .logo-img { width: 45px; height: 45px; border-radius: 10px; object-fit: cover; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        
-        .brand-name { 
-            font-family: 'Montserrat', sans-serif; font-size: 24px; font-weight: 900; 
-            background: linear-gradient(45deg, #1a237e, #3d5afe);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            text-transform: uppercase; line-height: 1;
-        }
-        .trust-tagline {
-            font-size: 9px; font-weight: 700; color: #666; margin-top: 2px;
-            letter-spacing: 0.3px; text-transform: uppercase;
-        }
+        .logo-img { width: 45px; height: 45px; border-radius: 10px; object-fit: cover; }
+        .brand-name { font-family: 'Montserrat', sans-serif; font-size: 24px; font-weight: 900; background: linear-gradient(45deg, #1a237e, #3d5afe); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; line-height: 1; }
+        .trust-tagline { font-size: 9px; font-weight: 700; color: #666; margin-top: 2px; text-transform: uppercase; }
 
-        /* Categories Section */
         .cat-container { padding: 15px; background: white; margin-bottom: 10px; overflow-x: auto; white-space: nowrap; scrollbar-width: none; }
-        .cat-container::-webkit-scrollbar { display: none; }
-        .cat-card { display: inline-block; text-align: center; margin-right: 20px; vertical-align: top; cursor: pointer; }
+        .cat-card { display: inline-block; text-align: center; margin-right: 20px; }
         .cat-icon { width: 50px; height: 50px; background: #f0f2f5; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 18px; color: var(--primary); margin-bottom: 5px; }
-        .cat-card span { font-size: 11px; font-weight: 600; color: #444; }
-
-        /* Product Grid */
+        
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px; }
         .product-card { background: var(--card); border-radius: 20px; overflow: hidden; border: 1px solid #eee; position: relative; }
-        .img-box { height: 150px; padding: 15px; display: flex; align-items: center; justify-content: center; background: #fff; }
+        .wish-btn { position: absolute; top: 10px; right: 10px; background: rgba(255,255,255,0.8); border: none; border-radius: 50%; width: 30px; height: 30px; color: #ff1744; z-index: 5; }
+        .img-box { height: 140px; padding: 15px; display: flex; align-items: center; justify-content: center; background: #fff; }
         .img-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
         .p-info { padding: 12px; }
         .p-title { font-size: 13px; font-weight: 600; height: 38px; overflow: hidden; color: #333; }
         .p-price { font-size: 17px; font-weight: 800; color: var(--primary); margin: 5px 0; }
-        .btn-buy { background: var(--primary); color: #fff; border: none; padding: 12px; border-radius: 12px; font-weight: 700; width: 100%; cursor: pointer; }
+        .btn-buy { background: var(--primary); color: #fff; border: none; padding: 10px; border-radius: 10px; font-weight: 700; width: 100%; cursor: pointer; }
 
-        /* Profile & 3-Line Address Form */
+        /* Profile Style */
+        .profile-header { background: var(--primary); color: white; padding: 30px 20px; border-radius: 0 0 30px 30px; text-align: center; }
+        .menu-list { background: white; margin: -20px 15px 15px; border-radius: 20px; padding: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .menu-item { display: flex; align-items: center; padding: 15px; border-bottom: 1px solid #f5f5f5; color: #333; text-decoration: none; font-weight: 600; cursor: pointer; }
+        .menu-item i { width: 35px; font-size: 18px; color: var(--primary); }
+        .menu-item:last-child { border: none; color: #ff1744; }
+
         .form-box { background: white; padding: 25px; border-radius: 25px; margin: 15px; border: 1px solid #eee; }
         .form-label { font-size: 11px; font-weight: 800; color: #888; margin-bottom: 5px; display: block; text-transform: uppercase; }
-        input, textarea { width: 100%; padding: 13px; border: 1.5px solid #eee; border-radius: 12px; margin-bottom: 12px; font-family: inherit; background: #fafafa; }
+        input, textarea { width: 100%; padding: 13px; border: 1.5px solid #eee; border-radius: 12px; margin-bottom: 12px; font-family: inherit; }
 
-        /* Navigation */
         .nav-bar { position: fixed; bottom: 0; width: 100%; background: #fff; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #eee; box-shadow: 0 -4px 15px rgba(0,0,0,0.05); }
         .nav-tab { text-align: center; color: #999; font-size: 11px; font-weight: 600; flex: 1; }
         .nav-tab.active { color: var(--primary); }
@@ -73,10 +65,10 @@
             <div class="trust-tagline">Quality • Trust • Fast Delivery</div>
         </div>
     </div>
-    <div style="font-size: 20px; color: var(--primary);"><i class="fa-solid fa-magnifying-glass"></i></div>
+    <div style="font-size: 20px; color: var(--primary);"><i class="fa-solid fa-cart-shopping"></i></div>
 </header>
 
-<!-- Home Section -->
+<!-- Home -->
 <div id="home-sec" class="section active">
     <div class="cat-container">
         <div class="cat-card" onclick="filterItems('All')"><div class="cat-icon"><i class="fa-solid fa-house"></i></div><span>All</span></div>
@@ -88,40 +80,35 @@
     <div class="grid" id="productList"></div>
 </div>
 
-<!-- Profile Section -->
+<!-- Profile / Dashboard -->
 <div id="profile-sec" class="section">
-    <div class="form-box">
-        <div id="login-form">
-            <h2 style="font-weight: 800; margin-bottom: 20px;">Customer Login</h2>
-            <span class="form-label">Full Name</span>
-            <input type="text" id="uName" placeholder="Enter your name">
-            <span class="form-label">Phone Number</span>
-            <input type="tel" id="uPhone" placeholder="Mobile number">
-            <span class="form-label">Village / House No / Area</span>
-            <textarea id="uAddr" rows="2" placeholder="Street / Colony / Landmark"></textarea>
-            <span class="form-label">State</span>
-            <input type="text" id="uState" placeholder="State name">
-            <span class="form-label">Pincode</span>
-            <input type="number" id="uPin" placeholder="6 Digit Pincode">
-            <button class="btn-buy" onclick="saveProfile()">Save Profile</button>
-        </div>
+    <div id="login-form" class="form-box" style="display:none;">
+        <h2 style="font-weight: 800;">Setup Profile</h2>
+        <span class="form-label">Full Name</span><input type="text" id="uName">
+        <span class="form-label">Phone</span><input type="tel" id="uPhone">
+        <span class="form-label">Address</span><textarea id="uAddr" rows="2"></textarea>
+        <span class="form-label">State</span><input type="text" id="uState">
+        <span class="form-label">Pincode</span><input type="number" id="uPin">
+        <button class="btn-buy" onclick="saveProfile()">Start Shopping</button>
+    </div>
 
-        <div id="profile-display" style="display:none; text-align:center;">
-            <div style="background:var(--primary); color:white; width:65px; height:65px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 15px; font-size:26px;"><i class="fa-solid fa-user-check"></i></div>
-            <h3 id="dName" style="margin:0; font-weight:800;"></h3>
-            <p id="dPhone" style="color:#666; margin:5px 0 20px; font-weight:600;"></p>
-            <div style="text-align:left; background:#f9f9f9; padding:18px; border-radius:18px; border:1px solid #eee;">
-                <small style="color:#999; font-weight:800; font-size:10px;">VERIFIED DELIVERY ADDRESS</small>
-                <p id="dFullAddr" style="margin:8px 0 0; font-size:14px; line-height:1.6; color:#333; font-weight:500; white-space: pre-line;"></p>
-            </div>
-            <button onclick="logout()" style="margin-top:30px; background:none; border:none; color:#ff1744; font-weight:800; cursor:pointer;">LOGOUT / EDIT</button>
+    <div id="dashboard" style="display:none;">
+        <div class="profile-header">
+            <h2 id="dName" style="margin:0;"></h2>
+            <p id="dPhone" style="opacity:0.8; font-size:14px;"></p>
+        </div>
+        <div class="menu-list">
+            <div class="menu-item" onclick="alert('Coming Soon: My Orders List')"><i class="fa-solid fa-box-open"></i> My Orders</div>
+            <div class="menu-item" onclick="alert('Coming Soon: Wishlist Items')"><i class="fa-solid fa-heart"></i> My Wishlist</div>
+            <div class="menu-item" onclick="editProfile()"><i class="fa-solid fa-user-pen"></i> Edit Profile</div>
+            <div class="menu-item" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</div>
         </div>
     </div>
 </div>
 
 <nav class="nav-bar">
     <div class="nav-tab active" onclick="showPage('home-sec', this)"><i class="fa-solid fa-store"></i>Shop</div>
-    <div class="nav-tab" onclick="showPage('profile-sec', this)"><i class="fa-solid fa-user-check"></i>Profile</div>
+    <div class="nav-tab" onclick="showPage('profile-sec', this)"><i class="fa-solid fa-user-circle"></i>Profile</div>
 </nav>
 
 <script type="module">
@@ -141,13 +128,11 @@
     let allProducts = [];
 
     async function loadData() {
-        try {
-            const q = query(collection(db, "products"), orderBy("time", "desc"));
-            const snap = await getDocs(q);
-            allProducts = snap.docs.map(doc => ({id: doc.id, ...doc.data()}));
-            render(allProducts);
-            checkLoginStatus();
-        } catch(e) { console.error("Data load failed", e); }
+        const q = query(collection(db, "products"), orderBy("time", "desc"));
+        const snap = await getDocs(q);
+        allProducts = snap.docs.map(doc => ({id: doc.id, ...doc.data()}));
+        render(allProducts);
+        checkLoginStatus();
     }
 
     function render(data) {
@@ -156,6 +141,7 @@
         data.forEach(p => {
             list.innerHTML += `
                 <div class="product-card">
+                    <button class="wish-btn" onclick="alert('Added to Wishlist!')"><i class="fa-regular fa-heart"></i></button>
                     <div class="img-box"><img src="${p.images[0] || 'Dkart.jpg'}"></div>
                     <div class="p-info">
                         <div class="p-title">${p.name}</div>
@@ -166,59 +152,53 @@
         });
     }
 
-    window.filterItems = (cat) => {
-        if(cat === 'All') render(allProducts);
-        else render(allProducts.filter(p => p.category === cat));
-    }
-
     window.doOrder = async (name, price) => {
         const user = JSON.parse(localStorage.getItem('dk_user'));
-        if(!user) { showPage('profile-sec', document.querySelector('.nav-tab:last-child')); return; }
-
-        if(confirm(`Confirm Order: ${name}?`)) {
+        if(!user) { alert("Pehle Profile setup karein!"); showPage('profile-sec', document.querySelector('.nav-tab:last-child')); return; }
+        if(confirm(`Order ${name}?`)) {
             await addDoc(collection(db, "orders"), {
                 customerName: user.name,
                 customerPhone: user.phone,
                 customerAddress: `${user.address}, ${user.state} - ${user.pin}`,
-                productName: name,
-                productPrice: price,
-                status: "Pending",
-                orderDate: serverTimestamp()
+                productName: name, productPrice: price, status: "Pending", orderDate: serverTimestamp()
             });
             alert("Order Success! ✅");
         }
     }
 
     window.saveProfile = () => {
-        const name = document.getElementById('uName').value;
-        const phone = document.getElementById('uPhone').value;
-        const address = document.getElementById('uAddr').value;
-        const state = document.getElementById('uState').value;
-        const pin = document.getElementById('uPin').value;
-
-        if(!name || !phone || !address || !state || !pin) return alert("All fields required!");
-        localStorage.setItem('dk_user', JSON.stringify({name, phone, address, state, pin}));
+        const userData = {
+            name: document.getElementById('uName').value,
+            phone: document.getElementById('uPhone').value,
+            address: document.getElementById('uAddr').value,
+            state: document.getElementById('uState').value,
+            pin: document.getElementById('uPin').value
+        };
+        if(!userData.name || !userData.phone) return alert("Details bhariye!");
+        localStorage.setItem('dk_user', JSON.stringify(userData));
         checkLoginStatus();
     }
 
     function checkLoginStatus() {
         const user = JSON.parse(localStorage.getItem('dk_user'));
         document.getElementById('login-form').style.display = user ? 'none' : 'block';
-        document.getElementById('profile-display').style.display = user ? 'block' : 'none';
+        document.getElementById('dashboard').style.display = user ? 'block' : 'none';
         if(user) {
             document.getElementById('dName').innerText = user.name;
             document.getElementById('dPhone').innerText = "+91 " + user.phone;
-            document.getElementById('dFullAddr').innerText = `${user.address}\n${user.state}\nPIN: ${user.pin}`;
         }
     }
 
-    window.logout = () => { localStorage.removeItem('dk_user'); checkLoginStatus(); }
-
+    window.editProfile = () => { localStorage.removeItem('dk_user'); checkLoginStatus(); }
+    window.logout = () => { if(confirm("Logout karein?")) { localStorage.removeItem('dk_user'); checkLoginStatus(); } }
     window.showPage = (id, el) => {
         document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
         document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-        el.classList.add('active');
+        document.getElementById(id).classList.add('active'); el.classList.add('active');
+    }
+    window.filterItems = (cat) => {
+        if(cat === 'All') render(allProducts);
+        else render(allProducts.filter(p => p.category === cat));
     }
 
     loadData();

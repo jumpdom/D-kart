@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-    <link rel="icon" type="image/jpeg" href="IMG_6363.jpeg">
-    <link rel="apple-touch-icon" href="IMG_6363.jpeg">
-    <meta name="google-site-verification" content="_ToBZaA3n7_PNemAtowaNKTqfJDFClUX-6VWxg7oo3w" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Dkart | Premium Shop</title>
@@ -11,113 +8,145 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         :root { --primary: #000000; --accent: #ffff00; --white: #ffffff; --bg: #0a0a0a; }
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding-bottom: 80px; color: var(--white); overflow-x: hidden; }
-        header { background: var(--primary); padding: 15px 10px; border-bottom: 2px solid var(--accent); position: sticky; top: 0; z-index: 1000; }
-        .logo-row { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 5px; }
-        .logo-img { width: 40px; height: 40px; border-radius: 5px; border: 1.5px solid var(--white); }
+        
+        header { background: var(--primary); padding: 15px 10px; border-bottom: 2px solid var(--accent); position: sticky; top: 0; z-index: 1000; text-align: center; }
         .brand { font-family: 'Montserrat', sans-serif; font-size: 26px; font-weight: 900; color: var(--accent); font-style: italic; }
-        .trust-text { font-size: 10px; color: var(--accent); text-align: center; font-weight: 700; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px; }
-        .header-action-row { display: flex; align-items: center; gap: 10px; padding: 0 5px; }
-        .search-box { flex: 1; background: #1a1a1a; border-radius: 8px; display: flex; align-items: center; padding: 10px 15px; border: 1px solid #333; }
-        .search-box input { background: transparent; border: none; color: white; width: 100%; margin-left: 10px; font-size: 14px; }
-        .help-btn { background: #25D366; color: white; width: 42px; height: 42px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 22px; text-decoration: none; border: 1px solid white; }
-        .cat-row { display: flex; overflow-x: auto; padding: 15px 10px; gap: 15px; scrollbar-width: none; background: #111; }
-        .cat-item { min-width: 70px; text-align: center; cursor: pointer; transition: 0.3s; }
-        .cat-item:active { transform: scale(0.9); }
-        .cat-icon { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; font-size: 20px; color: #000; border: 2px solid #fff; }
-        .cat-item span { font-size: 10px; font-weight: 700; color: #fff; }
+        
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px; }
-        .p-card { background: #151515; padding: 10px; border-radius: 12px; border: 1.5px solid var(--white); position: relative; }
-        .p-card img { width: 100%; height: 140px; object-fit: contain; border-radius: 8px; background: #222; }
-        .p-name { font-size: 12px; font-weight: 600; color: var(--accent); margin-top: 10px; height: 35px; overflow: hidden; text-transform: uppercase; }
-        .p-price { font-size: 17px; font-weight: 800; color: var(--white); margin: 5px 0; }
-        .size-header { font-size: 14px; font-weight: 700; margin: 15px 0 8px; color: #fff; text-align: left; }
-        .size-wrap { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 15px; }
-        .size-box { border: 1px solid #444; padding: 8px 15px; border-radius: 6px; font-size: 12px; background: #1a1a1a; color: #fff; font-weight: 600; cursor: pointer; }
-        .size-box.selected { background: var(--accent) !important; color: #000 !important; border-color: #fff !important; }
-        .description-box { background: #111; padding: 12px; border-radius: 8px; border: 1px solid #222; font-size: 13px; color: #ccc; line-height: 1.6; text-align: left; margin-bottom: 80px; white-space: pre-line; }
+        .p-card { background: #151515; padding: 10px; border-radius: 12px; border: 1.5px solid var(--white); }
+        .p-card img { width: 100%; height: 120px; object-fit: contain; }
+
         .full-view { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 3000; display: none; overflow-y: auto; }
-        .view-header { padding: 15px; display: flex; align-items: center; border-bottom: 1px solid #333; background: var(--primary); position: sticky; top: 0; z-index: 10; }
-        .view-header span { color: var(--accent); font-weight: 700; margin-left: 15px; text-transform: uppercase; }
-        .btn-box { position: fixed; bottom: 0; width: 100%; height: 60px; z-index: 3500; }
-        .btn-main { width: 100%; height: 100%; border: none; font-weight: 900; background: var(--accent); color: #000; font-size: 16px; text-transform: uppercase; cursor: pointer; }
-        .order-card { background: #151515; margin: 12px; padding: 15px; border-radius: 12px; border: 1px solid #333; }
-        .track-bar { height: 6px; background: #333; border-radius: 3px; margin: 15px 0; overflow: hidden; }
-        .track-progress { height: 100%; background: var(--accent); transition: 0.5s; }
-        .status-badge { font-size: 10px; background: var(--accent); color: #000; padding: 3px 8px; border-radius: 4px; font-weight: 800; text-transform: uppercase; }
+        .view-header { padding: 15px; display: flex; align-items: center; border-bottom: 1px solid #333; background: var(--primary); position: sticky; top: 0; }
+        .view-header span { color: var(--accent); font-weight: 700; margin-left: 15px; }
+
+        .profile-card { background: #151515; padding: 25px; border-radius: 15px; border: 1px solid var(--accent); text-align: center; margin: 20px; }
+        .profile-img-big { width: 90px; height: 90px; border-radius: 50%; border: 2px solid var(--accent); object-fit: cover; }
+        
+        .menu-item { background: #151515; margin: 10px 20px; padding: 15px; border-radius: 10px; border: 1px solid #333; display: flex; justify-content: space-between; align-items: center; }
+        .badge { background: var(--accent); color: #000; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 800; }
+
         .nav-bar { position: fixed; bottom: 0; width: 100%; background: #000; display: flex; border-top: 2px solid var(--accent); z-index: 2000; height: 65px; align-items: center; }
-        .nav-tab { flex: 1; text-align: center; color: #777; cursor: pointer; font-size: 10px; font-weight: 700; }
+        .nav-tab { flex: 1; text-align: center; color: #777; font-size: 10px; font-weight: 700; cursor: pointer; }
         .nav-tab.active { color: var(--accent); }
         .nav-tab i { font-size: 20px; display: block; margin-bottom: 3px; }
+
+        input { width: 100%; padding: 15px; margin-bottom: 10px; background: #111; color: white; border: 1px solid #333; border-radius: 8px; }
+        .btn-main { width: 100%; padding: 15px; background: var(--accent); color: #000; font-weight: 900; border: none; border-radius: 8px; cursor: pointer; }
     </style>
 </head>
 <body>
 
 <div id="home-sec">
-    <header>
-        <div class="logo-row">
-            <img src="IMG_6363.jpeg" class="logo-img" onerror="this.src='Dkart.jpg'">
-            <span class="brand">DKART</span>
+    <header><span class="brand">DKART</span></header>
+    <div class="grid" id="productList">
+        <p style="text-align:center; grid-column: 1/3;">Loading Products...</p>
+    </div>
+</div>
+
+<!-- Profile Section -->
+<div id="profile-view" class="full-view">
+    <div class="view-header"><i class="fa-solid fa-arrow-left" onclick="showTab('home')"></i><span>My Profile</span></div>
+    
+    <div id="profile-main-ui">
+        <div class="profile-card">
+            <img id="u-img" src="https://via.placeholder.com/90" class="profile-img-big">
+            <h3 id="u-name" style="margin:10px 0 5px; color:var(--accent);">Guest</h3>
+            <p id="u-phone" style="font-size:12px; color:#888;"></p>
+            <button onclick="document.getElementById('profile-setup-form').style.display='block'; document.getElementById('profile-main-ui').style.display='none';" style="background:none; border:1px solid #444; color:#ccc; padding:5px 10px; border-radius:5px; font-size:10px;">Edit Profile</button>
         </div>
-        <div class="trust-text">100% Trusted • Fast Delivery</div>
-        <div class="header-action-row">
-            <div class="search-box">
-                <i class="fa-solid fa-magnifying-glass" style="color:var(--accent)"></i>
-                <input type="text" id="searchInput" placeholder="Search products...">
-            </div>
-            <a href="https://wa.me/918521694137" class="help-btn"><i class="fa-brands fa-whatsapp"></i></a>
+
+        <div class="menu-item"><span>❤️ My Wishlist</span><span class="badge">0</span></div>
+        <div class="menu-item" onclick="verifyMe()"><span>📱 Mobile Verification</span><span id="v-status" style="color:red; font-size:11px;">Not Verified</span></div>
+        
+        <div style="text-align:center; margin-top:30px; font-size:12px; color:#555;">
+            <p onclick="alert('Terms applied')">Terms & Conditions</p>
+            <p onclick="alert('Demo shop')">Disclaimer</p>
+            <button onclick="localStorage.removeItem('dk_user'); location.reload();" style="color:red; background:none; border:none; font-weight:bold; cursor:pointer;">LOGOUT</button>
         </div>
-    </header>
-    <div class="cat-row">
-        <div class="cat-item" id="cat-all"><div class="cat-icon" style="background: #FFD700;"><i class="fa-solid fa-border-all"></i></div><span>All</span></div>
-        <div class="cat-item" id="cat-mobile"><div class="cat-icon" style="background: #FF4757;"><i class="fa-solid fa-mobile"></i></div><span>Mobile</span></div>
-        <div class="cat-item" id="cat-fashion"><div class="cat-icon" style="background: #2ED573;"><i class="fa-solid fa-shirt"></i></div><span>Fashion</span></div>
     </div>
-    <div class="grid" id="productList"></div>
-</div>
 
-<!-- Details View -->
-<div id="detail-view" class="full-view">
-    <div class="view-header"><i class="fa-solid fa-arrow-left" id="back-detail"></i><span>Details</span></div>
-    <div style="padding: 15px; text-align: center;">
-        <img id="det-img" style="width: 100%; border-radius: 12px; background: #111;">
-        <h2 id="det-name" style="color: var(--accent); margin-top: 15px; text-align: left;"></h2>
-        <div id="det-price" style="font-size: 26px; font-weight: 800; text-align: left;"></div>
-        <div class="size-header">Available Sizes</div>
-        <div id="det-sizes" class="size-wrap"></div>
-        <div class="size-header">Product Details</div>
-        <div id="det-desc" class="description-box"></div>
+    <!-- Setup Form -->
+    <div id="profile-setup-form" style="display:none; padding:20px;">
+        <h2 style="color:var(--accent);">Setup Profile</h2>
+        <input type="text" id="in-name" placeholder="Full Name">
+        <input type="tel" id="in-phone" placeholder="Phone Number">
+        <input type="text" id="in-addr" placeholder="Address">
+        <p style="font-size:12px;">Photo Select Karein:</p>
+        <input type="file" id="in-photo" accept="image/*">
+        <button class="btn-main" onclick="saveMyProfile()">SAVE PROFILE</button>
     </div>
-    <div class="btn-box"><button class="btn-main" id="buy-now-btn">Buy Now (COD)</button></div>
 </div>
 
-<!-- Checkout View -->
-<div id="checkout-view" class="full-view">
-    <div class="view-header"><i class="fa-solid fa-arrow-left" id="back-checkout"></i><span>Checkout</span></div>
-    <div style="padding: 20px;">
-        <input type="text" id="c-name" placeholder="Full Name" style="width:100%; padding:15px; margin-bottom:10px; background:#111; color:white; border:1px solid #333; border-radius:8px;">
-        <input type="tel" id="c-phone" placeholder="Mobile Number" style="width:100%; padding:15px; margin-bottom:10px; background:#111; color:white; border:1px solid #333; border-radius:8px;">
-        <textarea id="c-addr" placeholder="Full Address" style="width:100%; padding:15px; background:#111; color:white; border:1px solid #333; border-radius:8px;" rows="3"></textarea>
-    </div>
-    <div class="btn-box"><button class="btn-main" id="order-btn">Confirm Order</button></div>
-</div>
-
-<!-- My Orders View -->
-<div id="orders-view" class="full-view">
-    <div class="view-header"><i class="fa-solid fa-arrow-left" id="back-orders"></i><span>My Orders</span></div>
-    <div id="orderListContainer" style="padding-bottom: 20px;"></div>
-</div>
-
-<!-- Bottom Navigation -->
+<!-- Navigation -->
 <nav class="nav-bar">
-    <div class="nav-tab active" id="nav-home"><i class="fa-solid fa-house"></i><span>Home</span></div>
-    <div class="nav-tab" id="nav-orders-tab"><i class="fa-solid fa-bag-shopping"></i><span>Orders</span></div>
+    <div class="nav-tab active" onclick="showTab('home')"><i class="fa-solid fa-house"></i><span>Home</span></div>
+    <div class="nav-tab" onclick="showTab('orders')"><i class="fa-solid fa-bag-shopping"></i><span>Orders</span></div>
+    <div class="nav-tab" onclick="showTab('profile')"><i class="fa-solid fa-user"></i><span>Profile</span></div>
 </nav>
 
+<script>
+    // Global Functions (Taaki button pe click kaam kare)
+    window.showTab = function(tab) {
+        document.getElementById('profile-view').style.display = (tab === 'profile') ? 'block' : 'none';
+        // Add more logic for orders tab here if needed
+    }
+
+    window.saveMyProfile = function() {
+        const name = document.getElementById('in-name').value;
+        const phone = document.getElementById('in-phone').value;
+        const addr = document.getElementById('in-addr').value;
+        const photoFile = document.getElementById('in-photo').files[0];
+
+        if(!name || !phone) return alert("Details bhariye!");
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const user = { name, phone, addr, photo: e.target.result, verified: false };
+            localStorage.setItem('dk_user', JSON.stringify(user));
+            location.reload(); // Data save hone ke baad reload
+        };
+
+        if(photoFile) reader.readAsDataURL(photoFile);
+        else {
+            const user = { name, phone, addr, photo: 'https://via.placeholder.com/90', verified: false };
+            localStorage.setItem('dk_user', JSON.stringify(user));
+            location.reload();
+        }
+    }
+
+    window.verifyMe = function() {
+        const user = JSON.parse(localStorage.getItem('dk_user'));
+        if(!user) return alert("Pehle profile banayein!");
+        let code = prompt("OTP Dalein (1234):");
+        if(code === "1234") {
+            user.verified = true;
+            localStorage.setItem('dk_user', JSON.stringify(user));
+            location.reload();
+        }
+    }
+
+    // Check User on Load
+    window.onload = function() {
+        const user = JSON.parse(localStorage.getItem('dk_user'));
+        if(user) {
+            document.getElementById('u-name').innerText = user.name;
+            document.getElementById('u-phone').innerText = "+91 " + user.phone;
+            document.getElementById('u-img').src = user.photo;
+            if(user.verified) {
+                document.getElementById('v-status').innerText = "✅ Verified";
+                document.getElementById('v-status').style.color = "green";
+            }
+        }
+    };
+</script>
+
 <script type="module">
+    // Firebase Logic (Products dikhane ke liye)
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
-    import { getFirestore, collection, getDocs, getDoc, addDoc, query, orderBy, serverTimestamp, doc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyAchWzhIxqmS7G0HPpvuq6WBwcr8pXzFAE",
@@ -128,183 +157,24 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-    let allP = [], currentP = null, selectedSize = null;
 
-    // Load Data
-    async function load() {
-        try {
-            const q = query(collection(db, "products"), orderBy("time", "desc"));
-            const snap = await getDocs(q);
-            allP = snap.docs.map(d => ({id: d.id, ...d.data()}));
-            render(allP);
-        } catch(e) {
-            console.error("Load Error:", e);
-        }
-    }
-
-    // Render Grid
-    function render(data) {
+    async function getProducts() {
+        const snap = await getDocs(collection(db, "products"));
         const list = document.getElementById('productList');
         list.innerHTML = "";
-        if(data.length === 0) {
-            list.innerHTML = `<div style="grid-column:1/3; text-align:center; padding:50px; color:#666;">No products found.</div>`;
-            return;
-        }
-        data.forEach(p => {
-            const card = document.createElement('div');
-            card.className = 'p-card';
-            card.innerHTML = `
-                <img src="${p.images && p.images[0] ? p.images[0] : 'Dkart.jpg'}" onerror="this.src='Dkart.jpg'">
-                <div class="p-name">${p.name}</div>
-                <div class="p-price">₹${p.price}</div>
+        snap.forEach(doc => {
+            const p = doc.data();
+            list.innerHTML += `
+                <div class="p-card">
+                    <img src="${p.images ? p.images[0] : 'https://via.placeholder.com/120'}">
+                    <div style="color:yellow; font-size:12px; margin-top:5px;">${p.name}</div>
+                    <div style="font-weight:bold;">₹${p.price}</div>
+                </div>
             `;
-            card.onclick = () => showDetail(p);
-            list.appendChild(card);
         });
     }
-
-    // --- Search Logic ---
-    document.getElementById('searchInput').oninput = (e) => {
-        const term = e.target.value.toLowerCase();
-        const filtered = allP.filter(p => p.name.toLowerCase().includes(term));
-        render(filtered);
-    };
-
-    // --- Category Logic ---
-    document.getElementById('cat-all').onclick = () => render(allP);
-    
-    document.getElementById('cat-mobile').onclick = () => {
-        const filtered = allP.filter(p => p.category && p.category.toLowerCase() === 'mobile');
-        render(filtered);
-    };
-    
-    document.getElementById('cat-fashion').onclick = () => {
-        const filtered = allP.filter(p => p.category && p.category.toLowerCase() === 'fashion');
-        render(filtered);
-    };
-
-    // Show Detail View
-    function showDetail(p) {
-        currentP = p;
-        selectedSize = null;
-        document.getElementById('det-img').src = p.images && p.images[0] ? p.images[0] : 'Dkart.jpg';
-        document.getElementById('det-name').innerText = p.name;
-        document.getElementById('det-price').innerText = "₹" + p.price;
-        document.getElementById('det-desc').innerText = p.desc || "High quality product from Dkart.";
-        
-        const sCont = document.getElementById('det-sizes');
-        sCont.innerHTML = p.sizes && p.sizes.length > 0 
-            ? p.sizes.map(s => `<div class="size-box">${s}</div>`).join('') 
-            : '<span style="color:#666; font-size:12px;">Standard Size</span>';
-        
-        sCont.querySelectorAll('.size-box').forEach(box => {
-            box.onclick = () => {
-                sCont.querySelectorAll('.size-box').forEach(b => b.classList.remove('selected'));
-                box.classList.add('selected');
-                selectedSize = box.innerText;
-            };
-        });
-        document.getElementById('detail-view').style.display = 'block';
-    }
-
-    // Navigation Controls
-    document.getElementById('back-detail').onclick = () => document.getElementById('detail-view').style.display = 'none';
-    document.getElementById('buy-now-btn').onclick = () => document.getElementById('checkout-view').style.display = 'block';
-    document.getElementById('back-checkout').onclick = () => document.getElementById('checkout-view').style.display = 'none';
-
-    document.getElementById('nav-home').onclick = () => {
-        document.querySelectorAll('.full-view').forEach(v => v.style.display = 'none');
-        document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-        document.getElementById('nav-home').classList.add('active');
-        render(allP);
-    };
-
-    // Orders Tracking
-    document.getElementById('nav-orders-tab').onclick = async () => {
-        document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-        document.getElementById('nav-orders-tab').classList.add('active');
-        
-        const localOrders = JSON.parse(localStorage.getItem('dk_orders')) || [];
-        const cont = document.getElementById('orderListContainer');
-        
-        if(localOrders.length === 0) {
-            cont.innerHTML = "<p style='text-align:center;padding:50px; color:#666;'>No orders yet.</p>";
-        } else {
-            cont.innerHTML = "<p style='text-align:center;padding:20px;'>Updating status...</p>";
-            let html = "";
-            for (let localO of localOrders) {
-                let status = "Pending", progress = "15%";
-                if(localO.id) {
-                    try {
-                        const d = await getDoc(doc(db, "orders", localO.id));
-                        if(d.exists()) {
-                            status = d.data().status || "Pending";
-                            if(status === "Packed") progress = "40%";
-                            if(status === "Shipped") progress = "70%";
-                            if(status === "Delivered") progress = "100%";
-                        }
-                    } catch(e) {}
-                }
-                html += `
-                    <div class="order-card">
-                        <div style="display:flex; justify-content:space-between; align-items:start;">
-                            <div>
-                                <b style="color:var(--accent); font-size:14px;">${localO.name}</b>
-                                <div style="font-size:11px; color:#888; margin-top:4px;">Size: ${localO.size} | ₹${localO.price}</div>
-                            </div>
-                            <span class="status-badge">${status}</span>
-                        </div>
-                        <div class="track-bar"><div class="track-progress" style="width:${progress}"></div></div>
-                    </div>`;
-            }
-            cont.innerHTML = html;
-        }
-        document.getElementById('orders-view').style.display = 'block';
-    };
-
-    document.getElementById('back-orders').onclick = () => {
-        document.getElementById('orders-view').style.display = 'none';
-        document.getElementById('nav-home').click();
-    };
-
-    // Confirm Order Logic
-    document.getElementById('order-btn').onclick = async () => {
-        const name = document.getElementById('c-name').value;
-        const phone = document.getElementById('c-phone').value;
-        const addr = document.getElementById('c-addr').value;
-
-        if (currentP.sizes && currentP.sizes.length > 0 && !selectedSize) return alert("Please select a size!");
-        if (!name || !phone || !addr) return alert("Please fill all details!");
-
-        const btn = document.getElementById('order-btn');
-        btn.innerText = "Processing..."; btn.disabled = true;
-
-        const orderData = {
-            name: currentP.name, 
-            price: currentP.price, 
-            size: selectedSize || "Standard",
-            customer: name, 
-            phone: phone, 
-            address: addr, 
-            status: "Pending", 
-            time: serverTimestamp()
-        };
-
-        try {
-            const docRef = await addDoc(collection(db, "orders"), orderData);
-            let myOrders = JSON.parse(localStorage.getItem('dk_orders')) || [];
-            myOrders.unshift({ ...orderData, id: docRef.id });
-            localStorage.setItem('dk_orders', JSON.stringify(myOrders));
-            alert("Order Placed Successfully! ✅");
-            location.reload();
-        } catch (e) {
-            alert("Error placing order. Try again."); 
-            btn.innerText = "Confirm Order"; 
-            btn.disabled = false;
-        }
-    };
-
-    load();
+    getProducts();
 </script>
+
 </body>
 </html>

@@ -3,25 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dkart | Compact Professional</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <title>Dkart | Stylish Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Montserrat:wght@800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        :root { --primary: #1a237e; --bg: #f8f9fa; --card: #ffffff; }
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); margin: 0; padding-bottom: 80px; }
+        :root { 
+            --primary: #1a237e; 
+            --accent: #ff3d00;
+            --bg: #f4f6f8; 
+            --card: #ffffff; 
+        }
 
-        /* Header Fix */
-        header { background: var(--card); padding: 12px 15px; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
-        .logo-section { display: flex; align-items: center; gap: 8px; }
-        .brand-logo { height: 30px; width: 30px; border-radius: 6px; }
-        .brand-name { font-family: 'Montserrat', sans-serif; font-size: 19px; font-weight: 700; color: var(--primary); }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding-bottom: 80px; }
+
+        /* Stylish Header */
+        header { 
+            background: var(--card); 
+            padding: 15px; 
+            position: sticky; 
+            top: 0; 
+            z-index: 1000; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .logo-section { display: flex; align-items: center; gap: 10px; }
+        .brand-logo { height: 35px; width: 35px; border-radius: 8px; object-fit: cover; border: 2px solid var(--primary); }
+        
+        /* Heading Style */
+        .brand-name { 
+            font-family: 'Montserrat', sans-serif; 
+            font-size: 24px; 
+            font-weight: 800; 
+            letter-spacing: -1px;
+            background: linear-gradient(45deg, #1a237e, #304ffe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+        }
+
+        .header-actions { font-size: 20px; color: #333; display: flex; gap: 15px; }
 
         .search-area { background: var(--card); padding: 5px 15px 15px; }
-        .search-box { background: #f1f3f4; display: flex; align-items: center; padding: 10px; border-radius: 10px; }
-        .search-box input { border: none; background: transparent; width: 100%; margin-left: 8px; font-size: 14px; }
+        .search-box { 
+            background: #f1f3f4; 
+            display: flex; 
+            align-items: center; 
+            padding: 12px; 
+            border-radius: 15px; 
+            border: 1px solid #e0e0e0;
+        }
+        .search-box input { border: none; background: transparent; width: 100%; margin-left: 10px; font-size: 14px; outline: none; }
 
-        /* Compact Category Page */
+        /* Category Mini Cards */
         .section { display: none; }
         .section.active { display: block; }
         
@@ -31,32 +67,63 @@
             gap: 12px; 
             padding: 15px; 
             background: white;
+            margin-bottom: 10px;
         }
-        .cat-card-mini { text-align: center; cursor: pointer; }
+        .cat-card-mini { text-align: center; }
         .cat-circle-mini { 
-            width: 50px; height: 50px; 
-            border-radius: 12px; 
+            width: 55px; height: 55px; 
+            border-radius: 15px; 
             display: flex; align-items: center; justify-content: center; 
-            margin: 0 auto 5px; 
-            color: white; font-size: 18px;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.08);
+            margin: 0 auto 6px; 
+            color: white; font-size: 20px;
+            transition: 0.3s;
         }
-        .cat-card-mini span { font-size: 10px; font-weight: 600; color: #444; display: block; }
+        .cat-card-mini:active .cat-circle-mini { transform: scale(0.9); }
+        .cat-card-mini span { font-size: 11px; font-weight: 600; color: #444; }
 
-        /* Products */
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 10px; }
-        .product-card { background: var(--card); border-radius: 12px; overflow: hidden; border: 1px solid #eee; }
-        .img-box { height: 140px; padding: 10px; display: flex; align-items: center; justify-content: center; }
-        .img-box img { max-width: 100%; max-height: 100%; }
-        .p-info { padding: 10px; }
-        .p-title { font-size: 12px; font-weight: 600; height: 32px; overflow: hidden; margin-bottom: 5px; }
-        .p-price { font-size: 15px; font-weight: 700; color: var(--primary); }
-        .btn-buy { background: var(--primary); color: #fff; border: none; padding: 8px; border-radius: 6px; width: 100%; margin-top: 5px; font-size: 12px; font-weight: 700; }
+        /* Product Cards with Add to Cart */
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px; }
+        .product-card { 
+            background: var(--card); 
+            border-radius: 20px; 
+            overflow: hidden; 
+            border: 1px solid #eee;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+        }
+        .img-box { height: 150px; padding: 12px; background: #fff; display: flex; align-items: center; justify-content: center; position: relative; }
+        .img-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        
+        .p-info { padding: 12px; flex-grow: 1; display: flex; flex-direction: column; }
+        .p-title { font-size: 13px; font-weight: 600; color: #333; height: 38px; overflow: hidden; margin-bottom: 6px; }
+        .p-price { font-size: 16px; font-weight: 800; color: var(--primary); margin-bottom: 10px; }
+        
+        .btn-buy { 
+            background: var(--primary); 
+            color: #fff; border: none; 
+            padding: 10px; border-radius: 12px; 
+            font-weight: 700; font-size: 12px; 
+            cursor: pointer; width: 100%;
+        }
+        .btn-cart { 
+            background: #fff; 
+            color: var(--primary); 
+            border: 1.5px solid var(--primary); 
+            padding: 8px; border-radius: 12px; 
+            font-weight: 700; font-size: 12px; 
+            margin-top: 8px; cursor: pointer; width: 100%;
+        }
 
-        /* Nav Bar */
-        .nav-bar { position: fixed; bottom: 0; width: 100%; background: #fff; display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid #eee; box-shadow: 0 -2px 10px rgba(0,0,0,0.05); }
-        .nav-tab { text-align: center; color: #888; font-size: 10px; font-weight: 600; flex: 1; }
-        .nav-tab i { font-size: 20px; display: block; margin-bottom: 3px; }
+        /* Bottom Nav */
+        .nav-bar { 
+            position: fixed; bottom: 0; width: 100%; 
+            background: #fff; display: flex; 
+            justify-content: space-around; padding: 12px 0; 
+            border-top: 1px solid #eee; box-shadow: 0 -4px 15px rgba(0,0,0,0.05); 
+        }
+        .nav-tab { text-align: center; color: #999; font-size: 11px; font-weight: 600; flex: 1; }
+        .nav-tab i { font-size: 22px; display: block; margin-bottom: 4px; }
         .nav-tab.active { color: var(--primary); }
     </style>
 </head>
@@ -67,41 +134,50 @@
         <img src="Dkart.jpg" alt="Logo" class="brand-logo">
         <span class="brand-name">Dkart</span>
     </div>
-    <div style="font-size: 18px; color: #444;"><i class="fa-regular fa-heart" onclick="alert('Wishlist Added!')"></i></div>
+    <div class="header-actions">
+        <i class="fa-regular fa-heart" onclick="alert('Added to Wishlist!')"></i>
+        <i class="fa-solid fa-cart-shopping" onclick="showPage('order-sec', document.getElementById('orderTab'))"></i>
+    </div>
 </header>
 
 <div class="search-area">
     <div class="search-box">
         <i class="fa-solid fa-magnifying-glass" style="color:#999;"></i>
-        <input type="text" id="searchInput" placeholder="Search product...">
+        <input type="text" id="searchInput" placeholder="Search brands, products...">
     </div>
 </div>
 
-<!-- Home -->
+<!-- Home Section -->
 <div id="home-sec" class="section active">
     <div class="grid" id="productList"></div>
 </div>
 
-<!-- Compact Categories -->
+<!-- Categories Section -->
 <div id="cat-page" class="section">
-    <div style="padding: 15px; background: white; font-weight: 700; font-size: 14px; border-bottom: 1px solid #eee;">Categories</div>
+    <div style="padding: 15px; font-weight: 800; font-size: 16px;">Top Categories</div>
     <div class="cat-grid-compact">
-        <div class="cat-card-mini" onclick="filterCat('Men')"><div class="cat-circle-mini" style="background:#2196f3;"><i class="fa-solid fa-person"></i></div><span>Men</span></div>
-        <div class="cat-card-mini" onclick="filterCat('Women')"><div class="cat-circle-mini" style="background:#e91e63;"><i class="fa-solid fa-person-dress"></i></div><span>Women</span></div>
-        <div class="cat-card-mini" onclick="filterCat('Shoes')"><div class="cat-circle-mini" style="background:#ff9800;"><i class="fa-solid fa-shoe-prints"></i></div><span>Shoes</span></div>
-        <div class="cat-card-mini" onclick="filterCat('Toys')"><div class="cat-circle-mini" style="background:#4caf50;"><i class="fa-solid fa-robot"></i></div><span>Toys</span></div>
-        <div class="cat-card-mini" onclick="filterCat('Boy')"><div class="cat-circle-mini" style="background:#03a9f4;"><i class="fa-solid fa-child"></i></div><span>Boy</span></div>
-        <div class="cat-card-mini" onclick="filterCat('Electronics')"><div class="cat-circle-mini" style="background:#673ab7;"><i class="fa-solid fa-laptop"></i></div><span>Tech</span></div>
-        <div class="cat-card-mini" onclick="filterCat('Kitchen')"><div class="cat-circle-mini" style="background:#f44336;"><i class="fa-solid fa-kitchen-set"></i></div><span>Kitchen</span></div>
-        <div class="cat-card-mini" onclick="filterCat('Fashion')"><div class="cat-circle-mini" style="background:#ffc107;"><i class="fa-solid fa-shirt"></i></div><span>Fashion</span></div>
+        <div class="cat-card-mini" onclick="filterCat('Men')"><div class="cat-circle-mini" style="background:#2979ff;"><i class="fa-solid fa-user-tie"></i></div><span>Men</span></div>
+        <div class="cat-card-mini" onclick="filterCat('Women')"><div class="cat-circle-mini" style="background:#f50057;"><i class="fa-solid fa-person-dress"></i></div><span>Women</span></div>
+        <div class="cat-card-mini" onclick="filterCat('Shoes')"><div class="cat-circle-mini" style="background:#ff6d00;"><i class="fa-solid fa-shoe-prints"></i></div><span>Shoes</span></div>
+        <div class="cat-card-mini" onclick="filterCat('Toys')"><div class="cat-circle-mini" style="background:#00e676;"><i class="fa-solid fa-face-smile"></i></div><span>Toys</span></div>
+        <div class="cat-card-mini" onclick="filterCat('Boy')"><div class="cat-circle-mini" style="background:#00b0ff;"><i class="fa-solid fa-child"></i></div><span>Boy</span></div>
+        <div class="cat-card-mini" onclick="filterCat('Electronics')"><div class="cat-circle-mini" style="background:#651fff;"><i class="fa-solid fa-bolt"></i></div><span>Tech</span></div>
+        <div class="cat-card-mini" onclick="filterCat('Kitchen')"><div class="cat-circle-mini" style="background:#ff3d00;"><i class="fa-solid fa-utensils"></i></div><span>Kitchen</span></div>
+        <div class="cat-card-mini" onclick="filterCat('Fashion')"><div class="cat-circle-mini" style="background:#ffc400;"><i class="fa-solid fa-shirt"></i></div><span>Fashion</span></div>
     </div>
+</div>
+
+<!-- Orders/Cart Section -->
+<div id="order-sec" class="section">
+    <div style="padding: 20px; font-weight: 800; font-size: 18px;">Your Shopping Cart</div>
+    <div class="grid" id="cartList"></div>
 </div>
 
 <nav class="nav-bar">
     <div class="nav-tab active" id="homeTab" onclick="goHome(this)"><i class="fa-solid fa-house"></i>Home</div>
-    <div class="nav-tab" id="catTab" onclick="showPage('cat-page', this)"><i class="fa-solid fa-table-cells-large"></i>Category</div>
-    <div class="nav-tab" onclick="alert('Orders section loading...')"><i class="fa-solid fa-bag-shopping"></i>Orders</div>
-    <div class="nav-tab"><i class="fa-solid fa-circle-user"></i>Account</div>
+    <div class="nav-tab" id="catTab" onclick="showPage('cat-page', this)"><i class="fa-solid fa-list"></i>Category</div>
+    <div class="nav-tab" id="orderTab" onclick="showPage('order-sec', this)"><i class="fa-solid fa-bag-shopping"></i>Orders</div>
+    <div class="nav-tab"><i class="fa-solid fa-user-large"></i>Profile</div>
 </nav>
 
 <script type="module">
@@ -122,23 +198,27 @@
     let allProducts = [];
 
     window.goHome = function(el) { showPage('home-sec', el); render(allProducts, 'productList'); }
+    
     window.showPage = function(id, el) {
         document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
         document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
         document.getElementById(id).classList.add('active');
         el.classList.add('active');
+        if(id === 'order-sec') displayCart();
     }
 
     async function fetchItems() {
-        const q = query(collection(db, "products"), orderBy("time", "desc"));
-        const snap = await getDocs(q);
-        allProducts = snap.docs.map(doc => ({id: doc.id, ...doc.data()}));
-        render(allProducts, 'productList');
+        try {
+            const q = query(collection(db, "products"), orderBy("time", "desc"));
+            const snap = await getDocs(q);
+            allProducts = snap.docs.map(doc => ({id: doc.id, ...doc.data()}));
+            render(allProducts, 'productList');
+        } catch(e) { console.error("Error fetching:", e); }
     }
 
     function render(data, targetId) {
         const list = document.getElementById(targetId);
-        list.innerHTML = data.length ? "" : "<p style='grid-column:1/3; text-align:center; padding:50px;'>Loading...</p>";
+        list.innerHTML = data.length ? "" : "<p style='grid-column:1/3; text-align:center; padding:50px;'>No items found.</p>";
         data.forEach(p => {
             const img = (p.images && p.images.length > 0) ? p.images[0] : 'Dkart.jpg';
             list.innerHTML += `
@@ -147,10 +227,26 @@
                     <div class="p-info">
                         <div class="p-title">${p.name}</div>
                         <div class="p-price">₹${p.price}</div>
-                        <button class="btn-buy" onclick="alert('Order placed!')">Buy Now</button>
+                        <button class="btn-buy" onclick="alert('Order Successful!')">Buy Now</button>
+                        <button class="btn-cart" onclick="addToCart('${p.id}')">Add to Cart</button>
                     </div>
                 </div>`;
         });
+    }
+
+    window.addToCart = function(id) {
+        let cart = JSON.parse(localStorage.getItem('dkart_cart') || '[]');
+        if(!cart.includes(id)) {
+            cart.push(id);
+            localStorage.setItem('dkart_cart', JSON.stringify(cart));
+            alert("Added to cart! 🛒");
+        } else { alert("Already in cart!"); }
+    }
+
+    function displayCart() {
+        let cartIds = JSON.parse(localStorage.getItem('dkart_cart') || '[]');
+        let cartData = allProducts.filter(p => cartIds.includes(p.id));
+        render(cartData, 'cartList');
     }
 
     window.filterCat = function(cat) {

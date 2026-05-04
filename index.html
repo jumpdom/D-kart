@@ -1,184 +1,160 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-    <meta name="google-site-verification" content="YAHAN_APNA_CODE_DALEIN" />
     <link rel="icon" type="image/jpeg" href="IMG_6363.jpeg">
+    <link rel="apple-touch-icon" href="IMG_6363.jpeg">
+    <meta name="google-site-verification" content="_ToBZaA3n7_PNemAtowaNKTqfJDFClUX-6VWxg7oo3w" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dkart | 100% Trusted Shop</title>
-    
+    <title>Dkart | Premium Shop</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Montserrat:wght@900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
     <style>
-        :root { --primary: #000; --accent: #ffff00; --bg: #0a0a0a; --card: #151515; }
+        :root { --primary: #000000; --accent: #ffff00; --white: #ffffff; --bg: #0a0a0a; --whatsapp: #25D366; }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
-        body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding-bottom: 80px; color: #fff; overflow-x: hidden; }
+        body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding-bottom: 80px; color: var(--white); overflow-x: hidden; }
+        header { background: var(--primary); padding: 15px 10px; border-bottom: 2px solid var(--accent); position: sticky; top: 0; z-index: 1000; }
+        .logo-row { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 5px; }
+        .logo-img { width: 40px; height: 40px; border-radius: 5px; border: 1.5px solid var(--white); }
+        .brand { font-family: 'Montserrat', sans-serif; font-size: 26px; font-weight: 900; color: var(--accent); font-style: italic; }
+        .trust-text { font-size: 10px; color: var(--accent); text-align: center; font-weight: 700; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px; }
         
-        header { background: var(--primary); padding: 15px; border-bottom: 2px solid var(--accent); position: sticky; top: 0; z-index: 1000; text-align: center; }
-        .logo-row { display: flex; align-items: center; justify-content: center; gap: 10px; }
-        .logo-img { width: 42px; height: 42px; border-radius: 8px; border: 1.5px solid var(--accent); object-fit: cover; }
-        .brand { font-family: 'Montserrat', sans-serif; font-size: 26px; font-weight: 900; color: var(--accent); font-style: italic; line-height: 1; }
-        .trust-tag { font-size: 10px; color: #00ff00; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; display: block; }
-        
-        .search-box { background: #1a1a1a; border-radius: 10px; display: flex; align-items: center; padding: 10px 15px; border: 1px solid #333; margin-top: 10px; }
+        /* Header Action Row Fix */
+        .header-action-row { display: flex; align-items: center; gap: 10px; padding: 0 5px; }
+        .search-box { flex: 1; background: #1a1a1a; border-radius: 8px; display: flex; align-items: center; padding: 10px 15px; border: 1px solid #333; }
         .search-box input { background: transparent; border: none; color: white; width: 100%; margin-left: 10px; font-size: 14px; }
+        
+        /* WhatsApp Help Button Style */
+        .whatsapp-btn { 
+            background: var(--whatsapp); 
+            color: white; 
+            width: 45px; 
+            height: 45px; 
+            border-radius: 10px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 24px; 
+            text-decoration: none; 
+            border: 1.5px solid #fff; 
+            box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3);
+        }
 
+        .cat-row { display: flex; overflow-x: auto; padding: 15px 10px; gap: 15px; scrollbar-width: none; background: #111; }
+        .cat-item { min-width: 70px; text-align: center; cursor: pointer; transition: 0.3s; }
+        .cat-icon { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; font-size: 20px; color: #000; border: 2px solid #fff; }
+        .cat-item span { font-size: 10px; font-weight: 700; color: #fff; }
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px; }
-        .p-card { background: var(--card); padding: 10px; border-radius: 15px; border: 1px solid #222; text-align: center; }
-        .p-card img { width: 100%; height: 140px; object-fit: contain; border-radius: 10px; background: #fff; }
-
-        .full-view { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 3000; display: none; overflow-y: auto; padding-bottom: 100px; }
+        .p-card { background: #151515; padding: 10px; border-radius: 12px; border: 1.5px solid var(--white); }
+        .p-card img { width: 100%; height: 140px; object-fit: contain; border-radius: 8px; background: #222; }
+        .p-name { font-size: 12px; font-weight: 600; color: var(--accent); margin-top: 10px; height: 35px; overflow: hidden; }
+        .p-price { font-size: 17px; font-weight: 800; color: var(--white); margin: 5px 0; }
+        
+        .full-view { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 3000; display: none; overflow-y: auto; }
         .view-header { padding: 15px; display: flex; align-items: center; border-bottom: 1px solid #333; background: var(--primary); position: sticky; top: 0; }
+        .view-header span { color: var(--accent); font-weight: 700; margin-left: 15px; }
+        .btn-box { position: fixed; bottom: 0; width: 100%; height: 60px; z-index: 3500; }
+        .btn-main { width: 100%; height: 100%; border: none; font-weight: 900; background: var(--accent); color: #000; font-size: 16px; text-transform: uppercase; cursor: pointer; }
         
-        .size-wrap { display: flex; gap: 8px; margin: 15px 0; justify-content: center; }
-        .size-box { border: 1px solid #444; padding: 8px 15px; border-radius: 5px; cursor: pointer; }
-        .size-box.selected { background: var(--accent); color: #000; border-color: #fff; font-weight: bold; }
-
-        .nav-bar { position: fixed; bottom: 0; width: 100%; background: #000; display: flex; border-top: 2px solid var(--accent); z-index: 2000; height: 70px; align-items: center; }
-        .nav-tab { flex: 1; text-align: center; color: #666; font-size: 10px; font-weight: 700; cursor: pointer; }
+        .nav-bar { position: fixed; bottom: 0; width: 100%; background: #000; display: flex; border-top: 2px solid var(--accent); height: 65px; align-items: center; z-index: 2000; }
+        .nav-tab { flex: 1; text-align: center; color: #777; cursor: pointer; font-size: 10px; font-weight: 700; }
         .nav-tab.active { color: var(--accent); }
-        .nav-tab i { font-size: 22px; display: block; margin-bottom: 4px; }
-
-        .btn-buy { width: 100%; padding: 15px; background: var(--accent); color: #000; font-weight: 900; border: none; border-radius: 10px; cursor: pointer; margin-top: 10px; font-size: 16px; }
-        .btn-cart { width: 100%; padding: 15px; background: transparent; color: var(--accent); border: 2px solid var(--accent); font-weight: 900; border-radius: 10px; cursor: pointer; margin-top: 10px; }
-        
-        input { width: 100%; padding: 12px; margin-bottom: 10px; background: #111; color: #fff; border: 1px solid #333; border-radius: 8px; }
+        .nav-tab i { font-size: 20px; display: block; margin-bottom: 3px; }
     </style>
 </head>
 <body>
 
-<header>
-    <div class="logo-row">
-        <img src="IMG_6363.jpeg" class="logo-img" onerror="this.src='Dkart.jpg'">
-        <div>
+<div id="home-sec">
+    <header>
+        <div class="logo-row">
+            <img src="IMG_6363.jpeg" class="logo-img" onerror="this.src='Dkart.jpg'">
             <span class="brand">DKART</span>
-            <span class="trust-tag"><i class="fa-solid fa-shield-check"></i> 100% Trusted Platform</span>
         </div>
-    </div>
-    <div class="search-box">
-        <i class="fa-solid fa-magnifying-glass" style="color:var(--accent)"></i>
-        <input type="text" id="searchInput" placeholder="Search product...">
-    </div>
-</header>
+        <div class="trust-text">100% Trusted • Fast Delivery</div>
+        <div class="header-action-row">
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass" style="color:var(--accent)"></i>
+                <input type="text" id="searchInput" placeholder="Search products...">
+            </div>
+            <!-- FIXED WHATSAPP LINK -->
+            <a href="https://wa.me/918521694137?text=Hello%20Dkart%20Help" class="whatsapp-btn" target="_blank">
+                <i class="fa-brands fa-whatsapp"></i>
+            </a>
+        </div>
+    </header>
 
-<div class="grid" id="productList"></div>
-
-<!-- Order Modal (Buy Now) -->
-<div id="order-view" class="full-view">
-    <div class="view-header"><i class="fa-solid fa-arrow-left" onclick="closeView('order-view')"></i><span style="margin-left:15px">Complete Your Order</span></div>
-    <div style="padding:20px;">
-        <div id="checkout-item" style="background:#111; padding:15px; border-radius:12px; margin-bottom:20px; display:flex; gap:15px; align-items:center;"></div>
-        
-        <h4 style="color:var(--accent)">Delivery Details</h4>
-        <input type="text" id="cust-name" placeholder="Apna Poora Naam">
-        <input type="tel" id="cust-phone" placeholder="Mobile Number">
-        <input type="text" id="cust-address" placeholder="Poora Pata (Address)">
-        <p style="font-size:12px; color:#888;">* Payment Mode: Cash on Delivery (COD)</p>
-        
-        <button class="btn-buy" id="confirmBtn" onclick="placeOrder()">PLACE ORDER NOW</button>
+    <div class="cat-row">
+        <div class="cat-item" id="cat-all"><div class="cat-icon" style="background: #FFD700;"><i class="fa-solid fa-border-all"></i></div><span>All</span></div>
+        <div class="cat-item" id="cat-mobile"><div class="cat-icon" style="background: #FF4757;"><i class="fa-solid fa-mobile"></i></div><span>Mobile</span></div>
+        <div class="cat-item" id="cat-fashion"><div class="cat-icon" style="background: #2ED573;"><i class="fa-solid fa-shirt"></i></div><span>Fashion</span></div>
     </div>
+    <div class="grid" id="productList"></div>
 </div>
 
-<!-- Details View -->
+<!-- Views for Details, Checkout, Orders (Keep from previous code) -->
 <div id="detail-view" class="full-view">
-    <div class="view-header"><i class="fa-solid fa-arrow-left" onclick="closeView('detail-view')"></i><span style="margin-left:15px">Product Details</span></div>
-    <div id="detail-body" style="padding:20px; text-align:center;">
-        <img id="det-img" style="width:100%; border-radius:15px; background:white;">
-        <h2 id="det-name" style="margin:15px 0 5px; color:var(--accent);"></h2>
-        <h3 id="det-price" style="margin-bottom:20px;"></h3>
-        <div class="size-wrap" id="sizeList"></div>
-        <button class="btn-buy" onclick="openOrder()">BUY IT NOW</button>
-        <button class="btn-cart" onclick="addToCart()">ADD TO CART</button>
+    <div class="view-header"><i class="fa-solid fa-arrow-left" id="back-detail"></i><span>Details</span></div>
+    <div style="padding: 15px; text-align: center;">
+        <img id="det-img" style="width: 100%; border-radius: 12px; background: #111;">
+        <h2 id="det-name" style="color: var(--accent); margin-top: 15px; text-align: left;"></h2>
+        <div id="det-price" style="font-size: 26px; font-weight: 800; text-align: left;"></div>
+        <div id="det-desc" style="padding:15px; background:#111; color:#ccc; text-align:left; border-radius:10px; margin-top:15px;"></div>
     </div>
+    <div class="btn-box"><button class="btn-main" id="buy-now-btn">Buy Now (COD)</button></div>
 </div>
 
 <nav class="nav-bar">
-    <div class="nav-tab active" onclick="location.reload()"><i class="fa-solid fa-house"></i><span>Home</span></div>
-    <div class="nav-tab" onclick="alert('Tracking updates in 24h')"><i class="fa-solid fa-truck-fast"></i><span>Orders</span></div>
-    <div class="nav-tab" onclick="alert('Profile Saved')"><i class="fa-solid fa-user"></i><span>Account</span></div>
+    <div class="nav-tab active" id="nav-home"><i class="fa-solid fa-house"></i><span>Home</span></div>
+    <div class="nav-tab" id="nav-orders-tab"><i class="fa-solid fa-bag-shopping"></i><span>Orders</span></div>
 </nav>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
-    import { getFirestore, collection, getDocs, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+    import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
-    const firebaseConfig = { apiKey: "AIzaSyAchWzhIxqmS7G0HPpvuq6WBwcr8pXzFAE", authDomain: "dkart-87860.firebaseapp.com", projectId: "dkart-87860", appId: "1:894407834952:web:3067589b758c9819fe877d" };
+    const firebaseConfig = {
+      apiKey: "AIzaSyAchWzhIxqmS7G0HPpvuq6WBwcr8pXzFAE",
+      authDomain: "dkart-87860.firebaseapp.com",
+      projectId: "dkart-87860",
+      appId: "1:894407834952:web:3067589b758c9819fe877d"
+    };
+
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-
-    let allProducts = [], selectedP = null, selectedSize = null;
+    let allP = [];
 
     async function load() {
-        const snap = await getDocs(collection(db, "products"));
-        allProducts = snap.docs.map(doc => ({id: doc.id, ...doc.data()}));
-        render(allProducts);
+        const q = query(collection(db, "products"), orderBy("time", "desc"));
+        const snap = await getDocs(q);
+        allP = snap.docs.map(d => ({id: d.id, ...d.data()}));
+        render(allP);
     }
 
     function render(data) {
-        document.getElementById('productList').innerHTML = data.map(p => `
-            <div class="p-card" onclick="showProduct('${p.id}')">
-                <img src="${p.images[0]}" onerror="this.src='Dkart.jpg'">
-                <div style="color:var(--accent); font-size:12px; margin-top:8px;">${p.name}</div>
-                <div style="font-weight:800;">₹${p.price}</div>
-            </div>
-        `).join('');
+        const list = document.getElementById('productList');
+        list.innerHTML = "";
+        data.forEach(p => {
+            const card = document.createElement('div');
+            card.className = 'p-card';
+            card.innerHTML = `<img src="${p.images[0] || 'Dkart.jpg'}"><div class="p-name">${p.name}</div><div class="p-price">₹${p.price}</div>`;
+            card.onclick = () => {
+                document.getElementById('det-img').src = p.images[0];
+                document.getElementById('det-name').innerText = p.name;
+                document.getElementById('det-price').innerText = "₹" + p.price;
+                document.getElementById('det-desc').innerText = p.desc || "Quality product from Dkart.";
+                document.getElementById('detail-view').style.display = 'block';
+            };
+            list.appendChild(card);
+        });
     }
 
-    window.showProduct = (id) => {
-        selectedP = allProducts.find(p => p.id === id);
-        selectedSize = null;
-        document.getElementById('det-img').src = selectedP.images[0];
-        document.getElementById('det-name').innerText = selectedP.name;
-        document.getElementById('det-price').innerText = "₹" + selectedP.price;
-        document.getElementById('sizeList').innerHTML = ['S', 'M', 'L', 'XL'].map(s => `<div class="size-box" onclick="setSize(this, '${s}')">${s}</div>`).join('');
-        document.getElementById('detail-view').style.display = 'block';
-    };
+    document.getElementById('back-detail').onclick = () => document.getElementById('detail-view').style.display = 'none';
+    
+    // Filters Logic
+    document.getElementById('cat-all').onclick = () => render(allP);
+    document.getElementById('cat-mobile').onclick = () => render(allP.filter(p => p.category?.toLowerCase() === 'mobile'));
+    document.getElementById('cat-fashion').onclick = () => render(allP.filter(p => p.category?.toLowerCase() === 'fashion'));
 
-    window.setSize = (el, s) => {
-        document.querySelectorAll('.size-box').forEach(b => b.classList.remove('selected'));
-        el.classList.add('selected');
-        selectedSize = s;
-    };
-
-    window.openOrder = () => {
-        if(!selectedSize) return alert("Pehle Size select karein!");
-        document.getElementById('checkout-item').innerHTML = `<img src="${selectedP.images[0]}" width="50">${selectedP.name} (Size: ${selectedSize})`;
-        document.getElementById('order-view').style.display = 'block';
-    };
-
-    // Place Order to Database
-    window.placeOrder = async () => {
-        const name = document.getElementById('cust-name').value;
-        const phone = document.getElementById('cust-phone').value;
-        const addr = document.getElementById('cust-address').value;
-
-        if(!name || !phone || !addr) return alert("Saari details bhariye!");
-
-        document.getElementById('confirmBtn').innerText = "Processing...";
-        document.getElementById('confirmBtn').disabled = true;
-
-        try {
-            await addDoc(collection(db, "orders"), {
-                customerName: name,
-                customerPhone: phone,
-                address: addr,
-                productName: selectedP.name,
-                price: selectedP.price,
-                size: selectedSize,
-                status: "Pending",
-                orderDate: serverTimestamp()
-            });
-            alert("Order Successful! ✅ Hum aapse jald hi sampark karenge.");
-            location.reload();
-        } catch (e) {
-            alert("Error: Order nahi ho paya.");
-            document.getElementById('confirmBtn').innerText = "PLACE ORDER NOW";
-            document.getElementById('confirmBtn').disabled = false;
-        }
-    };
-
-    window.closeView = (id) => document.getElementById(id).style.display = 'none';
     load();
 </script>
 </body>

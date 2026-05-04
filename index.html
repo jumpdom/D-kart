@@ -12,42 +12,37 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding-bottom: 80px; color: var(--white); }
         
-        /* Fixed Header & Logo */
         header { background: var(--primary); padding: 15px 10px; border-bottom: 2px solid var(--accent); position: sticky; top: 0; z-index: 1000; }
         .logo-row { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 10px; }
         .logo-img { width: 45px; height: 45px; border-radius: 8px; border: 1.5px solid var(--white); object-fit: cover; }
-        .brand { font-family: 'Montserrat', sans-serif; font-size: 28px; font-weight: 900; color: var(--accent); font-style: italic; letter-spacing: 1px; }
+        .brand { font-family: 'Montserrat', sans-serif; font-size: 28px; font-weight: 900; color: var(--accent); font-style: italic; }
         
         .header-action-row { display: flex; align-items: center; gap: 10px; }
         .search-box { flex: 1; background: #1a1a1a; border-radius: 8px; display: flex; align-items: center; padding: 10px 15px; border: 1px solid #333; }
         .search-box input { background: transparent; border: none; color: white; width: 100%; margin-left: 10px; outline: none; }
 
-        /* Product Grid */
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px; }
-        .p-card { background: #111; padding: 12px; border-radius: 12px; border: 1.5px solid #333; transition: 0.3s; }
+        .p-card { background: #111; padding: 12px; border-radius: 12px; border: 1.5px solid #333; }
         .p-card img { width: 100%; height: 140px; object-fit: contain; border-radius: 8px; background: #050505; }
-        .p-name { font-size: 12px; font-weight: 600; color: #fff; margin-top: 10px; height: 35px; overflow: hidden; text-transform: uppercase; }
-        .p-price { font-size: 18px; font-weight: 800; color: var(--accent); margin: 5px 0; }
+        .p-name { font-size: 12px; font-weight: 600; color: #fff; margin: 10px 0 5px; height: 35px; overflow: hidden; text-transform: uppercase; }
+        .p-price { font-size: 18px; font-weight: 800; color: var(--accent); }
         
-        /* Sizes & Buy Button */
-        .size-container { margin: 10px 0; }
-        .size-list { display: flex; gap: 5px; overflow-x: auto; scrollbar-width: none; }
+        .size-list { display: flex; gap: 5px; overflow-x: auto; margin: 10px 0; scrollbar-width: none; }
         .s-box { min-width: 35px; height: 30px; border: 1px solid #444; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold; cursor: pointer; }
-        .s-box.active { background: var(--accent); color: #000; border-color: #fff; }
-        .buy-btn { width: 100%; background: var(--accent); color: #000; border: none; padding: 12px; border-radius: 8px; font-weight: 900; font-size: 13px; text-transform: uppercase; cursor: pointer; margin-top: 10px; }
+        .s-box.selected { background: var(--accent); color: #000; border-color: #fff; }
+        
+        .buy-btn { width: 100%; background: var(--accent); color: #000; border: none; padding: 12px; border-radius: 8px; font-weight: 900; font-size: 13px; text-transform: uppercase; cursor: pointer; }
 
-        /* Views */
         .full-view { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 3000; display: none; overflow-y: auto; padding-bottom: 90px; }
         .view-header { padding: 15px; background: #000; display: flex; align-items: center; border-bottom: 1px solid #333; position: sticky; top: 0; }
         .view-header span { margin-left: 15px; font-weight: 800; color: var(--accent); }
-        
-        .t-c-box { margin: 20px 15px; padding: 15px; background: #1a0505; border: 1px dashed #ff4757; border-radius: 10px; color: #ff9f9f; font-size: 12px; line-height: 1.6; }
 
-        /* Navigation */
+        .form-group { padding: 20px; }
+        .form-group input, .form-group textarea { width: 100%; padding: 15px; margin-bottom: 10px; background: #111; color: white; border: 1px solid #333; border-radius: 8px; }
+        
         .nav-bar { position: fixed; bottom: 0; width: 100%; background: #000; display: flex; border-top: 2px solid var(--accent); height: 65px; align-items: center; z-index: 2000; }
-        .nav-tab { flex: 1; text-align: center; color: #666; font-size: 10px; font-weight: 700; cursor: pointer; }
+        .nav-tab { flex: 1; text-align: center; color: #666; font-size: 10px; font-weight: 700; }
         .nav-tab.active { color: var(--accent); }
-        .nav-tab i { font-size: 22px; display: block; margin-bottom: 2px; }
     </style>
 </head>
 <body>
@@ -55,13 +50,13 @@
 <div id="home-sec">
     <header>
         <div class="logo-row">
-            <img src="IMG_6363.jpeg" class="logo-img" alt="DKART Logo">
+            <img src="IMG_6363.jpeg" class="logo-img">
             <span class="brand">DKART</span>
         </div>
         <div class="header-action-row">
             <div class="search-box">
                 <i class="fa-solid fa-magnifying-glass" style="color:var(--accent)"></i>
-                <input type="text" id="searchInput" placeholder="Search brands or products...">
+                <input type="text" id="searchInput" placeholder="Search brands...">
             </div>
             <a href="https://wa.me/918521694137" style="color:#25D366; font-size:28px;"><i class="fa-brands fa-whatsapp"></i></a>
         </div>
@@ -69,40 +64,26 @@
     <div class="grid" id="productList"></div>
 </div>
 
-<!-- Profile View -->
-<div id="profile-view" class="full-view">
-    <div class="view-header"><i class="fa-solid fa-arrow-left" onclick="closeView('profile-view')"></i><span>MY ACCOUNT</span></div>
-    
-    <div style="text-align:center; padding:40px 0; background: #111; margin-bottom: 20px;">
-        <i class="fa-solid fa-circle-user" style="font-size:70px; color:var(--accent);"></i>
-        <h2 style="color:var(--accent); margin-top:10px;">DKART CUSTOMER</h2>
-    </div>
-
-    <div style="padding: 10px 15px;">
-        <div class="p-card" style="margin-bottom:10px; display:flex; flex-direction:row; align-items:center; gap:15px;">
-            <i class="fa-solid fa-box" style="color:var(--accent)"></i> <span>My Orders</span>
-        </div>
-        <div class="p-card" style="display:flex; flex-direction:row; align-items:center; gap:15px;">
-            <i class="fa-solid fa-cart-shopping" style="color:var(--accent)"></i> <span>My Cart</span>
-        </div>
-    </div>
-
-    <div class="t-c-box">
-        <b style="color: #ff4757;">TERMS & CONDITIONS:</b><br><br>
-        1. <b>Strict No Return:</b> Once the order is delivered, return or exchange is not possible.<br>
-        2. <b>Order Check:</b> Please verify your size and address before placing the order.<br>
-        3. <b>Quality:</b> We ensure premium quality products are shipped to you.
+<!-- Checkout View -->
+<div id="checkout-view" class="full-view">
+    <div class="view-header"><i class="fa-solid fa-arrow-left" onclick="closeView('checkout-view')"></i><span>CONFIRM ORDER</span></div>
+    <div class="form-group">
+        <p id="order-summary" style="color:var(--accent); font-weight:bold; margin-bottom:20px;"></p>
+        <input type="text" id="c-name" placeholder="Full Name">
+        <input type="tel" id="c-phone" placeholder="Mobile Number">
+        <textarea id="c-addr" placeholder="Full Address" rows="3"></textarea>
+        <button class="buy-btn" id="confirm-order-btn">PLACE ORDER (COD)</button>
     </div>
 </div>
 
 <nav class="nav-bar">
     <div class="nav-tab active" onclick="location.reload()"><i class="fa-solid fa-house"></i><span>Home</span></div>
-    <div class="nav-tab" onclick="openView('profile-view')"><i class="fa-solid fa-user-gear"></i><span>Profile</span></div>
+    <div class="nav-tab" onclick="alert('Profile Coming Soon')"><i class="fa-solid fa-user"></i><span>Profile</span></div>
 </nav>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
-    import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+    import { getFirestore, collection, getDocs, addDoc, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyAchWzhIxqmS7G0HPpvuq6WBwcr8pXzFAE",
@@ -113,27 +94,13 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-    let allProducts = [];
-
-    // --- Fixed Search Function ---
-    document.getElementById('searchInput').oninput = (e) => {
-        const val = e.target.value.toLowerCase();
-        const filtered = allProducts.filter(p => 
-            p.name.toLowerCase().includes(val) || 
-            (p.category && p.category.toLowerCase().includes(val))
-        );
-        render(filtered);
-    };
+    let allProducts = [], selectedProduct = null, selectedSize = null;
 
     async function load() {
-        try {
-            const q = query(collection(db, "products"), orderBy("time", "desc"));
-            const snap = await getDocs(q);
-            allProducts = snap.docs.map(d => ({id: d.id, ...d.data()}));
-            render(allProducts);
-        } catch(e) {
-            console.error("Database Error:", e);
-        }
+        const q = query(collection(db, "products"), orderBy("time", "desc"));
+        const snap = await getDocs(q);
+        allProducts = snap.docs.map(d => ({id: d.id, ...d.data()}));
+        render(allProducts);
     }
 
     function render(data) {
@@ -143,24 +110,65 @@
             const card = document.createElement('div');
             card.className = 'p-card';
             
-            let sizeHtml = p.sizes ? p.sizes.map(s => `<div class="s-box">${s}</div>`).join('') : '<div class="s-box" style="width:100%">Standard</div>';
+            let sizes = p.sizes ? p.sizes.map(s => `<div class="s-box" onclick="selectSize(this, '${s}')">${s}</div>`).join('') : '<div class="s-box selected">Free</div>';
 
             card.innerHTML = `
                 <img src="${p.images[0]}" onerror="this.src='Dkart.jpg'">
                 <div class="p-name">${p.name}</div>
                 <div class="p-price">₹${p.price}</div>
-                <div class="size-container">
-                    <div style="font-size:10px; color:#666; margin-bottom:5px;">SELECT SIZE:</div>
-                    <div class="size-list">${sizeHtml}</div>
-                </div>
-                <button class="buy-btn">BUY NOW</button>
+                <div class="size-list">${sizes}</div>
+                <button class="buy-btn" onclick="openCheckout('${p.id}')">BUY NOW</button>
             `;
             list.appendChild(card);
         });
     }
 
-    window.openView = (id) => document.getElementById(id).style.display = 'block';
+    window.selectSize = (el, size) => {
+        const parent = el.parentElement;
+        parent.querySelectorAll('.s-box').forEach(b => b.classList.remove('selected'));
+        el.classList.add('selected');
+        selectedSize = size;
+    };
+
+    window.openCheckout = (id) => {
+        selectedProduct = allProducts.find(p => p.id === id);
+        if(selectedProduct.sizes && !selectedSize) {
+            alert("Please select a size first!");
+            return;
+        }
+        document.getElementById('order-summary').innerText = `Buying: ${selectedProduct.name} (${selectedSize || 'Free Size'}) - ₹${selectedProduct.price}`;
+        document.getElementById('checkout-view').style.display = 'block';
+    };
+
+    document.getElementById('confirm-order-btn').onclick = async () => {
+        const name = document.getElementById('c-name').value;
+        const phone = document.getElementById('c-phone').value;
+        const addr = document.getElementById('c-addr').value;
+
+        if(!name || !phone || !addr) return alert("Fill details!");
+
+        try {
+            await addDoc(collection(db, "orders"), {
+                product: selectedProduct.name,
+                price: selectedProduct.price,
+                size: selectedSize || "Free",
+                customer: name,
+                phone: phone,
+                address: addr,
+                status: "Pending",
+                time: serverTimestamp()
+            });
+            alert("Order Placed! ✅");
+            location.reload();
+        } catch(e) { alert("Error!"); }
+    };
+
     window.closeView = (id) => document.getElementById(id).style.display = 'none';
+    
+    document.getElementById('searchInput').oninput = (e) => {
+        const val = e.target.value.toLowerCase();
+        render(allProducts.filter(p => p.name.toLowerCase().includes(val)));
+    };
 
     load();
 </script>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dkart | Shop Premium</title>
+    <title>Dkart | Premium Shopping</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Montserrat:wght@800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
@@ -11,7 +11,6 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
         body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding-bottom: 80px; }
 
-        /* Stylish Dkart Heading */
         header { 
             background: var(--card); padding: 15px; position: sticky; top: 0; z-index: 1000; 
             display: flex; justify-content: space-between; align-items: center;
@@ -24,19 +23,10 @@
             text-transform: uppercase;
         }
 
-        /* Search & Navigation */
-        .search-area { background: var(--card); padding: 5px 15px 15px; }
-        .search-box { background: #f1f3f4; display: flex; align-items: center; padding: 12px; border-radius: 15px; }
-        .search-box input { border: none; background: transparent; width: 100%; margin-left: 10px; }
-
-        /* Categories Section */
         .section { display: none; }
         .section.active { display: block; }
-        .cat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; padding: 15px; background: white; }
-        .cat-item { text-align: center; }
-        .cat-circle { width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 0 auto 5px; color: white; font-size: 18px; }
 
-        /* Product Cards & Click Effect */
+        /* Products Grid */
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px; }
         .product-card { 
             background: var(--card); border-radius: 20px; overflow: hidden; border: 1px solid #eee;
@@ -44,32 +34,21 @@
         }
         .product-card:active { background-color: #e3f2fd; transform: scale(0.97); }
         
-        .delete-btn { position: absolute; top: 10px; right: 10px; background: #ffebee; color: #ff1744; border: none; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 5; }
-
-        .img-box { height: 140px; padding: 12px; background: #fff; display: flex; align-items: center; justify-content: center; }
+        .img-box { height: 140px; padding: 12px; display: flex; align-items: center; justify-content: center; background: #fff; }
         .img-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
         .p-info { padding: 12px; }
         .p-title { font-size: 13px; font-weight: 600; height: 38px; overflow: hidden; }
         .p-price { font-size: 16px; font-weight: 800; color: var(--primary); margin: 5px 0; }
         
-        .btn-buy { background: var(--primary); color: #fff; border: none; padding: 10px; border-radius: 12px; font-weight: 700; width: 100%; margin-top: 5px; }
-        .btn-cart { background: #fff; color: var(--primary); border: 1.5px solid var(--primary); padding: 8px; border-radius: 12px; font-weight: 700; width: 100%; margin-top: 8px; font-size: 12px; }
+        .btn-buy { background: var(--primary); color: #fff; border: none; padding: 10px; border-radius: 12px; font-weight: 700; width: 100%; cursor: pointer; }
+        .delete-btn { position: absolute; top: 8px; right: 8px; background: #fff0f0; color: #ff1744; border: none; width: 28px; height: 28px; border-radius: 50%; z-index: 5; }
 
-        /* Checkout Form Modal */
-        #checkout-modal {
-            position: fixed; bottom: -100%; left: 0; width: 100%; background: white;
-            border-radius: 25px 25px 0 0; padding: 25px; z-index: 2000;
-            box-shadow: 0 -5px 25px rgba(0,0,0,0.2); transition: 0.4s ease;
-        }
-        #checkout-modal.open { bottom: 0; }
-        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; z-index: 1500; }
+        /* Profile & Forms */
+        .profile-box { background: white; padding: 25px; border-radius: 25px; margin: 15px; border: 1px solid #eee; }
+        input, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 12px; margin-bottom: 15px; font-family: inherit; }
         
-        .form-group { margin-bottom: 12px; }
-        .form-group input, .form-group textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; font-family: inherit; }
-        .btn-confirm { background: var(--primary); color: white; border: none; padding: 15px; width: 100%; border-radius: 12px; font-weight: 800; font-size: 16px; margin-top: 10px; }
-
-        /* Bottom Nav */
-        .nav-bar { position: fixed; bottom: 0; width: 100%; background: #fff; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #eee; box-shadow: 0 -4px 15px rgba(0,0,0,0.05); }
+        /* Bottom Navigation */
+        .nav-bar { position: fixed; bottom: 0; width: 100%; background: #fff; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #eee; }
         .nav-tab { text-align: center; color: #999; font-size: 11px; font-weight: 600; flex: 1; }
         .nav-tab i { font-size: 22px; display: block; margin-bottom: 4px; }
         .nav-tab.active { color: var(--primary); }
@@ -79,57 +58,50 @@
 
 <header>
     <div class="logo-section">
-        <img src="Dkart.jpg" alt="Logo" style="height:35px; border-radius:8px;">
         <span class="brand-name">Dkart</span>
     </div>
-    <div style="font-size: 20px;"><i class="fa-solid fa-cart-shopping" onclick="showPage('order-sec', document.getElementById('orderTab'))"></i></div>
+    <div style="font-size: 20px;"><i class="fa-solid fa-bag-shopping" onclick="showPage('order-sec', document.getElementById('cartTab'))"></i></div>
 </header>
 
-<div class="search-area">
-    <div class="search-box">
-        <i class="fa-solid fa-magnifying-glass" style="color:#999;"></i>
-        <input type="text" id="searchInput" placeholder="Search brands, items...">
-    </div>
-</div>
-
-<!-- Home Page -->
+<!-- Home Section -->
 <div id="home-sec" class="section active">
+    <div style="padding: 15px 15px 5px;"><input type="text" id="search" placeholder="Search products..." style="background:#f1f3f4; border:none;"></div>
     <div class="grid" id="productList"></div>
 </div>
 
-<!-- Categories Page -->
-<div id="cat-page" class="section">
-    <div style="padding:15px; font-weight:800;">All Categories</div>
-    <div class="cat-grid">
-        <div class="cat-item" onclick="filterCat('Men')"><div class="cat-circle" style="background:#2979ff;"><i class="fa-solid fa-user-tie"></i></div><span>Men</span></div>
-        <div class="cat-item" onclick="filterCat('Women')"><div class="cat-circle" style="background:#f50057;"><i class="fa-solid fa-person-dress"></i></div><span>Women</span></div>
-        <div class="cat-item" onclick="filterCat('Shoes')"><div class="cat-circle" style="background:#ff9800;"><i class="fa-solid fa-shoe-prints"></i></div><span>Shoes</span></div>
-        <div class="cat-item" onclick="filterCat('Electronics')"><div class="cat-circle" style="background:#651fff;"><i class="fa-solid fa-laptop"></i></div><span>Tech</span></div>
-    </div>
-</div>
-
-<!-- My Cart/Orders Page -->
+<!-- Cart Section -->
 <div id="order-sec" class="section">
-    <div style="padding:20px; font-weight:800; font-size:18px;">My Cart</div>
+    <div style="padding: 20px; font-weight: 800; font-size: 18px;">My Cart</div>
     <div class="grid" id="cartList"></div>
 </div>
 
-<!-- Checkout Modal (Order Flow) -->
-<div class="overlay" id="overlay" onclick="closeCheckout()"></div>
-<div id="checkout-modal">
-    <h3 style="margin-top:0;">Complete Your Order</h3>
-    <p id="order-info" style="color:var(--primary); font-weight:600;"></p>
-    <div class="form-group"><input type="text" id="custName" placeholder="Full Name"></div>
-    <div class="form-group"><input type="tel" id="custPhone" placeholder="Mobile Number"></div>
-    <div class="form-group"><textarea id="custAddr" rows="3" placeholder="Full Delivery Address"></textarea></div>
-    <button class="btn-confirm" onclick="sendToAdmin()">Place Order Now</button>
+<!-- Profile Section -->
+<div id="profile-sec" class="section">
+    <div class="profile-box">
+        <div id="login-form">
+            <h2 style="font-weight: 800;">Customer Login</h2>
+            <input type="text" id="uName" placeholder="Full Name">
+            <input type="tel" id="uPhone" placeholder="Mobile Number">
+            <textarea id="uAddr" rows="3" placeholder="Full Delivery Address"></textarea>
+            <button class="btn-buy" onclick="saveProfile()">Save Profile</button>
+        </div>
+        <div id="profile-display" style="display:none; text-align:center;">
+            <div style="background:var(--primary); color:white; width:60px; height:60px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 15px; font-size:24px;"><i class="fa-solid fa-user"></i></div>
+            <h3 id="dName" style="margin:0;"></h3>
+            <p id="dPhone" style="color:#666; margin:5px 0 20px;"></p>
+            <div style="text-align:left; background:#f9f9f9; padding:15px; border-radius:15px;">
+                <small style="color:#999; font-weight:700;">ADDRESS</small>
+                <p id="dAddr" style="margin:5px 0 0; font-size:14px;"></p>
+            </div>
+            <button onclick="logout()" style="margin-top:20px; background:none; border:none; color:#ff1744; font-weight:700;">Logout / Edit</button>
+        </div>
+    </div>
 </div>
 
 <nav class="nav-bar">
-    <div class="nav-tab active" id="homeTab" onclick="goHome(this)"><i class="fa-solid fa-house"></i>Home</div>
-    <div class="nav-tab" id="catTab" onclick="showPage('cat-page', this)"><i class="fa-solid fa-list"></i>Category</div>
-    <div class="nav-tab" id="orderTab" onclick="showPage('order-sec', this)"><i class="fa-solid fa-bag-shopping"></i>Orders</div>
-    <div class="nav-tab"><i class="fa-solid fa-user"></i>Profile</div>
+    <div class="nav-tab active" onclick="showPage('home-sec', this)"><i class="fa-solid fa-house"></i>Home</div>
+    <div class="nav-tab" id="cartTab" onclick="showPage('order-sec', this)"><i class="fa-solid fa-cart-shopping"></i>Cart</div>
+    <div class="nav-tab" onclick="showPage('profile-sec', this)"><i class="fa-solid fa-user"></i>Profile</div>
 </nav>
 
 <script type="module">
@@ -147,73 +119,77 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     let allProducts = [];
-    let currentItem = null;
 
-    async function fetchItems() {
+    // Initialize Page
+    async function init() {
         const q = query(collection(db, "products"), orderBy("time", "desc"));
         const snap = await getDocs(q);
         allProducts = snap.docs.map(doc => ({id: doc.id, ...doc.data()}));
         render(allProducts, 'productList');
+        checkLogin();
     }
 
     function render(data, targetId) {
         const list = document.getElementById(targetId);
-        list.innerHTML = data.length ? "" : "<p style='text-align:center; padding:20px;'>Nothing found.</p>";
+        list.innerHTML = "";
         data.forEach(p => {
-            const img = (p.images && p.images.length > 0) ? p.images[0] : 'Dkart.jpg';
             const isCart = (targetId === 'cartList');
             list.innerHTML += `
                 <div class="product-card">
                     ${isCart ? `<button class="delete-btn" onclick="removeFromCart('${p.id}')"><i class="fa-solid fa-trash"></i></button>` : ''}
-                    <div class="img-box"><img src="${img}"></div>
+                    <div class="img-box"><img src="${p.images[0] || 'Dkart.jpg'}"></div>
                     <div class="p-info">
                         <div class="p-title">${p.name}</div>
                         <div class="p-price">₹${p.price}</div>
-                        <button class="btn-buy" onclick="openCheckout('${p.name}', '${p.price}')">Buy Now</button>
-                        ${!isCart ? `<button class="btn-cart" onclick="addToCart('${p.id}')">Add to Cart</button>` : ''}
+                        <button class="btn-buy" onclick="handleBuy('${p.name}', '${p.price}')">Buy Now</button>
                     </div>
                 </div>`;
         });
     }
 
-    // Modal & Database Order Logic
-    window.openCheckout = (name, price) => {
-        currentItem = { name, price };
-        document.getElementById('order-info').innerText = name + " - ₹" + price;
-        document.getElementById('overlay').style.display = 'block';
-        document.getElementById('checkout-modal').classList.add('open');
-    }
+    // Buy Logic
+    window.handleBuy = async (name, price) => {
+        const user = JSON.parse(localStorage.getItem('dk_user'));
+        if(!user) { alert("Pehle Profile section mein Login karein!"); showPage('profile-sec', document.querySelector('.nav-tab:last-child')); return; }
 
-    window.closeCheckout = () => {
-        document.getElementById('overlay').style.display = 'none';
-        document.getElementById('checkout-modal').classList.remove('open');
-    }
-
-    window.sendToAdmin = async () => {
-        const name = document.getElementById('custName').value;
-        const phone = document.getElementById('custPhone').value;
-        const addr = document.getElementById('custAddr').value;
-        
-        if(!name || !phone || !addr) return alert("All fields are required!");
-
-        try {
-            // "orders" collection mein naya order add karna
+        if(confirm(`Order ${name} for ₹${price}?`)) {
             await addDoc(collection(db, "orders"), {
-                customerName: name,
-                customerPhone: phone,
-                customerAddress: addr,
-                productName: currentItem.name,
-                productPrice: currentItem.price,
+                customerName: user.name,
+                customerPhone: user.phone,
+                customerAddress: user.address,
+                productName: name,
+                productPrice: price,
                 status: "Pending",
                 orderDate: serverTimestamp()
             });
-            alert("Order placed! Check your Admin Management section. ✅");
-            closeCheckout();
-        } catch(e) { alert("Error sending order."); }
+            alert("Order placed successfully! ✅");
+        }
     }
 
-    // Navigation & Functions
-    window.goHome = (el) => { showPage('home-sec', el); render(allProducts, 'productList'); }
+    // Profile Logic
+    window.saveProfile = () => {
+        const name = document.getElementById('uName').value;
+        const phone = document.getElementById('uPhone').value;
+        const address = document.getElementById('uAddr').value;
+        if(!name || !phone || !address) return alert("Fill all details!");
+        localStorage.setItem('dk_user', JSON.stringify({name, phone, address}));
+        checkLogin();
+    }
+
+    function checkLogin() {
+        const user = JSON.parse(localStorage.getItem('dk_user'));
+        document.getElementById('login-form').style.display = user ? 'none' : 'block';
+        document.getElementById('profile-display').style.display = user ? 'block' : 'none';
+        if(user) {
+            document.getElementById('dName').innerText = user.name;
+            document.getElementById('dPhone').innerText = user.phone;
+            document.getElementById('dAddr').innerText = user.address;
+        }
+    }
+
+    window.logout = () => { localStorage.removeItem('dk_user'); checkLogin(); }
+
+    // Navigation
     window.showPage = (id, el) => {
         document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
         document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
@@ -222,27 +198,7 @@
         if(id === 'order-sec') displayCart();
     }
 
-    window.addToCart = (id) => {
-        let cart = JSON.parse(localStorage.getItem('dk_cart') || '[]');
-        if(!cart.includes(id)) {
-            cart.push(id);
-            localStorage.setItem('dk_cart', JSON.stringify(cart));
-            alert("Added to cart!");
-        } else { alert("Already in cart."); }
-    }
-
-    window.removeFromCart = (id) => {
-        let cart = JSON.parse(localStorage.getItem('dk_cart') || '[]');
-        localStorage.setItem('dk_cart', JSON.stringify(cart.filter(i => i !== id)));
-        displayCart();
-    }
-
-    function displayCart() {
-        let ids = JSON.parse(localStorage.getItem('dk_cart') || '[]');
-        render(allProducts.filter(p => ids.includes(p.id)), 'cartList');
-    }
-
-    fetchItems();
+    init();
 </script>
 </body>
 </html>

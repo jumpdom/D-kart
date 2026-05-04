@@ -12,7 +12,7 @@
     <style>
         :root { --primary: #000000; --accent: #ffff00; --white: #ffffff; --bg: #0a0a0a; }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
-        body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding-bottom: 80px; color: var(--white); }
+        body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding-bottom: 80px; color: var(--white); overflow-x: hidden; }
         header { background: var(--primary); padding: 15px 10px; border-bottom: 2px solid var(--accent); position: sticky; top: 0; z-index: 1000; }
         .logo-row { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 5px; }
         .logo-img { width: 40px; height: 40px; border-radius: 5px; border: 1.5px solid var(--white); }
@@ -23,7 +23,8 @@
         .search-box input { background: transparent; border: none; color: white; width: 100%; margin-left: 10px; font-size: 14px; }
         .help-btn { background: #25D366; color: white; width: 42px; height: 42px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 22px; text-decoration: none; border: 1px solid white; }
         .cat-row { display: flex; overflow-x: auto; padding: 15px 10px; gap: 15px; scrollbar-width: none; background: #111; }
-        .cat-item { min-width: 70px; text-align: center; cursor: pointer; }
+        .cat-item { min-width: 70px; text-align: center; cursor: pointer; transition: 0.3s; }
+        .cat-item:active { transform: scale(0.9); }
         .cat-icon { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; font-size: 20px; color: #000; border: 2px solid #fff; }
         .cat-item span { font-size: 10px; font-weight: 700; color: #fff; }
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px; }
@@ -35,7 +36,7 @@
         .size-wrap { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 15px; }
         .size-box { border: 1px solid #444; padding: 8px 15px; border-radius: 6px; font-size: 12px; background: #1a1a1a; color: #fff; font-weight: 600; cursor: pointer; }
         .size-box.selected { background: var(--accent) !important; color: #000 !important; border-color: #fff !important; }
-        .description-box { background: #111; padding: 12px; border-radius: 8px; border: 1px solid #222; font-size: 13px; color: #ccc; line-height: 1.6; text-align: left; margin-bottom: 80px; }
+        .description-box { background: #111; padding: 12px; border-radius: 8px; border: 1px solid #222; font-size: 13px; color: #ccc; line-height: 1.6; text-align: left; margin-bottom: 80px; white-space: pre-line; }
         .full-view { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 3000; display: none; overflow-y: auto; }
         .view-header { padding: 15px; display: flex; align-items: center; border-bottom: 1px solid #333; background: var(--primary); position: sticky; top: 0; z-index: 10; }
         .view-header span { color: var(--accent); font-weight: 700; margin-left: 15px; text-transform: uppercase; }
@@ -76,7 +77,7 @@
     <div class="grid" id="productList"></div>
 </div>
 
-<!-- All other Views (detail, checkout, orders) same as your code -->
+<!-- Details View -->
 <div id="detail-view" class="full-view">
     <div class="view-header"><i class="fa-solid fa-arrow-left" id="back-detail"></i><span>Details</span></div>
     <div style="padding: 15px; text-align: center;">
@@ -91,6 +92,7 @@
     <div class="btn-box"><button class="btn-main" id="buy-now-btn">Buy Now (COD)</button></div>
 </div>
 
+<!-- Checkout View -->
 <div id="checkout-view" class="full-view">
     <div class="view-header"><i class="fa-solid fa-arrow-left" id="back-checkout"></i><span>Checkout</span></div>
     <div style="padding: 20px;">
@@ -101,14 +103,16 @@
     <div class="btn-box"><button class="btn-main" id="order-btn">Confirm Order</button></div>
 </div>
 
+<!-- My Orders View -->
 <div id="orders-view" class="full-view">
     <div class="view-header"><i class="fa-solid fa-arrow-left" id="back-orders"></i><span>My Orders</span></div>
     <div id="orderListContainer" style="padding-bottom: 20px;"></div>
 </div>
 
+<!-- Bottom Navigation -->
 <nav class="nav-bar">
     <div class="nav-tab active" id="nav-home"><i class="fa-solid fa-house"></i><span>Home</span></div>
-    <div class="nav-tab" id="nav-orders"><i class="fa-solid fa-bag-shopping"></i><span>Orders</span></div>
+    <div class="nav-tab" id="nav-orders-tab"><i class="fa-solid fa-bag-shopping"></i><span>Orders</span></div>
 </nav>
 
 <script type="module">
@@ -126,52 +130,73 @@
     const db = getFirestore(app);
     let allP = [], currentP = null, selectedSize = null;
 
+    // Load Data
     async function load() {
-        const q = query(collection(db, "products"), orderBy("time", "desc"));
-        const snap = await getDocs(q);
-        allP = snap.docs.map(d => ({id: d.id, ...d.data()}));
-        render(allP);
+        try {
+            const q = query(collection(db, "products"), orderBy("time", "desc"));
+            const snap = await getDocs(q);
+            allP = snap.docs.map(d => ({id: d.id, ...d.data()}));
+            render(allP);
+        } catch(e) {
+            console.error("Load Error:", e);
+        }
     }
 
+    // Render Grid
     function render(data) {
         const list = document.getElementById('productList');
         list.innerHTML = "";
+        if(data.length === 0) {
+            list.innerHTML = `<div style="grid-column:1/3; text-align:center; padding:50px; color:#666;">No products found.</div>`;
+            return;
+        }
         data.forEach(p => {
             const card = document.createElement('div');
             card.className = 'p-card';
-            card.innerHTML = `<img src="${p.images[0] || 'Dkart.jpg'}"><div class="p-name">${p.name}</div><div class="p-price">₹${p.price}</div>`;
+            card.innerHTML = `
+                <img src="${p.images && p.images[0] ? p.images[0] : 'Dkart.jpg'}" onerror="this.src='Dkart.jpg'">
+                <div class="p-name">${p.name}</div>
+                <div class="p-price">₹${p.price}</div>
+            `;
             card.onclick = () => showDetail(p);
             list.appendChild(card);
         });
     }
 
-    // --- Fix: Search Logic ---
+    // --- Search Logic ---
     document.getElementById('searchInput').oninput = (e) => {
         const term = e.target.value.toLowerCase();
         const filtered = allP.filter(p => p.name.toLowerCase().includes(term));
         render(filtered);
     };
 
-    // --- Fix: Category Logic ---
+    // --- Category Logic ---
     document.getElementById('cat-all').onclick = () => render(allP);
+    
     document.getElementById('cat-mobile').onclick = () => {
-        const filtered = allP.filter(p => p.category === 'Mobile' || p.category === 'mobile');
+        const filtered = allP.filter(p => p.category && p.category.toLowerCase() === 'mobile');
         render(filtered);
     };
+    
     document.getElementById('cat-fashion').onclick = () => {
-        const filtered = allP.filter(p => p.category === 'Fashion' || p.category === 'fashion');
+        const filtered = allP.filter(p => p.category && p.category.toLowerCase() === 'fashion');
         render(filtered);
     };
 
+    // Show Detail View
     function showDetail(p) {
         currentP = p;
         selectedSize = null;
-        document.getElementById('det-img').src = p.images[0] || 'Dkart.jpg';
+        document.getElementById('det-img').src = p.images && p.images[0] ? p.images[0] : 'Dkart.jpg';
         document.getElementById('det-name').innerText = p.name;
         document.getElementById('det-price').innerText = "₹" + p.price;
-        document.getElementById('det-desc').innerText = p.desc || "No extra details.";
+        document.getElementById('det-desc').innerText = p.desc || "High quality product from Dkart.";
+        
         const sCont = document.getElementById('det-sizes');
-        sCont.innerHTML = p.sizes && p.sizes.length > 0 ? p.sizes.map(s => `<div class="size-box">${s}</div>`).join('') : '<span style="color:#666; font-size:12px;">Standard Size</span>';
+        sCont.innerHTML = p.sizes && p.sizes.length > 0 
+            ? p.sizes.map(s => `<div class="size-box">${s}</div>`).join('') 
+            : '<span style="color:#666; font-size:12px;">Standard Size</span>';
+        
         sCont.querySelectorAll('.size-box').forEach(box => {
             box.onclick = () => {
                 sCont.querySelectorAll('.size-box').forEach(b => b.classList.remove('selected'));
@@ -182,30 +207,31 @@
         document.getElementById('detail-view').style.display = 'block';
     }
 
+    // Navigation Controls
     document.getElementById('back-detail').onclick = () => document.getElementById('detail-view').style.display = 'none';
     document.getElementById('buy-now-btn').onclick = () => document.getElementById('checkout-view').style.display = 'block';
     document.getElementById('back-checkout').onclick = () => document.getElementById('checkout-view').style.display = 'none';
-    
-    // --- Fix: Home Button ---
+
     document.getElementById('nav-home').onclick = () => {
         document.querySelectorAll('.full-view').forEach(v => v.style.display = 'none');
         document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
         document.getElementById('nav-home').classList.add('active');
-        render(allP); // Show all products again
-        document.getElementById('searchInput').value = ""; // Clear search
+        render(allP);
     };
 
-    // --- Orders Tracking Logic (As per your code) ---
-    document.getElementById('nav-orders').onclick = async () => {
+    // Orders Tracking
+    document.getElementById('nav-orders-tab').onclick = async () => {
         document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-        document.getElementById('nav-orders').classList.add('active');
+        document.getElementById('nav-orders-tab').classList.add('active');
+        
         const localOrders = JSON.parse(localStorage.getItem('dk_orders')) || [];
         const cont = document.getElementById('orderListContainer');
-        cont.innerHTML = "<p style='text-align:center;padding:20px;'>Syncing live status...</p>";
+        
         if(localOrders.length === 0) {
-            cont.innerHTML = "<p style='text-align:center;padding:20px;'>No orders yet.</p>";
+            cont.innerHTML = "<p style='text-align:center;padding:50px; color:#666;'>No orders yet.</p>";
         } else {
-            cont.innerHTML = "";
+            cont.innerHTML = "<p style='text-align:center;padding:20px;'>Updating status...</p>";
+            let html = "";
             for (let localO of localOrders) {
                 let status = "Pending", progress = "15%";
                 if(localO.id) {
@@ -219,15 +245,19 @@
                         }
                     } catch(e) {}
                 }
-                cont.innerHTML += `
+                html += `
                     <div class="order-card">
                         <div style="display:flex; justify-content:space-between; align-items:start;">
-                            <div><b style="color:var(--accent); font-size:14px;">${localO.name}</b><div style="font-size:11px; color:#888; margin-top:4px;">Size: ${localO.size} | Price: ₹${localO.price}</div></div>
+                            <div>
+                                <b style="color:var(--accent); font-size:14px;">${localO.name}</b>
+                                <div style="font-size:11px; color:#888; margin-top:4px;">Size: ${localO.size} | ₹${localO.price}</div>
+                            </div>
                             <span class="status-badge">${status}</span>
                         </div>
                         <div class="track-bar"><div class="track-progress" style="width:${progress}"></div></div>
                     </div>`;
             }
+            cont.innerHTML = html;
         }
         document.getElementById('orders-view').style.display = 'block';
     };
@@ -237,27 +267,40 @@
         document.getElementById('nav-home').click();
     };
 
+    // Confirm Order Logic
     document.getElementById('order-btn').onclick = async () => {
         const name = document.getElementById('c-name').value;
         const phone = document.getElementById('c-phone').value;
         const addr = document.getElementById('c-addr').value;
+
         if (currentP.sizes && currentP.sizes.length > 0 && !selectedSize) return alert("Please select a size!");
-        if (!name || !phone || !addr) return alert("Please fill details!");
+        if (!name || !phone || !addr) return alert("Please fill all details!");
+
         const btn = document.getElementById('order-btn');
         btn.innerText = "Processing..."; btn.disabled = true;
+
         const orderData = {
-            name: currentP.name, price: currentP.price, size: selectedSize || "Standard",
-            customer: name, phone: phone, address: addr, status: "Pending", time: serverTimestamp()
+            name: currentP.name, 
+            price: currentP.price, 
+            size: selectedSize || "Standard",
+            customer: name, 
+            phone: phone, 
+            address: addr, 
+            status: "Pending", 
+            time: serverTimestamp()
         };
+
         try {
             const docRef = await addDoc(collection(db, "orders"), orderData);
             let myOrders = JSON.parse(localStorage.getItem('dk_orders')) || [];
             myOrders.unshift({ ...orderData, id: docRef.id });
             localStorage.setItem('dk_orders', JSON.stringify(myOrders));
-            alert("Order Placed! ✅");
+            alert("Order Placed Successfully! ✅");
             location.reload();
         } catch (e) {
-            alert("Error! Try again."); btn.innerText = "Confirm Order"; btn.disabled = false;
+            alert("Error placing order. Try again."); 
+            btn.innerText = "Confirm Order"; 
+            btn.disabled = false;
         }
     };
 

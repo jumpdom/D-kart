@@ -30,8 +30,6 @@
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px; }
         .p-card { background: #151515; padding: 10px; border-radius: 12px; border: 1.5px solid var(--white); position: relative; }
         .p-card img { width: 100%; height: 140px; object-fit: contain; border-radius: 8px; background: #222; }
-        .wish-icon { position: absolute; top: 15px; right: 15px; font-size: 18px; color: #444; z-index: 5; }
-        .wish-icon.active { color: #ff4757; }
         .p-name { font-size: 12px; font-weight: 600; color: var(--accent); margin-top: 10px; height: 35px; overflow: hidden; text-transform: uppercase; }
         .p-price { font-size: 17px; font-weight: 800; color: var(--white); margin: 5px 0; }
 
@@ -47,6 +45,12 @@
 
         .btn-box { position: fixed; bottom: 0; width: 100%; height: 60px; z-index: 3500; }
         .btn-main { width: 100%; height: 100%; border: none; font-weight: 900; background: var(--accent); color: #000; font-size: 16px; text-transform: uppercase; cursor: pointer; }
+
+        /* Order Tracking CSS */
+        .order-card { background: #151515; margin: 12px; padding: 15px; border-radius: 12px; border: 1px solid #333; }
+        .track-bar { height: 6px; background: #333; border-radius: 3px; margin: 15px 0; overflow: hidden; }
+        .track-progress { height: 100%; background: var(--accent); transition: 0.5s; }
+        .status-badge { font-size: 10px; background: var(--accent); color: #000; padding: 3px 8px; border-radius: 4px; font-weight: 800; text-transform: uppercase; }
 
         .nav-bar { position: fixed; bottom: 0; width: 100%; background: #000; display: flex; border-top: 2px solid var(--accent); z-index: 2000; height: 65px; align-items: center; }
         .nav-tab { flex: 1; text-align: center; color: #777; cursor: pointer; font-size: 10px; font-weight: 700; }
@@ -72,9 +76,9 @@
         </div>
     </header>
     <div class="cat-row">
-        <div class="cat-item" id="cat-All"><div class="cat-icon" style="background: #FFD700;"><i class="fa-solid fa-border-all"></i></div><span>All</span></div>
-        <div class="cat-item" id="cat-Mobile"><div class="cat-icon" style="background: #FF4757;"><i class="fa-solid fa-mobile"></i></div><span>Mobile</span></div>
-        <div class="cat-item" id="cat-Fashion"><div class="cat-icon" style="background: #2ED573;"><i class="fa-solid fa-shirt"></i></div><span>Fashion</span></div>
+        <div class="cat-item" onclick="render(allP)"><div class="cat-icon" style="background: #FFD700;"><i class="fa-solid fa-border-all"></i></div><span>All</span></div>
+        <div class="cat-item" onclick="filterCat('Mobile')"><div class="cat-icon" style="background: #FF4757;"><i class="fa-solid fa-mobile"></i></div><span>Mobile</span></div>
+        <div class="cat-item" onclick="filterCat('Fashion')"><div class="cat-icon" style="background: #2ED573;"><i class="fa-solid fa-shirt"></i></div><span>Fashion</span></div>
     </div>
     <div class="grid" id="productList"></div>
 </div>
@@ -105,7 +109,7 @@
 
 <div id="orders-view" class="full-view">
     <div class="view-header"><i class="fa-solid fa-arrow-left" id="back-orders"></i><span>My Orders</span></div>
-    <div id="orderListContainer"></div>
+    <div id="orderListContainer" style="padding-bottom: 20px;"></div>
 </div>
 
 <nav class="nav-bar">
@@ -115,7 +119,7 @@
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
-    import { getFirestore, collection, getDocs, addDoc, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+    import { getFirestore, collection, getDocs, getDoc, addDoc, query, orderBy, serverTimestamp, where, doc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyAchWzhIxqmS7G0HPpvuq6WBwcr8pXzFAE",
@@ -128,7 +132,6 @@
     const db = getFirestore(app);
     let allP = [], currentP = null, selectedSize = null;
 
-    // Initialization
     async function load() {
         const q = query(collection(db, "products"), orderBy("time", "desc"));
         const snap = await getDocs(q);
@@ -136,17 +139,13 @@
         render(allP);
     }
 
-    function render(data) {
+    window.render = (data) => {
         const list = document.getElementById('productList');
         list.innerHTML = "";
         data.forEach(p => {
             const card = document.createElement('div');
             card.className = 'p-card';
-            card.innerHTML = `
-                <img src="${p.images[0] || 'Dkart.jpg'}">
-                <div class="p-name">${p.name}</div>
-                <div class="p-price">₹${p.price}</div>
-            `;
+            card.innerHTML = `<img src="${p.images[0] || 'Dkart.jpg'}"><div class="p-name">${p.name}</div><div class="p-price">₹${p.price}</div>`;
             card.onclick = () => showDetail(p);
             list.appendChild(card);
         });
@@ -159,13 +158,8 @@
         document.getElementById('det-name').innerText = p.name;
         document.getElementById('det-price').innerText = "₹" + p.price;
         document.getElementById('det-desc').innerText = p.desc || "No extra details.";
-        
         const sCont = document.getElementById('det-sizes');
-        sCont.innerHTML = p.sizes && p.sizes.length > 0 
-            ? p.sizes.map(s => `<div class="size-box">${s}</div>`).join('') 
-            : '<span style="color:#666; font-size:12px;">Standard Size</span>';
-
-        // Add size selection click
+        sCont.innerHTML = p.sizes && p.sizes.length > 0 ? p.sizes.map(s => `<div class="size-box">${s}</div>`).join('') : '<span style="color:#666; font-size:12px;">Standard Size</span>';
         sCont.querySelectorAll('.size-box').forEach(box => {
             box.onclick = () => {
                 sCont.querySelectorAll('.size-box').forEach(b => b.classList.remove('selected'));
@@ -173,70 +167,94 @@
                 selectedSize = box.innerText;
             };
         });
-
         document.getElementById('detail-view').style.display = 'block';
     }
 
-    // Buttons Click Listeners (Corrected for Type Module)
     document.getElementById('back-detail').onclick = () => document.getElementById('detail-view').style.display = 'none';
     document.getElementById('buy-now-btn').onclick = () => document.getElementById('checkout-view').style.display = 'block';
     document.getElementById('back-checkout').onclick = () => document.getElementById('checkout-view').style.display = 'none';
-    document.getElementById('nav-home').onclick = () => location.reload();
-    
-    document.getElementById('nav-orders').onclick = () => {
-        const orders = JSON.parse(localStorage.getItem('dk_orders')) || [];
+    document.getElementById('nav-home').onclick = () => {
+        document.querySelectorAll('.full-view').forEach(v => v.style.display = 'none');
+        document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+        document.getElementById('nav-home').classList.add('active');
+    };
+
+    // --- LIVE ORDER TRACKING LOGIC ---
+    document.getElementById('nav-orders').onclick = async () => {
+        document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+        document.getElementById('nav-orders').classList.add('active');
+        
+        const localOrders = JSON.parse(localStorage.getItem('dk_orders')) || [];
         const cont = document.getElementById('orderListContainer');
-        cont.innerHTML = orders.length ? "" : "<p style='text-align:center;padding:20px;'>No orders yet.</p>";
-        orders.forEach(o => {
-            cont.innerHTML += `<div class="order-card" style="background:#1a1a1a; margin:10px; padding:12px; border-radius:10px; border-left:4px solid var(--accent);"><div style="color:var(--accent);font-weight:600;">${o.name}</div><div style="font-size:12px;">Price: ₹${o.price} | Size: ${o.size}</div></div>`;
-        });
+        cont.innerHTML = "<p style='text-align:center;padding:20px;'>Syncing live status...</p>";
+        
+        if(localOrders.length === 0) {
+            cont.innerHTML = "<p style='text-align:center;padding:20px;'>No orders yet.</p>";
+        } else {
+            cont.innerHTML = "";
+            for (let localO of localOrders) {
+                let status = "Pending", progress = "15%";
+                
+                if(localO.id) {
+                    try {
+                        const d = await getDoc(doc(db, "orders", localO.id));
+                        if(d.exists()) {
+                            status = d.data().status || "Pending";
+                            if(status === "Packed") progress = "40%";
+                            if(status === "Shipped") progress = "70%";
+                            if(status === "Delivered") progress = "100%";
+                        }
+                    } catch(e) {}
+                }
+
+                cont.innerHTML += `
+                    <div class="order-card">
+                        <div style="display:flex; justify-content:space-between; align-items:start;">
+                            <div>
+                                <b style="color:var(--accent); font-size:14px;">${localO.name}</b>
+                                <div style="font-size:11px; color:#888; margin-top:4px;">Size: ${localO.size} | Price: ₹${localO.price}</div>
+                            </div>
+                            <span class="status-badge">${status}</span>
+                        </div>
+                        <div class="track-bar"><div class="track-progress" style="width:${progress}"></div></div>
+                        <div style="display:flex; justify-content:space-between; font-size:9px; color:#666; font-weight:700;">
+                            <span>PLACED</span><span>PACKED</span><span>SHIPPED</span><span>DELIVERED</span>
+                        </div>
+                    </div>`;
+            }
+        }
         document.getElementById('orders-view').style.display = 'block';
     };
-    document.getElementById('back-orders').onclick = () => document.getElementById('orders-view').style.display = 'none';
 
-    // SEARCH FUN
-    document.getElementById('searchInput').onkeyup = (e) => {
-        const val = e.target.value.toLowerCase();
-        render(allP.filter(p => p.name.toLowerCase().includes(val)));
+    document.getElementById('back-orders').onclick = () => {
+        document.getElementById('orders-view').style.display = 'none';
+        document.getElementById('nav-home').click();
     };
 
-    // FINAL ORDER CONFIRMATION
     document.getElementById('order-btn').onclick = async () => {
         const name = document.getElementById('c-name').value;
         const phone = document.getElementById('c-phone').value;
         const addr = document.getElementById('c-addr').value;
-
-        if (currentP.sizes && currentP.sizes.length > 0 && !selectedSize) {
-            return alert("Please select a size first!");
-        }
-        if (!name || !phone || !addr) return alert("Please fill all details!");
+        if (currentP.sizes && currentP.sizes.length > 0 && !selectedSize) return alert("Please select a size!");
+        if (!name || !phone || !addr) return alert("Please fill details!");
 
         const btn = document.getElementById('order-btn');
-        btn.innerText = "Processing...";
-        btn.disabled = true;
+        btn.innerText = "Processing..."; btn.disabled = true;
 
         const orderData = {
-            name: currentP.name,
-            price: currentP.price,
-            img: currentP.images[0] || "",
-            size: selectedSize || "Standard",
-            customer: name,
-            phone: phone,
-            address: addr,
-            time: serverTimestamp()
+            name: currentP.name, price: currentP.price, size: selectedSize || "Standard",
+            customer: name, phone: phone, address: addr, status: "Pending", time: serverTimestamp()
         };
 
         try {
-            await addDoc(collection(db, "orders"), orderData);
+            const docRef = await addDoc(collection(db, "orders"), orderData);
             let myOrders = JSON.parse(localStorage.getItem('dk_orders')) || [];
-            myOrders.unshift(orderData);
+            myOrders.unshift({ ...orderData, id: docRef.id }); // ID save kar rahe hain tracking ke liye
             localStorage.setItem('dk_orders', JSON.stringify(myOrders));
-            alert("Order Placed Successfully! ✅");
+            alert("Order Placed! Check 'Orders' tab for tracking. ✅");
             location.reload();
         } catch (e) {
-            alert("Error placing order. Please try again.");
-            btn.innerText = "Confirm Order";
-            btn.disabled = false;
+            alert("Error! Try again."); btn.innerText = "Confirm Order"; btn.disabled = false;
         }
     };
 

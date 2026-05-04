@@ -8,118 +8,113 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         :root { --primary: #000000; --accent: #ffff00; --white: #ffffff; --bg: #0a0a0a; }
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
-        body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding-bottom: 80px; color: var(--white); }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding-bottom: 80px; color: var(--white); overflow-x: hidden; }
 
-        /* Header & Search */
+        /* Header */
         header { background: var(--primary); padding: 15px 10px; border-bottom: 2px solid var(--accent); position: sticky; top: 0; z-index: 1000; }
-        .logo-row { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 12px; }
-        .logo-img { width: 35px; height: 35px; border-radius: 5px; border: 1px solid var(--white); }
+        .logo-row { display: flex; align-items: center; justify-content: center; gap: 10px; }
         .brand { font-family: 'Montserrat', sans-serif; font-size: 24px; font-weight: 900; color: var(--accent); font-style: italic; }
         
-        .search-container { padding: 0 10px; }
-        .search-box { background: #222; border-radius: 8px; display: flex; align-items: center; padding: 10px 15px; border: 1px solid #444; }
-        .search-box input { background: transparent; border: none; color: white; width: 100%; margin-left: 10px; font-size: 14px; }
+        /* Search */
+        .search-container { padding: 10px; }
+        .search-box { background: #1a1a1a; border-radius: 8px; display: flex; align-items: center; padding: 10px 15px; border: 1px solid #333; }
+        .search-box input { background: transparent; border: none; color: white; width: 100%; margin-left: 10px; }
 
-        /* Categories */
-        .cat-row { display: flex; overflow-x: auto; padding: 15px 10px; gap: 15px; scrollbar-width: none; background: #111; border-bottom: 1px solid #222; }
-        .cat-row::-webkit-scrollbar { display: none; }
-        .cat-item { min-width: 75px; text-align: center; }
-        .cat-icon { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; font-size: 20px; color: #000; border: 2px solid #fff; }
-        .cat-item span { font-size: 10px; font-weight: 700; color: #fff; text-transform: uppercase; }
-
-        /* Product Grid */
+        /* Grid & Cards */
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px; }
-        .p-card { background: #181818; padding: 10px; border-radius: 12px; border: 1.5px solid var(--white); box-shadow: 0 5px 15px rgba(0,0,0,0.8); cursor: pointer; }
-        .p-card img { width: 100%; height: 140px; object-fit: contain; border-radius: 8px; background: #222; }
-        .p-name { font-size: 12px; font-weight: 600; color: var(--accent); margin-top: 10px; height: 35px; overflow: hidden; text-transform: uppercase; }
-        .p-price { font-size: 17px; font-weight: 800; color: var(--white); margin: 5px 0; }
+        .p-card { background: #151515; padding: 10px; border-radius: 12px; border: 1.5px solid var(--white); position: relative; }
+        .p-card img { width: 100%; height: 140px; object-fit: contain; background: #222; border-radius: 8px; }
+        .wish-btn { position: absolute; top: 15px; right: 15px; color: #555; font-size: 18px; z-index: 5; }
+        .wish-btn.active { color: #ff0055; }
+        .p-name { font-size: 12px; font-weight: 600; color: var(--accent); margin-top: 8px; height: 35px; overflow: hidden; }
+        .p-price { font-size: 16px; font-weight: 800; }
 
-        /* Bottom Navigation Bar Fix */
-        .nav-bar { 
-            position: fixed; bottom: 0; width: 100%; background: #000; 
-            display: flex; border-top: 2px solid var(--accent); z-index: 3000; 
-            height: 65px; align-items: center; justify-content: space-around;
-        }
-        .nav-tab { text-align: center; color: #777; transition: 0.3s; cursor: pointer; flex: 1; }
-        .nav-tab i { font-size: 20px; display: block; margin-bottom: 4px; }
-        .nav-tab span { font-size: 10px; font-weight: 700; text-transform: uppercase; }
+        /* Navigation */
+        .nav-bar { position: fixed; bottom: 0; width: 100%; background: #000; display: flex; border-top: 2px solid var(--accent); z-index: 3000; height: 65px; }
+        .nav-tab { flex: 1; text-align: center; color: #777; padding: 10px 0; font-size: 10px; font-weight: 700; }
         .nav-tab.active { color: var(--accent); }
+        .nav-tab i { font-size: 20px; display: block; margin-bottom: 3px; }
 
         /* Views */
         .full-view { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 4000; display: none; overflow-y: auto; }
-        .view-header { padding: 15px; display: flex; align-items: center; border-bottom: 1px solid #333; background: var(--primary); }
+        .view-header { padding: 15px; display: flex; align-items: center; border-bottom: 1px solid #333; background: var(--primary); position: sticky; top: 0; }
         .view-header span { color: var(--accent); font-weight: 700; margin-left: 15px; }
 
-        .btn-box { position: fixed; bottom: 0; width: 100%; display: flex; height: 60px; z-index: 4500; }
-        .btn-main { flex: 1; border: none; font-weight: 900; font-size: 18px; background: var(--accent); color: black; text-transform: uppercase; }
+        /* Order Card in My Orders */
+        .order-item { background: #1a1a1a; margin: 10px; padding: 12px; border-radius: 10px; border-left: 4px solid var(--accent); display: flex; gap: 12px; }
+        .order-img { width: 70px; height: 70px; border-radius: 8px; object-fit: cover; background: #222; }
+        .order-det h4 { margin: 0; font-size: 14px; color: var(--accent); }
+        .order-det p { margin: 4px 0; font-size: 12px; color: #aaa; }
+
+        /* Payment Method UI */
+        .pay-method { background: #1a1a1a; padding: 15px; border-radius: 10px; border: 1px solid #333; margin-top: 15px; }
+        .cod-tag { display: flex; align-items: center; gap: 10px; color: var(--accent); font-weight: 800; }
+
+        .btn-box { position: fixed; bottom: 0; width: 100%; height: 60px; z-index: 4500; }
+        .btn-main { width: 100%; height: 100%; border: none; font-weight: 900; background: var(--accent); color: #000; font-size: 16px; }
     </style>
 </head>
 <body>
 
 <div id="home-sec">
     <header>
-        <div class="logo-row">
-            <img src="Dkart.jpg" class="logo-img">
-            <span class="brand">DKART</span>
-        </div>
+        <div class="logo-row"><span class="brand">DKART</span></div>
         <div class="search-container">
             <div class="search-box">
-                <i class="fa-solid fa-magnifying-glass" style="color: #ffff00;"></i>
-                <input type="text" id="searchInput" placeholder="Search for products..." onkeyup="searchFun()">
+                <i class="fa-solid fa-magnifying-glass" style="color:var(--accent)"></i>
+                <input type="text" id="searchInput" placeholder="Search..." onkeyup="searchFun()">
             </div>
         </div>
     </header>
-
-    <div class="cat-row">
-        <div class="cat-item" onclick="filterCat('All')"><div class="cat-icon" style="background: #FFD700;"><i class="fa-solid fa-grip"></i></div><span>All</span></div>
-        <div class="cat-item" onclick="filterCat('Mobile')"><div class="cat-icon" style="background: #FF5733;"><i class="fa-solid fa-mobile-button"></i></div><span>Mobile</span></div>
-        <div class="cat-item" onclick="filterCat('Fashion')"><div class="cat-icon" style="background: #C70039;"><i class="fa-solid fa-shirt"></i></div><span>Fashion</span></div>
-        <div class="cat-item" onclick="filterCat('Gadgets')"><div class="cat-icon" style="background: #900C3F;"><i class="fa-solid fa-headphones"></i></div><span>Gadgets</span></div>
-    </div>
-
     <div class="grid" id="productList"></div>
 </div>
 
-<!-- Details & Checkout Views (Same as before) -->
+<!-- Details View -->
 <div id="detail-view" class="full-view">
-    <div class="view-header"><i class="fa-solid fa-arrow-left" onclick="closeAll()"></i><span>PRODUCT VIEW</span></div>
+    <div class="view-header"><i class="fa-solid fa-arrow-left" onclick="closeAll()"></i><span>PRODUCT DETAILS</span></div>
     <div style="padding: 20px; text-align: center;">
-        <img id="det-img" style="width: 100%; border-radius: 12px; border: 1px solid #333;">
+        <img id="det-img" style="width: 100%; border-radius: 12px;">
         <h2 id="det-name" style="color: var(--accent); margin-top: 15px;"></h2>
         <div id="det-price" style="font-size: 26px; font-weight: 800;"></div>
     </div>
-    <div class="btn-box"><button class="btn-main" onclick="openCheckout()">BUY NOW</button></div>
+    <div class="btn-box"><button class="btn-main" onclick="openCheckout()">PROCEED TO CHECKOUT</button></div>
 </div>
 
+<!-- Checkout View -->
 <div id="checkout-view" class="full-view">
     <div class="view-header"><i class="fa-solid fa-arrow-left" onclick="closeCheckout()"></i><span>CHECKOUT</span></div>
     <div style="padding: 20px;">
-        <input type="text" id="c-name" placeholder="Name" style="width:100%; padding:15px; margin-bottom:10px; background:#1a1a1a; color:white; border:1px solid #444; border-radius:8px;">
-        <input type="tel" id="c-phone" placeholder="Phone" style="width:100%; padding:15px; margin-bottom:10px; background:#1a1a1a; color:white; border:1px solid #444; border-radius:8px;">
-        <textarea id="c-addr" placeholder="Address" style="width:100%; padding:15px; background:#1a1a1a; color:white; border:1px solid #444; border-radius:8px;" rows="3"></textarea>
+        <input type="text" id="c-name" placeholder="Full Name" style="width:100%; padding:15px; margin-bottom:10px; background:#111; color:white; border:1px solid #333; border-radius:8px;">
+        <input type="tel" id="c-phone" placeholder="Phone Number" style="width:100%; padding:15px; margin-bottom:10px; background:#111; color:white; border:1px solid #333; border-radius:8px;">
+        <textarea id="c-addr" placeholder="Delivery Address" style="width:100%; padding:15px; background:#111; color:white; border:1px solid #333; border-radius:8px;" rows="3"></textarea>
+        
+        <div class="pay-method">
+            <p style="margin:0 0 10px 0; font-size: 12px; color: #888;">PAYMENT METHOD</p>
+            <div class="cod-tag">
+                <i class="fa-solid fa-circle-check"></i> CASH ON DELIVERY (COD)
+            </div>
+        </div>
     </div>
     <div class="btn-box"><button class="btn-main" id="order-btn">CONFIRM ORDER</button></div>
 </div>
 
-<!-- New Bottom Navigation Bar -->
+<!-- My Orders View -->
+<div id="orders-view" class="full-view">
+    <div class="view-header"><i class="fa-solid fa-arrow-left" onclick="hideOrders()"></i><span>MY ORDERS</span></div>
+    <div id="orderListContainer"></div>
+</div>
+
+<!-- Wishlist View -->
+<div id="wishlist-view" class="full-view">
+    <div class="view-header"><i class="fa-solid fa-arrow-left" onclick="hideWishlist()"></i><span>MY WISHLIST</span></div>
+    <div class="grid" id="wishlistGrid"></div>
+</div>
+
 <nav class="nav-bar">
-    <div class="nav-tab active" onclick="location.reload()">
-        <i class="fa-solid fa-house"></i>
-        <span>Home</span>
-    </div>
-    <div class="nav-tab" onclick="alert('My Orders section coming soon!')">
-        <i class="fa-solid fa-bag-shopping"></i>
-        <span>My Orders</span>
-    </div>
-    <div class="nav-tab" onclick="alert('Wishlist section coming soon!')">
-        <i class="fa-solid fa-heart"></i>
-        <span>Wishlist</span>
-    </div>
-    <div class="nav-tab" onclick="alert('Profile section coming soon!')">
-        <i class="fa-solid fa-user"></i>
-        <span>Account</span>
-    </div>
+    <div class="nav-tab active" onclick="location.reload()"><i class="fa-solid fa-house"></i><span>Home</span></div>
+    <div class="nav-tab" onclick="showOrders()"><i class="fa-solid fa-bag-shopping"></i><span>My Orders</span></div>
+    <div class="nav-tab" onclick="showWishlist()"><i class="fa-solid fa-heart"></i><span>Wishlist</span></div>
 </nav>
 
 <script type="module">
@@ -135,23 +130,27 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-    let allP = [];
-    let currentP = null;
+    let allP = [], currentP = null;
 
     async function load() {
         const q = query(collection(db, "products"), orderBy("time", "desc"));
         const snap = await getDocs(q);
-        allP = snap.docs.map(d => ({...d.data()}));
-        render(allP);
+        allP = snap.docs.map(d => ({id: d.id, ...d.data()}));
+        render(allP, 'productList');
     }
 
-    function render(data) {
-        const list = document.getElementById('productList');
+    function render(data, targetId) {
+        const list = document.getElementById(targetId);
         list.innerHTML = "";
         data.forEach(p => {
             const card = document.createElement('div');
             card.className = 'p-card';
-            card.innerHTML = `<img src="${p.images[0] || 'Dkart.jpg'}"><div class="p-name">${p.name}</div><div class="p-price">₹${p.price}</div>`;
+            card.innerHTML = `
+                <i class="fa-solid fa-heart wish-btn" onclick="toggleWish(event, '${p.id}')"></i>
+                <img src="${p.images[0] || 'Dkart.jpg'}">
+                <div class="p-name">${p.name}</div>
+                <div class="p-price">₹${p.price}</div>
+            `;
             card.onclick = () => {
                 currentP = p;
                 document.getElementById('det-img').src = p.images[0] || 'Dkart.jpg';
@@ -163,29 +162,67 @@
         });
     }
 
-    window.searchFun = () => {
-        const val = document.getElementById('searchInput').value.toLowerCase();
-        render(allP.filter(p => p.name.toLowerCase().includes(val)));
+    // Wishlist Logic
+    window.toggleWish = (e, id) => {
+        e.stopPropagation();
+        let wish = JSON.parse(localStorage.getItem('dkart_wish')) || [];
+        if(wish.includes(id)) wish = wish.filter(i => i !== id);
+        else wish.push(id);
+        localStorage.setItem('dkart_wish', JSON.stringify(wish));
+        alert("Wishlist Updated!");
+    };
+
+    window.showWishlist = () => {
+        const wishIds = JSON.parse(localStorage.getItem('dkart_wish')) || [];
+        const filtered = allP.filter(p => wishIds.includes(p.id));
+        render(filtered, 'wishlistGrid');
+        document.getElementById('wishlist-view').style.display = 'block';
+    };
+
+    // My Orders Logic
+    window.showOrders = () => {
+        const orders = JSON.parse(localStorage.getItem('my_orders')) || [];
+        const container = document.getElementById('orderListContainer');
+        container.innerHTML = orders.length ? "" : "<p style='text-align:center; margin-top:50px;'>No orders yet!</p>";
+        orders.forEach(o => {
+            container.innerHTML += `
+                <div class="order-item">
+                    <img src="${o.img}" class="order-img">
+                    <div class="order-det">
+                        <h4>${o.name}</h4>
+                        <p>Price: ₹${o.price}</p>
+                        <p style="color: #00ff00; font-weight:700;">Status: ${o.status}</p>
+                    </div>
+                </div>
+            `;
+        });
+        document.getElementById('orders-view').style.display = 'block';
+    };
+
+    document.getElementById('order-btn').onclick = async () => {
+        const n = document.getElementById('c-name').value, ph = document.getElementById('c-phone').value, ad = document.getElementById('c-addr').value;
+        if(!n || !ph || !ad) return alert("Bhai, details bhariye!");
+        
+        const orderData = { 
+            name: currentP.name, price: currentP.price, img: currentP.images[0], status: 'Confirmed' 
+        };
+        
+        await addDoc(collection(db, "orders"), { ...orderData, customer: n, phone: ph, address: ad, time: serverTimestamp() });
+        
+        // Save to local for "My Orders" tab
+        let myOrders = JSON.parse(localStorage.getItem('my_orders')) || [];
+        myOrders.unshift(orderData);
+        localStorage.setItem('my_orders', JSON.stringify(myOrders));
+        
+        alert("Order Placed Successfully! ✅");
+        location.reload();
     };
 
     window.closeAll = () => document.getElementById('detail-view').style.display = 'none';
     window.openCheckout = () => document.getElementById('checkout-view').style.display = 'block';
     window.closeCheckout = () => document.getElementById('checkout-view').style.display = 'none';
-
-    document.getElementById('order-btn').onclick = async () => {
-        const n = document.getElementById('c-name').value;
-        const ph = document.getElementById('c-phone').value;
-        const ad = document.getElementById('c-addr').value;
-        if(!n || !ph || !ad) return alert("Details bhariye!");
-        
-        await addDoc(collection(db, "orders"), {
-            productName: currentP.name, price: currentP.price,
-            customerName: n, customerPhone: ph, address: ad,
-            status: "Pending", orderTime: serverTimestamp()
-        });
-        alert("Order Success! ✅");
-        location.reload();
-    };
+    window.hideOrders = () => document.getElementById('orders-view').style.display = 'none';
+    window.hideWishlist = () => document.getElementById('wishlist-view').style.display = 'none';
 
     load();
 </script>

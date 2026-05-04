@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dkart | Professional Store</title>
+    <title>Dkart | Premium Store</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { 
-            --primary: #1a237e; /* Professional Indigo */
+            --primary: #1a237e; 
             --accent: #304ffe; 
             --bg: #f8f9fa; 
             --card: #ffffff;
@@ -16,72 +16,48 @@
             --text-light: #757575;
         }
 
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { font-family: 'Inter', sans-serif; background: var(--bg); margin: 0; padding-bottom: 90px; color: var(--text-dark); }
 
-        /* Modern Header */
-        header { background: var(--card); padding: 15px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.03); }
+        header { background: var(--card); padding: 15px; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid #eee; }
         .app-bar { display: flex; justify-content: space-between; align-items: center; }
-        
-        .logo-section { display: flex; align-items: center; gap: 10px; }
-        .brand-logo { height: 32px; width: 32px; border-radius: 6px; object-fit: cover; }
-        .brand-name { font-family: 'Montserrat', sans-serif; font-size: 20px; font-weight: 700; color: var(--primary); letter-spacing: -0.5px; }
+        .brand-name { font-family: 'Montserrat', sans-serif; font-size: 20px; font-weight: 700; color: var(--primary); }
 
-        .header-icons { display: flex; gap: 18px; color: var(--text-dark); font-size: 18px; }
-
-        /* Minimal Search */
         .search-area { background: var(--card); padding: 0 15px 15px 15px; }
-        .search-box { 
-            background: #f1f3f4; display: flex; align-items: center; padding: 12px 15px; border-radius: 12px; 
-            border: 1px solid transparent; transition: 0.3s;
-        }
-        .search-box:focus-within { background: #fff; border-color: var(--accent); box-shadow: 0 0 0 4px rgba(48, 79, 254, 0.1); }
-        .search-box input { border: none; background: transparent; width: 100%; margin-left: 10px; font-size: 14px; font-weight: 500; }
+        .search-box { background: #f1f3f4; display: flex; align-items: center; padding: 12px; border-radius: 12px; }
+        .search-box input { border: none; background: transparent; width: 100%; margin-left: 10px; font-size: 14px; }
 
-        /* Pro Categories */
-        .cat-scroll { display: flex; overflow-x: auto; padding: 10px 15px; gap: 20px; background: var(--card); margin-bottom: 10px; scrollbar-width: none; }
-        .cat-item { text-align: center; min-width: 55px; }
-        .cat-icon { width: 50px; height: 50px; background: #f1f3f4; border-radius: 16px; display: flex; align-items: center; justify-content: center; margin-bottom: 6px; color: var(--primary); font-size: 20px; transition: 0.2s; }
+        /* Horizontal Categories */
+        .cat-scroll { display: flex; overflow-x: auto; padding: 10px 15px; gap: 20px; background: var(--card); scrollbar-width: none; }
+        .cat-item { text-align: center; min-width: 55px; cursor: pointer; }
+        .cat-icon { width: 50px; height: 50px; background: #f1f3f4; border-radius: 16px; display: flex; align-items: center; justify-content: center; margin-bottom: 6px; color: var(--primary); font-size: 20px; }
         .cat-item span { font-size: 11px; font-weight: 600; color: var(--text-light); }
-        .cat-item:active .cat-icon { transform: scale(0.9); background: var(--primary); color: #fff; }
 
         .section { display: none; }
-        .section.active { display: block; animation: fadeIn 0.4s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        .section.active { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* Professional Product Cards */
+        /* Full Category Page Styling */
+        .cat-grid-full { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; padding: 20px; }
+        .cat-card-full { text-align: center; cursor: pointer; }
+        .cat-circle-full { width: 70px; height: 70px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); color: var(--accent); font-size: 24px; border: 1px solid #eee; }
+        .cat-card-full span { font-size: 12px; font-weight: 600; color: var(--text-dark); }
+
+        /* Products Grid */
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px; }
-        .product-card { 
-            background: var(--card); border-radius: 16px; overflow: hidden; 
-            display: flex; flex-direction: column; position: relative;
-            transition: 0.3s; border: 1px solid rgba(0,0,0,0.03);
-        }
-        .img-box { height: 160px; background: #fff; padding: 15px; display: flex; align-items: center; justify-content: center; }
+        .product-card { background: var(--card); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; border: 1px solid #eee; }
+        .img-box { height: 160px; padding: 15px; display: flex; align-items: center; justify-content: center; background: #fff; }
         .img-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
-        
-        .p-info { padding: 12px; flex-grow: 1; }
-        .p-title { font-size: 13px; font-weight: 500; height: 34px; overflow: hidden; color: var(--text-dark); margin-bottom: 8px; }
+        .p-info { padding: 12px; }
+        .p-title { font-size: 13px; font-weight: 500; height: 34px; overflow: hidden; margin-bottom: 5px; }
         .p-price { font-size: 16px; font-weight: 700; color: var(--primary); }
         
-        /* Action Buttons */
-        .btn-buy { 
-            background: var(--primary); color: #fff; border: none; padding: 10px; 
-            border-radius: 10px; font-weight: 600; width: 100%; cursor: pointer; font-size: 11px; 
-            margin-top: 10px;
-        }
-        .btn-cart { 
-            background: #f1f3f4; color: var(--text-dark); border: none; padding: 10px; 
-            border-radius: 10px; font-weight: 600; width: 100%; cursor: pointer; font-size: 11px; 
-            margin-top: 6px;
-        }
+        .btn-buy { background: var(--primary); color: #fff; border: none; padding: 10px; border-radius: 8px; font-weight: 600; width: 100%; margin-top: 10px; cursor: pointer; }
+        .btn-cart { background: #f1f3f4; color: var(--text-dark); border: none; padding: 10px; border-radius: 8px; font-weight: 600; width: 100%; margin-top: 6px; cursor: pointer; }
 
-        /* Glassmorphism Bottom Nav */
-        .nav-bar { 
-            position: fixed; bottom: 0; width: 100%; background: rgba(255, 255, 255, 0.85); 
-            backdrop-filter: blur(10px); display: flex; justify-content: space-around; 
-            padding: 12px 0; border-top: 1px solid rgba(0,0,0,0.05); z-index: 2000; 
-        }
-        .nav-tab { text-align: center; color: var(--text-light); text-decoration: none; font-size: 10px; font-weight: 600; width: 25%; transition: 0.3s; }
+        /* Nav Bar */
+        .nav-bar { position: fixed; bottom: 0; width: 100%; background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #eee; z-index: 2000; }
+        .nav-tab { text-align: center; color: var(--text-light); font-size: 10px; font-weight: 600; width: 25%; cursor: pointer; }
         .nav-tab i { font-size: 20px; display: block; margin-bottom: 4px; }
         .nav-tab.active { color: var(--primary); }
     </style>
@@ -91,46 +67,57 @@
 <header>
     <div class="app-bar">
         <div class="logo-section">
-            <img src="Dkart.jpg" alt="Logo" class="brand-logo">
             <span class="brand-name">Dkart</span>
         </div>
-        <div class="header-icons">
-            <i class="far fa-heart"></i>
-            <i class="fas fa-shopping-bag"></i>
-        </div>
+        <div style="font-size: 18px;"><i class="far fa-heart" style="margin-right:15px;"></i><i class="fas fa-shopping-bag"></i></div>
     </div>
 </header>
 
 <div class="search-area">
     <div class="search-box">
-        <i class="fas fa-search" style="color: #999;"></i>
-        <input type="text" id="searchInput" placeholder="Saman ya brand dhundein...">
+        <i class="fas fa-search" style="color:#999;"></i>
+        <input type="text" id="searchInput" placeholder="Saman dhundein...">
     </div>
 </div>
 
 <div id="home-sec" class="section active">
     <div class="cat-scroll">
-        <div class="cat-item" onclick="filterCat('All')"><div class="cat-icon"><i class="fas fa-grid-2"></i></div><span>All</span></div>
-        <div class="cat-item" onclick="filterCat('Men')"><div class="cat-icon"><i class="fas fa-tshirt"></i></div><span>Fashion</span></div>
-        <div class="cat-item" onclick="filterCat('Mobiles')"><div class="cat-icon"><i class="fas fa-mobile-screen"></i></div><span>Gadgets</span></div>
-        <div class="cat-item" onclick="filterCat('Electronics')"><div class="cat-icon"><i class="fas fa-plug"></i></div><span>Tech</span></div>
+        <div class="cat-item" onclick="filterCat('All')"><div class="cat-icon"><i class="fas fa-house"></i></div><span>All</span></div>
+        <div class="cat-item" onclick="filterCat('Fashion')"><div class="cat-icon"><i class="fas fa-shirt"></i></div><span>Fashion</span></div>
+        <div class="cat-item" onclick="filterCat('Electronics')"><div class="cat-icon"><i class="fas fa-laptop"></i></div><span>Gadgets</span></div>
+        <div class="cat-item" onclick="filterCat('Kitchen')"><div class="cat-icon"><i class="fas fa-utensils"></i></div><span>Kitchen</span></div>
     </div>
     <div class="grid" id="productList"></div>
 </div>
 
+<div id="cat-page" class="section">
+    <div style="padding: 20px; border-bottom: 1px solid #eee; background: white;">
+        <h2 style="margin:0; font-size: 18px;">All Categories</h2>
+    </div>
+    <div class="cat-grid-full">
+        <div class="cat-card-full" onclick="filterCat('Men')"><div class="cat-circle-full"><i class="fas fa-person"></i></div><span>Men</span></div>
+        <div class="cat-card-full" onclick="filterCat('Women')"><div class="cat-circle-full"><i class="fas fa-person-dress"></i></div><span>Women</span></div>
+        <div class="cat-card-full" onclick="filterCat('Shoes')"><div class="cat-circle-full"><i class="fas fa-boot-heeled"></i></div><span>Shoes</span></div>
+        <div class="cat-card-full" onclick="filterCat('Toys')"><div class="cat-circle-full"><i class="fas fa-puzzle-piece"></i></div><span>Toys</span></div>
+        <div class="cat-card-full" onclick="filterCat('Boy')"><div class="cat-circle-full"><i class="fas fa-child"></i></div><span>Boy</span></div>
+        <div class="cat-card-full" onclick="filterCat('Electronics')"><div class="cat-circle-full"><i class="fas fa-plug"></i></div><span>Electronics</span></div>
+        <div class="cat-card-full" onclick="filterCat('Kitchen')"><div class="cat-circle-full"><i class="fas fa-blender"></i></div><span>Kitchen</span></div>
+        <div class="cat-card-full" onclick="filterCat('Fashion')"><div class="cat-circle-full"><i class="fas fa-gem"></i></div><span>Fashion</span></div>
+    </div>
+</div>
+
 <div id="order-sec" class="section">
-    <div style="padding: 20px;">
-        <h2 style="font-size: 18px; font-weight: 700; margin: 0;">My Orders</h2>
-        <p style="color: var(--text-light); font-size: 12px; margin-top: 4px;">Items saved in your cart</p>
+    <div style="padding: 20px; border-bottom: 1px solid #eee; background: white;">
+        <h2 style="margin:0; font-size: 18px;">My Orders</h2>
     </div>
     <div class="grid" id="cartList"></div>
 </div>
 
 <nav class="nav-bar">
     <div class="nav-tab active" id="homeTab" onclick="goHome(this)"><i class="fas fa-house"></i>Home</div>
-    <div class="nav-tab" onclick="alert('Categories')"><i class="fas fa-layer-group"></i>Explore</div>
+    <div class="nav-tab" id="catTab" onclick="showPage('cat-page', this)"><i class="fas fa-shapes"></i>Category</div>
     <div class="nav-tab" id="orderTab" onclick="showPage('order-sec', this)"><i class="fas fa-bag-shopping"></i>Orders</div>
-    <div class="nav-tab" onclick="alert('Profile')"><i class="fas fa-circle-user"></i>Account</div>
+    <div class="nav-tab"><i class="fas fa-user"></i>Account</div>
 </nav>
 
 <script type="module">
@@ -151,7 +138,6 @@
     let allProducts = [];
 
     window.goHome = function(el) {
-        document.getElementById('searchInput').value = "";
         showPage('home-sec', el);
         render(allProducts, 'productList');
     }
@@ -173,8 +159,7 @@
 
     function render(data, targetId) {
         const list = document.getElementById(targetId);
-        list.innerHTML = data.length ? "" : "<p style='grid-column:1/3; text-align:center; padding:50px; color:#999; font-size:14px;'>Abhi yahan kuch nahi hai.</p>";
-        
+        list.innerHTML = data.length ? "" : "<p style='grid-column:1/3; text-align:center; padding:50px; color:#999;'>Kuch nahi mila.</p>";
         data.forEach(p => {
             const img = (p.images && p.images.length > 0) ? p.images[0] : 'Dkart.jpg';
             list.innerHTML += `
@@ -183,7 +168,7 @@
                     <div class="p-info">
                         <div class="p-title">${p.name}</div>
                         <div class="p-price">₹${p.price}</div>
-                        <button class="btn-buy" onclick="alert('Checkout initiated!')">Buy Now</button>
+                        <button class="btn-buy" onclick="alert('Order placed!')">Buy Now</button>
                         ${targetId === 'productList' ? `<button class="btn-cart" onclick="addToCart('${p.id}')">Add to Cart</button>` : ''}
                     </div>
                 </div>`;
@@ -191,6 +176,7 @@
     }
 
     window.filterCat = function(cat) {
+        showPage('home-sec', document.getElementById('homeTab'));
         const filtered = (cat === 'All') ? allProducts : allProducts.filter(p => p.category === cat);
         render(filtered, 'productList');
     }
@@ -201,7 +187,7 @@
             cart.push(id);
             localStorage.setItem('dkart_cart', JSON.stringify(cart));
             alert("Cart mein add ho gaya!");
-        } else { alert("Pehle se cart mein hai."); }
+        } else { alert("Already in cart!"); }
     }
 
     function displayCart() {

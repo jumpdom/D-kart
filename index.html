@@ -4,90 +4,73 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Dkart | Premium Shop</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Montserrat:wght@900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        :root { --primary: #1a237e; --accent: #3d5afe; --bg: #f4f6f8; --card: #ffffff; }
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
-        body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding-bottom: 85px; }
+        :root { --primary: #1a237e; --accent: #2874f0; --bg: #f1f3f6; }
+        body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding-bottom: 70px; }
+        
+        /* Header Style */
+        header { background: var(--accent); color: white; padding: 12px 15px; position: sticky; top: 0; z-index: 1000; display: flex; align-items: center; justify-content: space-between; }
+        .brand { font-weight: 800; font-style: italic; font-size: 18px; }
 
-        header { background: var(--card); padding: 10px 15px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 15px rgba(0,0,0,0.08); display: flex; justify-content: space-between; align-items: center; }
-        .logo-box { display: flex; align-items: center; gap: 8px; }
-        .logo-img { width: 35px; height: 35px; border-radius: 8px; }
-        .brand-name { font-family: 'Montserrat', sans-serif; font-size: 20px; font-weight: 900; color: var(--primary); text-transform: uppercase; }
+        /* Home Grid */
+        .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 8px; }
+        .p-card { background: white; border-radius: 4px; padding: 10px; text-align: left; box-shadow: 0 1px 3px rgba(0,0,0,0.1); cursor: pointer; }
+        .p-card img { width: 100%; height: 150px; object-fit: contain; }
+        .p-name { font-size: 13px; color: #212121; height: 36px; overflow: hidden; margin-top: 8px; }
+        .p-price { font-weight: 800; font-size: 16px; margin: 5px 0; }
 
-        .section { display: none; padding: 10px 0; }
-        .section.active { display: block; }
+        /* Product Detail Page (Flipkart Style) */
+        #detail-sec { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 2000; display: none; overflow-y: auto; }
+        .detail-header { padding: 15px; display: flex; align-items: center; border-bottom: 1px solid #ddd; position: sticky; top: 0; background: white; }
+        .big-img { width: 100%; height: 350px; object-fit: contain; background: white; padding: 20px; }
+        .detail-body { padding: 15px; }
+        .action-btns { position: fixed; bottom: 0; width: 100%; display: flex; height: 55px; }
+        .btn-cart-big { flex: 1; background: white; color: black; border: 1px solid #ddd; font-weight: 700; height: 100%; cursor: pointer; }
+        .btn-buy-big { flex: 1; background: #ff9f00; color: white; border: none; font-weight: 700; height: 100%; cursor: pointer; }
 
-        /* Grid & Cards */
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px; }
-        .product-card { background: var(--card); border-radius: 18px; overflow: hidden; border: 1px solid #eee; }
-        .img-box { height: 130px; display: flex; align-items: center; justify-content: center; background: #fff; padding: 10px; }
-        .img-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
-        .btn-buy { background: var(--primary); color: #fff; border: none; padding: 8px; border-radius: 8px; width: 100%; font-weight: 700; cursor: pointer; }
-
-        /* Profile & Menu */
-        .prof-header { background: var(--primary); color: white; padding: 30px 20px; border-radius: 0 0 25px 25px; text-align: center; }
-        .menu-list { background: white; margin: -20px 15px 15px; border-radius: 20px; padding: 5px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border: 1px solid #eee; }
-        .menu-item { display: flex; align-items: center; padding: 15px; border-bottom: 1px solid #f9f9f9; font-weight: 600; cursor: pointer; color: #333; font-size: 14px; }
-        .menu-item i { width: 35px; color: var(--primary); font-size: 18px; }
-
-        /* Order Items */
-        .order-card { background: white; margin: 10px 15px; padding: 15px; border-radius: 15px; border: 1px solid #eee; }
-        .status { font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 20px; }
-        .status-Pending { background: #fff3e0; color: #ef6c00; }
-        .status-Cancelled { background: #ffebee; color: #c62828; }
-        .cancel-btn { color: #ff1744; border: 1px solid #ff1744; background: none; padding: 5px 10px; border-radius: 8px; font-size: 12px; margin-top: 10px; cursor: pointer; }
-
-        .nav-bar { position: fixed; bottom: 0; width: 100%; background: #fff; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #eee; }
-        .nav-tab { text-align: center; color: #999; font-size: 11px; font-weight: 600; flex: 1; cursor: pointer; }
-        .nav-tab.active { color: var(--primary); }
-        .nav-tab i { font-size: 22px; display: block; margin-bottom: 4px; }
+        .section { display: none; }
+        .active { display: block; }
     </style>
 </head>
 <body>
 
-<header>
-    <div class="logo-box">
-        <img src="Dkart.jpg" class="logo-img">
-        <span class="brand-name">Dkart</span>
-    </div>
-    <div onclick="showPage('cart-sec')" style="font-size: 20px; color: var(--primary); cursor: pointer;"><i class="fa-solid fa-cart-shopping"></i></div>
-</header>
-
-<div id="home-sec" class="section active">
-    <div class="grid" id="productList"></div>
-</div>
-
-<div id="profile-sec" class="section">
-    <div class="prof-header">
-        <h2 id="u-name" style="margin:0;">Guest User</h2>
-        <p id="u-phone" style="font-size:14px; opacity:0.8;">Setup your profile</p>
-    </div>
-    <div class="menu-list">
-        <div class="menu-item" onclick="showPage('orders-sec')"><i class="fa-solid fa-box-open"></i> My Orders</div>
-        <div class="menu-item" onclick="alert('Wishlist is empty!')"><i class="fa-solid fa-heart"></i> My Wishlist</div>
-        <div class="menu-item" onclick="alert('WhatsApp Help: 123456789')"><i class="fa-solid fa-headset"></i> Help & Support</div>
-        <div class="menu-item" onclick="localStorage.clear(); location.reload();" style="color:red;"><i class="fa-solid fa-power-off"></i> Logout</div>
+<!-- Home View -->
+<div id="home-view" class="section active">
+    <header>
+        <div class="brand">Dkart</div>
+        <i class="fa-solid fa-cart-shopping"></i>
+    </header>
+    <div class="product-grid" id="productList">
+        <!-- Products load here -->
     </div>
 </div>
 
-<div id="orders-sec" class="section">
-    <div style="display:flex; align-items:center; padding:10px 15px;">
-        <i class="fa-solid fa-arrow-left" onclick="showPage('profile-sec')" style="margin-right:15px; font-size:18px;"></i>
-        <h3 style="margin:0;">My Orders</h3>
+<!-- Product Detail View (The "Flipkart" Effect) -->
+<div id="detail-sec">
+    <div class="detail-header">
+        <i class="fa-solid fa-arrow-left" onclick="closeDetails()" style="font-size: 20px; margin-right: 20px;"></i>
+        <span style="font-weight: 600;">Product Details</span>
     </div>
-    <div id="orderContainer"></div>
+    <img id="det-img" class="big-img" src="">
+    <div class="detail-body">
+        <h2 id="det-name" style="font-size: 18px; margin-bottom: 10px;"></h2>
+        <div style="color: #388e3c; font-weight: 700; font-size: 14px;">Special Price</div>
+        <div id="det-price" style="font-size: 24px; font-weight: 800; margin-bottom: 15px;"></div>
+        <hr style="border: 0.5px solid #eee;">
+        <h4>Product Description</h4>
+        <p style="color: #666; font-size: 14px; line-height: 1.6;">Ye product premium quality ke saath aata hai. Cash on Delivery available hai.</p>
+    </div>
+    <div class="action-btns">
+        <button class="btn-cart-big" onclick="alert('Added to Cart!')">ADD TO CART</button>
+        <button class="btn-buy-big" id="buy-now-btn">BUY NOW</button>
+    </div>
 </div>
-
-<nav class="nav-bar">
-    <div class="nav-tab active" onclick="showPage('home-sec', this)"><i class="fa-solid fa-house"></i>Home</div>
-    <div class="nav-tab" onclick="showPage('profile-sec', this)"><i class="fa-solid fa-user-circle"></i>Profile</div>
-</nav>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
-    import { getFirestore, collection, getDocs, addDoc, updateDoc, doc, query, where, orderBy } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+    import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyAchWzhIxqmS7G0HPpvuq6WBwcr8pXzFAE",
@@ -100,65 +83,46 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    async function loadData() {
+    async function loadProducts() {
         const q = query(collection(db, "products"), orderBy("time", "desc"));
         const snap = await getDocs(q);
         const list = document.getElementById('productList');
         list.innerHTML = "";
+
         snap.forEach(d => {
             const p = d.data();
-            list.innerHTML += `
-                <div class="product-card">
-                    <div class="img-box"><img src="${p.images[0] || 'Dkart.jpg'}"></div>
-                    <div class="p-info">
-                        <div style="font-size:12px; font-weight:600; height:35px; overflow:hidden;">${p.name}</div>
-                        <div style="font-size:16px; font-weight:800; color:var(--primary); margin:5px 0;">₹${p.price}</div>
-                        <button class="btn-buy" onclick="alert('Order Feature Ready!')">Buy Now</button>
-                    </div>
-                </div>`;
+            const card = document.createElement('div');
+            card.className = 'p-card';
+            card.innerHTML = `
+                <img src="${p.images[0] || 'Dkart.jpg'}">
+                <div class="p-name">${p.name}</div>
+                <div class="p-price">₹${p.price}</div>
+                <div style="font-size:11px; color:#388e3c; font-weight:700;">Free Delivery</div>
+            `;
+            card.onclick = () => openDetails(p);
+            list.appendChild(card);
         });
-        updateOrders();
     }
 
-    window.updateOrders = async () => {
-        const user = JSON.parse(localStorage.getItem('dk_user')) || {phone: "guest"};
-        const q = query(collection(db, "orders"), where("customerPhone", "==", user.phone));
-        const snap = await getDocs(q);
-        const container = document.getElementById('orderContainer');
-        container.innerHTML = snap.empty ? "<p style='text-align:center; padding:50px; color:#999;'>No orders yet.</p>" : "";
+    window.openDetails = (p) => {
+        document.getElementById('det-img').src = p.images[0] || 'Dkart.jpg';
+        document.getElementById('det-name').innerText = p.name;
+        document.getElementById('det-price').innerText = "₹" + p.price;
         
-        snap.forEach(d => {
-            const o = d.data();
-            container.innerHTML += `
-                <div class="order-card">
-                    <div style="display:flex; justify-content:space-between;">
-                        <span style="font-weight:700;">${o.product}</span>
-                        <span class="status status-${o.status}">${o.status}</span>
-                    </div>
-                    <div style="margin-top:5px; font-weight:800; color:var(--primary);">₹${o.total}</div>
-                    ${o.status === 'Pending' ? `<button class="cancel-btn" onclick="cancelOrder('${d.id}')">Cancel Order</button>` : ''}
-                </div>`;
-        });
+        // Buy Now button action
+        document.getElementById('buy-now-btn').onclick = () => {
+            alert("Checkout page for " + p.name + " is opening...");
+        };
+
+        document.getElementById('detail-sec').style.display = 'block';
+        window.scrollTo(0, 0);
     }
 
-    window.cancelOrder = async (orderId) => {
-        if(confirm("Cancel karein?")) {
-            await updateDoc(doc(db, "orders", orderId), { status: "Cancelled" });
-            updateOrders();
-        }
+    window.closeDetails = () => {
+        document.getElementById('detail-sec').style.display = 'none';
     }
 
-    window.showPage = (id, el) => {
-        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-        if(el) {
-            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-            el.classList.add('active');
-        }
-        if(id === 'orders-sec') updateOrders();
-    }
-
-    loadData();
+    loadProducts();
 </script>
 </body>
 </html>

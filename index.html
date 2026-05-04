@@ -9,7 +9,7 @@
     <style>
         :root { --primary: #000000; --accent: #ffff00; --white: #ffffff; --bg: #0a0a0a; }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
-        body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding-bottom: 70px; color: var(--white); }
+        body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding-bottom: 80px; color: var(--white); }
 
         /* Header & Search */
         header { background: var(--primary); padding: 15px 10px; border-bottom: 2px solid var(--accent); position: sticky; top: 0; z-index: 1000; }
@@ -17,16 +17,16 @@
         .logo-img { width: 35px; height: 35px; border-radius: 5px; border: 1px solid var(--white); }
         .brand { font-family: 'Montserrat', sans-serif; font-size: 24px; font-weight: 900; color: var(--accent); font-style: italic; }
         
-        .search-container { padding: 0 10px; margin-bottom: 5px; }
+        .search-container { padding: 0 10px; }
         .search-box { background: #222; border-radius: 8px; display: flex; align-items: center; padding: 10px 15px; border: 1px solid #444; }
         .search-box input { background: transparent; border: none; color: white; width: 100%; margin-left: 10px; font-size: 14px; }
 
-        /* Colourful Horizontal Categories */
-        .cat-row { display: flex; overflow-x: auto; padding: 15px 10px; gap: 15px; scrollbar-width: none; background: #111; }
+        /* Categories */
+        .cat-row { display: flex; overflow-x: auto; padding: 15px 10px; gap: 15px; scrollbar-width: none; background: #111; border-bottom: 1px solid #222; }
         .cat-row::-webkit-scrollbar { display: none; }
         .cat-item { min-width: 75px; text-align: center; }
-        .cat-icon { width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; font-size: 22px; color: #000; border: 2px solid #fff; }
-        .cat-item span { font-size: 11px; font-weight: 700; color: #fff; text-transform: uppercase; }
+        .cat-icon { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; font-size: 20px; color: #000; border: 2px solid #fff; }
+        .cat-item span { font-size: 10px; font-weight: 700; color: #fff; text-transform: uppercase; }
 
         /* Product Grid */
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px; }
@@ -35,17 +35,24 @@
         .p-name { font-size: 12px; font-weight: 600; color: var(--accent); margin-top: 10px; height: 35px; overflow: hidden; text-transform: uppercase; }
         .p-price { font-size: 17px; font-weight: 800; color: var(--white); margin: 5px 0; }
 
-        /* Full Views */
-        .full-view { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 2000; display: none; overflow-y: auto; }
+        /* Bottom Navigation Bar Fix */
+        .nav-bar { 
+            position: fixed; bottom: 0; width: 100%; background: #000; 
+            display: flex; border-top: 2px solid var(--accent); z-index: 3000; 
+            height: 65px; align-items: center; justify-content: space-around;
+        }
+        .nav-tab { text-align: center; color: #777; transition: 0.3s; cursor: pointer; flex: 1; }
+        .nav-tab i { font-size: 20px; display: block; margin-bottom: 4px; }
+        .nav-tab span { font-size: 10px; font-weight: 700; text-transform: uppercase; }
+        .nav-tab.active { color: var(--accent); }
+
+        /* Views */
+        .full-view { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 4000; display: none; overflow-y: auto; }
         .view-header { padding: 15px; display: flex; align-items: center; border-bottom: 1px solid #333; background: var(--primary); }
         .view-header span { color: var(--accent); font-weight: 700; margin-left: 15px; }
 
-        .btn-box { position: fixed; bottom: 0; width: 100%; display: flex; height: 60px; z-index: 2500; }
+        .btn-box { position: fixed; bottom: 0; width: 100%; display: flex; height: 60px; z-index: 4500; }
         .btn-main { flex: 1; border: none; font-weight: 900; font-size: 18px; background: var(--accent); color: black; text-transform: uppercase; }
-
-        .input-group { margin-bottom: 15px; padding: 0 20px; }
-        .input-group label { display: block; font-size: 11px; color: var(--accent); margin-bottom: 5px; font-weight: 800; }
-        .input-group input, .input-group textarea { width: 100%; padding: 14px; border-radius: 10px; border: 1px solid #444; background: #1a1a1a; color: white; }
     </style>
 </head>
 <body>
@@ -59,66 +66,61 @@
         <div class="search-container">
             <div class="search-box">
                 <i class="fa-solid fa-magnifying-glass" style="color: #ffff00;"></i>
-                <input type="text" id="searchInput" placeholder="Search products..." onkeyup="searchFun()">
+                <input type="text" id="searchInput" placeholder="Search for products..." onkeyup="searchFun()">
             </div>
         </div>
     </header>
 
     <div class="cat-row">
-        <div class="cat-item" onclick="filterCat('All')">
-            <div class="cat-icon" style="background: #FFD700;"><i class="fa-solid fa-border-all"></i></div>
-            <span>All</span>
-        </div>
-        <div class="cat-item" onclick="filterCat('Mobile')">
-            <div class="cat-icon" style="background: #FF5733;"><i class="fa-solid fa-mobile-screen"></i></div>
-            <span>Mobile</span>
-        </div>
-        <div class="cat-item" onclick="filterCat('Fashion')">
-            <div class="cat-icon" style="background: #C70039;"><i class="fa-solid fa-shirt"></i></div>
-            <span>Fashion</span>
-        </div>
-        <div class="cat-item" onclick="filterCat('Electronics')">
-            <div class="cat-icon" style="background: #900C3F;"><i class="fa-solid fa-plug"></i></div>
-            <span>Gadgets</span>
-        </div>
-        <div class="cat-item" onclick="filterCat('Watch')">
-            <div class="cat-icon" style="background: #581845;"><i class="fa-solid fa-clock"></i></div>
-            <span>Watch</span>
-        </div>
+        <div class="cat-item" onclick="filterCat('All')"><div class="cat-icon" style="background: #FFD700;"><i class="fa-solid fa-grip"></i></div><span>All</span></div>
+        <div class="cat-item" onclick="filterCat('Mobile')"><div class="cat-icon" style="background: #FF5733;"><i class="fa-solid fa-mobile-button"></i></div><span>Mobile</span></div>
+        <div class="cat-item" onclick="filterCat('Fashion')"><div class="cat-icon" style="background: #C70039;"><i class="fa-solid fa-shirt"></i></div><span>Fashion</span></div>
+        <div class="cat-item" onclick="filterCat('Gadgets')"><div class="cat-icon" style="background: #900C3F;"><i class="fa-solid fa-headphones"></i></div><span>Gadgets</span></div>
     </div>
 
     <div class="grid" id="productList"></div>
 </div>
 
+<!-- Details & Checkout Views (Same as before) -->
 <div id="detail-view" class="full-view">
-    <div class="view-header">
-        <i class="fa-solid fa-arrow-left" onclick="closeAll()" style="font-size: 20px;"></i>
-        <span>PRODUCT VIEW</span>
-    </div>
+    <div class="view-header"><i class="fa-solid fa-arrow-left" onclick="closeAll()"></i><span>PRODUCT VIEW</span></div>
     <div style="padding: 20px; text-align: center;">
         <img id="det-img" style="width: 100%; border-radius: 12px; border: 1px solid #333;">
         <h2 id="det-name" style="color: var(--accent); margin-top: 15px;"></h2>
         <div id="det-price" style="font-size: 26px; font-weight: 800;"></div>
     </div>
-    <div class="btn-box">
-        <button class="btn-main" onclick="openCheckout()">BUY NOW</button>
-    </div>
+    <div class="btn-box"><button class="btn-main" onclick="openCheckout()">BUY NOW</button></div>
 </div>
 
 <div id="checkout-view" class="full-view">
-    <div class="view-header">
-        <i class="fa-solid fa-arrow-left" onclick="closeCheckout()" style="font-size: 20px;"></i>
-        <span>CHECKOUT</span>
+    <div class="view-header"><i class="fa-solid fa-arrow-left" onclick="closeCheckout()"></i><span>CHECKOUT</span></div>
+    <div style="padding: 20px;">
+        <input type="text" id="c-name" placeholder="Name" style="width:100%; padding:15px; margin-bottom:10px; background:#1a1a1a; color:white; border:1px solid #444; border-radius:8px;">
+        <input type="tel" id="c-phone" placeholder="Phone" style="width:100%; padding:15px; margin-bottom:10px; background:#1a1a1a; color:white; border:1px solid #444; border-radius:8px;">
+        <textarea id="c-addr" placeholder="Address" style="width:100%; padding:15px; background:#1a1a1a; color:white; border:1px solid #444; border-radius:8px;" rows="3"></textarea>
     </div>
-    <div style="padding-top: 20px;">
-        <div class="input-group"><label>NAME</label><input type="text" id="c-name" placeholder="Full Name"></div>
-        <div class="input-group"><label>MOBILE</label><input type="tel" id="c-phone" placeholder="10 Digit Number"></div>
-        <div class="input-group"><label>ADDRESS</label><textarea id="c-addr" rows="3" placeholder="Full Delivery Address"></textarea></div>
-    </div>
-    <div class="btn-box">
-        <button class="btn-main" id="order-btn">CONFIRM ORDER</button>
-    </div>
+    <div class="btn-box"><button class="btn-main" id="order-btn">CONFIRM ORDER</button></div>
 </div>
+
+<!-- New Bottom Navigation Bar -->
+<nav class="nav-bar">
+    <div class="nav-tab active" onclick="location.reload()">
+        <i class="fa-solid fa-house"></i>
+        <span>Home</span>
+    </div>
+    <div class="nav-tab" onclick="alert('My Orders section coming soon!')">
+        <i class="fa-solid fa-bag-shopping"></i>
+        <span>My Orders</span>
+    </div>
+    <div class="nav-tab" onclick="alert('Wishlist section coming soon!')">
+        <i class="fa-solid fa-heart"></i>
+        <span>Wishlist</span>
+    </div>
+    <div class="nav-tab" onclick="alert('Profile section coming soon!')">
+        <i class="fa-solid fa-user"></i>
+        <span>Account</span>
+    </div>
+</nav>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
@@ -164,11 +166,6 @@
     window.searchFun = () => {
         const val = document.getElementById('searchInput').value.toLowerCase();
         render(allP.filter(p => p.name.toLowerCase().includes(val)));
-    };
-
-    window.filterCat = (cat) => {
-        if(cat === 'All') render(allP);
-        else render(allP.filter(p => p.category === cat));
     };
 
     window.closeAll = () => document.getElementById('detail-view').style.display = 'none';

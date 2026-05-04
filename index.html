@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dkart | Premium Shopping</title>
+    <title>Dkart | Shop</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Montserrat:wght@900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
@@ -24,26 +24,30 @@
         .section { display: none; }
         .section.active { display: block; }
 
-        /* Product Cards */
+        /* Grid */
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px; }
         .product-card { background: var(--card); border-radius: 20px; overflow: hidden; border: 1px solid #eee; position: relative; }
         .img-box { height: 140px; padding: 15px; display: flex; align-items: center; justify-content: center; background: #fff; }
         .img-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
         .p-info { padding: 12px; }
+        .p-title { font-size: 13px; font-weight: 600; height: 38px; overflow: hidden; color: #333; }
         .p-price { font-size: 17px; font-weight: 800; color: var(--primary); margin: 5px 0; }
         .btn-buy { background: var(--primary); color: #fff; border: none; padding: 10px; border-radius: 10px; font-weight: 700; width: 100%; cursor: pointer; }
 
-        /* Checkout Page Styles */
-        .checkout-box { background: white; margin: 15px; padding: 20px; border-radius: 25px; border: 1px solid #eee; }
-        .order-summary { background: #f8faff; padding: 15px; border-radius: 15px; margin-bottom: 20px; border: 1px dashed var(--accent); }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; font-size: 11px; font-weight: 800; color: #888; margin-bottom: 5px; text-transform: uppercase; }
-        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px; border: 1.5px solid #eee; border-radius: 12px; font-family: inherit; }
+        /* Checkout & Forms */
+        .checkout-box, .form-box { background: white; margin: 15px; padding: 20px; border-radius: 25px; border: 1px solid #eee; }
+        .form-group { margin-bottom: 12px; }
+        .form-group label { display: block; font-size: 11px; font-weight: 800; color: #888; margin-bottom: 4px; text-transform: uppercase; }
+        input, select, textarea { width: 100%; padding: 12px; border: 1.5px solid #eee; border-radius: 12px; font-family: inherit; background: #fafafa; }
         
-        .cod-badge { background: #e8f5e9; color: #2e7d32; padding: 10px; border-radius: 10px; font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 10px; border: 1px solid #c8e6c9; }
+        /* Profile Menu */
+        .profile-card { background: var(--primary); color: white; padding: 30px 20px; text-align: center; border-radius: 0 0 30px 30px; }
+        .menu-list { background: white; margin: -20px 15px 15px; border-radius: 20px; padding: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .menu-item { display: flex; align-items: center; padding: 15px; border-bottom: 1px solid #f9f9f9; cursor: pointer; font-weight: 600; color: #333; }
+        .menu-item i { width: 35px; color: var(--primary); font-size: 18px; }
+        .menu-item:last-child { border: none; color: #ff1744; }
 
-        /* Navigation */
-        .nav-bar { position: fixed; bottom: 0; width: 100%; background: #fff; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #eee; }
+        .nav-bar { position: fixed; bottom: 0; width: 100%; background: #fff; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #eee; z-index: 1000; }
         .nav-tab { text-align: center; color: #999; font-size: 11px; font-weight: 600; flex: 1; }
         .nav-tab.active { color: var(--primary); }
         .nav-tab i { font-size: 22px; display: block; margin-bottom: 4px; }
@@ -61,72 +65,77 @@
     </div>
 </header>
 
-<!-- Home -->
+<!-- Home Section -->
 <div id="home-sec" class="section active">
     <div class="grid" id="productList"></div>
 </div>
 
-<!-- Checkout Page -->
+<!-- Checkout Section (Manual Address Allowed) -->
 <div id="checkout-sec" class="section">
     <div class="checkout-box">
-        <h2 style="font-weight: 800; margin-top: 0;">Checkout</h2>
-        
-        <div class="order-summary">
-            <p id="item-name" style="margin:0; font-weight:700; color:var(--primary);"></p>
-            <p id="item-price" style="margin:5px 0 0; font-weight:800; font-size:18px;"></p>
+        <h2 style="font-weight: 800; margin-top: 0;">Confirm Order</h2>
+        <div style="background:#f0f4ff; padding:12px; border-radius:15px; margin-bottom:20px;">
+            <p id="ck-title" style="margin:0; font-weight:700; color:var(--primary);"></p>
+            <p id="ck-price" style="margin:5px 0 0; font-weight:800; font-size:18px;"></p>
         </div>
 
         <div class="form-group">
-            <label>Quantity</label>
-            <select id="order-qty" onchange="updateTotal()">
-                <option value="1">1 Qty</option>
-                <option value="2">2 Qty</option>
-                <option value="3">3 Qty</option>
-                <option value="5">5 Qty</option>
-            </select>
+            <label>Full Name</label>
+            <input type="text" id="order-name" placeholder="Apna naam likhein">
         </div>
-
-        <div class="form-group">
-            <label>Delivery Address</label>
-            <textarea id="order-addr" rows="3"></textarea>
-        </div>
-
         <div class="form-group">
             <label>Phone Number</label>
-            <input type="tel" id="order-phone">
+            <input type="tel" id="order-phone" placeholder="Mobile no.">
         </div>
-
         <div class="form-group">
-            <label>Payment Mode</label>
-            <div class="cod-badge">
-                <i class="fa-solid fa-hand-holding-dollar"></i>
-                Cash on Delivery (COD) Only
-            </div>
+            <label>Quantity</label>
+            <select id="order-qty" onchange="updatePrice()"><option value="1">1 Piece</option><option value="2">2 Piece</option><option value="5">5 Piece</option></select>
         </div>
-
-        <div style="margin: 20px 0; border-top: 1px solid #eee; padding-top: 15px;">
-            <div style="display:flex; justify-content:space-between; font-weight:800; font-size:18px;">
-                <span>Total Amount:</span>
-                <span id="total-amt">₹0</span>
-            </div>
+        <div class="form-group">
+            <label>Delivery Address</label>
+            <textarea id="order-addr" rows="3" placeholder="Ghar ka pura pata, State aur PIN ke saath"></textarea>
         </div>
-
-        <button class="btn-buy" style="padding:15px; font-size:16px;" onclick="confirmFinalOrder()">Confirm Order</button>
-        <p onclick="showPage('home-sec')" style="text-align:center; color:#888; font-size:13px; margin-top:15px; cursor:pointer;">Cancel & Go Back</p>
+        <div style="padding:15px; background:#e8f5e9; border-radius:12px; margin-bottom:20px; font-weight:700; color:#2e7d32; font-size:14px;">
+            <i class="fa-solid fa-truck-fast"></i> Cash on Delivery (COD)
+        </div>
+        <div style="display:flex; justify-content:space-between; font-weight:800; font-size:18px; margin-bottom:20px;">
+            <span>Total:</span><span id="ck-total">₹0</span>
+        </div>
+        <button class="btn-buy" style="padding:15px;" onclick="placeOrder()">Place Order Now</button>
+        <p onclick="showPage('home-sec')" style="text-align:center; color:#999; margin-top:15px; cursor:pointer; font-size:13px;">Cancel Order</p>
     </div>
 </div>
 
-<!-- Profile -->
+<!-- Profile Section with All Options -->
 <div id="profile-sec" class="section">
-    <!-- Existing profile code remains same -->
-    <div id="login-form" style="padding:20px;">
-        <button class="btn-buy" onclick="localStorage.removeItem('dk_user'); location.reload();">Reset Profile</button>
+    <div id="user-dashboard" style="display:none;">
+        <div class="profile-card">
+            <h2 id="prof-name" style="margin:0;">Guest User</h2>
+            <p id="prof-phone" style="opacity:0.8; font-size:14px;"></p>
+        </div>
+        <div class="menu-list">
+            <div class="menu-item" onclick="alert('No orders yet!')"><i class="fa-solid fa-box"></i> My Orders</div>
+            <div class="menu-item" onclick="alert('Wishlist is empty!')"><i class="fa-solid fa-heart"></i> My Wishlist</div>
+            <div class="menu-item" onclick="alert('Help Center: Call 123456789')"><i class="fa-solid fa-headset"></i> Help & Support</div>
+            <div class="menu-item" onclick="editProfile()"><i class="fa-solid fa-user-pen"></i> Edit Profile</div>
+            <div class="menu-item" onclick="logout()"><i class="fa-solid fa-power-off"></i> Logout</div>
+        </div>
+    </div>
+
+    <div id="setup-form" class="form-box">
+        <h2 style="font-weight:800;">Setup Profile</h2>
+        <div class="form-group"><label>Name</label><input type="text" id="reg-name"></div>
+        <div class="form-group"><label>Phone</label><input type="tel" id="reg-phone"></div>
+        <div class="form-group"><label>Address</label><textarea id="reg-addr"></textarea></div>
+        <div class="form-group"><label>State</label><input type="text" id="reg-state"></div>
+        <div class="form-group"><label>PIN</label><input type="number" id="reg-pin"></div>
+        <button class="btn-buy" onclick="saveUser()">Save & Continue</button>
     </div>
 </div>
 
 <nav class="nav-bar">
-    <div class="nav-tab active" id="tab-home" onclick="showPage('home-sec', this)"><i class="fa-solid fa-store"></i>Shop</div>
-    <div class="nav-tab" id="tab-profile" onclick="showPage('profile-sec', this)"><i class="fa-solid fa-user-circle"></i>Profile</div>
+    <div class="nav-tab active" onclick="showPage('home-sec', this)"><i class="fa-solid fa-store"></i>Shop</div>
+    <div class="nav-tab" onclick="showPage('profile-sec', this)"><i class="fa-solid fa-user-circle"></i>Profile</div>
 </nav>
 
 <script type="module">
@@ -143,11 +152,10 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-    
-    let currentItem = null;
-    let basePrice = 0;
+    let activePrice = 0;
+    let activeName = "";
 
-    async function loadData() {
+    async function loadProducts() {
         const q = query(collection(db, "products"), orderBy("time", "desc"));
         const snap = await getDocs(q);
         const list = document.getElementById('productList');
@@ -160,57 +168,69 @@
                     <div class="p-info">
                         <div class="p-title">${p.name}</div>
                         <div class="p-price">₹${p.price}</div>
-                        <button class="btn-buy" onclick="openCheckout('${p.name}', ${p.price})">Buy Now</button>
+                        <button class="btn-buy" onclick="openOrder('${p.name}', ${p.price})">Buy Now</button>
                     </div>
                 </div>`;
         });
+        checkUser();
     }
 
-    window.openCheckout = (name, price) => {
-        const user = JSON.parse(localStorage.getItem('dk_user'));
-        if(!user) { alert("Pehle Profile setup karein!"); return; }
-
-        currentItem = name;
-        basePrice = price;
+    window.openOrder = (name, price) => {
+        activeName = name;
+        activePrice = price;
+        const user = JSON.parse(localStorage.getItem('dk_user')) || {};
         
-        document.getElementById('item-name').innerText = name;
-        document.getElementById('item-price').innerText = "₹" + price;
-        document.getElementById('order-addr').value = `${user.address}, ${user.state} - ${user.pin}`;
-        document.getElementById('order-phone').value = user.phone;
+        document.getElementById('ck-title').innerText = name;
+        document.getElementById('ck-price').innerText = "₹" + price;
+        document.getElementById('order-name').value = user.name || "";
+        document.getElementById('order-phone').value = user.phone || "";
+        document.getElementById('order-addr').value = user.address ? `${user.address}, ${user.state} - ${user.pin}` : "";
         
-        updateTotal();
+        updatePrice();
         showPage('checkout-sec');
     }
 
-    window.updateTotal = () => {
+    window.updatePrice = () => {
         const qty = document.getElementById('order-qty').value;
-        const total = basePrice * qty;
-        document.getElementById('total-amt').innerText = "₹" + total;
+        document.getElementById('ck-total').innerText = "₹" + (activePrice * qty);
     }
 
-    window.confirmFinalOrder = async () => {
-        const qty = document.getElementById('order-qty').value;
-        const addr = document.getElementById('order-addr').value;
+    window.placeOrder = async () => {
+        const name = document.getElementById('order-name').value;
         const phone = document.getElementById('order-phone').value;
-        const total = basePrice * qty;
+        const addr = document.getElementById('order-addr').value;
+        const qty = document.getElementById('order-qty').value;
 
-        if(!addr || !phone) return alert("Address aur Phone zaroori hai!");
+        if(!name || !phone || !addr) return alert("Pehle sab details bhariye!");
 
-        try {
-            await addDoc(collection(db, "orders"), {
-                productName: currentItem,
-                price: basePrice,
-                quantity: qty,
-                totalAmount: total,
-                customerPhone: phone,
-                customerAddress: addr,
-                paymentMode: "Cash on Delivery",
-                status: "Pending",
-                orderDate: serverTimestamp()
-            });
-            alert("Order Confirmed! Dhananyawad. ✅");
-            showPage('home-sec');
-        } catch(e) { alert("Order failed."); }
+        await addDoc(collection(db, "orders"), {
+            customer: name, phone, address: addr, product: activeName, qty, total: (activePrice * qty), status: "New", date: serverTimestamp()
+        });
+        alert("Order Success! ✅");
+        showPage('home-sec');
+    }
+
+    window.saveUser = () => {
+        const user = {
+            name: document.getElementById('reg-name').value,
+            phone: document.getElementById('reg-phone').value,
+            address: document.getElementById('reg-addr').value,
+            state: document.getElementById('reg-state').value,
+            pin: document.getElementById('reg-pin').value
+        };
+        if(!user.name || !user.phone) return alert("Details bhariye!");
+        localStorage.setItem('dk_user', JSON.stringify(user));
+        checkUser();
+    }
+
+    function checkUser() {
+        const user = JSON.parse(localStorage.getItem('dk_user'));
+        document.getElementById('setup-form').style.display = user ? 'none' : 'block';
+        document.getElementById('user-dashboard').style.display = user ? 'block' : 'none';
+        if(user) {
+            document.getElementById('prof-name').innerText = user.name;
+            document.getElementById('prof-phone').innerText = "+91 " + user.phone;
+        }
     }
 
     window.showPage = (id, el) => {
@@ -222,7 +242,19 @@
         }
     }
 
-    loadData();
+    window.logout = () => { localStorage.removeItem('dk_user'); checkUser(); }
+    window.editProfile = () => {
+        const user = JSON.parse(localStorage.getItem('dk_user'));
+        document.getElementById('reg-name').value = user.name;
+        document.getElementById('reg-phone').value = user.phone;
+        document.getElementById('reg-addr').value = user.address;
+        document.getElementById('reg-state').value = user.state;
+        document.getElementById('reg-pin').value = user.pin;
+        document.getElementById('setup-form').style.display = 'block';
+        document.getElementById('user-dashboard').style.display = 'none';
+    }
+
+    loadProducts();
 </script>
 </body>
 </html>

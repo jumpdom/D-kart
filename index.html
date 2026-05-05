@@ -26,12 +26,13 @@
         .search-box input { background: transparent; border: none; color: white; width: 100%; margin-left: 10px; font-size: 14px; }
         .help-btn { background: #25D366; color: white; width: 42px; height: 42px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 22px; text-decoration: none; border: 1px solid white; }
 
-        /* Categories */
-        .cat-row { display: flex; overflow-x: auto; padding: 15px 10px; gap: 15px; scrollbar-width: none; background: #111; }
+        /* Categories - Updated for better scrolling */
+        .cat-row { display: flex; overflow-x: auto; padding: 15px 10px; gap: 15px; scrollbar-width: none; background: #111; border-bottom: 1px solid #222; }
         .cat-row::-webkit-scrollbar { display: none; }
-        .cat-item { min-width: 70px; text-align: center; cursor: pointer; }
+        .cat-item { min-width: 75px; text-align: center; cursor: pointer; transition: 0.3s; }
+        .cat-item:active { transform: scale(0.9); }
         .cat-icon { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; font-size: 20px; color: #000; border: 2px solid #fff; }
-        .cat-item span { font-size: 10px; font-weight: 700; color: #fff; }
+        .cat-item span { font-size: 10px; font-weight: 700; color: #fff; display: block; white-space: nowrap; }
 
         /* Product Grid */
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px; }
@@ -88,29 +89,31 @@
         </div>
     </header>
 
+    <!-- Updated Category Row -->
     <div class="cat-row">
         <div class="cat-item" onclick="filterCat('All')"><div class="cat-icon" style="background: #FFD700;"><i class="fa-solid fa-border-all"></i></div><span>All</span></div>
-        <div class="cat-item" onclick="filterCat('Mobile')"><div class="cat-icon" style="background: #FF4757;"><i class="fa-solid fa-mobile"></i></div><span>Mobile</span></div>
-        <div class="cat-item" onclick="filterCat('Fashion')"><div class="cat-icon" style="background: #2ED573;"><i class="fa-solid fa-shirt"></i></div><span>Fashion</span></div>
-        <div class="cat-item" onclick="filterCat('Gadgets')"><div class="cat-icon" style="background: #1E90FF;"><i class="fa-solid fa-headphones"></i></div><span>Gadgets</span></div>
+        <div class="cat-item" onclick="filterCat('Men')"><div class="cat-icon" style="background: #1E90FF;"><i class="fa-solid fa-person"></i></div><span>Men</span></div>
+        <div class="cat-item" onclick="filterCat('Women')"><div class="cat-icon" style="background: #FF4757;"><i class="fa-solid fa-person-dress"></i></div><span>Women</span></div>
+        <div class="cat-item" onclick="filterCat('Cosmetics')"><div class="cat-icon" style="background: #FF9FF3;"><i class="fa-solid fa-sparkles"></i></div><span>Cosmetics</span></div>
+        <div class="cat-item" onclick="filterCat('Kitchen')"><div class="cat-icon" style="background: #2ED573;"><i class="fa-solid fa-utensils"></i></div><span>Kitchen</span></div>
+        <div class="cat-item" onclick="filterCat('Electronics')"><div class="cat-icon" style="background: #54a0ff;"><i class="fa-solid fa-plug"></i></div><span>Electronics</span></div>
+        <div class="cat-item" onclick="filterCat('Mobile')"><div class="cat-icon" style="background: #feca57;"><i class="fa-solid fa-mobile-screen"></i></div><span>Mobile</span></div>
     </div>
 
     <div class="grid" id="productList"></div>
 </div>
 
+<!-- Baaki Views (Detail, Checkout, Orders, Wishlist) same rahenge -->
 <div id="detail-view" class="full-view">
     <div class="view-header"><i class="fa-solid fa-arrow-left" onclick="closeAll()"></i><span>Details</span></div>
     <div style="padding: 20px; text-align: center; padding-bottom: 100px;">
         <img id="det-img" style="width: 100%; border-radius: 12px; border: 1px solid #333;">
         <h2 id="det-name" style="color: var(--accent); margin-top: 15px;"></h2>
         <div id="det-price" style="font-size: 26px; font-weight: 800;"></div>
-        
-        <!-- FIX: Size Option UI -->
         <div class="size-box" id="size-options-container" style="display:none;">
             <span class="size-label">Choose Size</span>
             <div class="size-chips" id="det-sizes"></div>
         </div>
-        
         <p id="det-desc" style="text-align:left; color:#ccc; font-size:13px; margin-top:20px; line-height:1.6;"></p>
     </div>
     <div class="btn-box"><button class="btn-main" onclick="openCheckout()">Buy Now (COD)</button></div>
@@ -182,13 +185,12 @@
             `;
             card.onclick = () => {
                 currentP = p;
-                selectedSize = ""; // Reset size
+                selectedSize = ""; 
                 document.getElementById('det-img').src = p.images[0] || 'Dkart.jpg';
                 document.getElementById('det-name').innerText = p.name;
                 document.getElementById('det-price').innerText = "₹" + p.price;
                 document.getElementById('det-desc').innerText = p.desc || "";
                 
-                // FIX: Size Rendering Logic
                 const sContainer = document.getElementById('det-sizes');
                 const sBox = document.getElementById('size-options-container');
                 sContainer.innerHTML = "";
@@ -209,12 +211,21 @@
                 } else {
                     sBox.style.display = 'none';
                 }
-                
                 document.getElementById('detail-view').style.display = 'block';
             };
             list.appendChild(card);
         });
     }
+
+    // New Filter Function
+    window.filterCat = (cat) => {
+        if(cat === 'All') {
+            render(allP, 'productList');
+        } else {
+            const filtered = allP.filter(p => p.category && p.category.toLowerCase() === cat.toLowerCase());
+            render(filtered, 'productList');
+        }
+    };
 
     window.openCheckout = () => {
         if(currentP.sizes && currentP.sizes.length > 0 && !selectedSize) {
@@ -233,25 +244,19 @@
             name: currentP.name, 
             price: currentP.price, 
             img: currentP.images[0], 
-            size: selectedSize || "Free Size", // Default to Free Size if none selected
-            customer: n, 
-            phone: ph, 
-            address: ad, 
+            size: selectedSize || "Free Size",
+            customer: n, phone: ph, address: ad, 
             time: serverTimestamp(),
             status: "Pending"
         };
-
         await addDoc(collection(db, "orders"), orderData);
-        
         let myOrders = JSON.parse(localStorage.getItem('dk_orders')) || [];
         myOrders.unshift(orderData);
         localStorage.setItem('dk_orders', JSON.stringify(myOrders));
-        
         alert("Order Confirm ho gaya! ✅");
         location.reload();
     };
 
-    // Baki functions same rahenge
     window.toggleWish = (e, id) => { e.stopPropagation(); let wish = JSON.parse(localStorage.getItem('dk_wish')) || []; if(wish.includes(id)) wish = wish.filter(i => i !== id); else wish.push(id); localStorage.setItem('dk_wish', JSON.stringify(wish)); alert("Wishlist updated!"); };
     window.showWishlist = () => { const wIds = JSON.parse(localStorage.getItem('dk_wish')) || []; render(allP.filter(p => wIds.includes(p.id)), 'wishlistGrid'); document.getElementById('wishlist-view').style.display = 'block'; };
     window.showOrders = () => { const orders = JSON.parse(localStorage.getItem('dk_orders')) || []; const cont = document.getElementById('orderListContainer'); cont.innerHTML = orders.length ? "" : "<p style='text-align:center;padding:20px;'>No orders yet.</p>"; orders.forEach(o => { cont.innerHTML += `<div class="order-card"><img src="${o.img}" class="order-img"><div><h4 style="margin:0;color:var(--accent)">${o.name}</h4><p style="margin:5px 0;font-size:12px;">Size: ${o.size}</p><p style="margin:5px 0;font-size:12px;">Price: ₹${o.price}</p><p style="margin:0;font-size:10px;color:#0f0;">Status: Pending</p></div></div>`; }); document.getElementById('orders-view').style.display = 'block'; };

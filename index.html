@@ -14,7 +14,6 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
         body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding-bottom: 80px; color: var(--white); }
 
-        /* Header & Search */
         header { background: var(--primary); padding: 15px 10px; border-bottom: 2px solid var(--accent); position: sticky; top: 0; z-index: 1000; }
         .logo-row { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 5px; }
         .logo-img { width: 40px; height: 40px; border-radius: 5px; border: 1.5px solid var(--white); }
@@ -26,7 +25,6 @@
         .search-box input { background: transparent; border: none; color: white; width: 100%; margin-left: 10px; font-size: 14px; }
         .help-btn { background: #25D366; color: white; width: 42px; height: 42px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 22px; text-decoration: none; border: 1px solid white; }
 
-        /* Categories - Updated for better scrolling */
         .cat-row { display: flex; overflow-x: auto; padding: 15px 10px; gap: 15px; scrollbar-width: none; background: #111; border-bottom: 1px solid #222; }
         .cat-row::-webkit-scrollbar { display: none; }
         .cat-item { min-width: 75px; text-align: center; cursor: pointer; transition: 0.3s; }
@@ -34,7 +32,6 @@
         .cat-icon { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; font-size: 20px; color: #000; border: 2px solid #fff; }
         .cat-item span { font-size: 10px; font-weight: 700; color: #fff; display: block; white-space: nowrap; }
 
-        /* Product Grid */
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px; }
         .p-card { background: #151515; padding: 10px; border-radius: 12px; border: 1.5px solid var(--white); position: relative; }
         .p-card img { width: 100%; height: 140px; object-fit: contain; border-radius: 8px; background: #222; }
@@ -43,20 +40,17 @@
         .p-name { font-size: 12px; font-weight: 600; color: var(--accent); margin-top: 10px; height: 35px; overflow: hidden; text-transform: uppercase; }
         .p-price { font-size: 17px; font-weight: 800; color: var(--white); margin: 5px 0; }
 
-        /* Size Selector Styling */
         .size-box { margin-top: 20px; text-align: left; padding: 0 10px; }
         .size-label { font-size: 12px; color: #888; text-transform: uppercase; font-weight: 700; margin-bottom: 8px; display: block; }
         .size-chips { display: flex; flex-wrap: wrap; gap: 10px; }
-        .size-chip { padding: 8px 15px; border: 1px solid #444; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        .size-chip { padding: 8px 15px; border: 1px solid #444; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.2s; color: white; }
         .size-chip.selected { background: var(--accent); color: #000; border-color: var(--accent); }
 
-        /* Bottom Nav */
         .nav-bar { position: fixed; bottom: 0; width: 100%; background: #000; display: flex; border-top: 2px solid var(--accent); z-index: 2000; height: 65px; align-items: center; }
         .nav-tab { flex: 1; text-align: center; color: #777; cursor: pointer; font-size: 10px; font-weight: 700; }
         .nav-tab.active { color: var(--accent); }
         .nav-tab i { font-size: 20px; display: block; margin-bottom: 3px; }
 
-        /* Views */
         .full-view { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 3000; display: none; overflow-y: auto; }
         .view-header { padding: 15px; display: flex; align-items: center; border-bottom: 1px solid #333; background: var(--primary); position: sticky; top: 0; }
         .view-header span { color: var(--accent); font-weight: 700; margin-left: 15px; text-transform: uppercase; }
@@ -89,7 +83,6 @@
         </div>
     </header>
 
-    <!-- Updated Category Row -->
     <div class="cat-row">
         <div class="cat-item" onclick="filterCat('All')"><div class="cat-icon" style="background: #FFD700;"><i class="fa-solid fa-border-all"></i></div><span>All</span></div>
         <div class="cat-item" onclick="filterCat('Men')"><div class="cat-icon" style="background: #1E90FF;"><i class="fa-solid fa-person"></i></div><span>Men</span></div>
@@ -103,7 +96,6 @@
     <div class="grid" id="productList"></div>
 </div>
 
-<!-- Baaki Views (Detail, Checkout, Orders, Wishlist) same rahenge -->
 <div id="detail-view" class="full-view">
     <div class="view-header"><i class="fa-solid fa-arrow-left" onclick="closeAll()"></i><span>Details</span></div>
     <div style="padding: 20px; text-align: center; padding-bottom: 100px;">
@@ -116,7 +108,7 @@
         </div>
         <p id="det-desc" style="text-align:left; color:#ccc; font-size:13px; margin-top:20px; line-height:1.6;"></p>
     </div>
-    <div class="btn-box"><button class="btn-main" onclick="openCheckout()">Buy Now (COD)</button></div>
+    <div class="btn-box"><button class="btn-main" onclick="openCheckout()">Buy Now</button></div>
 </div>
 
 <div id="checkout-view" class="full-view">
@@ -141,6 +133,22 @@
 <div id="wishlist-view" class="full-view">
     <div class="view-header"><i class="fa-solid fa-arrow-left" onclick="hideAllViews()"></i><span>Wishlist</span></div>
     <div class="grid" id="wishlistGrid"></div>
+</div>
+
+<!-- Payment Selection Modal -->
+<div id="pay-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:5000; align-items:center; justify-content:center;">
+    <div style="background:#111; width:90%; padding:25px; border-radius:20px; border:1px solid #ffff00; text-align:center;">
+        <h3 style="color:#ffff00; margin-bottom:20px;">Payment Method</h3>
+        <div onclick="processOrder('UPI')" style="background:#1a1a1a; padding:18px; border-radius:12px; margin-bottom:15px; cursor:pointer; border:1.5px solid #333;">
+            <div style="font-weight:800; font-size:18px; color:#fff;"><i class="fa-solid fa-mobile-screen-button" style="color:#ffff00"></i> Pay Online</div>
+            <div style="font-size:12px; color:#00ff00; font-weight:700; margin-top:5px;">(Get ₹20 Instant Discount! 🔥)</div>
+        </div>
+        <div onclick="processOrder('COD')" style="background:#1a1a1a; padding:18px; border-radius:12px; cursor:pointer; border:1.5px solid #333;">
+            <div style="font-weight:800; font-size:18px; color:#fff;"><i class="fa-solid fa-truck-fast"></i> Cash On Delivery</div>
+            <div style="font-size:11px; color:#888; margin-top:5px;">No discount available</div>
+        </div>
+        <button onclick="closePayModal()" style="margin-top:20px; background:none; border:none; color:#ff4444; font-weight:700;">Cancel</button>
+    </div>
 </div>
 
 <nav class="nav-bar">
@@ -217,22 +225,38 @@
         });
     }
 
-    // New Filter Function
     window.filterCat = (cat) => {
-        if(cat === 'All') {
-            render(allP, 'productList');
-        } else {
+        if(cat === 'All') render(allP, 'productList');
+        else {
             const filtered = allP.filter(p => p.category && p.category.toLowerCase() === cat.toLowerCase());
             render(filtered, 'productList');
         }
     };
 
+    window.closePayModal = () => document.getElementById('pay-modal').style.display = 'none';
+
     window.openCheckout = () => {
         if(currentP.sizes && currentP.sizes.length > 0 && !selectedSize) {
             return alert("Pehle Size choose karein!");
         }
+        document.getElementById('pay-modal').style.display = 'flex';
+    };
+
+    window.processOrder = (method) => {
+        let finalPrice = parseInt(currentP.price);
+        let methodText = "COD";
+        
+        if(method === 'UPI') {
+            finalPrice = finalPrice - 20;
+            methodText = "UPI (Paid)";
+            const upiUrl = `upi://pay?pa=amitdas7892@ybl=Dkart&am=${finalPrice}&cu=INR`;
+            window.location.href = upiUrl;
+        }
+
+        closePayModal();
+        currentP.tempPrice = finalPrice; // Temporary price to save in firebase
         document.getElementById('c-prod-name').innerText = currentP.name;
-        document.getElementById('c-prod-size').innerText = selectedSize ? "Size: " + selectedSize : "Size: N/A";
+        document.getElementById('c-prod-size').innerText = (selectedSize ? "Size: " + selectedSize : "Free Size") + " | " + methodText;
         document.getElementById('checkout-view').style.display = 'block';
     };
 
@@ -242,7 +266,7 @@
         
         const orderData = { 
             name: currentP.name, 
-            price: currentP.price, 
+            price: currentP.tempPrice || currentP.price, 
             img: currentP.images[0], 
             size: selectedSize || "Free Size",
             customer: n, phone: ph, address: ad, 

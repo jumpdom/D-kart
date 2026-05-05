@@ -5,11 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Dkart | Premium Shop</title>
     <link rel="icon" type="image/jpeg" href="IMG_6363.jpeg">
-        <link rel="apple-touch-icon" href="IMG_6363.jpeg">
-
+    <link rel="apple-touch-icon" href="IMG_6363.jpeg">
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Montserrat:wght@900&display=swap" rel="stylesheet">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         :root { --primary: #000000; --accent: #ffff00; --white: #ffffff; --bg: #0a0a0a; }
@@ -23,7 +21,6 @@
         .brand { font-family: 'Montserrat', sans-serif; font-size: 26px; font-weight: 900; color: var(--accent); font-style: italic; }
         .trust-text { font-size: 10px; color: var(--accent); text-align: center; font-weight: 700; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px; }
         
-        /* Search Box & Help Icon Row */
         .header-action-row { display: flex; align-items: center; gap: 10px; padding: 0 5px; }
         .search-box { flex: 1; background: #1a1a1a; border-radius: 8px; display: flex; align-items: center; padding: 10px 15px; border: 1px solid #333; }
         .search-box input { background: transparent; border: none; color: white; width: 100%; margin-left: 10px; font-size: 14px; }
@@ -44,6 +41,13 @@
         .wish-icon.active { color: #ff4757; }
         .p-name { font-size: 12px; font-weight: 600; color: var(--accent); margin-top: 10px; height: 35px; overflow: hidden; text-transform: uppercase; }
         .p-price { font-size: 17px; font-weight: 800; color: var(--white); margin: 5px 0; }
+
+        /* Size Selector Styling */
+        .size-box { margin-top: 20px; text-align: left; padding: 0 10px; }
+        .size-label { font-size: 12px; color: #888; text-transform: uppercase; font-weight: 700; margin-bottom: 8px; display: block; }
+        .size-chips { display: flex; flex-wrap: wrap; gap: 10px; }
+        .size-chip { padding: 8px 15px; border: 1px solid #444; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        .size-chip.selected { background: var(--accent); color: #000; border-color: var(--accent); }
 
         /* Bottom Nav */
         .nav-bar { position: fixed; bottom: 0; width: 100%; background: #000; display: flex; border-top: 2px solid var(--accent); z-index: 2000; height: 65px; align-items: center; }
@@ -96,10 +100,18 @@
 
 <div id="detail-view" class="full-view">
     <div class="view-header"><i class="fa-solid fa-arrow-left" onclick="closeAll()"></i><span>Details</span></div>
-    <div style="padding: 20px; text-align: center;">
+    <div style="padding: 20px; text-align: center; padding-bottom: 100px;">
         <img id="det-img" style="width: 100%; border-radius: 12px; border: 1px solid #333;">
         <h2 id="det-name" style="color: var(--accent); margin-top: 15px;"></h2>
         <div id="det-price" style="font-size: 26px; font-weight: 800;"></div>
+        
+        <!-- FIX: Size Option UI -->
+        <div class="size-box" id="size-options-container" style="display:none;">
+            <span class="size-label">Choose Size</span>
+            <div class="size-chips" id="det-sizes"></div>
+        </div>
+        
+        <p id="det-desc" style="text-align:left; color:#ccc; font-size:13px; margin-top:20px; line-height:1.6;"></p>
     </div>
     <div class="btn-box"><button class="btn-main" onclick="openCheckout()">Buy Now (COD)</button></div>
 </div>
@@ -107,6 +119,10 @@
 <div id="checkout-view" class="full-view">
     <div class="view-header"><i class="fa-solid fa-arrow-left" onclick="closeCheckout()"></i><span>Checkout</span></div>
     <div style="padding: 20px;">
+        <div id="checkout-summary" style="background:#111; padding:15px; border-radius:10px; margin-bottom:20px; border:1px solid #222;">
+            <p id="c-prod-name" style="margin:0; font-weight:600; color:var(--accent)"></p>
+            <p id="c-prod-size" style="margin:5px 0 0 0; font-size:12px; color:#888"></p>
+        </div>
         <input type="text" id="c-name" placeholder="Full Name" style="width:100%; padding:15px; margin-bottom:10px; background:#111; color:white; border:1px solid #333; border-radius:8px;">
         <input type="tel" id="c-phone" placeholder="Mobile Number" style="width:100%; padding:15px; margin-bottom:10px; background:#111; color:white; border:1px solid #333; border-radius:8px;">
         <textarea id="c-addr" placeholder="Full Address" style="width:100%; padding:15px; background:#111; color:white; border:1px solid #333; border-radius:8px;" rows="3"></textarea>
@@ -143,7 +159,7 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-    let allP = [], currentP = null;
+    let allP = [], currentP = null, selectedSize = "";
 
     async function load() {
         const q = query(collection(db, "products"), orderBy("time", "desc"));
@@ -166,54 +182,81 @@
             `;
             card.onclick = () => {
                 currentP = p;
+                selectedSize = ""; // Reset size
                 document.getElementById('det-img').src = p.images[0] || 'Dkart.jpg';
                 document.getElementById('det-name').innerText = p.name;
                 document.getElementById('det-price').innerText = "₹" + p.price;
+                document.getElementById('det-desc').innerText = p.desc || "";
+                
+                // FIX: Size Rendering Logic
+                const sContainer = document.getElementById('det-sizes');
+                const sBox = document.getElementById('size-options-container');
+                sContainer.innerHTML = "";
+                
+                if(p.sizes && p.sizes.length > 0) {
+                    sBox.style.display = 'block';
+                    p.sizes.forEach(s => {
+                        const chip = document.createElement('div');
+                        chip.className = 'size-chip';
+                        chip.innerText = s;
+                        chip.onclick = () => {
+                            document.querySelectorAll('.size-chip').forEach(c => c.classList.remove('selected'));
+                            chip.classList.add('selected');
+                            selectedSize = s;
+                        };
+                        sContainer.appendChild(chip);
+                    });
+                } else {
+                    sBox.style.display = 'none';
+                }
+                
                 document.getElementById('detail-view').style.display = 'block';
             };
             list.appendChild(card);
         });
     }
 
-    window.toggleWish = (e, id) => {
-        e.stopPropagation();
-        let wish = JSON.parse(localStorage.getItem('dk_wish')) || [];
-        if(wish.includes(id)) wish = wish.filter(i => i !== id); else wish.push(id);
-        localStorage.setItem('dk_wish', JSON.stringify(wish));
-        alert("Wishlist updated!");
-    };
-
-    window.showWishlist = () => {
-        const wIds = JSON.parse(localStorage.getItem('dk_wish')) || [];
-        render(allP.filter(p => wIds.includes(p.id)), 'wishlistGrid');
-        document.getElementById('wishlist-view').style.display = 'block';
-    };
-
-    window.showOrders = () => {
-        const orders = JSON.parse(localStorage.getItem('dk_orders')) || [];
-        const cont = document.getElementById('orderListContainer');
-        cont.innerHTML = orders.length ? "" : "<p style='text-align:center;padding:20px;'>No orders yet.</p>";
-        orders.forEach(o => {
-            cont.innerHTML += `<div class="order-card"><img src="${o.img}" class="order-img"><div><h4 style="margin:0;color:var(--accent)">${o.name}</h4><p style="margin:5px 0;font-size:12px;">Price: ₹${o.price}</p><p style="margin:0;font-size:10px;color:#0f0;">Status: Pending</p></div></div>`;
-        });
-        document.getElementById('orders-view').style.display = 'block';
+    window.openCheckout = () => {
+        if(currentP.sizes && currentP.sizes.length > 0 && !selectedSize) {
+            return alert("Pehle Size choose karein!");
+        }
+        document.getElementById('c-prod-name').innerText = currentP.name;
+        document.getElementById('c-prod-size').innerText = selectedSize ? "Size: " + selectedSize : "Size: N/A";
+        document.getElementById('checkout-view').style.display = 'block';
     };
 
     document.getElementById('order-btn').onclick = async () => {
         const n = document.getElementById('c-name').value, ph = document.getElementById('c-phone').value, ad = document.getElementById('c-addr').value;
-        if(!n || !ph || !ad) return alert("Fill all details!");
-        const orderInfo = { name: currentP.name, price: currentP.price, img: currentP.images[0] };
-        await addDoc(collection(db, "orders"), { ...orderInfo, customer: n, phone: ph, address: ad, time: serverTimestamp() });
+        if(!n || !ph || !ad) return alert("Sari details bhariye!");
+        
+        const orderData = { 
+            name: currentP.name, 
+            price: currentP.price, 
+            img: currentP.images[0], 
+            size: selectedSize || "Free Size", // Default to Free Size if none selected
+            customer: n, 
+            phone: ph, 
+            address: ad, 
+            time: serverTimestamp(),
+            status: "Pending"
+        };
+
+        await addDoc(collection(db, "orders"), orderData);
+        
         let myOrders = JSON.parse(localStorage.getItem('dk_orders')) || [];
-        myOrders.unshift(orderInfo);
+        myOrders.unshift(orderData);
         localStorage.setItem('dk_orders', JSON.stringify(myOrders));
-        alert("Order Placed! ✅");
+        
+        alert("Order Confirm ho gaya! ✅");
         location.reload();
     };
 
+    // Baki functions same rahenge
+    window.toggleWish = (e, id) => { e.stopPropagation(); let wish = JSON.parse(localStorage.getItem('dk_wish')) || []; if(wish.includes(id)) wish = wish.filter(i => i !== id); else wish.push(id); localStorage.setItem('dk_wish', JSON.stringify(wish)); alert("Wishlist updated!"); };
+    window.showWishlist = () => { const wIds = JSON.parse(localStorage.getItem('dk_wish')) || []; render(allP.filter(p => wIds.includes(p.id)), 'wishlistGrid'); document.getElementById('wishlist-view').style.display = 'block'; };
+    window.showOrders = () => { const orders = JSON.parse(localStorage.getItem('dk_orders')) || []; const cont = document.getElementById('orderListContainer'); cont.innerHTML = orders.length ? "" : "<p style='text-align:center;padding:20px;'>No orders yet.</p>"; orders.forEach(o => { cont.innerHTML += `<div class="order-card"><img src="${o.img}" class="order-img"><div><h4 style="margin:0;color:var(--accent)">${o.name}</h4><p style="margin:5px 0;font-size:12px;">Size: ${o.size}</p><p style="margin:5px 0;font-size:12px;">Price: ₹${o.price}</p><p style="margin:0;font-size:10px;color:#0f0;">Status: Pending</p></div></div>`; }); document.getElementById('orders-view').style.display = 'block'; };
     window.searchFun = () => render(allP.filter(p => p.name.toLowerCase().includes(document.getElementById('searchInput').value.toLowerCase())), 'productList');
     window.closeAll = () => document.getElementById('detail-view').style.display = 'none';
-    window.openCheckout = () => document.getElementById('checkout-view').style.display = 'block';
     window.closeCheckout = () => document.getElementById('checkout-view').style.display = 'none';
     window.hideAllViews = () => { document.querySelectorAll('.full-view').forEach(v => v.style.display = 'none'); };
 

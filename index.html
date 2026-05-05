@@ -310,43 +310,60 @@
             price: currentP.tempPrice || currentP.price, 
             img: currentP.images[0], 
             size: selectedSize || "Free Size",
-            customer: n, phone: ph, 
+            customer: n, 
+            phone: ph, 
             address: `${document.getElementById('c-addr1').value}, ${document.getElementById('c-pin').value}`, 
             time: serverTimestamp(),
             status: "Pending"
         };
-        await addDoc(collection(db, "orders"), orderData);
-        localStorage.setItem('dk_user_phone', ph); // Phone number save kar liya logic ke liye
-        alert("Order Confirm ho gaya! ✅");
-        location.reload();
+        
+        try {
+            await addDoc(collection(db, "orders"), orderData);
+            // Browser mein phone number save kiya orders track karne ke liye
+            localStorage.setItem('dk_user_phone', ph); 
+            alert("Order Confirm ho gaya! ✅");
+            location.reload();
+        } catch (e) {
+            alert("Kuch galti hui, kripya dobara koshish karein.");
+        }
     };
 
-    // YAHAN FIX HAI: getDocs ki jagah onSnapshot use kiya real-time ke liye
+    // My Orders display with Real-time Status Update
     window.showOrders = () => {
         const cont = document.getElementById('orderListContainer');
         const userPh = localStorage.getItem('dk_user_phone');
-        if(!userPh) {
-            cont.innerHTML = "<p style='text-align:center;padding:20px;'>No orders yet.</p>";
-        } else {
-            const q = query(collection(db, "orders"), where("phone", "==", userPh), orderBy("time", "desc"));
-            onSnapshot(q, (snap) => {
-                cont.innerHTML = "";
-                snap.forEach(doc => {
-                    const o = doc.data();
-                    cont.innerHTML += `
-                        <div class="order-card">
-                            <img src="${o.img}" class="order-img">
-                            <div>
-                                <h4 style="margin:0;color:var(--accent)">${o.name}</h4>
-                                <p style="margin:5px 0;font-size:12px;">Size: ${o.size}</p>
-                                <p style="margin:5px 0;font-size:12px;">Price: ₹${o.price}</p>
-                                <p style="margin:0;font-size:10px;color:#0f0;font-weight:800;">Status: ${o.status || 'Pending'}</p>
-                            </div>
-                        </div>`;
-                });
-            });
-        }
+        
         document.getElementById('orders-view').style.display = 'block';
+        
+        if(!userPh) {
+            cont.innerHTML = "<p style='text-align:center;padding:20px;'>Abhi tak koi order nahi kiya gaya hai.</p>";
+            return;
+        }
+
+        // Query fetching orders for this specific phone number
+        const q = query(collection(db, "orders"), where("phone", "==", userPh), orderBy("time", "desc"));
+        
+        // Live listener: Admin changes status, customer sees it instantly
+        onSnapshot(q, (snap) => {
+            if(snap.empty) {
+                cont.innerHTML = "<p style='text-align:center;padding:20px;'>Koi order nahi mila.</p>";
+                return;
+            }
+            cont.innerHTML = "";
+            snap.forEach(doc => {
+                const o = doc.data();
+                cont.innerHTML += `
+                    <div class="order-card">
+                        <img src="${o.img}" class="order-img">
+                        <div>
+                            <h4 style="margin:0;color:var(--accent)">${o.name}</h4>
+                            <p style="margin:5px 0;font-size:12px;">Size: ${o.size}</p>
+                            <p style="margin:5px 0;font-size:12px;">Price: ₹${o.price}</p>
+                            <p style="margin:0;font-size:10px;color:#0f0;font-weight:800;">Status: <span style="color:white; background:#222; padding:2px 6px; border-radius:4px;">${o.status || 'Pending'}</span></p>
+                        </div>
+                    </div>`;
+            });
+        });
     };
 
     window.toggleWish = (e, id) => { e.stopPropagation(); let wish = JSON.parse(localStorage.getItem('dk_wish')) || []; if(wish.includes(id)) wish = wish.filter(i => i !== id); else wish.push(id); localStorage.setItem('dk_wish', JSON.stringify(wish)); alert("Wishlist updated!"); };

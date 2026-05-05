@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Dkart | Premium Shop</title>
-    <link rel="icon" type="image/jpeg" href="IMG_6363.jpeg">
-    <link rel="apple-touch-icon" href="IMG_6363.jpeg">
+    <link rel="icon" type="image/jpeg" href="Dkart.jpg">
+    <link rel="apple-touch-icon" href="Dkart.jpg">
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Montserrat:wght@900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         :root { --primary: #000000; --accent: #ffff00; --white: #ffffff; --bg: #0a0a0a; }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
-        body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding-bottom: 80px; color: var(--white); }
+        body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding-bottom: 80px; color: var(--white); overflow-x: hidden; }
 
         header { background: var(--primary); padding: 15px 10px; border-bottom: 2px solid var(--accent); position: sticky; top: 0; z-index: 1000; }
         .logo-row { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 5px; }
@@ -28,9 +28,8 @@
         .cat-row { display: flex; overflow-x: auto; padding: 15px 10px; gap: 15px; scrollbar-width: none; background: #111; border-bottom: 1px solid #222; }
         .cat-row::-webkit-scrollbar { display: none; }
         .cat-item { min-width: 75px; text-align: center; cursor: pointer; transition: 0.3s; }
-        .cat-item:active { transform: scale(0.9); }
         .cat-icon { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; font-size: 20px; color: #000; border: 2px solid #fff; }
-        .cat-item span { font-size: 10px; font-weight: 700; color: #fff; display: block; white-space: nowrap; }
+        .cat-item span { font-size: 10px; font-weight: 700; color: #fff; display: block; }
 
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px; }
         .p-card { background: #151515; padding: 10px; border-radius: 12px; border: 1.5px solid var(--white); position: relative; }
@@ -40,28 +39,33 @@
         .p-name { font-size: 12px; font-weight: 600; color: var(--accent); margin-top: 10px; height: 35px; overflow: hidden; text-transform: uppercase; }
         .p-price { font-size: 17px; font-weight: 800; color: var(--white); margin: 5px 0; }
 
-        .size-box { margin-top: 20px; text-align: left; padding: 0 10px; }
-        .size-label { font-size: 12px; color: #888; text-transform: uppercase; font-weight: 700; margin-bottom: 8px; display: block; }
-        .size-chips { display: flex; flex-wrap: wrap; gap: 10px; }
-        .size-chip { padding: 8px 15px; border: 1px solid #444; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.2s; color: white; }
-        .size-chip.selected { background: var(--accent); color: #000; border-color: var(--accent); }
-
-        .nav-bar { position: fixed; bottom: 0; width: 100%; background: #000; display: flex; border-top: 2px solid var(--accent); z-index: 2000; height: 65px; align-items: center; }
-        .nav-tab { flex: 1; text-align: center; color: #777; cursor: pointer; font-size: 10px; font-weight: 700; }
-        .nav-tab.active { color: var(--accent); }
-        .nav-tab i { font-size: 20px; display: block; margin-bottom: 3px; }
-
+        /* Full View Overlays */
         .full-view { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 3000; display: none; overflow-y: auto; }
-        .view-header { padding: 15px; display: flex; align-items: center; border-bottom: 1px solid #333; background: var(--primary); position: sticky; top: 0; }
+        .view-header { padding: 15px; display: flex; align-items: center; border-bottom: 1px solid #333; background: var(--primary); position: sticky; top: 0; z-index: 3001; }
         .view-header span { color: var(--accent); font-weight: 700; margin-left: 15px; text-transform: uppercase; }
 
-        .order-card { background: #1a1a1a; margin: 10px; padding: 12px; border-radius: 10px; display: flex; gap: 15px; border-left: 4px solid var(--accent); }
-        .order-img { width: 70px; height: 70px; border-radius: 8px; object-fit: cover; background: #222; }
+        /* Bottom Nav Bar Fix */
+        .nav-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--primary); display: flex; justify-content: space-around; padding: 10px 0; border-top: 2px solid var(--accent); z-index: 2500; }
+        .nav-tab { text-align: center; color: #888; flex: 1; transition: 0.3s; cursor: pointer; }
+        .nav-tab.active { color: var(--accent); }
+        .nav-tab i { font-size: 20px; display: block; margin-bottom: 3px; }
+        .nav-tab span { font-size: 10px; font-weight: 600; text-transform: uppercase; }
+
+        /* Tracking Steps */
+        .step-row { position: relative; padding-left: 45px; margin-bottom: 25px; }
+        .step-line { position: absolute; left: 19px; top: 20px; bottom: -20px; width: 2px; background: #333; }
+        .step-dot { position: absolute; left: 12px; top: 0; width: 16px; height: 16px; border-radius: 50%; background: #333; border: 3px solid var(--bg); }
+        .step-active .step-dot { background: var(--accent); box-shadow: 0 0 10px var(--accent); }
+        .step-active .step-text { color: #fff; font-weight: 800; }
+        .step-text { color: #555; font-size: 14px; }
+        
+        /* Order Cards */
+        .order-card { background: #1a1a1a; margin: 10px; padding: 12px; border-radius: 10px; display: flex; gap: 15px; border-left: 4px solid var(--accent); align-items: center; }
+        .order-img { width: 70px; height: 70px; border-radius: 8px; object-fit: cover; }
 
         .btn-box { position: fixed; bottom: 0; width: 100%; height: 60px; z-index: 3500; }
         .btn-main { width: 100%; height: 100%; border: none; font-weight: 900; background: var(--accent); color: #000; font-size: 16px; text-transform: uppercase; }
-        
-        .addr-input { width: 100%; padding: 15px; margin-bottom: 10px; background: #111; color: white; border: 1px solid #333; border-radius: 8px; font-size: 14px; }
+        .addr-input { width: 100%; padding: 15px; margin-bottom: 10px; background: #111; color: white; border: 1px solid #333; border-radius: 8px; }
     </style>
 </head>
 <body>
@@ -89,90 +93,55 @@
         <div class="cat-item" onclick="filterCat('All')"><div class="cat-icon" style="background: #FFD700;"><i class="fa-solid fa-border-all"></i></div><span>All</span></div>
         <div class="cat-item" onclick="filterCat('Men')"><div class="cat-icon" style="background: #1E90FF;"><i class="fa-solid fa-person"></i></div><span>Men</span></div>
         <div class="cat-item" onclick="filterCat('Women')"><div class="cat-icon" style="background: #FF4757;"><i class="fa-solid fa-person-dress"></i></div><span>Women</span></div>
-        <div class="cat-item" onclick="filterCat('Cosmetics')"><div class="cat-icon" style="background: #FF9FF3;"><i class="fa-solid fa-sparkles"></i></div><span>Cosmetics</span></div>
-        <div class="cat-item" onclick="filterCat('Kitchen')"><div class="cat-icon" style="background: #2ED573;"><i class="fa-solid fa-utensils"></i></div><span>Kitchen</span></div>
         <div class="cat-item" onclick="filterCat('Electronics')"><div class="cat-icon" style="background: #54a0ff;"><i class="fa-solid fa-plug"></i></div><span>Electronics</span></div>
-        <div class="cat-item" onclick="filterCat('Mobile')"><div class="cat-icon" style="background: #feca57;"><i class="fa-solid fa-mobile-screen"></i></div><span>Mobile</span></div>
     </div>
 
     <div class="grid" id="productList"></div>
 </div>
 
+<!-- Details View -->
 <div id="detail-view" class="full-view">
     <div class="view-header"><i class="fa-solid fa-arrow-left" onclick="closeAll()"></i><span>Details</span></div>
     <div style="padding: 20px; text-align: center; padding-bottom: 100px;">
         <img id="det-img" style="width: 100%; border-radius: 12px; border: 1px solid #333;">
         <h2 id="det-name" style="color: var(--accent); margin-top: 15px;"></h2>
         <div id="det-price" style="font-size: 26px; font-weight: 800;"></div>
-        <div class="size-box" id="size-options-container" style="display:none;">
-            <span class="size-label">Choose Size</span>
-            <div class="size-chips" id="det-sizes"></div>
-        </div>
         <p id="det-desc" style="text-align:left; color:#ccc; font-size:13px; margin-top:20px; line-height:1.6;"></p>
     </div>
     <div class="btn-box"><button class="btn-main" onclick="openCheckout()">Buy Now</button></div>
 </div>
 
+<!-- Checkout View -->
 <div id="checkout-view" class="full-view">
     <div class="view-header"><i class="fa-solid fa-arrow-left" onclick="closeCheckout()"></i><span>Checkout</span></div>
     <div style="padding: 20px; padding-bottom: 100px;">
-        <div id="checkout-summary" style="background:#111; padding:15px; border-radius:10px; margin-bottom:20px; border:1.5px solid var(--accent);">
-            <p id="c-prod-name" style="margin:0; font-weight:600; color:var(--accent); font-size: 16px;"></p>
-            <p id="c-prod-price-display" style="margin:5px 0; font-size:20px; font-weight:800; color:#fff;"></p>
-            <p id="c-prod-size" style="margin:0; font-size:12px; color:#888"></p>
-        </div>
-        
         <input type="text" id="c-name" class="addr-input" placeholder="Full Name">
         <input type="tel" id="c-phone" class="addr-input" placeholder="Mobile Number">
-        
-        <p style="color:var(--accent); font-size:12px; font-weight:bold; margin: 15px 0 5px 0;">ADDRESS DETAILS</p>
-        <input type="text" id="c-addr1" class="addr-input" placeholder="Address Line 1 (House No, Building)">
-        <input type="text" id="c-addr2" class="addr-input" placeholder="Address Line 2 (Area, Street)">
-        <input type="text" id="c-addr3" class="addr-input" placeholder="Address Line 3 (Landmark)">
-        
-        <div style="display: flex; gap: 10px;">
-            <input type="number" id="c-pin" class="addr-input" placeholder="Pincode" style="flex:1;">
-            <input type="text" id="c-state" class="addr-input" placeholder="State" style="flex:1;">
-        </div>
+        <input type="text" id="c-addr1" class="addr-input" placeholder="Full Address (House, Road, Area)">
+        <input type="number" id="c-pin" class="addr-input" placeholder="Pincode">
     </div>
     <div class="btn-box"><button class="btn-main" id="order-btn">Confirm Order</button></div>
 </div>
 
+<!-- Orders View -->
 <div id="orders-view" class="full-view">
     <div class="view-header"><i class="fa-solid fa-arrow-left" onclick="hideAllViews()"></i><span>My Orders</span></div>
     <div id="orderListContainer"></div>
 </div>
 
+<!-- Tracking View -->
+<div id="tracking-view" class="full-view">
+    <div class="view-header"><i class="fa-solid fa-arrow-left" onclick="document.getElementById('tracking-view').style.display='none'"></i><span>Track Order</span></div>
+    <div id="trackingContent" style="padding: 25px;"></div>
+</div>
+
+<!-- Wishlist View -->
 <div id="wishlist-view" class="full-view">
     <div class="view-header"><i class="fa-solid fa-arrow-left" onclick="hideAllViews()"></i><span>Wishlist</span></div>
     <div class="grid" id="wishlistGrid"></div>
 </div>
 
-<div id="pay-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:5000; align-items:center; justify-content:center; overflow-y: auto;">
-    <div style="background:#111; width:90%; max-width:400px; padding:25px; border-radius:20px; border:1px solid #ffff00; text-align:center;">
-        <h3 style="color:#ffff00; margin-bottom:15px;">Payment Method</h3>
-        
-        <div id="upi-options">
-            <div onclick="showScanner()" style="background:#1a1a1a; padding:18px; border-radius:12px; margin-bottom:15px; cursor:pointer; border:1.5px solid #ffff00;">
-                <div style="font-weight:800; font-size:18px; color:#fff;"><i class="fa-solid fa-qrcode" style="color:#ffff00"></i> Pay via Scanner</div>
-                <div style="font-size:12px; color:#00ff00; font-weight:700; margin-top:5px;">(Get ₹20 Instant Discount! 🔥)</div>
-            </div>
-            <div onclick="processOrder('COD')" style="background:#1a1a1a; padding:18px; border-radius:12px; cursor:pointer; border:1.5px solid #333;">
-                <div style="font-weight:800; font-size:18px; color:#fff;"><i class="fa-solid fa-truck-fast"></i> Cash On Delivery</div>
-                <div style="font-size:11px; color:#888; margin-top:5px;">No discount available</div>
-            </div>
-        </div>
-
-        <div id="scanner-display" style="display:none;">
-            <p style="font-size:12px; color:#ccc;">Scan QR & Pay <span id="dis-price" style="color:#0f0; font-weight:bold;"></span></p>
-            <img src="https://i.postimg.cc/nVShYS07/IMG-6402.jpg" style="width:100%; border-radius:10px; margin:10px 0; border: 2px solid #fff;">
-            <button onclick="confirmUPIDone()" style="width:100%; background:#00ff00; color:#000; border:none; padding:12px; border-radius:8px; font-weight:800; margin-top:10px;">I HAVE PAID (Confirm Order)</button>
-        </div>
-
-        <button onclick="closePayModal()" style="margin-top:20px; background:none; border:none; color:#ff4444; font-weight:700;">Cancel</button>
-    </div>
-</div>
-
+<!-- Nav Bar -->
 <nav class="nav-bar">
     <div class="nav-tab active" onclick="location.reload()"><i class="fa-solid fa-house"></i><span>Home</span></div>
     <div class="nav-tab" onclick="showOrders()"><i class="fa-solid fa-bag-shopping"></i><span>Orders</span></div>
@@ -181,7 +150,7 @@
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
-    import { getFirestore, collection, getDocs, addDoc, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+    import { getFirestore, collection, getDocs, addDoc, query, where, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyAchWzhIxqmS7G0HPpvuq6WBwcr8pXzFAE",
@@ -192,7 +161,7 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-    let allP = [], currentP = null, selectedSize = "";
+    let allP = [], currentP = null;
 
     async function load() {
         const q = query(collection(db, "products"), orderBy("time", "desc"));
@@ -208,132 +177,88 @@
             const card = document.createElement('div');
             card.className = 'p-card';
             card.innerHTML = `
-                <i class="fa-solid fa-heart wish-icon" onclick="toggleWish(event, '${p.id}')"></i>
-                <img src="${p.images[0] || 'Dkart.jpg'}" onerror="this.src='https://via.placeholder.com/140'">
+                <i class="fa-solid fa-heart wish-icon ${isWished(p.id)?'active':''}" onclick="toggleWish(event, '${p.id}')"></i>
+                <img src="${p.images[0] || 'Dkart.jpg'}">
                 <div class="p-name">${p.name}</div>
                 <div class="p-price">₹${p.price}</div>
             `;
             card.onclick = () => {
                 currentP = p;
-                selectedSize = ""; 
-                document.getElementById('det-img').src = p.images[0] || 'Dkart.jpg';
+                document.getElementById('det-img').src = p.images[0];
                 document.getElementById('det-name').innerText = p.name;
                 document.getElementById('det-price').innerText = "₹" + p.price;
-                document.getElementById('det-desc').innerText = p.desc || "";
-                
-                const sContainer = document.getElementById('det-sizes');
-                const sBox = document.getElementById('size-options-container');
-                sContainer.innerHTML = "";
-                
-                if(p.sizes && p.sizes.length > 0) {
-                    sBox.style.display = 'block';
-                    p.sizes.forEach(s => {
-                        const chip = document.createElement('div');
-                        chip.className = 'size-chip';
-                        chip.innerText = s;
-                        chip.onclick = () => {
-                            document.querySelectorAll('.size-chip').forEach(c => c.classList.remove('selected'));
-                            chip.classList.add('selected');
-                            selectedSize = s;
-                        };
-                        sContainer.appendChild(chip);
-                    });
-                } else {
-                    sBox.style.display = 'none';
-                }
+                document.getElementById('det-desc').innerText = p.desc || "Premium Quality Product";
                 document.getElementById('detail-view').style.display = 'block';
             };
             list.appendChild(card);
         });
     }
 
-    window.filterCat = (cat) => {
-        if(cat === 'All') render(allP, 'productList');
-        else {
-            const filtered = allP.filter(p => p.category && p.category.toLowerCase() === cat.toLowerCase());
-            render(filtered, 'productList');
-        }
+    window.showOrders = async () => {
+        const cont = document.getElementById('orderListContainer');
+        cont.innerHTML = "<p style='text-align:center;padding:20px;'>Loading...</p>";
+        document.getElementById('orders-view').style.display = 'block';
+        const uPhone = localStorage.getItem('dk_user_ph');
+        if(!uPhone) { cont.innerHTML = "<p style='text-align:center;padding:20px;'>No Orders Found</p>"; return; }
+
+        const q = query(collection(db, "orders"), where("phone", "==", uPhone), orderBy("time", "desc"));
+        const snap = await getDocs(q);
+        cont.innerHTML = "";
+        snap.forEach(doc => {
+            const o = doc.data();
+            const status = o.status || "Pending";
+            cont.innerHTML += `
+                <div class="order-card" onclick="openTracking('${status}', '${o.name}')">
+                    <img src="${o.img}" class="order-img">
+                    <div style="flex:1">
+                        <h4 style="margin:0;color:var(--accent)">${o.name}</h4>
+                        <p style="margin:3px 0;font-size:14px;font-weight:800;">₹${o.price}</p>
+                        <p style="margin:0;font-size:11px;color:#0f0;">Status: ${status} (Track)</p>
+                    </div>
+                </div>`;
+        });
     };
 
-    window.closePayModal = () => {
-        document.getElementById('pay-modal').style.display = 'none';
-        document.getElementById('upi-options').style.display = 'block';
-        document.getElementById('scanner-display').style.display = 'none';
-    };
+    window.openTracking = (status, name) => {
+        const stages = ["Pending", "Confirmed", "Packed", "Shipped", "Delivered"];
+        let curIdx = stages.indexOf(status);
+        if(curIdx === -1) curIdx = 0;
 
-    window.openCheckout = () => {
-        if(currentP.sizes && currentP.sizes.length > 0 && !selectedSize) {
-            return alert("Pehle Size choose karein!");
-        }
-        document.getElementById('pay-modal').style.display = 'flex';
+        let html = `<h3 style="color:var(--accent);">${name}</h3>`;
+        stages.forEach((s, i) => {
+            html += `<div class="step-row ${i <= curIdx ? 'step-active' : ''}">
+                ${i < stages.length-1 ? '<div class="step-line"></div>' : ''}
+                <div class="step-dot"></div>
+                <div class="step-text">${s}</div>
+            </div>`;
+        });
+        document.getElementById('trackingContent').innerHTML = html;
+        document.getElementById('tracking-view').style.display = 'block';
     };
-
-    window.showScanner = () => {
-        const finalPrice = parseInt(currentP.price) - 20;
-        currentP.tempPrice = finalPrice;
-        document.getElementById('dis-price').innerText = "₹" + finalPrice;
-        document.getElementById('upi-options').style.display = 'none';
-        document.getElementById('scanner-display').style.display = 'block';
-    };
-
-    window.confirmUPIDone = () => {
-        closePayModal();
-        updateCheckoutView("UPI (Paid)");
-    };
-
-    window.processOrder = (method) => {
-        if(method === 'COD') {
-            currentP.tempPrice = currentP.price; // Set price same for COD
-            closePayModal();
-            updateCheckoutView("COD");
-        }
-    };
-
-    function updateCheckoutView(method) {
-        document.getElementById('c-prod-name').innerText = currentP.name;
-        // FIX: Display current tempPrice (either discounted or original)
-        document.getElementById('c-prod-price-display').innerText = "Amount: ₹" + currentP.tempPrice;
-        document.getElementById('c-prod-size').innerText = (selectedSize ? "Size: " + selectedSize : "Free Size") + " | " + method;
-        document.getElementById('checkout-view').style.display = 'block';
-    }
 
     document.getElementById('order-btn').onclick = async () => {
-        const n = document.getElementById('c-name').value, 
-              ph = document.getElementById('c-phone').value, 
-              ad1 = document.getElementById('c-addr1').value,
-              ad2 = document.getElementById('c-addr2').value,
-              ad3 = document.getElementById('c-addr3').value,
-              pin = document.getElementById('c-pin').value,
-              state = document.getElementById('c-state').value;
+        const ph = document.getElementById('c-phone').value;
+        const name = document.getElementById('c-name').value;
+        if(!ph || !name) return alert("Details bharo!");
 
-        if(!n || !ph || !ad1 || !pin || !state) return alert("Sari details bhariye!");
-        
-        const fullAddress = `${ad1}, ${ad2}, ${ad3}, Pincode: ${pin}, State: ${state}`;
-
-        const orderData = { 
-            name: currentP.name, 
-            price: currentP.tempPrice || currentP.price, 
-            img: currentP.images[0], 
-            size: selectedSize || "Free Size",
-            customer: n, phone: ph, address: fullAddress, 
-            time: serverTimestamp(),
-            status: "Pending"
-        };
-        await addDoc(collection(db, "orders"), orderData);
-        let myOrders = JSON.parse(localStorage.getItem('dk_orders')) || [];
-        myOrders.unshift(orderData);
-        localStorage.setItem('dk_orders', JSON.stringify(myOrders));
-        alert("Order Confirm ho gaya! ✅");
+        await addDoc(collection(db, "orders"), {
+            name: currentP.name, price: currentP.price, img: currentP.images[0],
+            phone: ph, customer: name, time: serverTimestamp(), status: "Pending"
+        });
+        localStorage.setItem('dk_user_ph', ph);
+        alert("Order Successful! ✅");
         location.reload();
     };
 
-    window.toggleWish = (e, id) => { e.stopPropagation(); let wish = JSON.parse(localStorage.getItem('dk_wish')) || []; if(wish.includes(id)) wish = wish.filter(i => i !== id); else wish.push(id); localStorage.setItem('dk_wish', JSON.stringify(wish)); alert("Wishlist updated!"); };
-    window.showWishlist = () => { const wIds = JSON.parse(localStorage.getItem('dk_wish')) || []; render(allP.filter(p => wIds.includes(p.id)), 'wishlistGrid'); document.getElementById('wishlist-view').style.display = 'block'; };
-    window.showOrders = () => { const orders = JSON.parse(localStorage.getItem('dk_orders')) || []; const cont = document.getElementById('orderListContainer'); cont.innerHTML = orders.length ? "" : "<p style='text-align:center;padding:20px;'>No orders yet.</p>"; orders.forEach(o => { cont.innerHTML += `<div class="order-card"><img src="${o.img}" class="order-img"><div><h4 style="margin:0;color:var(--accent)">${o.name}</h4><p style="margin:5px 0;font-size:12px;">Size: ${o.size}</p><p style="margin:5px 0;font-size:12px;">Price: ₹${o.price}</p><p style="margin:0;font-size:10px;color:#0f0;">Status: Pending</p></div></div>`; }); document.getElementById('orders-view').style.display = 'block'; };
+    window.isWished = (id) => (JSON.parse(localStorage.getItem('dk_wish')) || []).includes(id);
+    window.toggleWish = (e, id) => { e.stopPropagation(); let w = JSON.parse(localStorage.getItem('dk_wish')) || []; if(w.includes(id)) w = w.filter(i=>i!==id); else w.push(id); localStorage.setItem('dk_wish', JSON.stringify(w)); render(allP, 'productList'); };
+    window.showWishlist = () => { const w = JSON.parse(localStorage.getItem('dk_wish')) || []; render(allP.filter(p => w.includes(p.id)), 'wishlistGrid'); document.getElementById('wishlist-view').style.display = 'block'; };
     window.searchFun = () => render(allP.filter(p => p.name.toLowerCase().includes(document.getElementById('searchInput').value.toLowerCase())), 'productList');
     window.closeAll = () => document.getElementById('detail-view').style.display = 'none';
+    window.openCheckout = () => document.getElementById('checkout-view').style.display = 'block';
     window.closeCheckout = () => document.getElementById('checkout-view').style.display = 'none';
-    window.hideAllViews = () => { document.querySelectorAll('.full-view').forEach(v => v.style.display = 'none'); };
+    window.hideAllViews = () => document.querySelectorAll('.full-view').forEach(v => v.style.display = 'none');
+    window.filterCat = (c) => c === 'All' ? render(allP, 'productList') : render(allP.filter(p => p.category === c), 'productList');
 
     load();
 </script>

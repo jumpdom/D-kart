@@ -42,8 +42,8 @@
 
         /* IMAGE SLIDER CSS */
         .slider-container { position: relative; width: 100%; overflow: hidden; border-radius: 12px; border: 1px solid #333; background: #000; }
-        .slider-track { display: flex; transition: transform 0.4s ease-in-out; }
-        .slider-track img { min-width: 100%; height: auto; object-fit: contain; }
+        .slider-track { display: flex; transition: transform 0.3s ease-out; will-change: transform; }
+        .slider-track img { min-width: 100%; width: 100%; height: auto; object-fit: contain; flex-shrink: 0; }
         .dots-container { display: flex; justify-content: center; gap: 8px; margin-top: 10px; }
         .dot { width: 8px; height: 8px; border-radius: 50%; background: #444; transition: 0.3s; }
         .dot.active { background: var(--accent); transform: scale(1.2); }
@@ -106,12 +106,11 @@
     <div class="grid" id="productList"></div>
 </div>
 
-<!-- DETAILS VIEW WITH SLIDER -->
+<!-- DETAILS VIEW -->
 <div id="detail-view" class="full-view">
     <div class="view-header"><i class="fa-solid fa-arrow-left" onclick="closeAll()"></i><span>Details</span></div>
     <div style="padding: 20px; text-align: center; padding-bottom: 100px;">
         
-        <!-- Image Slider Area -->
         <div class="slider-container" id="sliderContainer">
             <div class="slider-track" id="sliderTrack"></div>
         </div>
@@ -166,7 +165,6 @@
 <div id="pay-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:5000; align-items:center; justify-content:center; overflow-y: auto;">
     <div style="background:#111; width:90%; max-width:400px; padding:25px; border-radius:20px; border:1px solid #ffff00; text-align:center;">
         <h3 style="color:#ffff00; margin-bottom:15px;">Payment Method</h3>
-        
         <div id="upi-options">
             <div onclick="showScanner()" style="background:#1a1a1a; padding:18px; border-radius:12px; margin-bottom:15px; cursor:pointer; border:1.5px solid #ffff00;">
                 <div style="font-weight:800; font-size:18px; color:#fff;"><i class="fa-solid fa-qrcode" style="color:#ffff00"></i> Pay via Scanner</div>
@@ -177,13 +175,11 @@
                 <div style="font-size:11px; color:#888; margin-top:5px;">No discount available</div>
             </div>
         </div>
-
         <div id="scanner-display" style="display:none;">
             <p style="font-size:12px; color:#ccc;">Scan QR & Pay <span id="dis-price" style="color:#0f0; font-weight:bold;"></span></p>
             <img src="https://i.postimg.cc/nVShYS07/IMG-6402.jpg" style="width:100%; border-radius:10px; margin:10px 0; border: 2px solid #fff;">
             <button onclick="confirmUPIDone()" style="width:100%; background:#00ff00; color:#000; border:none; padding:12px; border-radius:8px; font-weight:800; margin-top:10px;">I HAVE PAID (Confirm Order)</button>
         </div>
-
         <button onclick="closePayModal()" style="margin-top:20px; background:none; border:none; color:#ff4444; font-weight:700;">Cancel</button>
     </div>
 </div>
@@ -236,13 +232,10 @@
     function openProductDetails(p) {
         currentP = p;
         selectedSize = ""; 
-        
-        // SLIDER LOGIC
         const track = document.getElementById('sliderTrack');
         const dots = document.getElementById('dotsContainer');
         track.innerHTML = "";
         dots.innerHTML = "";
-
         const imgs = p.images && p.images.length ? p.images : ['Dkart.jpg'];
         
         imgs.forEach((imgUrl, index) => {
@@ -250,28 +243,26 @@
             dots.innerHTML += `<div class="dot ${index === 0 ? 'active' : ''}"></div>`;
         });
 
-        // Sliding Functionality
-        let startX = 0;
-        let curIdx = 0;
+        // SMOOTH SLIDER LOGIC
+        let startX = 0, moveX = 0, curIdx = 0;
         track.style.transform = `translateX(0)`;
 
-        track.ontouchstart = (e) => { startX = e.touches[0].clientX; };
+        track.ontouchstart = (e) => { startX = e.touches[0].clientX; track.style.transition = 'none'; };
+        track.ontouchmove = (e) => { moveX = e.touches[0].clientX - startX; track.style.transform = `translateX(${-curIdx * 100 + (moveX / window.innerWidth) * 100}%)`; };
         track.ontouchend = (e) => {
-            let endX = e.changedTouches[0].clientX;
-            if (startX - endX > 50 && curIdx < imgs.length - 1) curIdx++;
-            if (endX - startX > 50 && curIdx > 0) curIdx--;
+            track.style.transition = 'transform 0.3s ease-out';
+            if (moveX < -50 && curIdx < imgs.length - 1) curIdx++;
+            else if (moveX > 50 && curIdx > 0) curIdx--;
             track.style.transform = `translateX(-${curIdx * 100}%)`;
-            document.querySelectorAll('.dot').forEach((d, i) => d.className = i === curIdx ? 'dot active' : 'dot');
+            document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === curIdx));
+            moveX = 0;
         };
 
         document.getElementById('det-name').innerText = p.name;
         document.getElementById('det-price').innerText = "₹" + p.price;
         document.getElementById('det-desc').innerText = p.desc || "";
-        
-        const sContainer = document.getElementById('det-sizes');
-        const sBox = document.getElementById('size-options-container');
+        const sContainer = document.getElementById('det-sizes'), sBox = document.getElementById('size-options-container');
         sContainer.innerHTML = "";
-        
         if(p.sizes && p.sizes.length > 0) {
             sBox.style.display = 'block';
             p.sizes.forEach(s => {
@@ -286,18 +277,13 @@
                 };
                 sContainer.appendChild(chip);
             });
-        } else {
-            sBox.style.display = 'none';
-        }
+        } else { sBox.style.display = 'none'; }
         document.getElementById('detail-view').style.display = 'block';
     }
 
     window.filterCat = (cat) => {
         if(cat === 'All') render(allP, 'productList');
-        else {
-            const filtered = allP.filter(p => p.category && p.category.toLowerCase() === cat.toLowerCase());
-            render(filtered, 'productList');
-        }
+        else render(allP.filter(p => p.category && p.category.toLowerCase() === cat.toLowerCase()), 'productList');
     };
 
     window.closePayModal = () => {
@@ -307,32 +293,19 @@
     };
 
     window.openCheckout = () => {
-        if(currentP.sizes && currentP.sizes.length > 0 && !selectedSize) {
-            return alert("Pehle Size choose karein!");
-        }
+        if(currentP.sizes && currentP.sizes.length > 0 && !selectedSize) return alert("Pehle Size choose karein!");
         document.getElementById('pay-modal').style.display = 'flex';
     };
 
     window.showScanner = () => {
-        const finalPrice = parseInt(currentP.price) - 20;
-        currentP.tempPrice = finalPrice;
-        document.getElementById('dis-price').innerText = "₹" + finalPrice;
+        currentP.tempPrice = parseInt(currentP.price) - 20;
+        document.getElementById('dis-price').innerText = "₹" + currentP.tempPrice;
         document.getElementById('upi-options').style.display = 'none';
         document.getElementById('scanner-display').style.display = 'block';
     };
 
-    window.confirmUPIDone = () => {
-        closePayModal();
-        updateCheckoutView("UPI (Paid)");
-    };
-
-    window.processOrder = (method) => {
-        if(method === 'COD') {
-            currentP.tempPrice = currentP.price;
-            closePayModal();
-            updateCheckoutView("COD");
-        }
-    };
+    window.confirmUPIDone = () => { closePayModal(); updateCheckoutView("UPI (Paid)"); };
+    window.processOrder = (method) => { if(method === 'COD') { currentP.tempPrice = currentP.price; closePayModal(); updateCheckoutView("COD"); } };
 
     function updateCheckoutView(method) {
         document.getElementById('c-prod-name').innerText = currentP.name;
@@ -342,71 +315,37 @@
     }
 
     document.getElementById('order-btn').onclick = async () => {
-        const n = document.getElementById('c-name').value, 
-              ph = document.getElementById('c-phone').value, 
-              ad1 = document.getElementById('c-addr1').value,
-              ad2 = document.getElementById('c-addr2').value,
-              ad3 = document.getElementById('c-addr3').value,
-              pin = document.getElementById('c-pin').value,
-              state = document.getElementById('c-state').value;
-
-        if(!n || !ph || !ad1 || !pin || !state) return alert("Sari details bhariye!");
-        
-        const fullAddress = `${ad1}, ${ad2}, ${ad3}, Pincode: ${pin}, State: ${state}`;
-
+        const n = document.getElementById('c-name').value, ph = document.getElementById('c-phone').value, 
+              ad1 = document.getElementById('c-addr1').value, ad2 = document.getElementById('c-addr2').value,
+              ad3 = document.getElementById('c-addr3').value, pin = document.getElementById('c-pin').value, st = document.getElementById('c-state').value;
+        if(!n || !ph || !ad1 || !pin || !st) return alert("Sari details bhariye!");
         const orderData = { 
-            name: currentP.name, 
-            price: currentP.tempPrice || currentP.price, 
-            img: currentP.images[0] || 'Dkart.jpg', 
-            size: selectedSize || "Free Size",
-            customer: n, phone: ph, address: fullAddress, 
-            time: new Date().toLocaleString(),
-            status: "Pending"
+            name: currentP.name, price: currentP.tempPrice || currentP.price, img: currentP.images[0] || 'Dkart.jpg', 
+            size: selectedSize || "Free Size", customer: n, phone: ph, address: `${ad1}, ${ad2}, ${ad3}, Pin: ${pin}, State: ${st}`, 
+            time: new Date().toLocaleString(), status: "Pending"
         };
-        
         try {
             await addDoc(collection(db, "orders"), { ...orderData, time: serverTimestamp() });
             let myOrders = JSON.parse(localStorage.getItem('dk_orders')) || [];
             myOrders.unshift(orderData);
             localStorage.setItem('dk_orders', JSON.stringify(myOrders));
-            alert("Order Confirm ho gaya! ✅");
-            location.reload();
-        } catch(e) {
-            alert("Order error: " + e.message);
-        }
+            alert("Order Confirm ho gaya! ✅"); location.reload();
+        } catch(e) { alert("Order error: " + e.message); }
     };
 
-    function isWished(id) {
-        let wish = JSON.parse(localStorage.getItem('dk_wish')) || [];
-        return wish.includes(id);
-    }
-
+    function isWished(id) { return (JSON.parse(localStorage.getItem('dk_wish')) || []).includes(id); }
     window.toggleWish = (e, id) => { 
-        e.stopPropagation(); 
-        let wish = JSON.parse(localStorage.getItem('dk_wish')) || []; 
-        if(wish.includes(id)) {
-            wish = wish.filter(i => i !== id);
-            e.target.classList.remove('active');
-        } else {
-            wish.push(id);
-            e.target.classList.add('active');
-        }
+        e.stopPropagation(); let wish = JSON.parse(localStorage.getItem('dk_wish')) || []; 
+        if(wish.includes(id)) { wish = wish.filter(i => i !== id); e.target.classList.remove('active'); }
+        else { wish.push(id); e.target.classList.add('active'); }
         localStorage.setItem('dk_wish', JSON.stringify(wish)); 
     };
 
-    window.showWishlist = () => { 
-        const wIds = JSON.parse(localStorage.getItem('dk_wish')) || []; 
-        render(allP.filter(p => wIds.includes(p.id)), 'wishlistGrid'); 
-        document.getElementById('wishlist-view').style.display = 'block'; 
-    };
-
+    window.showWishlist = () => { render(allP.filter(p => (JSON.parse(localStorage.getItem('dk_wish')) || []).includes(p.id)), 'wishlistGrid'); document.getElementById('wishlist-view').style.display = 'block'; };
     window.showOrders = () => { 
         const orders = JSON.parse(localStorage.getItem('dk_orders')) || []; 
-        const cont = document.getElementById('orderListContainer'); 
-        cont.innerHTML = orders.length ? "" : "<p style='text-align:center;padding:20px;'>No orders yet.</p>"; 
-        orders.forEach(o => { 
-            cont.innerHTML += `<div class="order-card"><img src="${o.img}" class="order-img"><div><h4 style="margin:0;color:var(--accent)">${o.name}</h4><p style="margin:5px 0;font-size:12px;">Size: ${o.size}</p><p style="margin:5px 0;font-size:12px;">Price: ₹${o.price}</p><p style="margin:0;font-size:10px;color:#0f0;">Status: Pending</p></div></div>`; 
-        }); 
+        const cont = document.getElementById('orderListContainer'); cont.innerHTML = orders.length ? "" : "<p style='text-align:center;padding:20px;'>No orders yet.</p>"; 
+        orders.forEach(o => { cont.innerHTML += `<div class="order-card"><img src="${o.img}" class="order-img"><div><h4 style="margin:0;color:var(--accent)">${o.name}</h4><p style="margin:5px 0;font-size:12px;">Size: ${o.size}</p><p style="margin:5px 0;font-size:12px;">Price: ₹${o.price}</p><p style="margin:0;font-size:10px;color:#0f0;">Status: Pending</p></div></div>`; }); 
         document.getElementById('orders-view').style.display = 'block'; 
     };
 
@@ -414,7 +353,6 @@
     window.closeAll = () => document.getElementById('detail-view').style.display = 'none';
     window.closeCheckout = () => document.getElementById('checkout-view').style.display = 'none';
     window.hideAllViews = () => { document.querySelectorAll('.full-view').forEach(v => v.style.display = 'none'); };
-
     load();
 </script>
 </body>

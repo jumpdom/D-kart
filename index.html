@@ -136,17 +136,28 @@
 </div>
 
 <!-- Payment Selection Modal -->
-<div id="pay-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:5000; align-items:center; justify-content:center;">
-    <div style="background:#111; width:90%; padding:25px; border-radius:20px; border:1px solid #ffff00; text-align:center;">
-        <h3 style="color:#ffff00; margin-bottom:20px;">Payment Method</h3>
-        <div onclick="processOrder('UPI')" style="background:#1a1a1a; padding:18px; border-radius:12px; margin-bottom:15px; cursor:pointer; border:1.5px solid #333;">
-            <div style="font-weight:800; font-size:18px; color:#fff;"><i class="fa-solid fa-mobile-screen-button" style="color:#ffff00"></i> Pay Online</div>
-            <div style="font-size:12px; color:#00ff00; font-weight:700; margin-top:5px;">(Get ₹20 Instant Discount! 🔥)</div>
+<div id="pay-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:5000; align-items:center; justify-content:center; overflow-y: auto;">
+    <div style="background:#111; width:90%; max-width:400px; padding:25px; border-radius:20px; border:1px solid #ffff00; text-align:center;">
+        <h3 style="color:#ffff00; margin-bottom:15px;">Payment Method</h3>
+        
+        <div id="upi-options">
+            <div onclick="showScanner()" style="background:#1a1a1a; padding:18px; border-radius:12px; margin-bottom:15px; cursor:pointer; border:1.5px solid #ffff00;">
+                <div style="font-weight:800; font-size:18px; color:#fff;"><i class="fa-solid fa-qrcode" style="color:#ffff00"></i> Pay via Scanner</div>
+                <div style="font-size:12px; color:#00ff00; font-weight:700; margin-top:5px;">(Get ₹20 Instant Discount! 🔥)</div>
+            </div>
+            <div onclick="processOrder('COD')" style="background:#1a1a1a; padding:18px; border-radius:12px; cursor:pointer; border:1.5px solid #333;">
+                <div style="font-weight:800; font-size:18px; color:#fff;"><i class="fa-solid fa-truck-fast"></i> Cash On Delivery</div>
+                <div style="font-size:11px; color:#888; margin-top:5px;">No discount available</div>
+            </div>
         </div>
-        <div onclick="processOrder('COD')" style="background:#1a1a1a; padding:18px; border-radius:12px; cursor:pointer; border:1.5px solid #333;">
-            <div style="font-weight:800; font-size:18px; color:#fff;"><i class="fa-solid fa-truck-fast"></i> Cash On Delivery</div>
-            <div style="font-size:11px; color:#888; margin-top:5px;">No discount available</div>
+
+        <!-- Scanner Image Display -->
+        <div id="scanner-display" style="display:none;">
+            <p style="font-size:12px; color:#ccc;">Scan QR & Pay <span id="dis-price" style="color:#0f0; font-weight:bold;"></span></p>
+            <img src="https://i.postimg.cc/nVShYS07/IMG-6402.jpg" style="width:100%; border-radius:10px; margin:10px 0; border: 2px solid #fff;">
+            <button onclick="confirmUPIDone()" style="width:100%; background:#00ff00; color:#000; border:none; padding:12px; border-radius:8px; font-weight:800; margin-top:10px;">I HAVE PAID (Confirm Order)</button>
         </div>
+
         <button onclick="closePayModal()" style="margin-top:20px; background:none; border:none; color:#ff4444; font-weight:700;">Cancel</button>
     </div>
 </div>
@@ -233,7 +244,11 @@
         }
     };
 
-    window.closePayModal = () => document.getElementById('pay-modal').style.display = 'none';
+    window.closePayModal = () => {
+        document.getElementById('pay-modal').style.display = 'none';
+        document.getElementById('upi-options').style.display = 'block';
+        document.getElementById('scanner-display').style.display = 'none';
+    };
 
     window.openCheckout = () => {
         if(currentP.sizes && currentP.sizes.length > 0 && !selectedSize) {
@@ -242,22 +257,29 @@
         document.getElementById('pay-modal').style.display = 'flex';
     };
 
-    window.processOrder = (method) => {
-        let finalPrice = parseInt(currentP.price);
-        let methodText = "COD";
-        
-        if(method === 'UPI') {
-            finalPrice = finalPrice - 20;
-            methodText = "UPI (Paid)";
-            const upiUrl = `upi://pay?pa=amitdas7892@ybl=Dkart&am=${finalPrice}&cu=INR`;
-            window.location.href = upiUrl;
-        }
+    window.showScanner = () => {
+        const finalPrice = parseInt(currentP.price) - 20;
+        currentP.tempPrice = finalPrice;
+        document.getElementById('dis-price').innerText = "₹" + finalPrice;
+        document.getElementById('upi-options').style.display = 'none';
+        document.getElementById('scanner-display').style.display = 'block';
+    };
 
+    window.confirmUPIDone = () => {
         closePayModal();
-        currentP.tempPrice = finalPrice; // Temporary price to save in firebase
         document.getElementById('c-prod-name').innerText = currentP.name;
-        document.getElementById('c-prod-size').innerText = (selectedSize ? "Size: " + selectedSize : "Free Size") + " | " + methodText;
+        document.getElementById('c-prod-size').innerText = (selectedSize ? "Size: " + selectedSize : "Free Size") + " | UPI (Paid)";
         document.getElementById('checkout-view').style.display = 'block';
+    };
+
+    window.processOrder = (method) => {
+        if(method === 'COD') {
+            currentP.tempPrice = currentP.price;
+            closePayModal();
+            document.getElementById('c-prod-name').innerText = currentP.name;
+            document.getElementById('c-prod-size').innerText = (selectedSize ? "Size: " + selectedSize : "Free Size") + " | COD";
+            document.getElementById('checkout-view').style.display = 'block';
+        }
     };
 
     document.getElementById('order-btn').onclick = async () => {

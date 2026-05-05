@@ -60,6 +60,9 @@
 
         .btn-box { position: fixed; bottom: 0; width: 100%; height: 60px; z-index: 3500; }
         .btn-main { width: 100%; height: 100%; border: none; font-weight: 900; background: var(--accent); color: #000; font-size: 16px; text-transform: uppercase; }
+        
+        /* New Address Fields Styling */
+        .addr-input { width: 100%; padding: 15px; margin-bottom: 10px; background: #111; color: white; border: 1px solid #333; border-radius: 8px; font-size: 14px; }
     </style>
 </head>
 <body>
@@ -113,14 +116,25 @@
 
 <div id="checkout-view" class="full-view">
     <div class="view-header"><i class="fa-solid fa-arrow-left" onclick="closeCheckout()"></i><span>Checkout</span></div>
-    <div style="padding: 20px;">
-        <div id="checkout-summary" style="background:#111; padding:15px; border-radius:10px; margin-bottom:20px; border:1px solid #222;">
-            <p id="c-prod-name" style="margin:0; font-weight:600; color:var(--accent)"></p>
-            <p id="c-prod-size" style="margin:5px 0 0 0; font-size:12px; color:#888"></p>
+    <div style="padding: 20px; padding-bottom: 100px;">
+        <div id="checkout-summary" style="background:#111; padding:15px; border-radius:10px; margin-bottom:20px; border:1.5px solid var(--accent);">
+            <p id="c-prod-name" style="margin:0; font-weight:600; color:var(--accent); font-size: 16px;"></p>
+            <p id="c-prod-price-display" style="margin:5px 0; font-size:20px; font-weight:800; color:#fff;"></p>
+            <p id="c-prod-size" style="margin:0; font-size:12px; color:#888"></p>
         </div>
-        <input type="text" id="c-name" placeholder="Full Name" style="width:100%; padding:15px; margin-bottom:10px; background:#111; color:white; border:1px solid #333; border-radius:8px;">
-        <input type="tel" id="c-phone" placeholder="Mobile Number" style="width:100%; padding:15px; margin-bottom:10px; background:#111; color:white; border:1px solid #333; border-radius:8px;">
-        <textarea id="c-addr" placeholder="Full Address" style="width:100%; padding:15px; background:#111; color:white; border:1px solid #333; border-radius:8px;" rows="3"></textarea>
+        
+        <input type="text" id="c-name" class="addr-input" placeholder="Full Name">
+        <input type="tel" id="c-phone" class="addr-input" placeholder="Mobile Number">
+        
+        <p style="color:var(--accent); font-size:12px; font-weight:bold; margin: 15px 0 5px 0;">ADDRESS DETAILS</p>
+        <input type="text" id="c-addr1" class="addr-input" placeholder="Address Line 1 (House No, Building)">
+        <input type="text" id="c-addr2" class="addr-input" placeholder="Address Line 2 (Area, Street)">
+        <input type="text" id="c-addr3" class="addr-input" placeholder="Address Line 3 (Landmark)">
+        
+        <div style="display: flex; gap: 10px;">
+            <input type="number" id="c-pin" class="addr-input" placeholder="Pincode" style="flex:1;">
+            <input type="text" id="c-state" class="addr-input" placeholder="State" style="flex:1;">
+        </div>
     </div>
     <div class="btn-box"><button class="btn-main" id="order-btn">Confirm Order</button></div>
 </div>
@@ -135,7 +149,6 @@
     <div class="grid" id="wishlistGrid"></div>
 </div>
 
-<!-- Payment Selection Modal -->
 <div id="pay-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:5000; align-items:center; justify-content:center; overflow-y: auto;">
     <div style="background:#111; width:90%; max-width:400px; padding:25px; border-radius:20px; border:1px solid #ffff00; text-align:center;">
         <h3 style="color:#ffff00; margin-bottom:15px;">Payment Method</h3>
@@ -151,7 +164,6 @@
             </div>
         </div>
 
-        <!-- Scanner Image Display -->
         <div id="scanner-display" style="display:none;">
             <p style="font-size:12px; color:#ccc;">Scan QR & Pay <span id="dis-price" style="color:#0f0; font-weight:bold;"></span></p>
             <img src="https://i.postimg.cc/nVShYS07/IMG-6402.jpg" style="width:100%; border-radius:10px; margin:10px 0; border: 2px solid #fff;">
@@ -267,31 +279,43 @@
 
     window.confirmUPIDone = () => {
         closePayModal();
-        document.getElementById('c-prod-name').innerText = currentP.name;
-        document.getElementById('c-prod-size').innerText = (selectedSize ? "Size: " + selectedSize : "Free Size") + " | UPI (Paid)";
-        document.getElementById('checkout-view').style.display = 'block';
+        updateCheckoutView("UPI (Paid)");
     };
 
     window.processOrder = (method) => {
         if(method === 'COD') {
             currentP.tempPrice = currentP.price;
             closePayModal();
-            document.getElementById('c-prod-name').innerText = currentP.name;
-            document.getElementById('c-prod-size').innerText = (selectedSize ? "Size: " + selectedSize : "Free Size") + " | COD";
-            document.getElementById('checkout-view').style.display = 'block';
+            updateCheckoutView("COD");
         }
     };
 
+    function updateCheckoutView(method) {
+        document.getElementById('c-prod-name').innerText = currentP.name;
+        document.getElementById('c-prod-price-display').innerText = "Amount: ₹" + currentP.tempPrice;
+        document.getElementById('c-prod-size').innerText = (selectedSize ? "Size: " + selectedSize : "Free Size") + " | " + method;
+        document.getElementById('checkout-view').style.display = 'block';
+    }
+
     document.getElementById('order-btn').onclick = async () => {
-        const n = document.getElementById('c-name').value, ph = document.getElementById('c-phone').value, ad = document.getElementById('c-addr').value;
-        if(!n || !ph || !ad) return alert("Sari details bhariye!");
+        const n = document.getElementById('c-name').value, 
+              ph = document.getElementById('c-phone').value, 
+              ad1 = document.getElementById('c-addr1').value,
+              ad2 = document.getElementById('c-addr2').value,
+              ad3 = document.getElementById('c-addr3').value,
+              pin = document.getElementById('c-pin').value,
+              state = document.getElementById('c-state').value;
+
+        if(!n || !ph || !ad1 || !pin || !state) return alert("Sari details bhariye!");
         
+        const fullAddress = `${ad1}, ${ad2}, ${ad3}, Pincode: ${pin}, State: ${state}`;
+
         const orderData = { 
             name: currentP.name, 
             price: currentP.tempPrice || currentP.price, 
             img: currentP.images[0], 
             size: selectedSize || "Free Size",
-            customer: n, phone: ph, address: ad, 
+            customer: n, phone: ph, address: fullAddress, 
             time: serverTimestamp(),
             status: "Pending"
         };

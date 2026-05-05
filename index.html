@@ -40,6 +40,14 @@
         .p-name { font-size: 12px; font-weight: 600; color: var(--accent); margin-top: 10px; height: 35px; overflow: hidden; text-transform: uppercase; }
         .p-price { font-size: 17px; font-weight: 800; color: var(--white); margin: 5px 0; }
 
+        /* IMAGE SLIDER CSS */
+        .slider-container { position: relative; width: 100%; overflow: hidden; border-radius: 12px; border: 1px solid #333; background: #000; }
+        .slider-track { display: flex; transition: transform 0.4s ease-in-out; }
+        .slider-track img { min-width: 100%; height: auto; object-fit: contain; }
+        .dots-container { display: flex; justify-content: center; gap: 8px; margin-top: 10px; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; background: #444; transition: 0.3s; }
+        .dot.active { background: var(--accent); transform: scale(1.2); }
+
         .size-box { margin-top: 20px; text-align: left; padding: 0 10px; }
         .size-label { font-size: 12px; color: #888; text-transform: uppercase; font-weight: 700; margin-bottom: 8px; display: block; }
         .size-chips { display: flex; flex-wrap: wrap; gap: 10px; }
@@ -98,10 +106,17 @@
     <div class="grid" id="productList"></div>
 </div>
 
+<!-- DETAILS VIEW WITH SLIDER -->
 <div id="detail-view" class="full-view">
     <div class="view-header"><i class="fa-solid fa-arrow-left" onclick="closeAll()"></i><span>Details</span></div>
     <div style="padding: 20px; text-align: center; padding-bottom: 100px;">
-        <img id="det-img" style="width: 100%; border-radius: 12px; border: 1px solid #333;">
+        
+        <!-- Image Slider Area -->
+        <div class="slider-container" id="sliderContainer">
+            <div class="slider-track" id="sliderTrack"></div>
+        </div>
+        <div class="dots-container" id="dotsContainer"></div>
+
         <h2 id="det-name" style="color: var(--accent); margin-top: 15px;"></h2>
         <div id="det-price" style="font-size: 26px; font-weight: 800;"></div>
         <div class="size-box" id="size-options-container" style="display:none;">
@@ -221,7 +236,34 @@
     function openProductDetails(p) {
         currentP = p;
         selectedSize = ""; 
-        document.getElementById('det-img').src = (p.images && p.images[0]) || 'Dkart.jpg';
+        
+        // SLIDER LOGIC
+        const track = document.getElementById('sliderTrack');
+        const dots = document.getElementById('dotsContainer');
+        track.innerHTML = "";
+        dots.innerHTML = "";
+
+        const imgs = p.images && p.images.length ? p.images : ['Dkart.jpg'];
+        
+        imgs.forEach((imgUrl, index) => {
+            track.innerHTML += `<img src="${imgUrl}" onerror="this.src='https://via.placeholder.com/140'">`;
+            dots.innerHTML += `<div class="dot ${index === 0 ? 'active' : ''}"></div>`;
+        });
+
+        // Sliding Functionality
+        let startX = 0;
+        let curIdx = 0;
+        track.style.transform = `translateX(0)`;
+
+        track.ontouchstart = (e) => { startX = e.touches[0].clientX; };
+        track.ontouchend = (e) => {
+            let endX = e.changedTouches[0].clientX;
+            if (startX - endX > 50 && curIdx < imgs.length - 1) curIdx++;
+            if (endX - startX > 50 && curIdx > 0) curIdx--;
+            track.style.transform = `translateX(-${curIdx * 100}%)`;
+            document.querySelectorAll('.dot').forEach((d, i) => d.className = i === curIdx ? 'dot active' : 'dot');
+        };
+
         document.getElementById('det-name').innerText = p.name;
         document.getElementById('det-price').innerText = "₹" + p.price;
         document.getElementById('det-desc').innerText = p.desc || "";

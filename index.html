@@ -5,13 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Dkart | Premium Shop</title>
     <link rel="icon" type="image/jpeg" href="Dkart.jpg">
-<link rel="apple-touch-icon" href="Dkart.jpg">
+    <link rel="apple-touch-icon" href="Dkart.jpg">
     <link rel="icon" type="image/jpeg" sizes="192x192" href="Dkart.jpg">
-<link rel="icon" type="image/jpeg" sizes="512x512" href="Dkart.jpg">
-<link rel="manifest" href="/manifest.json">
-<meta name="theme-color" content="#ffff00">
-
-
+    <link rel="icon" type="image/jpeg" sizes="512x512" href="Dkart.jpg">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#ffff00">
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Montserrat:wght@900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -187,7 +185,7 @@
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
-    import { getFirestore, collection, getDocs, addDoc, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+    import { getFirestore, collection, getDocs, addDoc, query, where, orderBy, serverTimestamp, onSnapshot } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyAchWzhIxqmS7G0HPpvuq6WBwcr8pXzFAE",
@@ -289,7 +287,7 @@
 
     window.processOrder = (method) => {
         if(method === 'COD') {
-            currentP.tempPrice = currentP.price; // Set price same for COD
+            currentP.tempPrice = currentP.price; 
             closePayModal();
             updateCheckoutView("COD");
         }
@@ -297,7 +295,6 @@
 
     function updateCheckoutView(method) {
         document.getElementById('c-prod-name').innerText = currentP.name;
-        // FIX: Display current tempPrice (either discounted or original)
         document.getElementById('c-prod-price-display').innerText = "Amount: ₹" + currentP.tempPrice;
         document.getElementById('c-prod-size').innerText = (selectedSize ? "Size: " + selectedSize : "Free Size") + " | " + method;
         document.getElementById('checkout-view').style.display = 'block';
@@ -315,6 +312,7 @@
         if(!n || !ph || !ad1 || !pin || !state) return alert("Sari details bhariye!");
         
         const fullAddress = `${ad1}, ${ad2}, ${ad3}, Pincode: ${pin}, State: ${state}`;
+        localStorage.setItem('dk_user_ph', ph);
 
         const orderData = { 
             name: currentP.name, 
@@ -326,16 +324,45 @@
             status: "Pending"
         };
         await addDoc(collection(db, "orders"), orderData);
-        let myOrders = JSON.parse(localStorage.getItem('dk_orders')) || [];
-        myOrders.unshift(orderData);
-        localStorage.setItem('dk_orders', JSON.stringify(myOrders));
         alert("Order Confirm ho gaya! ✅");
         location.reload();
     };
 
     window.toggleWish = (e, id) => { e.stopPropagation(); let wish = JSON.parse(localStorage.getItem('dk_wish')) || []; if(wish.includes(id)) wish = wish.filter(i => i !== id); else wish.push(id); localStorage.setItem('dk_wish', JSON.stringify(wish)); alert("Wishlist updated!"); };
     window.showWishlist = () => { const wIds = JSON.parse(localStorage.getItem('dk_wish')) || []; render(allP.filter(p => wIds.includes(p.id)), 'wishlistGrid'); document.getElementById('wishlist-view').style.display = 'block'; };
-    window.showOrders = () => { const orders = JSON.parse(localStorage.getItem('dk_orders')) || []; const cont = document.getElementById('orderListContainer'); cont.innerHTML = orders.length ? "" : "<p style='text-align:center;padding:20px;'>No orders yet.</p>"; orders.forEach(o => { cont.innerHTML += `<div class="order-card"><img src="${o.img}" class="order-img"><div><h4 style="margin:0;color:var(--accent)">${o.name}</h4><p style="margin:5px 0;font-size:12px;">Size: ${o.size}</p><p style="margin:5px 0;font-size:12px;">Price: ₹${o.price}</p><p style="margin:0;font-size:10px;color:#0f0;">Status: Pending</p></div></div>`; }); document.getElementById('orders-view').style.display = 'block'; };
+    
+    window.showOrders = () => {
+        const uPh = localStorage.getItem('dk_user_ph');
+        const cont = document.getElementById('orderListContainer');
+        cont.innerHTML = "<p style='text-align:center;padding:20px;'>Fetching orders...</p>";
+        document.getElementById('orders-view').style.display = 'block';
+
+        if(!uPh) {
+            cont.innerHTML = "<p style='text-align:center;padding:20px;'>Abhi tak koi order nahi hai.</p>";
+            return;
+        }
+
+        const q = query(collection(db, "orders"), where("phone", "==", uPh), orderBy("time", "desc"));
+        onSnapshot(q, (snap) => {
+            cont.innerHTML = snap.empty ? "<p style='text-align:center;padding:20px;'>No orders found.</p>" : "";
+            snap.forEach(doc => {
+                const o = doc.data();
+                const status = o.status || "Pending";
+                const color = status === "Delivered" ? "#0f0" : "#ffff00";
+                cont.innerHTML += `
+                    <div class="order-card">
+                        <img src="${o.img}" class="order-img">
+                        <div>
+                            <h4 style="margin:0;color:var(--accent)">${o.name}</h4>
+                            <p style="margin:5px 0;font-size:12px;">Size: ${o.size}</p>
+                            <p style="margin:5px 0;font-size:12px;">Price: ₹${o.price}</p>
+                            <p style="margin:0;font-size:12px;color:${color};font-weight:bold;">Status: ${status}</p>
+                        </div>
+                    </div>`;
+            });
+        });
+    };
+
     window.searchFun = () => render(allP.filter(p => p.name.toLowerCase().includes(document.getElementById('searchInput').value.toLowerCase())), 'productList');
     window.closeAll = () => document.getElementById('detail-view').style.display = 'none';
     window.closeCheckout = () => document.getElementById('checkout-view').style.display = 'none';

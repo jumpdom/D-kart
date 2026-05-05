@@ -185,7 +185,7 @@
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
-    import { getFirestore, collection, getDocs, addDoc, query, where, orderBy, serverTimestamp, onSnapshot } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+    import { getFirestore, collection, getDocs, addDoc, query, orderBy, where, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyAchWzhIxqmS7G0HPpvuq6WBwcr8pXzFAE",
@@ -287,7 +287,7 @@
 
     window.processOrder = (method) => {
         if(method === 'COD') {
-            currentP.tempPrice = currentP.price; 
+            currentP.tempPrice = currentP.price;
             closePayModal();
             updateCheckoutView("COD");
         }
@@ -312,7 +312,6 @@
         if(!n || !ph || !ad1 || !pin || !state) return alert("Sari details bhariye!");
         
         const fullAddress = `${ad1}, ${ad2}, ${ad3}, Pincode: ${pin}, State: ${state}`;
-        localStorage.setItem('dk_user_ph', ph);
 
         const orderData = { 
             name: currentP.name, 
@@ -323,46 +322,55 @@
             time: serverTimestamp(),
             status: "Pending"
         };
-        await addDoc(collection(db, "orders"), orderData);
-        alert("Order Confirm ho gaya! ✅");
-        location.reload();
+
+        try {
+            await addDoc(collection(db, "orders"), orderData);
+            localStorage.setItem('dk_user_phone', ph);
+            alert("Order Confirm ho gaya! ✅");
+            location.reload();
+        } catch(e) {
+            alert("Order save nahi hua. Firebase check karein.");
+        }
+    };
+
+    window.showOrders = async () => {
+        const cont = document.getElementById('orderListContainer');
+        const userPh = localStorage.getItem('dk_user_phone');
+
+        if(!userPh) {
+            cont.innerHTML = "<p style='text-align:center;padding:20px;'>Abhi tak koi order nahi kiya hai.</p>";
+        } else {
+            cont.innerHTML = "<p style='text-align:center;padding:20px;'>Orders load ho rahe hain...</p>";
+            try {
+                const q = query(collection(db, "orders"), where("phone", "==", userPh), orderBy("time", "desc"));
+                const snap = await getDocs(q);
+                cont.innerHTML = "";
+                if(snap.empty) {
+                    cont.innerHTML = "<p style='text-align:center;padding:20px;'>Koi order nahi mila.</p>";
+                } else {
+                    snap.forEach(doc => {
+                        const o = doc.data();
+                        cont.innerHTML += `
+                            <div class="order-card">
+                                <img src="${o.img}" class="order-img">
+                                <div>
+                                    <h4 style="margin:0;color:var(--accent)">${o.name}</h4>
+                                    <p style="margin:5px 0;font-size:12px;">Size: ${o.size}</p>
+                                    <p style="margin:5px 0;font-size:12px;">Price: ₹${o.price}</p>
+                                    <p style="margin:0;font-size:10px;color:#0f0;">Status: ${o.status || 'Pending'}</p>
+                                </div>
+                            </div>`;
+                    });
+                }
+            } catch(e) {
+                cont.innerHTML = "<p style='text-align:center;padding:20px;'>Error: Firebase mein Indexing ki zarurat hai.</p>";
+            }
+        }
+        document.getElementById('orders-view').style.display = 'block';
     };
 
     window.toggleWish = (e, id) => { e.stopPropagation(); let wish = JSON.parse(localStorage.getItem('dk_wish')) || []; if(wish.includes(id)) wish = wish.filter(i => i !== id); else wish.push(id); localStorage.setItem('dk_wish', JSON.stringify(wish)); alert("Wishlist updated!"); };
     window.showWishlist = () => { const wIds = JSON.parse(localStorage.getItem('dk_wish')) || []; render(allP.filter(p => wIds.includes(p.id)), 'wishlistGrid'); document.getElementById('wishlist-view').style.display = 'block'; };
-    
-    window.showOrders = () => {
-        const uPh = localStorage.getItem('dk_user_ph');
-        const cont = document.getElementById('orderListContainer');
-        cont.innerHTML = "<p style='text-align:center;padding:20px;'>Fetching orders...</p>";
-        document.getElementById('orders-view').style.display = 'block';
-
-        if(!uPh) {
-            cont.innerHTML = "<p style='text-align:center;padding:20px;'>Abhi tak koi order nahi hai.</p>";
-            return;
-        }
-
-        const q = query(collection(db, "orders"), where("phone", "==", uPh), orderBy("time", "desc"));
-        onSnapshot(q, (snap) => {
-            cont.innerHTML = snap.empty ? "<p style='text-align:center;padding:20px;'>No orders found.</p>" : "";
-            snap.forEach(doc => {
-                const o = doc.data();
-                const status = o.status || "Pending";
-                const color = status === "Delivered" ? "#0f0" : "#ffff00";
-                cont.innerHTML += `
-                    <div class="order-card">
-                        <img src="${o.img}" class="order-img">
-                        <div>
-                            <h4 style="margin:0;color:var(--accent)">${o.name}</h4>
-                            <p style="margin:5px 0;font-size:12px;">Size: ${o.size}</p>
-                            <p style="margin:5px 0;font-size:12px;">Price: ₹${o.price}</p>
-                            <p style="margin:0;font-size:12px;color:${color};font-weight:bold;">Status: ${status}</p>
-                        </div>
-                    </div>`;
-            });
-        });
-    };
-
     window.searchFun = () => render(allP.filter(p => p.name.toLowerCase().includes(document.getElementById('searchInput').value.toLowerCase())), 'productList');
     window.closeAll = () => document.getElementById('detail-view').style.display = 'none';
     window.closeCheckout = () => document.getElementById('checkout-view').style.display = 'none';

@@ -40,10 +40,10 @@
         .p-name { font-size: 12px; font-weight: 600; color: var(--accent); margin-top: 10px; height: 35px; overflow: hidden; text-transform: uppercase; }
         .p-price { font-size: 17px; font-weight: 800; color: var(--white); margin: 5px 0; }
 
-        /* IMAGE SLIDER CSS */
-        .slider-container { position: relative; width: 100%; overflow: hidden; border-radius: 12px; border: 1px solid #333; background: #000; }
-        .slider-track { display: flex; transition: transform 0.3s ease-out; will-change: transform; }
-        .slider-track img { min-width: 100%; width: 100%; height: auto; object-fit: contain; flex-shrink: 0; }
+        /* INFINITE SMOOTH SLIDER CSS */
+        .slider-container { position: relative; width: 100%; overflow: hidden; border-radius: 12px; border: 1px solid #333; background: #000; touch-action: pan-y; }
+        .slider-track { display: flex; will-change: transform; transition: transform 0.3s ease-out; }
+        .slider-track img { min-width: 100%; width: 100%; height: auto; object-fit: contain; flex-shrink: 0; pointer-events: none; }
         .dots-container { display: flex; justify-content: center; gap: 8px; margin-top: 10px; }
         .dot { width: 8px; height: 8px; border-radius: 50%; background: #444; transition: 0.3s; }
         .dot.active { background: var(--accent); transform: scale(1.2); }
@@ -106,11 +106,9 @@
     <div class="grid" id="productList"></div>
 </div>
 
-<!-- DETAILS VIEW -->
 <div id="detail-view" class="full-view">
     <div class="view-header"><i class="fa-solid fa-arrow-left" onclick="closeAll()"></i><span>Details</span></div>
     <div style="padding: 20px; text-align: center; padding-bottom: 100px;">
-        
         <div class="slider-container" id="sliderContainer">
             <div class="slider-track" id="sliderTrack"></div>
         </div>
@@ -135,15 +133,12 @@
             <p id="c-prod-price-display" style="margin:5px 0; font-size:20px; font-weight:800; color:#fff;"></p>
             <p id="c-prod-size" style="margin:0; font-size:12px; color:#888"></p>
         </div>
-        
         <input type="text" id="c-name" class="addr-input" placeholder="Full Name">
         <input type="tel" id="c-phone" class="addr-input" placeholder="Mobile Number">
-        
         <p style="color:var(--accent); font-size:12px; font-weight:bold; margin: 15px 0 5px 0;">ADDRESS DETAILS</p>
         <input type="text" id="c-addr1" class="addr-input" placeholder="Address Line 1 (House No, Building)">
         <input type="text" id="c-addr2" class="addr-input" placeholder="Address Line 2 (Area, Street)">
         <input type="text" id="c-addr3" class="addr-input" placeholder="Address Line 3 (Landmark)">
-        
         <div style="display: flex; gap: 10px;">
             <input type="number" id="c-pin" class="addr-input" placeholder="Pincode" style="flex:1;">
             <input type="text" id="c-state" class="addr-input" placeholder="State" style="flex:1;">
@@ -243,20 +238,46 @@
             dots.innerHTML += `<div class="dot ${index === 0 ? 'active' : ''}"></div>`;
         });
 
-        // SMOOTH SLIDER LOGIC
-        let startX = 0, moveX = 0, curIdx = 0;
+        // RE-WRITTEN SMOOTH & INFINITE SLIDER LOGIC
+        let startX = 0, currentTranslate = 0, prevTranslate = 0, curIdx = 0, isDragging = false;
+        track.style.transition = 'none';
         track.style.transform = `translateX(0)`;
 
-        track.ontouchstart = (e) => { startX = e.touches[0].clientX; track.style.transition = 'none'; };
-        track.ontouchmove = (e) => { moveX = e.touches[0].clientX - startX; track.style.transform = `translateX(${-curIdx * 100 + (moveX / window.innerWidth) * 100}%)`; };
-        track.ontouchend = (e) => {
-            track.style.transition = 'transform 0.3s ease-out';
-            if (moveX < -50 && curIdx < imgs.length - 1) curIdx++;
-            else if (moveX > 50 && curIdx > 0) curIdx--;
-            track.style.transform = `translateX(-${curIdx * 100}%)`;
-            document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === curIdx));
-            moveX = 0;
+        track.ontouchstart = (e) => {
+            isDragging = true;
+            startX = e.touches[0].clientX;
+            track.style.transition = 'none';
         };
+
+        track.ontouchmove = (e) => {
+            if (!isDragging) return;
+            const currentX = e.touches[0].clientX;
+            const diff = currentX - startX;
+            currentTranslate = prevTranslate + diff;
+            track.style.transform = `translateX(${currentTranslate}px)`;
+        };
+
+        track.ontouchend = () => {
+            isDragging = false;
+            const movedBy = currentTranslate - prevTranslate;
+            
+            if (movedBy < -100 && curIdx < imgs.length - 1) curIdx++;
+            if (movedBy > 100 && curIdx > 0) curIdx--;
+
+            setPositionByIndex();
+        };
+
+        function setPositionByIndex() {
+            currentTranslate = curIdx * -window.innerWidth * 0.9; // Adjusting for container width padding
+            const containerWidth = document.getElementById('sliderContainer').offsetWidth;
+            currentTranslate = curIdx * -containerWidth;
+            
+            prevTranslate = currentTranslate;
+            track.style.transition = 'transform 0.3s ease-out';
+            track.style.transform = `translateX(${currentTranslate}px)`;
+            
+            document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === curIdx));
+        }
 
         document.getElementById('det-name').innerText = p.name;
         document.getElementById('det-price').innerText = "₹" + p.price;
@@ -267,13 +288,11 @@
             sBox.style.display = 'block';
             p.sizes.forEach(s => {
                 const chip = document.createElement('div');
-                chip.className = 'size-chip';
-                chip.innerText = s;
+                chip.className = 'size-chip'; chip.innerText = s;
                 chip.onclick = (e) => {
                     e.stopPropagation();
                     document.querySelectorAll('.size-chip').forEach(c => c.classList.remove('selected'));
-                    chip.classList.add('selected');
-                    selectedSize = s;
+                    chip.classList.add('selected'); selectedSize = s;
                 };
                 sContainer.appendChild(chip);
             });
@@ -320,7 +339,7 @@
               ad3 = document.getElementById('c-addr3').value, pin = document.getElementById('c-pin').value, st = document.getElementById('c-state').value;
         if(!n || !ph || !ad1 || !pin || !st) return alert("Sari details bhariye!");
         const orderData = { 
-            name: currentP.name, price: currentP.tempPrice || currentP.price, img: currentP.images[0] || 'Dkart.jpg', 
+            name: currentP.name, price: currentP.tempPrice || currentP.price, img: (currentP.images && currentP.images[0]) || 'Dkart.jpg', 
             size: selectedSize || "Free Size", customer: n, phone: ph, address: `${ad1}, ${ad2}, ${ad3}, Pin: ${pin}, State: ${st}`, 
             time: new Date().toLocaleString(), status: "Pending"
         };

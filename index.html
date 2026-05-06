@@ -1,18 +1,26 @@
-<!DOCTYPE html>
-<html lang="hi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dkart | Premium Shop</title>
-    <link rel="icon" type="image/jpeg" href="Dkart.jpg">
-    <link rel="apple-touch-icon" href="Dkart.jpg">
-    <link rel="icon" type="image/jpeg" sizes="192x192" href="Dkart.jpg">
-    <link rel="icon" type="image/jpeg" sizes="512x512" href="Dkart.jpg">
-    <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#ffff00">
+Plan clear hai. Main pure HTML file ko `/app/index.html` me save karta hun with these fixes:
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Montserrat:wght@900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<Plan>
+1. **Buy Now fix**: Issue is nav-bar (z:9999) covers btn-box (z:3500). Fix: Hide nav-bar when full-view open, btn-box bottom:0 z-index:10000.
+2. **Image slider**: Horizontal scroll-snap container with dots indicator that updates on scroll. Touch-swipe friendly (Flipkart-style).
+3. **Suggestion products**: "You may also like" section below desc — same category first + random fill. Click → load that product into detail view.
+4. Preserve all existing functionality (Firebase, auth, orders, wishlist).
+</Plan>
+Action: file_editor create /app/index.html --file-text "<!DOCTYPE html>
+<html lang=\"hi\">
+<head>
+    <meta charset=\"UTF-8\">
+    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no\">
+    <title>Dkart | Premium Shop</title>
+    <link rel=\"icon\" type=\"image/jpeg\" href=\"Dkart.jpg\">
+    <link rel=\"apple-touch-icon\" href=\"Dkart.jpg\">
+    <link rel=\"icon\" type=\"image/jpeg\" sizes=\"192x192\" href=\"Dkart.jpg\">
+    <link rel=\"icon\" type=\"image/jpeg\" sizes=\"512x512\" href=\"Dkart.jpg\">
+    <link rel=\"manifest\" href=\"/manifest.json\">
+    <meta name=\"theme-color\" content=\"#ffff00\">
+
+    <link href=\"https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Montserrat:wght@900&display=swap\" rel=\"stylesheet\">
+    <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css\">
     <style>
         :root { --primary: #000000; --accent: #ffff00; --white: #ffffff; --bg: #0a0a0a; }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
@@ -23,7 +31,7 @@
         .logo-img { width: 40px; height: 40px; border-radius: 5px; border: 1.5px solid var(--white); }
         .brand { font-family: 'Montserrat', sans-serif; font-size: 26px; font-weight: 900; color: var(--accent); font-style: italic; }
         .trust-text { font-size: 10px; color: var(--accent); text-align: center; font-weight: 700; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px; }
-        
+
         .header-action-row { display: flex; align-items: center; gap: 10px; padding: 0 5px; }
         .search-box { flex: 1; background: #1a1a1a; border-radius: 8px; display: flex; align-items: center; padding: 10px 15px; border: 1px solid #333; }
         .search-box input { background: transparent; border: none; color: white; width: 100%; margin-left: 10px; font-size: 14px; }
@@ -37,8 +45,12 @@
         .cat-item span { font-size: 10px; font-weight: 700; color: #fff; display: block; white-space: nowrap; }
 
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px; }
-        .p-card { background: #151515; padding: 10px; border-radius: 12px; border: 1.5px solid var(--white); position: relative; }
-            .p-card { cursor: pointer; }
+        .p-card { background: #151515; padding: 10px; border-radius: 12px; border: 1.5px solid var(--white); position: relative; cursor: pointer; }
+        .p-card img { width: 100%; height: 140px; object-fit: contain; border-radius: 8px; background: #222; }
+        .wish-icon { position: absolute; top: 15px; right: 15px; font-size: 18px; color: #444; z-index: 5; }
+        .wish-icon.active { color: #ff4757; }
+        .p-name { font-size: 12px; font-weight: 600; color: var(--accent); margin-top: 10px; height: 35px; overflow: hidden; text-transform: uppercase; }
+        .p-price { font-size: 17px; font-weight: 800; color: var(--white); margin: 5px 0; }
 
         /* === IMAGE SLIDER (Flipkart Style) === */
         .slider-wrap { position: relative; width: 100%; background: #fff; border-radius: 12px; overflow: hidden; border: 1px solid #333; }
@@ -51,6 +63,12 @@
         .slider-dot.active { background: var(--accent); width: 20px; border-radius: 4px; }
         .slider-counter { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.7); color: #fff; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700; z-index: 5; }
 
+        .size-box { margin-top: 20px; text-align: left; padding: 0 10px; }
+        .size-label { font-size: 12px; color: #888; text-transform: uppercase; font-weight: 700; margin-bottom: 8px; display: block; }
+        .size-chips { display: flex; flex-wrap: wrap; gap: 10px; }
+        .size-chip { padding: 8px 15px; border: 1px solid #444; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.2s; color: white; }
+        .size-chip.selected { background: var(--accent); color: #000; border-color: var(--accent); }
+
         /* === Suggestions === */
         .suggest-section { padding: 20px 12px 0; text-align: left; }
         .suggest-title { font-size: 14px; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
@@ -61,35 +79,23 @@
         .suggest-card .sn { font-size: 11px; color: #ddd; margin-top: 6px; height: 30px; overflow: hidden; font-weight: 600; }
         .suggest-card .sp { font-size: 14px; color: var(--accent); font-weight: 800; margin-top: 2px; }
 
-        /* === Hide nav when full-view open (Buy Now Fix) === */
-        body.view-open .nav-bar { display: none; }
-        .p-card img { width: 100%; height: 140px; object-fit: contain; border-radius: 8px; background: #222; }
-        .wish-icon { position: absolute; top: 15px; right: 15px; font-size: 18px; color: #444; z-index: 5; }
-        .wish-icon.active { color: #ff4757; }
-        .p-name { font-size: 12px; font-weight: 600; color: var(--accent); margin-top: 10px; height: 35px; overflow: hidden; text-transform: uppercase; }
-        .p-price { font-size: 17px; font-weight: 800; color: var(--white); margin: 5px 0; }
-
-        .size-box { margin-top: 20px; text-align: left; padding: 0 10px; }
-        .size-label { font-size: 12px; color: #888; text-transform: uppercase; font-weight: 700; margin-bottom: 8px; display: block; }
-        .size-chips { display: flex; flex-wrap: wrap; gap: 10px; }
-        .size-chip { padding: 8px 15px; border: 1px solid #444; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.2s; color: white; }
-        .size-chip.selected { background: var(--accent); color: #000; border-color: var(--accent); }
-
-        .nav-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: #000; display: flex; border-top: 2px solid var(--accent); z-index: 9999; height: 65px; align-items: center; }
+        .nav-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: #000; display: flex; border-top: 2px solid var(--accent); z-index: 2000; height: 65px; align-items: center; }
         .nav-tab { flex: 1; text-align: center; color: #777; cursor: pointer; font-size: 10px; font-weight: 700; }
         .nav-tab.active { color: var(--accent); }
         .nav-tab i { font-size: 20px; display: block; margin-bottom: 3px; }
 
         .full-view { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 3000; display: none; overflow-y: auto; padding-bottom: 80px; }
+        /* Hide nav-bar when any full-view is open */
+        body.view-open .nav-bar { display: none; }
         .view-header { padding: 15px; display: flex; align-items: center; border-bottom: 1px solid #333; background: var(--primary); position: sticky; top: 0; z-index: 10; }
         .view-header span { color: var(--accent); font-weight: 700; margin-left: 15px; text-transform: uppercase; }
 
         .order-card { background: #1a1a1a; margin: 10px; padding: 12px; border-radius: 10px; display: flex; gap: 15px; border-left: 4px solid var(--accent); }
         .order-img { width: 70px; height: 70px; border-radius: 8px; object-fit: cover; background: #222; }
 
-        .btn-box { position: fixed; bottom: 0; width: 100%; height: 60px; z-index: 3500; }
-        .btn-main { width: 100%; height: 100%; border: none; font-weight: 900; background: var(--accent); color: #000; font-size: 16px; text-transform: uppercase; }
-        
+        .btn-box { position: fixed; bottom: 0; left: 0; width: 100%; height: 60px; z-index: 3500; }
+        .btn-main { width: 100%; height: 100%; border: none; font-weight: 900; background: var(--accent); color: #000; font-size: 16px; text-transform: uppercase; cursor: pointer; }
+
         .addr-input { width: 100%; padding: 15px; margin-bottom: 10px; background: #111; color: white; border: 1px solid #333; border-radius: 8px; font-size: 14px; }
 
         .auth-tabs { display: flex; gap: 0; margin: 20px 0 15px 0; border-bottom: 1px solid #333; }
@@ -110,200 +116,214 @@
 </head>
 <body>
 
-<div id="home-sec">
+<div id=\"home-sec\">
     <header>
-        <div class="logo-row">
-            <img src="Dkart.jpg" class="logo-img" onerror="this.src='https://via.placeholder.com/40'">
-            <span class="brand">DKART</span>
+        <div class=\"logo-row\">
+            <img src=\"Dkart.jpg\" class=\"logo-img\" onerror=\"this.src='https://via.placeholder.com/40'\">
+            <span class=\"brand\">DKART</span>
         </div>
-        <div class="trust-text"><i class="fa-solid fa-shield-check"></i> 100% Trusted • Fast Delivery</div>
-        
-        <div class="header-action-row">
-            <div class="search-box">
-                <i class="fa-solid fa-magnifying-glass" style="color:var(--accent)"></i>
-                <input type="text" id="searchInput" placeholder="Search products..." onkeyup="searchFun()">
+        <div class=\"trust-text\"><i class=\"fa-solid fa-shield-check\"></i> 100% Trusted • Fast Delivery</div>
+
+        <div class=\"header-action-row\">
+            <div class=\"search-box\">
+                <i class=\"fa-solid fa-magnifying-glass\" style=\"color:var(--accent)\"></i>
+                <input type=\"text\" id=\"searchInput\" placeholder=\"Search products...\" onkeyup=\"searchFun()\">
             </div>
-            <a href="https://wa.me/918521694137?text=Hello%20Dkart%20Help%20Needed" target="_blank" class="help-btn">
-                <i class="fa-brands fa-whatsapp"></i>
+            <a href=\"https://wa.me/918521694137?text=Hello%20Dkart%20Help%20Needed\" target=\"_blank\" class=\"help-btn\">
+                <i class=\"fa-brands fa-whatsapp\"></i>
             </a>
         </div>
     </header>
 
-    <div class="cat-row">
-        <div class="cat-item" onclick="filterCat('All')"><div class="cat-icon" style="background: #FFD700;"><i class="fa-solid fa-border-all"></i></div><span>All</span></div>
-        <div class="cat-item" onclick="filterCat('Men')"><div class="cat-icon" style="background: #1E90FF;"><i class="fa-solid fa-person"></i></div><span>Men</span></div>
-        <div class="cat-item" onclick="filterCat('Women')"><div class="cat-icon" style="background: #FF4757;"><i class="fa-solid fa-person-dress"></i></div><span>Women</span></div>
-        <div class="cat-item" onclick="filterCat('Cosmetics')"><div class="cat-icon" style="background: #FF9FF3;"><i class="fa-solid fa-sparkles"></i></div><span>Cosmetics</span></div>
-        <div class="cat-item" onclick="filterCat('Kitchen')"><div class="cat-icon" style="background: #2ED573;"><i class="fa-solid fa-utensils"></i></div><span>Kitchen</span></div>
-        <div class="cat-item" onclick="filterCat('Electronics')"><div class="cat-icon" style="background: #54a0ff;"><i class="fa-solid fa-plug"></i></div><span>Electronics</span></div>
-        <div class="cat-item" onclick="filterCat('Mobile')"><div class="cat-icon" style="background: #feca57;"><i class="fa-solid fa-mobile-screen"></i></div><span>Mobile</span></div>
+    <div class=\"cat-row\">
+        <div class=\"cat-item\" onclick=\"filterCat('All')\"><div class=\"cat-icon\" style=\"background: #FFD700;\"><i class=\"fa-solid fa-border-all\"></i></div><span>All</span></div>
+        <div class=\"cat-item\" onclick=\"filterCat('Men')\"><div class=\"cat-icon\" style=\"background: #1E90FF;\"><i class=\"fa-solid fa-person\"></i></div><span>Men</span></div>
+        <div class=\"cat-item\" onclick=\"filterCat('Women')\"><div class=\"cat-icon\" style=\"background: #FF4757;\"><i class=\"fa-solid fa-person-dress\"></i></div><span>Women</span></div>
+        <div class=\"cat-item\" onclick=\"filterCat('Cosmetics')\"><div class=\"cat-icon\" style=\"background: #FF9FF3;\"><i class=\"fa-solid fa-sparkles\"></i></div><span>Cosmetics</span></div>
+        <div class=\"cat-item\" onclick=\"filterCat('Kitchen')\"><div class=\"cat-icon\" style=\"background: #2ED573;\"><i class=\"fa-solid fa-utensils\"></i></div><span>Kitchen</span></div>
+        <div class=\"cat-item\" onclick=\"filterCat('Electronics')\"><div class=\"cat-icon\" style=\"background: #54a0ff;\"><i class=\"fa-solid fa-plug\"></i></div><span>Electronics</span></div>
+        <div class=\"cat-item\" onclick=\"filterCat('Mobile')\"><div class=\"cat-icon\" style=\"background: #feca57;\"><i class=\"fa-solid fa-mobile-screen\"></i></div><span>Mobile</span></div>
     </div>
 
-    <div class="grid" id="productList"></div>
+    <div class=\"grid\" id=\"productList\"></div>
 </div>
 
-<div id="detail-view" class="full-view">
-    <div class="view-header"><i class="fa-solid fa-arrow-left" onclick="closeAll()"></i><span>Details</span></div>
-    <div style="padding: 20px; text-align: center; padding-bottom: 100px;">
-        <img id="det-img" style="width: 100%; border-radius: 12px; border: 1px solid #333;">
-        <h2 id="det-name" style="color: var(--accent); margin-top: 15px;"></h2>
-        <div id="det-price" style="font-size: 26px; font-weight: 800;"></div>
-        <div class="size-box" id="size-options-container" style="display:none;">
-            <span class="size-label">Choose Size</span>
-            <div class="size-chips" id="det-sizes"></div>
-        </div>
-        <p id="det-desc" style="text-align:left; color:#ccc; font-size:13px; margin-top:20px; line-height:1.6;"></p>
-    </div>
-    <div class="btn-box"><button class="btn-main" onclick="openCheckout()">Buy Now</button></div>
-</div>
+<div id=\"detail-view\" class=\"full-view\">
+    <div class=\"view-header\"><i class=\"fa-solid fa-arrow-left\" onclick=\"closeAll()\"></i><span>Details</span></div>
+    <div style=\"padding: 15px; padding-bottom: 100px;\">
 
-<div id="checkout-view" class="full-view">
-    <div class="view-header"><i class="fa-solid fa-arrow-left" onclick="closeCheckout()"></i><span>Checkout</span></div>
-    <div style="padding: 20px; padding-bottom: 100px;">
-        <div id="checkout-summary" style="background:#111; padding:15px; border-radius:10px; margin-bottom:20px; border:1.5px solid var(--accent);">
-            <p id="c-prod-name" style="margin:0; font-weight:600; color:var(--accent); font-size: 16px;"></p>
-            <p id="c-prod-price-display" style="margin:5px 0; font-size:20px; font-weight:800; color:#fff;"></p>
-            <p id="c-prod-size" style="margin:0; font-size:12px; color:#888"></p>
+        <!-- Flipkart-style image slider -->
+        <div class=\"slider-wrap\">
+            <div class=\"slider-counter\" id=\"slide-counter\">1 / 1</div>
+            <div class=\"slider-track\" id=\"slider-track\"></div>
         </div>
-        
-        <input type="text" id="c-name" class="addr-input" placeholder="Full Name">
-        <input type="tel" id="c-phone" class="addr-input" placeholder="Mobile Number">
-        
-        <p style="color:var(--accent); font-size:12px; font-weight:bold; margin: 15px 0 5px 0;">ADDRESS DETAILS</p>
-        <input type="text" id="c-addr1" class="addr-input" placeholder="Address Line 1 (House No, Building)">
-        <input type="text" id="c-addr2" class="addr-input" placeholder="Address Line 2 (Area, Street)">
-        <input type="text" id="c-addr3" class="addr-input" placeholder="Address Line 3 (Landmark)">
-        
-        <div style="display: flex; gap: 10px;">
-            <input type="number" id="c-pin" class="addr-input" placeholder="Pincode" style="flex:1;">
-            <input type="text" id="c-state" class="addr-input" placeholder="State" style="flex:1;">
+        <div class=\"slider-dots\" id=\"slider-dots\"></div>
+
+        <h2 id=\"det-name\" style=\"color: var(--accent); margin-top: 15px; text-align:center;\"></h2>
+        <div id=\"det-price\" style=\"font-size: 26px; font-weight: 800; text-align:center;\"></div>
+
+        <div class=\"size-box\" id=\"size-options-container\" style=\"display:none;\">
+            <span class=\"size-label\">Choose Size</span>
+            <div class=\"size-chips\" id=\"det-sizes\"></div>
+        </div>
+
+        <p id=\"det-desc\" style=\"text-align:left; color:#ccc; font-size:13px; margin-top:20px; line-height:1.6; padding: 0 10px;\"></p>
+
+        <!-- Suggestions section -->
+        <div class=\"suggest-section\" id=\"suggest-section\" style=\"display:none;\">
+            <div class=\"suggest-title\">You May Also Like</div>
+            <div class=\"suggest-grid\" id=\"suggest-grid\"></div>
         </div>
     </div>
-    <div class="btn-box"><button class="btn-main" id="order-btn">Confirm Order</button></div>
+    <div class=\"btn-box\"><button class=\"btn-main\" onclick=\"openCheckout()\"><i class=\"fa-solid fa-bolt\"></i> Buy Now</button></div>
 </div>
 
-<div id="orders-view" class="full-view">
-    <div class="view-header"><i class="fa-solid fa-arrow-left" onclick="hideAllViews()"></i><span>My Orders</span></div>
-    <div id="orderListContainer"></div>
+<div id=\"checkout-view\" class=\"full-view\">
+    <div class=\"view-header\"><i class=\"fa-solid fa-arrow-left\" onclick=\"closeCheckout()\"></i><span>Checkout</span></div>
+    <div style=\"padding: 20px; padding-bottom: 100px;\">
+        <div id=\"checkout-summary\" style=\"background:#111; padding:15px; border-radius:10px; margin-bottom:20px; border:1.5px solid var(--accent);\">
+            <p id=\"c-prod-name\" style=\"margin:0; font-weight:600; color:var(--accent); font-size: 16px;\"></p>
+            <p id=\"c-prod-price-display\" style=\"margin:5px 0; font-size:20px; font-weight:800; color:#fff;\"></p>
+            <p id=\"c-prod-size\" style=\"margin:0; font-size:12px; color:#888\"></p>
+        </div>
+
+        <input type=\"text\" id=\"c-name\" class=\"addr-input\" placeholder=\"Full Name\">
+        <input type=\"tel\" id=\"c-phone\" class=\"addr-input\" placeholder=\"Mobile Number\">
+
+        <p style=\"color:var(--accent); font-size:12px; font-weight:bold; margin: 15px 0 5px 0;\">ADDRESS DETAILS</p>
+        <input type=\"text\" id=\"c-addr1\" class=\"addr-input\" placeholder=\"Address Line 1 (House No, Building)\">
+        <input type=\"text\" id=\"c-addr2\" class=\"addr-input\" placeholder=\"Address Line 2 (Area, Street)\">
+        <input type=\"text\" id=\"c-addr3\" class=\"addr-input\" placeholder=\"Address Line 3 (Landmark)\">
+
+        <div style=\"display: flex; gap: 10px;\">
+            <input type=\"number\" id=\"c-pin\" class=\"addr-input\" placeholder=\"Pincode\" style=\"flex:1;\">
+            <input type=\"text\" id=\"c-state\" class=\"addr-input\" placeholder=\"State\" style=\"flex:1;\">
+        </div>
+    </div>
+    <div class=\"btn-box\"><button class=\"btn-main\" id=\"order-btn\">Confirm Order</button></div>
 </div>
 
-<div id="wishlist-view" class="full-view">
-    <div class="view-header"><i class="fa-solid fa-arrow-left" onclick="hideAllViews()"></i><span>Wishlist</span></div>
-    <div class="grid" id="wishlistGrid"></div>
+<div id=\"orders-view\" class=\"full-view\">
+    <div class=\"view-header\"><i class=\"fa-solid fa-arrow-left\" onclick=\"hideAllViews()\"></i><span>My Orders</span></div>
+    <div id=\"orderListContainer\"></div>
 </div>
 
-<div id="profile-view" class="full-view">
-    <div class="view-header">
-        <i class="fa-solid fa-arrow-left" onclick="hideAllViews()"></i>
+<div id=\"wishlist-view\" class=\"full-view\">
+    <div class=\"view-header\"><i class=\"fa-solid fa-arrow-left\" onclick=\"hideAllViews()\"></i><span>Wishlist</span></div>
+    <div class=\"grid\" id=\"wishlistGrid\"></div>
+</div>
+
+<div id=\"profile-view\" class=\"full-view\">
+    <div class=\"view-header\">
+        <i class=\"fa-solid fa-arrow-left\" onclick=\"hideAllViews()\"></i>
         <span>My Profile</span>
     </div>
 
-    <div id="auth-section" style="padding: 20px;">
-        <h3 style="color: var(--accent); text-align:center; margin-bottom: 5px;">Welcome to Dkart</h3>
-        <p style="text-align:center; color:#888; font-size:13px; margin-top:0;">Login or Register to continue</p>
+    <div id=\"auth-section\" style=\"padding: 20px;\">
+        <h3 style=\"color: var(--accent); text-align:center; margin-bottom: 5px;\">Welcome to Dkart</h3>
+        <p style=\"text-align:center; color:#888; font-size:13px; margin-top:0;\">Login or Register to continue</p>
 
-        <div class="auth-tabs">
-            <button class="auth-tab-btn active" id="tab-login-btn" onclick="switchAuthTab('login')">Login</button>
-            <button class="auth-tab-btn" id="tab-register-btn" onclick="switchAuthTab('register')">Register</button>
+        <div class=\"auth-tabs\">
+            <button class=\"auth-tab-btn active\" id=\"tab-login-btn\" onclick=\"switchAuthTab('login')\">Login</button>
+            <button class=\"auth-tab-btn\" id=\"tab-register-btn\" onclick=\"switchAuthTab('register')\">Register</button>
         </div>
 
-        <div id="login-form" class="auth-form active">
-            <input type="email" id="login-email" class="addr-input" placeholder="Email address">
-            <input type="password" id="login-password" class="addr-input" placeholder="Password">
-            <button class="auth-btn" onclick="emailLogin()"><i class="fa-solid fa-right-to-bracket"></i> Login</button>
-            <p style="text-align:right; margin-top:10px;">
-                <a href="javascript:void(0)" onclick="forgotPassword()" style="color:var(--accent); font-size:13px; font-weight:600; text-decoration:none;">
-                    <i class="fa-solid fa-key"></i> Forgot Password?
+        <div id=\"login-form\" class=\"auth-form active\">
+            <input type=\"email\" id=\"login-email\" class=\"addr-input\" placeholder=\"Email address\">
+            <input type=\"password\" id=\"login-password\" class=\"addr-input\" placeholder=\"Password\">
+            <button class=\"auth-btn\" onclick=\"emailLogin()\"><i class=\"fa-solid fa-right-to-bracket\"></i> Login</button>
+            <p style=\"text-align:right; margin-top:10px;\">
+                <a href=\"javascript:void(0)\" onclick=\"forgotPassword()\" style=\"color:var(--accent); font-size:13px; font-weight:600; text-decoration:none;\">
+                    <i class=\"fa-solid fa-key\"></i> Forgot Password?
                 </a>
             </p>
         </div>
 
-        <div id="register-form" class="auth-form">
-            <input type="text" id="reg-name" class="addr-input" placeholder="Full Name">
-            <input type="email" id="reg-email" class="addr-input" placeholder="Email address">
-            <input type="password" id="reg-password" class="addr-input" placeholder="Password (min 6 chars)">
-            <button class="auth-btn" onclick="emailRegister()"><i class="fa-solid fa-user-plus"></i> Create Account</button>
+        <div id=\"register-form\" class=\"auth-form\">
+            <input type=\"text\" id=\"reg-name\" class=\"addr-input\" placeholder=\"Full Name\">
+            <input type=\"email\" id=\"reg-email\" class=\"addr-input\" placeholder=\"Email address\">
+            <input type=\"password\" id=\"reg-password\" class=\"addr-input\" placeholder=\"Password (min 6 chars)\">
+            <button class=\"auth-btn\" onclick=\"emailRegister()\"><i class=\"fa-solid fa-user-plus\"></i> Create Account</button>
         </div>
 
-        <div class="or-divider">OR</div>
+        <div class=\"or-divider\">OR</div>
 
-        <button class="google-btn" onclick="loginUser()">
-            <i class="fa-brands fa-google" style="color:#DB4437;"></i> Continue with Google
+        <button class=\"google-btn\" onclick=\"loginUser()\">
+            <i class=\"fa-brands fa-google\" style=\"color:#DB4437;\"></i> Continue with Google
         </button>
     </div>
 
-    <div id="profile-logged-in" class="profile-logged-in" style="display:none;">
-        <div class="profile-avatar" id="profile-avatar">U</div>
-        <h3 id="profile-name" style="color: var(--accent); margin: 5px 0;">User</h3>
-        <p id="user-email" style="color: #aaa; font-size: 13px; margin: 0 0 20px 0;">email@example.com</p>
+    <div id=\"profile-logged-in\" class=\"profile-logged-in\" style=\"display:none;\">
+        <div class=\"profile-avatar\" id=\"profile-avatar\">U</div>
+        <h3 id=\"profile-name\" style=\"color: var(--accent); margin: 5px 0;\">User</h3>
+        <p id=\"user-email\" style=\"color: #aaa; font-size: 13px; margin: 0 0 20px 0;\">email@example.com</p>
 
-        <div style="background:#151515; border:1px solid #333; border-radius:10px; padding:15px; margin-top:10px; text-align:left;">
-            <p style="margin:0; color:#888; font-size:11px; text-transform:uppercase; font-weight:700;">Account Status</p>
-            <p style="margin:5px 0 0 0; color:#0f0; font-weight:700;"><i class="fa-solid fa-circle-check"></i> Active</p>
+        <div style=\"background:#151515; border:1px solid #333; border-radius:10px; padding:15px; margin-top:10px; text-align:left;\">
+            <p style=\"margin:0; color:#888; font-size:11px; text-transform:uppercase; font-weight:700;\">Account Status</p>
+            <p style=\"margin:5px 0 0 0; color:#0f0; font-weight:700;\"><i class=\"fa-solid fa-circle-check\"></i> Active</p>
         </div>
 
-        <button class="logout-btn" onclick="logoutUser()"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+        <button class=\"logout-btn\" onclick=\"logoutUser()\"><i class=\"fa-solid fa-right-from-bracket\"></i> Logout</button>
     </div>
 </div>
 
-<div id="pay-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:5000; align-items:center; justify-content:center; overflow-y: auto;">
-    <div style="background:#111; width:90%; max-width:400px; padding:25px; border-radius:20px; border:1px solid #ffff00; text-align:center;">
-        <h3 style="color:#ffff00; margin-bottom:15px;">Payment Method</h3>
-        
-        <div id="upi-options">
-            <div onclick="showScanner()" style="background:#1a1a1a; padding:18px; border-radius:12px; margin-bottom:15px; cursor:pointer; border:1.5px solid #ffff00;">
-                <div style="font-weight:800; font-size:18px; color:#fff;"><i class="fa-solid fa-qrcode" style="color:#ffff00"></i> Pay via Scanner</div>
-                <div style="font-size:12px; color:#00ff00; font-weight:700; margin-top:5px;">(Get ₹20 Instant Discount! 🔥)</div>
+<div id=\"pay-modal\" style=\"display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:5000; align-items:center; justify-content:center; overflow-y: auto;\">
+    <div style=\"background:#111; width:90%; max-width:400px; padding:25px; border-radius:20px; border:1px solid #ffff00; text-align:center;\">
+        <h3 style=\"color:#ffff00; margin-bottom:15px;\">Payment Method</h3>
+
+        <div id=\"upi-options\">
+            <div onclick=\"showScanner()\" style=\"background:#1a1a1a; padding:18px; border-radius:12px; margin-bottom:15px; cursor:pointer; border:1.5px solid #ffff00;\">
+                <div style=\"font-weight:800; font-size:18px; color:#fff;\"><i class=\"fa-solid fa-qrcode\" style=\"color:#ffff00\"></i> Pay via Scanner</div>
+                <div style=\"font-size:12px; color:#00ff00; font-weight:700; margin-top:5px;\">(Get ₹20 Instant Discount! 🔥)</div>
             </div>
-            <div onclick="processOrder('COD')" style="background:#1a1a1a; padding:18px; border-radius:12px; cursor:pointer; border:1.5px solid #333;">
-                <div style="font-weight:800; font-size:18px; color:#fff;"><i class="fa-solid fa-truck-fast"></i> Cash On Delivery</div>
-                <div style="font-size:11px; color:#888; margin-top:5px;">No discount available</div>
+            <div onclick=\"processOrder('COD')\" style=\"background:#1a1a1a; padding:18px; border-radius:12px; cursor:pointer; border:1.5px solid #333;\">
+                <div style=\"font-weight:800; font-size:18px; color:#fff;\"><i class=\"fa-solid fa-truck-fast\"></i> Cash On Delivery</div>
+                <div style=\"font-size:11px; color:#888; margin-top:5px;\">No discount available</div>
             </div>
         </div>
 
-        <div id="scanner-display" style="display:none;">
-            <p style="font-size:12px; color:#ccc;">Scan QR & Pay <span id="dis-price" style="color:#0f0; font-weight:bold;"></span></p>
-            <img src="https://i.postimg.cc/nVShYS07/IMG-6402.jpg" style="width:100%; border-radius:10px; margin:10px 0; border: 2px solid #fff;">
-            <button onclick="confirmUPIDone()" style="width:100%; background:#00ff00; color:#000; border:none; padding:12px; border-radius:8px; font-weight:800; margin-top:10px;">I HAVE PAID (Confirm Order)</button>
+        <div id=\"scanner-display\" style=\"display:none;\">
+            <p style=\"font-size:12px; color:#ccc;\">Scan QR & Pay <span id=\"dis-price\" style=\"color:#0f0; font-weight:bold;\"></span></p>
+            <img src=\"https://i.postimg.cc/nVShYS07/IMG-6402.jpg\" style=\"width:100%; border-radius:10px; margin:10px 0; border: 2px solid #fff;\">
+            <button onclick=\"confirmUPIDone()\" style=\"width:100%; background:#00ff00; color:#000; border:none; padding:12px; border-radius:8px; font-weight:800; margin-top:10px;\">I HAVE PAID (Confirm Order)</button>
         </div>
 
-        <button onclick="closePayModal()" style="margin-top:20px; background:none; border:none; color:#ff4444; font-weight:700;">Cancel</button>
+        <button onclick=\"closePayModal()\" style=\"margin-top:20px; background:none; border:none; color:#ff4444; font-weight:700;\">Cancel</button>
     </div>
 </div>
 
-<nav class="nav-bar">
-    <div class="nav-tab active" id="nav-home" onclick="goHome()">
-        <i class="fa-solid fa-house"></i>
+<nav class=\"nav-bar\">
+    <div class=\"nav-tab active\" id=\"nav-home\" onclick=\"goHome()\">
+        <i class=\"fa-solid fa-house\"></i>
         <span>Home</span>
     </div>
-    <div class="nav-tab" id="nav-orders" onclick="showOrders()">
-        <i class="fa-solid fa-bag-shopping"></i>
+    <div class=\"nav-tab\" id=\"nav-orders\" onclick=\"showOrders()\">
+        <i class=\"fa-solid fa-bag-shopping\"></i>
         <span>Orders</span>
     </div>
-    <div class="nav-tab" id="nav-wishlist" onclick="showWishlist()">
-        <i class="fa-solid fa-heart"></i>
+    <div class=\"nav-tab\" id=\"nav-wishlist\" onclick=\"showWishlist()\">
+        <i class=\"fa-solid fa-heart\"></i>
         <span>Wishlist</span>
     </div>
-    <div class="nav-tab" id="nav-profile" onclick="showProfile()">
-        <i class="fa-solid fa-user"></i>
+    <div class=\"nav-tab\" id=\"nav-profile\" onclick=\"showProfile()\">
+        <i class=\"fa-solid fa-user\"></i>
         <span>Profile</span>
     </div>
 </nav>
-👆 Upar wala PART 1 copy ho gaya? Ab neeche PART 2 bhej raha hun. Is part ko Part 1 ke end mein (nav ke turant baad) paste karna hai 👇
-📋 PART 2 / 2 — (JavaScript + closing tags)
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
-    import { getFirestore, collection, getDocs, addDoc, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+
+<script type=\"module\">
+    import { initializeApp } from \"https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js\";
+    import { getFirestore, collection, getDocs, addDoc, query, orderBy, serverTimestamp } from \"https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js\";
     import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut,
              createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile,
-             sendPasswordResetEmail } 
-        from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+             sendPasswordResetEmail }
+        from \"https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js\";
 
     const firebaseConfig = {
-      apiKey: "AIzaSyAchWzhIxqmS7G0HPpvuq6WBwcr8pXzFAE",
-      authDomain: "dkart-87860.firebaseapp.com",
-      projectId: "dkart-87860",
-      appId: "1:894407834952:web:3067589b758c9819fe877d"
+      apiKey: \"AIzaSyAchWzhIxqmS7G0HPpvuq6WBwcr8pXzFAE\",
+      authDomain: \"dkart-87860.firebaseapp.com\",
+      projectId: \"dkart-87860\",
+      appId: \"1:894407834952:web:3067589b758c9819fe877d\"
     };
 
     const app = initializeApp(firebaseConfig);
@@ -311,10 +331,10 @@
     const auth = getAuth(app);
     const provider = new GoogleAuthProvider();
     let currentUser = null;
-    let allP = [], currentP = null, selectedSize = "";
+    let allP = [], currentP = null, selectedSize = \"\";
 
     async function load() {
-        const q = query(collection(db, "products"), orderBy("time", "desc"));
+        const q = query(collection(db, \"products\"), orderBy(\"time\", \"desc\"));
         const snap = await getDocs(q);
         allP = snap.docs.map(d => ({id: d.id, ...d.data()}));
         render(allP, 'productList');
@@ -322,48 +342,136 @@
 
     function render(data, target) {
         const list = document.getElementById(target);
-        list.innerHTML = "";
+        list.innerHTML = \"\";
         data.forEach(p => {
             const card = document.createElement('div');
             card.className = 'p-card';
             card.innerHTML = `
-                <i class="fa-solid fa-heart wish-icon" onclick="toggleWish(event, '${p.id}')"></i>
-                <img src="${p.images[0] || 'Dkart.jpg'}" onerror="this.src='https://via.placeholder.com/140'">
-                <div class="p-name">${p.name}</div>
-                <div class="p-price">₹${p.price}</div>
+                <i class=\"fa-solid fa-heart wish-icon\" onclick=\"toggleWish(event, '${p.id}')\"></i>
+                <img src=\"${(p.images && p.images[0]) || 'Dkart.jpg'}\" onerror=\"this.src='https://via.placeholder.com/140'\">
+                <div class=\"p-name\">${p.name}</div>
+                <div class=\"p-price\">₹${p.price}</div>
             `;
-            card.onclick = () => {
-                currentP = p;
-                selectedSize = ""; 
-                document.getElementById('det-img').src = p.images[0] || 'Dkart.jpg';
-                document.getElementById('det-name').innerText = p.name;
-                document.getElementById('det-price').innerText = "₹" + p.price;
-                document.getElementById('det-desc').innerText = p.desc || "";
-                
-                const sContainer = document.getElementById('det-sizes');
-                const sBox = document.getElementById('size-options-container');
-                sContainer.innerHTML = "";
-                
-                if(p.sizes && p.sizes.length > 0) {
-                    sBox.style.display = 'block';
-                    p.sizes.forEach(s => {
-                        const chip = document.createElement('div');
-                        chip.className = 'size-chip';
-                        chip.innerText = s;
-                        chip.onclick = () => {
-                            document.querySelectorAll('.size-chip').forEach(c => c.classList.remove('selected'));
-                            chip.classList.add('selected');
-                            selectedSize = s;
-                        };
-                        sContainer.appendChild(chip);
-                    });
-                } else {
-                    sBox.style.display = 'none';
-                }
-                document.getElementById('detail-view').style.display = 'block';
-            };
+            card.onclick = () => openProductDetail(p);
             list.appendChild(card);
         });
+    }
+
+    // === Image slider builder (Flipkart style: swipe + dots) ===
+    function buildSlider(images) {
+        const track = document.getElementById('slider-track');
+        const dotsBox = document.getElementById('slider-dots');
+        const counter = document.getElementById('slide-counter');
+        track.innerHTML = '';
+        dotsBox.innerHTML = '';
+
+        const imgs = (images && images.length) ? images : ['Dkart.jpg'];
+
+        imgs.forEach((src, idx) => {
+            const slide = document.createElement('div');
+            slide.className = 'slider-slide';
+            slide.innerHTML = `<img src=\"${src}\" onerror=\"this.src='https://via.placeholder.com/400'\">`;
+            track.appendChild(slide);
+
+            const dot = document.createElement('div');
+            dot.className = 'slider-dot' + (idx === 0 ? ' active' : '');
+            dot.dataset.idx = idx;
+            dot.onclick = () => {
+                track.scrollTo({ left: track.clientWidth * idx, behavior: 'smooth' });
+            };
+            dotsBox.appendChild(dot);
+        });
+
+        counter.innerText = `1 / ${imgs.length}`;
+        track.scrollLeft = 0;
+
+        // Update dots and counter on scroll
+        track.onscroll = () => {
+            const idx = Math.round(track.scrollLeft / track.clientWidth);
+            const dots = dotsBox.querySelectorAll('.slider-dot');
+            dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+            counter.innerText = `${idx + 1} / ${imgs.length}`;
+        };
+    }
+
+    // === Suggestions builder (same category + random fill) ===
+    function buildSuggestions(currentProd) {
+        const section = document.getElementById('suggest-section');
+        const grid = document.getElementById('suggest-grid');
+        grid.innerHTML = '';
+
+        const others = allP.filter(p => p.id !== currentProd.id);
+        if (others.length === 0) {
+            section.style.display = 'none';
+            return;
+        }
+
+        const sameCat = currentProd.category
+            ? others.filter(p => p.category && p.category.toLowerCase() === currentProd.category.toLowerCase())
+            : [];
+        const restRandom = others.filter(p => !sameCat.includes(p));
+
+        // Shuffle helper
+        const shuffle = arr => arr.map(x => [Math.random(), x]).sort((a,b) => a[0]-b[0]).map(([,x]) => x);
+
+        const picks = [...shuffle(sameCat), ...shuffle(restRandom)].slice(0, 6);
+        if (picks.length === 0) {
+            section.style.display = 'none';
+            return;
+        }
+
+        section.style.display = 'block';
+        picks.forEach(p => {
+            const card = document.createElement('div');
+            card.className = 'suggest-card';
+            card.innerHTML = `
+                <img src=\"${(p.images && p.images[0]) || 'Dkart.jpg'}\" onerror=\"this.src='https://via.placeholder.com/110'\">
+                <div class=\"sn\">${p.name}</div>
+                <div class=\"sp\">₹${p.price}</div>
+            `;
+            card.onclick = () => {
+                openProductDetail(p);
+                document.getElementById('detail-view').scrollTo({ top: 0, behavior: 'smooth' });
+            };
+            grid.appendChild(card);
+        });
+    }
+
+    function openProductDetail(p) {
+        currentP = p;
+        selectedSize = \"\";
+
+        buildSlider(p.images || []);
+
+        document.getElementById('det-name').innerText = p.name;
+        document.getElementById('det-price').innerText = \"₹\" + p.price;
+        document.getElementById('det-desc').innerText = p.desc || \"\";
+
+        const sContainer = document.getElementById('det-sizes');
+        const sBox = document.getElementById('size-options-container');
+        sContainer.innerHTML = \"\";
+
+        if(p.sizes && p.sizes.length > 0) {
+            sBox.style.display = 'block';
+            p.sizes.forEach(s => {
+                const chip = document.createElement('div');
+                chip.className = 'size-chip';
+                chip.innerText = s;
+                chip.onclick = () => {
+                    document.querySelectorAll('.size-chip').forEach(c => c.classList.remove('selected'));
+                    chip.classList.add('selected');
+                    selectedSize = s;
+                };
+                sContainer.appendChild(chip);
+            });
+        } else {
+            sBox.style.display = 'none';
+        }
+
+        buildSuggestions(p);
+
+        document.body.classList.add('view-open');
+        document.getElementById('detail-view').style.display = 'block';
     }
 
     function setActiveNav(id) {
@@ -393,7 +501,7 @@
 
     window.openCheckout = () => {
         if(currentP.sizes && currentP.sizes.length > 0 && !selectedSize) {
-            return alert("Pehle Size choose karein!");
+            return alert(\"Pehle Size choose karein!\");
         }
         document.getElementById('pay-modal').style.display = 'flex';
     };
@@ -401,70 +509,72 @@
     window.showScanner = () => {
         const finalPrice = parseInt(currentP.price) - 20;
         currentP.tempPrice = finalPrice;
-        document.getElementById('dis-price').innerText = "₹" + finalPrice;
+        document.getElementById('dis-price').innerText = \"₹\" + finalPrice;
         document.getElementById('upi-options').style.display = 'none';
         document.getElementById('scanner-display').style.display = 'block';
     };
 
     window.confirmUPIDone = () => {
         closePayModal();
-        updateCheckoutView("UPI (Paid)");
+        updateCheckoutView(\"UPI (Paid)\");
     };
 
     window.processOrder = (method) => {
         if(method === 'COD') {
             currentP.tempPrice = currentP.price;
             closePayModal();
-            updateCheckoutView("COD");
+            updateCheckoutView(\"COD\");
         }
     };
 
     function updateCheckoutView(method) {
         document.getElementById('c-prod-name').innerText = currentP.name;
-        document.getElementById('c-prod-price-display').innerText = "Amount: ₹" + currentP.tempPrice;
-        document.getElementById('c-prod-size').innerText = (selectedSize ? "Size: " + selectedSize : "Free Size") + " | " + method;
+        document.getElementById('c-prod-price-display').innerText = \"Amount: ₹\" + currentP.tempPrice;
+        document.getElementById('c-prod-size').innerText = (selectedSize ? \"Size: \" + selectedSize : \"Free Size\") + \" | \" + method;
+        document.body.classList.add('view-open');
         document.getElementById('checkout-view').style.display = 'block';
     }
 
     document.getElementById('order-btn').onclick = async () => {
-        const n = document.getElementById('c-name').value, 
-              ph = document.getElementById('c-phone').value, 
+        const n = document.getElementById('c-name').value,
+              ph = document.getElementById('c-phone').value,
               ad1 = document.getElementById('c-addr1').value,
               ad2 = document.getElementById('c-addr2').value,
               ad3 = document.getElementById('c-addr3').value,
               pin = document.getElementById('c-pin').value,
               state = document.getElementById('c-state').value;
 
-        if(!n || !ph || !ad1 || !pin || !state) return alert("Sari details bhariye!");
-        
+        if(!n || !ph || !ad1 || !pin || !state) return alert(\"Sari details bhariye!\");
+
         const fullAddress = `${ad1}, ${ad2}, ${ad3}, Pincode: ${pin}, State: ${state}`;
 
-        const orderData = { 
-            name: currentP.name, 
-            price: currentP.tempPrice || currentP.price, 
-            img: currentP.images[0], 
-            size: selectedSize || "Free Size",
-            customer: n, phone: ph, address: fullAddress, 
-            userId: currentUser ? currentUser.uid : "guest",
-            userEmail: currentUser ? currentUser.email : "guest",
+        const orderData = {
+            name: currentP.name,
+            price: currentP.tempPrice || currentP.price,
+            img: (currentP.images && currentP.images[0]) || 'Dkart.jpg',
+            size: selectedSize || \"Free Size\",
+            customer: n, phone: ph, address: fullAddress,
+            userId: currentUser ? currentUser.uid : \"guest\",
+            userEmail: currentUser ? currentUser.email : \"guest\",
             time: serverTimestamp(),
-            status: "Pending"
+            status: \"Pending\"
         };
-        await addDoc(collection(db, "orders"), orderData);
+        await addDoc(collection(db, \"orders\"), orderData);
         let myOrders = JSON.parse(localStorage.getItem('dk_orders')) || [];
         myOrders.unshift(orderData);
         localStorage.setItem('dk_orders', JSON.stringify(myOrders));
-        alert("Order Confirm ho gaya! ✅");
+        alert(\"Order Confirm ho gaya! ✅\");
         location.reload();
     };
 
-    window.toggleWish = (e, id) => { e.stopPropagation(); let wish = JSON.parse(localStorage.getItem('dk_wish')) || []; if(wish.includes(id)) wish = wish.filter(i => i !== id); else wish.push(id); localStorage.setItem('dk_wish', JSON.stringify(wish)); alert("Wishlist updated!"); };
+    window.toggleWish = (e, id) => { e.stopPropagation(); let wish = JSON.parse(localStorage.getItem('dk_wish')) || []; if(wish.includes(id)) wish = wish.filter(i => i !== id); else wish.push(id); localStorage.setItem('dk_wish', JSON.stringify(wish)); alert(\"Wishlist updated!\"); };
 
     window.showWishlist = () => {
         hideAllViews();
         setActiveNav('nav-wishlist');
         const wIds = JSON.parse(localStorage.getItem('dk_wish')) || [];
         render(allP.filter(p => wIds.includes(p.id)), 'wishlistGrid');
+        document.body.classList.add('view-open');
         document.getElementById('wishlist-view').style.display = 'block';
     };
 
@@ -473,25 +583,37 @@
         setActiveNav('nav-orders');
         const orders = JSON.parse(localStorage.getItem('dk_orders')) || [];
         const cont = document.getElementById('orderListContainer');
-        cont.innerHTML = orders.length ? "" : "<p style='text-align:center;padding:20px;color:#888;'>No orders yet.</p>";
+        cont.innerHTML = orders.length ? \"\" : \"<p style='text-align:center;padding:20px;color:#888;'>No orders yet.</p>\";
         orders.forEach(o => {
-            cont.innerHTML += `<div class="order-card"><img src="${o.img}" class="order-img"><div><h4 style="margin:0;color:var(--accent)">${o.name}</h4><p style="margin:5px 0;font-size:12px;">Size: ${o.size}</p><p style="margin:5px 0;font-size:12px;">Price: ₹${o.price}</p><p style="margin:0;font-size:10px;color:#0f0;">Status: Pending</p></div></div>`;
+            cont.innerHTML += `<div class=\"order-card\"><img src=\"${o.img}\" class=\"order-img\"><div><h4 style=\"margin:0;color:var(--accent)\">${o.name}</h4><p style=\"margin:5px 0;font-size:12px;\">Size: ${o.size}</p><p style=\"margin:5px 0;font-size:12px;\">Price: ₹${o.price}</p><p style=\"margin:0;font-size:10px;color:#0f0;\">Status: Pending</p></div></div>`;
         });
+        document.body.classList.add('view-open');
         document.getElementById('orders-view').style.display = 'block';
     };
 
     window.showProfile = () => {
         hideAllViews();
         setActiveNav('nav-profile');
+        document.body.classList.add('view-open');
         document.getElementById('profile-view').style.display = 'block';
     };
 
     window.searchFun = () => render(allP.filter(p => p.name.toLowerCase().includes(document.getElementById('searchInput').value.toLowerCase())), 'productList');
-    window.closeAll = () => document.getElementById('detail-view').style.display = 'none';
-    window.closeCheckout = () => document.getElementById('checkout-view').style.display = 'none';
+
+    window.closeAll = () => {
+        document.getElementById('detail-view').style.display = 'none';
+        document.body.classList.remove('view-open');
+    };
+    window.closeCheckout = () => {
+        document.getElementById('checkout-view').style.display = 'none';
+        // detail view may still be open; keep view-open class accordingly
+        const anyOpen = Array.from(document.querySelectorAll('.full-view')).some(v => v.style.display === 'block');
+        if (!anyOpen) document.body.classList.remove('view-open');
+    };
 
     window.hideAllViews = () => {
         document.querySelectorAll('.full-view').forEach(v => v.style.display = 'none');
+        document.body.classList.remove('view-open');
         setActiveNav('nav-home');
     };
 
@@ -505,23 +627,23 @@
     window.loginUser = async () => {
         try {
             await signInWithPopup(auth, provider);
-            alert("Login Success ✅");
+            alert(\"Login Success ✅\");
         } catch (err) {
-            alert("Error: " + err.message);
+            alert(\"Error: \" + err.message);
         }
     };
 
     window.emailLogin = async () => {
         const email = document.getElementById('login-email').value.trim();
         const password = document.getElementById('login-password').value;
-        if(!email || !password) return alert("Email aur Password bhariye!");
+        if(!email || !password) return alert(\"Email aur Password bhariye!\");
         try {
             await signInWithEmailAndPassword(auth, email, password);
-            alert("Login Success ✅");
+            alert(\"Login Success ✅\");
             document.getElementById('login-email').value = '';
             document.getElementById('login-password').value = '';
         } catch (err) {
-            alert("Login failed: " + err.message);
+            alert(\"Login failed: \" + err.message);
         }
     };
 
@@ -529,41 +651,41 @@
         const name = document.getElementById('reg-name').value.trim();
         const email = document.getElementById('reg-email').value.trim();
         const password = document.getElementById('reg-password').value;
-        if(!name || !email || !password) return alert("Sari details bhariye!");
-        if(password.length < 6) return alert("Password kam se kam 6 characters ka hona chahiye!");
+        if(!name || !email || !password) return alert(\"Sari details bhariye!\");
+        if(password.length < 6) return alert(\"Password kam se kam 6 characters ka hona chahiye!\");
         try {
             const userCred = await createUserWithEmailAndPassword(auth, email, password);
             await updateProfile(userCred.user, { displayName: name });
-            alert("Account Created ✅ Welcome " + name + "!");
+            alert(\"Account Created ✅ Welcome \" + name + \"!\");
             document.getElementById('reg-name').value = '';
             document.getElementById('reg-email').value = '';
             document.getElementById('reg-password').value = '';
         } catch (err) {
-            alert("Register failed: " + err.message);
+            alert(\"Register failed: \" + err.message);
         }
     };
 
     window.logoutUser = async () => {
         try {
             await signOut(auth);
-            alert("Logout ho gaya");
+            alert(\"Logout ho gaya\");
         } catch (err) {
-            alert("Error: " + err.message);
+            alert(\"Error: \" + err.message);
         }
     };
     window.forgotPassword = async () => {
         let email = document.getElementById('login-email').value.trim();
         if(!email) {
-            email = prompt("Apna registered email daalein password reset link ke liye:");
+            email = prompt(\"Apna registered email daalein password reset link ke liye:\");
             if(!email) return;
             email = email.trim();
         }
-        if(!email.includes('@')) return alert("Sahi email daalein!");
+        if(!email.includes('@')) return alert(\"Sahi email daalein!\");
         try {
             await sendPasswordResetEmail(auth, email);
-            alert("✅ Password reset link aapke email par bhej diya gaya hai!\n\nApna inbox (aur Spam folder bhi) check karein: " + email);
+            alert(\"✅ Password reset link aapke email par bhej diya gaya hai!\n\nApna inbox (aur Spam folder bhi) check karein: \" + email);
         } catch (err) {
-            alert("Error: " + err.message);
+            alert(\"Error: \" + err.message);
         }
     };
 
@@ -590,3 +712,5 @@
 
 </body>
 </html>
+"
+Observation: Create successful: /app/index.html

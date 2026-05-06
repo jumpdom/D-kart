@@ -6,8 +6,6 @@
     <title>Dkart | Premium Shop</title>
     <link rel="icon" type="image/jpeg" href="Dkart.jpg">
     <link rel="apple-touch-icon" href="Dkart.jpg">
-    <link rel="icon" type="image/jpeg" sizes="192x192" href="Dkart.jpg">
-    <link rel="icon" type="image/jpeg" sizes="512x512" href="Dkart.jpg">
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#ffff00">
 
@@ -44,7 +42,6 @@
         .p-name { font-size: 12px; font-weight: 600; color: var(--accent); margin-top: 10px; height: 35px; overflow: hidden; text-transform: uppercase; }
         .p-price { font-size: 17px; font-weight: 800; color: var(--white); margin: 5px 0; }
 
-        /* === IMAGE SLIDER (Flipkart Style) === */
         .slider-wrap { position: relative; width: 100%; background: #fff; border-radius: 12px; overflow: hidden; border: 1px solid #333; }
         .slider-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
         .slider-track::-webkit-scrollbar { display: none; }
@@ -61,7 +58,6 @@
         .size-chip { padding: 8px 15px; border: 1px solid #444; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.2s; color: white; }
         .size-chip.selected { background: var(--accent); color: #000; border-color: var(--accent); }
 
-        /* === Suggestions === */
         .suggest-section { padding: 20px 12px 0; text-align: left; }
         .suggest-title { font-size: 14px; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
         .suggest-title::before { content: ''; width: 4px; height: 18px; background: var(--accent); border-radius: 2px; }
@@ -81,8 +77,27 @@
         .view-header { padding: 15px; display: flex; align-items: center; border-bottom: 1px solid #333; background: var(--primary); position: sticky; top: 0; z-index: 10; }
         .view-header span { color: var(--accent); font-weight: 700; margin-left: 15px; text-transform: uppercase; }
 
-        .order-card { background: #1a1a1a; margin: 10px; padding: 12px; border-radius: 10px; display: flex; gap: 15px; border-left: 4px solid var(--accent); }
-        .order-img { width: 70px; height: 70px; border-radius: 8px; object-fit: cover; background: #222; }
+        /* === ORDER CARD with Status Tracker === */
+        .order-card { background: #151515; margin: 12px; padding: 14px; border-radius: 12px; border: 1px solid #2a2a2a; }
+        .order-top { display: flex; gap: 12px; margin-bottom: 14px; }
+        .order-img { width: 70px; height: 70px; border-radius: 8px; object-fit: cover; background: #222; flex-shrink: 0; }
+        .order-info h4 { margin: 0; color: var(--accent); font-size: 14px; }
+        .order-info p { margin: 4px 0 0 0; font-size: 12px; color: #aaa; }
+        .order-info .price-tag { color: #fff; font-weight: 800; font-size: 15px; }
+
+        .status-tracker { display: flex; justify-content: space-between; align-items: flex-start; padding: 8px 4px 4px; position: relative; }
+        .status-tracker::before { content: ''; position: absolute; top: 14px; left: 14%; right: 14%; height: 3px; background: #2a2a2a; z-index: 1; }
+        .status-tracker .progress-line { position: absolute; top: 14px; left: 14%; height: 3px; background: linear-gradient(90deg, #00c853, #00e676); z-index: 2; transition: width 0.5s ease; }
+        .status-step { flex: 1; text-align: center; position: relative; z-index: 3; }
+        .status-step .dot { width: 28px; height: 28px; border-radius: 50%; background: #2a2a2a; border: 2px solid #444; margin: 0 auto 6px; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #666; transition: all 0.3s; }
+        .status-step.done .dot { background: #00c853; border-color: #00e676; color: #fff; box-shadow: 0 0 10px rgba(0,230,118,0.5); }
+        .status-step.current .dot { background: var(--accent); border-color: var(--accent); color: #000; animation: pulse 1.5s infinite; }
+        .status-step .label { font-size: 9px; font-weight: 700; color: #777; text-transform: uppercase; letter-spacing: 0.3px; }
+        .status-step.done .label { color: #00e676; }
+        .status-step.current .label { color: var(--accent); }
+        @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.15); } }
+
+        .order-meta { display: flex; justify-content: space-between; margin-top: 12px; padding-top: 10px; border-top: 1px dashed #2a2a2a; font-size: 11px; color: #777; }
 
         .btn-box { position: fixed; bottom: 0; left: 0; width: 100%; height: 60px; z-index: 3500; }
         .btn-main { width: 100%; height: 100%; border: none; font-weight: 900; background: var(--accent); color: #000; font-size: 16px; text-transform: uppercase; cursor: pointer; }
@@ -99,10 +114,39 @@
         .logout-btn { width: 100%; padding: 14px; background: #ff4444; color: #fff; border: none; font-weight: 800; border-radius: 8px; font-size: 15px; cursor: pointer; margin-top: 15px; text-transform: uppercase; }
         .or-divider { text-align: center; color: #666; font-size: 12px; margin: 15px 0 5px 0; position: relative; }
         .or-divider::before, .or-divider::after { content: ''; position: absolute; top: 50%; width: 40%; height: 1px; background: #333; }
-        .or-divider::before { left: 0; }
-        .or-divider::after { right: 0; }
+        .or-divider::before { left: 0; } .or-divider::after { right: 0; }
         .profile-logged-in { text-align: center; padding: 30px 20px; }
         .profile-avatar { width: 80px; height: 80px; border-radius: 50%; background: var(--accent); color: #000; display: flex; align-items: center; justify-content: center; font-size: 36px; font-weight: 900; margin: 0 auto 15px; }
+
+        /* === Custom Modal (Professional Popups) === */
+        .dk-modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(8px); z-index: 9999; align-items: center; justify-content: center; padding: 20px; animation: fadeIn 0.2s ease; }
+        .dk-modal-bg.show { display: flex; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .dk-modal { background: linear-gradient(180deg, #1a1a1a, #0d0d0d); width: 100%; max-width: 360px; border-radius: 18px; border: 1.5px solid var(--accent); padding: 24px 22px; text-align: center; animation: slideUp 0.3s ease; box-shadow: 0 20px 60px rgba(255,255,0,0.2); }
+        .dk-modal-icon { width: 56px; height: 56px; border-radius: 50%; margin: 0 auto 14px; display: flex; align-items: center; justify-content: center; font-size: 26px; }
+        .dk-modal-icon.success { background: rgba(0,200,83,0.15); color: #00e676; border: 2px solid #00e676; }
+        .dk-modal-icon.error { background: rgba(255,68,68,0.15); color: #ff4444; border: 2px solid #ff4444; }
+        .dk-modal-icon.info { background: rgba(255,255,0,0.15); color: var(--accent); border: 2px solid var(--accent); }
+        .dk-modal-icon.warn { background: rgba(255,165,0,0.15); color: #ffa500; border: 2px solid #ffa500; }
+        .dk-modal h3 { color: #fff; font-size: 17px; margin: 0 0 8px 0; font-weight: 800; }
+        .dk-modal p { color: #bbb; font-size: 13px; line-height: 1.5; margin: 0 0 18px 0; white-space: pre-line; }
+        .dk-modal input { width: 100%; padding: 13px; background: #0a0a0a; color: #fff; border: 1.5px solid #333; border-radius: 10px; font-size: 14px; margin-bottom: 14px; }
+        .dk-modal input:focus { border-color: var(--accent); }
+        .dk-modal-actions { display: flex; gap: 10px; }
+        .dk-btn { flex: 1; padding: 12px; border: none; border-radius: 10px; font-weight: 800; font-size: 14px; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; transition: 0.2s; }
+        .dk-btn-primary { background: var(--accent); color: #000; }
+        .dk-btn-primary:active { transform: scale(0.97); }
+        .dk-btn-secondary { background: #2a2a2a; color: #ccc; }
+
+        /* Toast */
+        .dk-toast { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%); background: #1a1a1a; color: #fff; padding: 12px 20px; border-radius: 30px; font-size: 13px; font-weight: 600; z-index: 10000; border: 1px solid var(--accent); box-shadow: 0 8px 24px rgba(0,0,0,0.5); display: none; animation: slideUp 0.3s ease; }
+        .dk-toast.show { display: block; }
+        .dk-toast.success { border-color: #00e676; }
+        .dk-toast.error { border-color: #ff4444; }
+
+        .empty-state { text-align: center; padding: 60px 20px; color: #666; }
+        .empty-state i { font-size: 48px; margin-bottom: 12px; color: #333; }
     </style>
 </head>
 <body>
@@ -142,23 +186,18 @@
 <div id="detail-view" class="full-view">
     <div class="view-header"><i class="fa-solid fa-arrow-left" onclick="closeAll()"></i><span>Details</span></div>
     <div style="padding: 15px; padding-bottom: 100px;">
-
         <div class="slider-wrap">
             <div class="slider-counter" id="slide-counter">1 / 1</div>
             <div class="slider-track" id="slider-track"></div>
         </div>
         <div class="slider-dots" id="slider-dots"></div>
-
         <h2 id="det-name" style="color: var(--accent); margin-top: 15px; text-align:center;"></h2>
         <div id="det-price" style="font-size: 26px; font-weight: 800; text-align:center;"></div>
-
         <div class="size-box" id="size-options-container" style="display:none;">
             <span class="size-label">Choose Size</span>
             <div class="size-chips" id="det-sizes"></div>
         </div>
-
         <p id="det-desc" style="text-align:left; color:#ccc; font-size:13px; margin-top:20px; line-height:1.6; padding: 0 10px;"></p>
-
         <div class="suggest-section" id="suggest-section" style="display:none;">
             <div class="suggest-title">You May Also Like</div>
             <div class="suggest-grid" id="suggest-grid"></div>
@@ -175,15 +214,12 @@
             <p id="c-prod-price-display" style="margin:5px 0; font-size:20px; font-weight:800; color:#fff;"></p>
             <p id="c-prod-size" style="margin:0; font-size:12px; color:#888"></p>
         </div>
-
         <input type="text" id="c-name" class="addr-input" placeholder="Full Name">
         <input type="tel" id="c-phone" class="addr-input" placeholder="Mobile Number">
-
         <p style="color:var(--accent); font-size:12px; font-weight:bold; margin: 15px 0 5px 0;">ADDRESS DETAILS</p>
         <input type="text" id="c-addr1" class="addr-input" placeholder="Address Line 1 (House No, Building)">
         <input type="text" id="c-addr2" class="addr-input" placeholder="Address Line 2 (Area, Street)">
         <input type="text" id="c-addr3" class="addr-input" placeholder="Address Line 3 (Landmark)">
-
         <div style="display: flex; gap: 10px;">
             <input type="number" id="c-pin" class="addr-input" placeholder="Pincode" style="flex:1;">
             <input type="text" id="c-state" class="addr-input" placeholder="State" style="flex:1;">
@@ -203,20 +239,14 @@
 </div>
 
 <div id="profile-view" class="full-view">
-    <div class="view-header">
-        <i class="fa-solid fa-arrow-left" onclick="hideAllViews()"></i>
-        <span>My Profile</span>
-    </div>
-
+    <div class="view-header"><i class="fa-solid fa-arrow-left" onclick="hideAllViews()"></i><span>My Profile</span></div>
     <div id="auth-section" style="padding: 20px;">
         <h3 style="color: var(--accent); text-align:center; margin-bottom: 5px;">Welcome to Dkart</h3>
         <p style="text-align:center; color:#888; font-size:13px; margin-top:0;">Login or Register to continue</p>
-
         <div class="auth-tabs">
             <button class="auth-tab-btn active" id="tab-login-btn" onclick="switchAuthTab('login')">Login</button>
             <button class="auth-tab-btn" id="tab-register-btn" onclick="switchAuthTab('register')">Register</button>
         </div>
-
         <div id="login-form" class="auth-form active">
             <input type="email" id="login-email" class="addr-input" placeholder="Email address">
             <input type="password" id="login-password" class="addr-input" placeholder="Password">
@@ -227,31 +257,25 @@
                 </a>
             </p>
         </div>
-
         <div id="register-form" class="auth-form">
             <input type="text" id="reg-name" class="addr-input" placeholder="Full Name">
             <input type="email" id="reg-email" class="addr-input" placeholder="Email address">
             <input type="password" id="reg-password" class="addr-input" placeholder="Password (min 6 chars)">
             <button class="auth-btn" onclick="emailRegister()"><i class="fa-solid fa-user-plus"></i> Create Account</button>
         </div>
-
         <div class="or-divider">OR</div>
-
         <button class="google-btn" onclick="loginUser()">
             <i class="fa-brands fa-google" style="color:#DB4437;"></i> Continue with Google
         </button>
     </div>
-
     <div id="profile-logged-in" class="profile-logged-in" style="display:none;">
         <div class="profile-avatar" id="profile-avatar">U</div>
         <h3 id="profile-name" style="color: var(--accent); margin: 5px 0;">User</h3>
         <p id="user-email" style="color: #aaa; font-size: 13px; margin: 0 0 20px 0;">email@example.com</p>
-
         <div style="background:#151515; border:1px solid #333; border-radius:10px; padding:15px; margin-top:10px; text-align:left;">
             <p style="margin:0; color:#888; font-size:11px; text-transform:uppercase; font-weight:700;">Account Status</p>
             <p style="margin:5px 0 0 0; color:#0f0; font-weight:700;"><i class="fa-solid fa-circle-check"></i> Active</p>
         </div>
-
         <button class="logout-btn" onclick="logoutUser()"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
     </div>
 </div>
@@ -259,7 +283,6 @@
 <div id="pay-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:5000; align-items:center; justify-content:center; overflow-y: auto;">
     <div style="background:#111; width:90%; max-width:400px; padding:25px; border-radius:20px; border:1px solid #ffff00; text-align:center;">
         <h3 style="color:#ffff00; margin-bottom:15px;">Payment Method</h3>
-
         <div id="upi-options">
             <div onclick="showScanner()" style="background:#1a1a1a; padding:18px; border-radius:12px; margin-bottom:15px; cursor:pointer; border:1.5px solid #ffff00;">
                 <div style="font-weight:800; font-size:18px; color:#fff;"><i class="fa-solid fa-qrcode" style="color:#ffff00"></i> Pay via Scanner</div>
@@ -270,39 +293,42 @@
                 <div style="font-size:11px; color:#888; margin-top:5px;">No discount available</div>
             </div>
         </div>
-
         <div id="scanner-display" style="display:none;">
             <p style="font-size:12px; color:#ccc;">Scan QR & Pay <span id="dis-price" style="color:#0f0; font-weight:bold;"></span></p>
             <img src="https://i.postimg.cc/nVShYS07/IMG-6402.jpg" style="width:100%; border-radius:10px; margin:10px 0; border: 2px solid #fff;">
             <button onclick="confirmUPIDone()" style="width:100%; background:#00ff00; color:#000; border:none; padding:12px; border-radius:8px; font-weight:800; margin-top:10px;">I HAVE PAID (Confirm Order)</button>
         </div>
-
         <button onclick="closePayModal()" style="margin-top:20px; background:none; border:none; color:#ff4444; font-weight:700;">Cancel</button>
     </div>
 </div>
 
+<!-- Custom Professional Modal -->
+<div id="dk-modal-bg" class="dk-modal-bg">
+    <div class="dk-modal">
+        <div id="dk-modal-icon" class="dk-modal-icon info"><i class="fa-solid fa-info"></i></div>
+        <h3 id="dk-modal-title">Title</h3>
+        <p id="dk-modal-msg">Message</p>
+        <input type="text" id="dk-modal-input" style="display:none;">
+        <div class="dk-modal-actions">
+            <button id="dk-modal-cancel" class="dk-btn dk-btn-secondary" style="display:none;">Cancel</button>
+            <button id="dk-modal-ok" class="dk-btn dk-btn-primary">OK</button>
+        </div>
+    </div>
+</div>
+
+<!-- Toast -->
+<div id="dk-toast" class="dk-toast"></div>
+
 <nav class="nav-bar">
-    <div class="nav-tab active" id="nav-home" onclick="goHome()">
-        <i class="fa-solid fa-house"></i>
-        <span>Home</span>
-    </div>
-    <div class="nav-tab" id="nav-orders" onclick="showOrders()">
-        <i class="fa-solid fa-bag-shopping"></i>
-        <span>Orders</span>
-    </div>
-    <div class="nav-tab" id="nav-wishlist" onclick="showWishlist()">
-        <i class="fa-solid fa-heart"></i>
-        <span>Wishlist</span>
-    </div>
-    <div class="nav-tab" id="nav-profile" onclick="showProfile()">
-        <i class="fa-solid fa-user"></i>
-        <span>Profile</span>
-    </div>
+    <div class="nav-tab active" id="nav-home" onclick="goHome()"><i class="fa-solid fa-house"></i><span>Home</span></div>
+    <div class="nav-tab" id="nav-orders" onclick="showOrders()"><i class="fa-solid fa-bag-shopping"></i><span>Orders</span></div>
+    <div class="nav-tab" id="nav-wishlist" onclick="showWishlist()"><i class="fa-solid fa-heart"></i><span>Wishlist</span></div>
+    <div class="nav-tab" id="nav-profile" onclick="showProfile()"><i class="fa-solid fa-user"></i><span>Profile</span></div>
 </nav>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
-    import { getFirestore, collection, getDocs, addDoc, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+    import { getFirestore, collection, getDocs, addDoc, query, orderBy, where, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
     import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut,
              createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile,
              sendPasswordResetEmail }
@@ -322,6 +348,65 @@
     let currentUser = null;
     let allP = [], currentP = null, selectedSize = "";
 
+    // === Custom Modal System ===
+    const modalBg = document.getElementById('dk-modal-bg');
+    const modalIcon = document.getElementById('dk-modal-icon');
+    const modalTitle = document.getElementById('dk-modal-title');
+    const modalMsg = document.getElementById('dk-modal-msg');
+    const modalInput = document.getElementById('dk-modal-input');
+    const modalOk = document.getElementById('dk-modal-ok');
+    const modalCancel = document.getElementById('dk-modal-cancel');
+
+    const ICONS = {
+        success: '<i class="fa-solid fa-circle-check"></i>',
+        error: '<i class="fa-solid fa-circle-exclamation"></i>',
+        info: '<i class="fa-solid fa-circle-info"></i>',
+        warn: '<i class="fa-solid fa-triangle-exclamation"></i>'
+    };
+
+    function showModal({type='info', title='Dkart', msg='', input=false, placeholder='', okText='OK', showCancel=false, onOk=null, onCancel=null}) {
+        modalIcon.className = 'dk-modal-icon ' + type;
+        modalIcon.innerHTML = ICONS[type] || ICONS.info;
+        modalTitle.innerText = title;
+        modalMsg.innerText = msg;
+        modalInput.style.display = input ? 'block' : 'none';
+        modalInput.value = '';
+        modalInput.placeholder = placeholder;
+        modalOk.innerText = okText;
+        modalCancel.style.display = showCancel ? 'block' : 'none';
+        modalBg.classList.add('show');
+        if (input) setTimeout(() => modalInput.focus(), 100);
+
+        modalOk.onclick = () => {
+            const val = modalInput.value;
+            modalBg.classList.remove('show');
+            if (onOk) onOk(val);
+        };
+        modalCancel.onclick = () => {
+            modalBg.classList.remove('show');
+            if (onCancel) onCancel();
+        };
+    }
+
+    window.dkAlert = (msg, type='info', title) => {
+        const titles = { success: 'Success', error: 'Error', info: 'Info', warn: 'Warning' };
+        showModal({ type, title: title || titles[type], msg, okText: 'OK' });
+    };
+
+    window.dkPrompt = (title, msg, placeholder, onOk) => {
+        showModal({ type:'info', title, msg, input:true, placeholder, showCancel:true, onOk, okText:'Submit' });
+    };
+
+    // Toast
+    const toast = document.getElementById('dk-toast');
+    let toastTimer;
+    window.dkToast = (msg, type='success') => {
+        clearTimeout(toastTimer);
+        toast.className = 'dk-toast show ' + type;
+        toast.innerHTML = (type==='success'?'<i class="fa-solid fa-check"></i> ':type==='error'?'<i class="fa-solid fa-xmark"></i> ':'') + msg;
+        toastTimer = setTimeout(() => toast.classList.remove('show'), 2500);
+    };
+
     async function load() {
         const q = query(collection(db, "products"), orderBy("time", "desc"));
         const snap = await getDocs(q);
@@ -332,6 +417,10 @@
     function render(data, target) {
         const list = document.getElementById(target);
         list.innerHTML = "";
+        if (data.length === 0) {
+            list.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><i class="fa-solid fa-box-open"></i><p>No products found</p></div>';
+            return;
+        }
         data.forEach(p => {
             const card = document.createElement('div');
             card.className = 'p-card';
@@ -350,30 +439,23 @@
         const track = document.getElementById('slider-track');
         const dotsBox = document.getElementById('slider-dots');
         const counter = document.getElementById('slide-counter');
-        track.innerHTML = '';
-        dotsBox.innerHTML = '';
-
+        track.innerHTML = ''; dotsBox.innerHTML = '';
         const imgs = (images && images.length) ? images : ['Dkart.jpg'];
-
         imgs.forEach((src, idx) => {
             const slide = document.createElement('div');
             slide.className = 'slider-slide';
             slide.innerHTML = `<img src="${src}" onerror="this.src='https://via.placeholder.com/400'">`;
             track.appendChild(slide);
-
             const dot = document.createElement('div');
             dot.className = 'slider-dot' + (idx === 0 ? ' active' : '');
             dot.onclick = () => track.scrollTo({ left: track.clientWidth * idx, behavior: 'smooth' });
             dotsBox.appendChild(dot);
         });
-
         counter.innerText = `1 / ${imgs.length}`;
         track.scrollLeft = 0;
-
         track.onscroll = () => {
             const idx = Math.round(track.scrollLeft / track.clientWidth);
-            const dots = dotsBox.querySelectorAll('.slider-dot');
-            dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+            dotsBox.querySelectorAll('.slider-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
             counter.innerText = `${idx + 1} / ${imgs.length}`;
         };
     }
@@ -382,19 +464,13 @@
         const section = document.getElementById('suggest-section');
         const grid = document.getElementById('suggest-grid');
         grid.innerHTML = '';
-
         const others = allP.filter(p => p.id !== currentProd.id);
         if (others.length === 0) { section.style.display = 'none'; return; }
-
-        const sameCat = currentProd.category
-            ? others.filter(p => p.category && p.category.toLowerCase() === currentProd.category.toLowerCase())
-            : [];
+        const sameCat = currentProd.category ? others.filter(p => p.category && p.category.toLowerCase() === currentProd.category.toLowerCase()) : [];
         const restRandom = others.filter(p => !sameCat.includes(p));
         const shuffle = arr => arr.map(x => [Math.random(), x]).sort((a,b) => a[0]-b[0]).map(([,x]) => x);
         const picks = [...shuffle(sameCat), ...shuffle(restRandom)].slice(0, 6);
-
         if (picks.length === 0) { section.style.display = 'none'; return; }
-
         section.style.display = 'block';
         picks.forEach(p => {
             const card = document.createElement('div');
@@ -419,11 +495,9 @@
         document.getElementById('det-name').innerText = p.name;
         document.getElementById('det-price').innerText = "₹" + p.price;
         document.getElementById('det-desc').innerText = p.desc || "";
-
         const sContainer = document.getElementById('det-sizes');
         const sBox = document.getElementById('size-options-container');
         sContainer.innerHTML = "";
-
         if(p.sizes && p.sizes.length > 0) {
             sBox.style.display = 'block';
             p.sizes.forEach(s => {
@@ -437,10 +511,7 @@
                 };
                 sContainer.appendChild(chip);
             });
-        } else {
-            sBox.style.display = 'none';
-        }
-
+        } else { sBox.style.display = 'none'; }
         buildSuggestions(p);
         document.body.classList.add('view-open');
         document.getElementById('detail-view').style.display = 'block';
@@ -451,18 +522,11 @@
         if(id) document.getElementById(id).classList.add('active');
     }
 
-    window.goHome = () => {
-        hideAllViews();
-        setActiveNav('nav-home');
-        window.scrollTo(0, 0);
-    };
+    window.goHome = () => { hideAllViews(); setActiveNav('nav-home'); window.scrollTo(0, 0); };
 
     window.filterCat = (cat) => {
         if(cat === 'All') render(allP, 'productList');
-        else {
-            const filtered = allP.filter(p => p.category && p.category.toLowerCase() === cat.toLowerCase());
-            render(filtered, 'productList');
-        }
+        else render(allP.filter(p => p.category && p.category.toLowerCase() === cat.toLowerCase()), 'productList');
     };
 
     window.closePayModal = () => {
@@ -473,7 +537,7 @@
 
     window.openCheckout = () => {
         if(currentP.sizes && currentP.sizes.length > 0 && !selectedSize) {
-            return alert("Pehle Size choose karein!");
+            return dkAlert("Pehle Size choose karein!", 'warn');
         }
         document.getElementById('pay-modal').style.display = 'flex';
     };
@@ -486,10 +550,7 @@
         document.getElementById('scanner-display').style.display = 'block';
     };
 
-    window.confirmUPIDone = () => {
-        closePayModal();
-        updateCheckoutView("UPI (Paid)");
-    };
+    window.confirmUPIDone = () => { closePayModal(); updateCheckoutView("UPI (Paid)"); };
 
     window.processOrder = (method) => {
         if(method === 'COD') {
@@ -515,11 +576,8 @@
               ad3 = document.getElementById('c-addr3').value,
               pin = document.getElementById('c-pin').value,
               state = document.getElementById('c-state').value;
-
-        if(!n || !ph || !ad1 || !pin || !state) return alert("Sari details bhariye!");
-
+        if(!n || !ph || !ad1 || !pin || !state) return dkAlert("Sari details bhariye!", 'warn');
         const fullAddress = `${ad1}, ${ad2}, ${ad3}, Pincode: ${pin}, State: ${state}`;
-
         const orderData = {
             name: currentP.name,
             price: currentP.tempPrice || currentP.price,
@@ -531,36 +589,133 @@
             time: serverTimestamp(),
             status: "Pending"
         };
-        await addDoc(collection(db, "orders"), orderData);
-        let myOrders = JSON.parse(localStorage.getItem('dk_orders')) || [];
-        myOrders.unshift(orderData);
-        localStorage.setItem('dk_orders', JSON.stringify(myOrders));
-        alert("Order Confirm ho gaya! ✅");
-        location.reload();
+        try {
+            const docRef = await addDoc(collection(db, "orders"), orderData);
+            const localOrder = { ...orderData, id: docRef.id, time: Date.now() };
+            let myOrders = JSON.parse(localStorage.getItem('dk_orders')) || [];
+            myOrders.unshift(localOrder);
+            localStorage.setItem('dk_orders', JSON.stringify(myOrders));
+            showModal({
+                type: 'success',
+                title: 'Order Confirmed!',
+                msg: 'Aapka order successfully place ho gaya hai. Thank you for shopping with Dkart!',
+                okText: 'View Orders',
+                onOk: () => { location.reload(); }
+            });
+        } catch(err) {
+            dkAlert("Order place karne me error: " + err.message, 'error');
+        }
     };
 
-    window.toggleWish = (e, id) => { e.stopPropagation(); let wish = JSON.parse(localStorage.getItem('dk_wish')) || []; if(wish.includes(id)) wish = wish.filter(i => i !== id); else wish.push(id); localStorage.setItem('dk_wish', JSON.stringify(wish)); alert("Wishlist updated!"); };
+    window.toggleWish = (e, id) => {
+        e.stopPropagation();
+        let wish = JSON.parse(localStorage.getItem('dk_wish')) || [];
+        if(wish.includes(id)) { wish = wish.filter(i => i !== id); dkToast('Wishlist se hata diya', 'success'); }
+        else { wish.push(id); dkToast('Wishlist me add ho gaya ❤️', 'success'); }
+        localStorage.setItem('dk_wish', JSON.stringify(wish));
+    };
 
     window.showWishlist = () => {
         hideAllViews();
         setActiveNav('nav-wishlist');
         const wIds = JSON.parse(localStorage.getItem('dk_wish')) || [];
-        render(allP.filter(p => wIds.includes(p.id)), 'wishlistGrid');
+        const wishProds = allP.filter(p => wIds.includes(p.id));
+        if (wishProds.length === 0) {
+            document.getElementById('wishlistGrid').innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><i class="fa-solid fa-heart-crack"></i><p>Wishlist khaali hai</p></div>';
+        } else {
+            render(wishProds, 'wishlistGrid');
+        }
         document.body.classList.add('view-open');
         document.getElementById('wishlist-view').style.display = 'block';
     };
 
-    window.showOrders = () => {
+    // === Order Status Tracker ===
+    const STATUS_STEPS = ['Pending', 'Packed', 'Shipped', 'Delivered'];
+    function getStatusIndex(status) {
+        if (!status) return 0;
+        const s = status.toString().trim().toLowerCase();
+        if (s.includes('deliver')) return 3;
+        if (s.includes('ship') || s.includes('out for')) return 2;
+        if (s.includes('pack') || s.includes('confirm')) return 1;
+        return 0; // Pending / default
+    }
+
+    function statusTrackerHTML(status) {
+        const idx = getStatusIndex(status);
+        const progressPct = (idx / (STATUS_STEPS.length - 1)) * 72; // 72% = matches before-line width
+        const icons = ['fa-clock', 'fa-box', 'fa-truck-fast', 'fa-circle-check'];
+        let stepsHtml = STATUS_STEPS.map((label, i) => {
+            const cls = i < idx ? 'done' : (i === idx ? 'current' : '');
+            const iconHtml = i < idx ? '<i class="fa-solid fa-check"></i>' : `<i class="fa-solid ${icons[i]}"></i>`;
+            return `<div class="status-step ${cls}"><div class="dot">${iconHtml}</div><div class="label">${label}</div></div>`;
+        }).join('');
+        return `
+            <div class="status-tracker">
+                <div class="progress-line" style="width: ${progressPct}%;"></div>
+                ${stepsHtml}
+            </div>
+        `;
+    }
+
+    function formatOrderTime(t) {
+        if (!t) return '';
+        try {
+            const d = t.toDate ? t.toDate() : new Date(t);
+            return d.toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' });
+        } catch(e) { return ''; }
+    }
+
+    window.showOrders = async () => {
         hideAllViews();
         setActiveNav('nav-orders');
-        const orders = JSON.parse(localStorage.getItem('dk_orders')) || [];
-        const cont = document.getElementById('orderListContainer');
-        cont.innerHTML = orders.length ? "" : "<p style='text-align:center;padding:20px;color:#888;'>No orders yet.</p>";
-        orders.forEach(o => {
-            cont.innerHTML += `<div class="order-card"><img src="${o.img}" class="order-img"><div><h4 style="margin:0;color:var(--accent)">${o.name}</h4><p style="margin:5px 0;font-size:12px;">Size: ${o.size}</p><p style="margin:5px 0;font-size:12px;">Price: ₹${o.price}</p><p style="margin:0;font-size:10px;color:#0f0;">Status: Pending</p></div></div>`;
-        });
         document.body.classList.add('view-open');
         document.getElementById('orders-view').style.display = 'block';
+        const cont = document.getElementById('orderListContainer');
+        cont.innerHTML = '<div class="empty-state"><i class="fa-solid fa-spinner fa-spin"></i><p>Orders load ho rahe hain...</p></div>';
+
+        let orders = [];
+        try {
+            if (currentUser) {
+                // Logged in: fetch fresh from Firestore
+                const q = query(collection(db, "orders"), where("userId", "==", currentUser.uid));
+                const snap = await getDocs(q);
+                orders = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                orders.sort((a,b) => {
+                    const tA = a.time && a.time.toDate ? a.time.toDate().getTime() : 0;
+                    const tB = b.time && b.time.toDate ? b.time.toDate().getTime() : 0;
+                    return tB - tA;
+                });
+            } else {
+                // Guest: use localStorage (no userId match possible)
+                orders = JSON.parse(localStorage.getItem('dk_orders')) || [];
+            }
+        } catch(err) {
+            console.error(err);
+            orders = JSON.parse(localStorage.getItem('dk_orders')) || [];
+        }
+
+        if (orders.length === 0) {
+            cont.innerHTML = '<div class="empty-state"><i class="fa-solid fa-bag-shopping"></i><p>Abhi koi order nahi hai</p></div>';
+            return;
+        }
+
+        cont.innerHTML = orders.map(o => `
+            <div class="order-card">
+                <div class="order-top">
+                    <img src="${o.img || 'Dkart.jpg'}" class="order-img" onerror="this.src='https://via.placeholder.com/70'">
+                    <div class="order-info" style="flex:1; min-width:0;">
+                        <h4>${o.name || 'Product'}</h4>
+                        <p>Size: ${o.size || 'Free Size'}</p>
+                        <p class="price-tag">₹${o.price || '-'}</p>
+                    </div>
+                </div>
+                ${statusTrackerHTML(o.status)}
+                <div class="order-meta">
+                    <span><i class="fa-regular fa-calendar"></i> ${formatOrderTime(o.time)}</span>
+                    <span style="color:${getStatusIndex(o.status) === 3 ? '#00e676' : 'var(--accent)'}; font-weight:700;">${o.status || 'Pending'}</span>
+                </div>
+            </div>
+        `).join('');
     };
 
     window.showProfile = () => {
@@ -572,10 +727,7 @@
 
     window.searchFun = () => render(allP.filter(p => p.name.toLowerCase().includes(document.getElementById('searchInput').value.toLowerCase())), 'productList');
 
-    window.closeAll = () => {
-        document.getElementById('detail-view').style.display = 'none';
-        document.body.classList.remove('view-open');
-    };
+    window.closeAll = () => { document.getElementById('detail-view').style.display = 'none'; document.body.classList.remove('view-open'); };
     window.closeCheckout = () => {
         document.getElementById('checkout-view').style.display = 'none';
         const anyOpen = Array.from(document.querySelectorAll('.full-view')).some(v => v.style.display === 'block');
@@ -596,69 +748,54 @@
     };
 
     window.loginUser = async () => {
-        try {
-            await signInWithPopup(auth, provider);
-            alert("Login Success ✅");
-        } catch (err) {
-            alert("Error: " + err.message);
-        }
+        try { await signInWithPopup(auth, provider); dkToast('Login Success ✅', 'success'); }
+        catch (err) { dkAlert(err.message, 'error', 'Login Failed'); }
     };
 
     window.emailLogin = async () => {
         const email = document.getElementById('login-email').value.trim();
         const password = document.getElementById('login-password').value;
-        if(!email || !password) return alert("Email aur Password bhariye!");
+        if(!email || !password) return dkAlert("Email aur Password bhariye!", 'warn');
         try {
             await signInWithEmailAndPassword(auth, email, password);
-            alert("Login Success ✅");
+            dkToast('Login Success ✅', 'success');
             document.getElementById('login-email').value = '';
             document.getElementById('login-password').value = '';
-        } catch (err) {
-            alert("Login failed: " + err.message);
-        }
+        } catch (err) { dkAlert(err.message, 'error', 'Login Failed'); }
     };
 
     window.emailRegister = async () => {
         const name = document.getElementById('reg-name').value.trim();
         const email = document.getElementById('reg-email').value.trim();
         const password = document.getElementById('reg-password').value;
-        if(!name || !email || !password) return alert("Sari details bhariye!");
-        if(password.length < 6) return alert("Password kam se kam 6 characters ka hona chahiye!");
+        if(!name || !email || !password) return dkAlert("Sari details bhariye!", 'warn');
+        if(password.length < 6) return dkAlert("Password kam se kam 6 characters ka hona chahiye!", 'warn');
         try {
             const userCred = await createUserWithEmailAndPassword(auth, email, password);
             await updateProfile(userCred.user, { displayName: name });
-            alert("Account Created ✅ Welcome " + name + "!");
+            dkAlert("Welcome " + name + "! Account banaya gaya hai.", 'success', 'Account Created');
             document.getElementById('reg-name').value = '';
             document.getElementById('reg-email').value = '';
             document.getElementById('reg-password').value = '';
-        } catch (err) {
-            alert("Register failed: " + err.message);
-        }
+        } catch (err) { dkAlert(err.message, 'error', 'Register Failed'); }
     };
 
     window.logoutUser = async () => {
-        try {
-            await signOut(auth);
-            alert("Logout ho gaya");
-        } catch (err) {
-            alert("Error: " + err.message);
-        }
+        try { await signOut(auth); dkToast('Logout ho gaya', 'success'); }
+        catch (err) { dkAlert(err.message, 'error'); }
     };
 
     window.forgotPassword = async () => {
-        let email = document.getElementById('login-email').value.trim();
-        if(!email) {
-            email = prompt("Apna registered email daalein password reset link ke liye:");
-            if(!email) return;
-            email = email.trim();
-        }
-        if(!email.includes('@')) return alert("Sahi email daalein!");
-        try {
-            await sendPasswordResetEmail(auth, email);
-            alert("✅ Password reset link aapke email par bhej diya gaya hai!\n\nApna inbox (aur Spam folder bhi) check karein: " + email);
-        } catch (err) {
-            alert("Error: " + err.message);
-        }
+        const prefilled = document.getElementById('login-email').value.trim();
+        const proceed = (email) => {
+            email = (email || '').trim();
+            if(!email || !email.includes('@')) return dkAlert("Sahi email daalein!", 'warn');
+            sendPasswordResetEmail(auth, email)
+                .then(() => dkAlert("Password reset link bhej diya gaya hai!\n\nApna inbox aur Spam folder check karein:\n" + email, 'success', 'Email Sent'))
+                .catch(err => dkAlert(err.message, 'error'));
+        };
+        if (prefilled) proceed(prefilled);
+        else dkPrompt('Forgot Password', 'Apna registered email daalein, hum reset link bhej denge:', 'you@example.com', proceed);
     };
 
     onAuthStateChanged(auth, (user) => {

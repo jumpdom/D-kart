@@ -389,5 +389,32 @@ let currentUser = null;
 
     load();
 </script>
+window.loginUser = async () => {
+    try {
+        await signInWithPopup(auth, provider);
+        alert("Login Success ✅");
+    } catch (err) {
+        alert(err.message);
+    }
+};
+
+window.logoutUser = async () => {
+    await signOut(auth);
+    alert("Logout ho gaya");
+};
+
+onAuthStateChanged(auth, (user) => {
+    if(user){
+        currentUser = user;
+        document.getElementById("user-email").innerText = user.email;
+    } else {
+        currentUser = null;
+        document.getElementById("user-email").innerText = "Not Logged In";
+    }
+});
+
+window.showProfile = () => {
+    document.getElementById('profile-view').style.display = 'block';
+};
 </body>
 </html>

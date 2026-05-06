@@ -368,6 +368,8 @@ let currentUser = null;
             img: currentP.images[0], 
             size: selectedSize || "Free Size",
             customer: n, phone: ph, address: fullAddress, 
+            userId: currentUser ? currentUser.uid : "guest",
+userEmail: currentUser ? currentUser.email : "guest",
             time: serverTimestamp(),
             status: "Pending"
         };

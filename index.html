@@ -5,13 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Dkart | Premium Shop</title>
     <link rel="icon" type="image/jpeg" href="Dkart.jpg">
-<link rel="apple-touch-icon" href="Dkart.jpg">
+    <link rel="apple-touch-icon" href="Dkart.jpg">
     <link rel="icon" type="image/jpeg" sizes="192x192" href="Dkart.jpg">
-<link rel="icon" type="image/jpeg" sizes="512x512" href="Dkart.jpg">
-<link rel="manifest" href="/manifest.json">
-<meta name="theme-color" content="#ffff00">
-
-
+    <link rel="icon" type="image/jpeg" sizes="512x512" href="Dkart.jpg">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#ffff00">
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Montserrat:wght@900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -52,15 +50,13 @@
         .size-chip { padding: 8px 15px; border: 1px solid #444; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.2s; color: white; }
         .size-chip.selected { background: var(--accent); color: #000; border-color: var(--accent); }
 
-        .nav-bar { position: fixed; bottom: 0; width: 100%; background: #000; display: flex; border-top: 2px solid var(--accent); z-index: 2000; height: 65px; align-items: center; }
+        .nav-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: #000; display: flex; border-top: 2px solid var(--accent); z-index: 9999; height: 65px; align-items: center; }
         .nav-tab { flex: 1; text-align: center; color: #777; cursor: pointer; font-size: 10px; font-weight: 700; }
         .nav-tab.active { color: var(--accent); }
         .nav-tab i { font-size: 20px; display: block; margin-bottom: 3px; }
 
-        .full-view { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 3000; display: none; overflow-y: auto; }.full-view {
-    padding-bottom: 80px; /* 🔥 warna nav overlap karega */
-}
-        .view-header { padding: 15px; display: flex; align-items: center; border-bottom: 1px solid #333; background: var(--primary); position: sticky; top: 0; }
+        .full-view { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 3000; display: none; overflow-y: auto; padding-bottom: 80px; }
+        .view-header { padding: 15px; display: flex; align-items: center; border-bottom: 1px solid #333; background: var(--primary); position: sticky; top: 0; z-index: 10; }
         .view-header span { color: var(--accent); font-weight: 700; margin-left: 15px; text-transform: uppercase; }
 
         .order-card { background: #1a1a1a; margin: 10px; padding: 12px; border-radius: 10px; display: flex; gap: 15px; border-left: 4px solid var(--accent); }
@@ -69,22 +65,22 @@
         .btn-box { position: fixed; bottom: 0; width: 100%; height: 60px; z-index: 3500; }
         .btn-main { width: 100%; height: 100%; border: none; font-weight: 900; background: var(--accent); color: #000; font-size: 16px; text-transform: uppercase; }
         
-        .addr-input { width: 100%; padding: 15px; margin-bottom: 10px; background: #111; color: white; border: 1px solid #333; border-radius: 8px; font-size: 14px; }body {
-    padding-bottom: 80px; /* 🔥 IMPORTANT (navbar ke liye space) */
-}
+        .addr-input { width: 100%; padding: 15px; margin-bottom: 10px; background: #111; color: white; border: 1px solid #333; border-radius: 8px; font-size: 14px; }
 
-.nav-bar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 65px;
-    background: #000;
-    display: flex;
-    align-items: center;
-    border-top: 2px solid #ffff00;
-    z-index: 9999; /* 🔥 ye add karo */
-}
+        .auth-tabs { display: flex; gap: 0; margin: 20px 0 15px 0; border-bottom: 1px solid #333; }
+        .auth-tab-btn { flex: 1; padding: 12px; background: transparent; color: #888; border: none; font-weight: 800; font-size: 14px; cursor: pointer; border-bottom: 3px solid transparent; text-transform: uppercase; }
+        .auth-tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+        .auth-form { display: none; }
+        .auth-form.active { display: block; }
+        .auth-btn { width: 100%; padding: 14px; background: var(--accent); color: #000; border: none; font-weight: 800; border-radius: 8px; font-size: 15px; text-transform: uppercase; cursor: pointer; margin-top: 5px; }
+        .google-btn { width: 100%; padding: 14px; background: #fff; color: #000; border: none; font-weight: 700; border-radius: 8px; font-size: 14px; cursor: pointer; margin-top: 12px; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .logout-btn { width: 100%; padding: 14px; background: #ff4444; color: #fff; border: none; font-weight: 800; border-radius: 8px; font-size: 15px; cursor: pointer; margin-top: 15px; text-transform: uppercase; }
+        .or-divider { text-align: center; color: #666; font-size: 12px; margin: 15px 0 5px 0; position: relative; }
+        .or-divider::before, .or-divider::after { content: ''; position: absolute; top: 50%; width: 40%; height: 1px; background: #333; }
+        .or-divider::before { left: 0; }
+        .or-divider::after { right: 0; }
+        .profile-logged-in { text-align: center; padding: 30px 20px; }
+        .profile-avatar { width: 80px; height: 80px; border-radius: 50%; background: var(--accent); color: #000; display: flex; align-items: center; justify-content: center; font-size: 36px; font-weight: 900; margin: 0 auto 15px; }
     </style>
 </head>
 <body>
@@ -167,26 +163,57 @@
 </div>
 
 <div id="wishlist-view" class="full-view">
-    <div id="profile-view" class="full-view">
+    <div class="view-header"><i class="fa-solid fa-arrow-left" onclick="hideAllViews()"></i><span>Wishlist</span></div>
+    <div class="grid" id="wishlistGrid"></div>
+</div>
+
+<div id="profile-view" class="full-view">
     <div class="view-header">
         <i class="fa-solid fa-arrow-left" onclick="hideAllViews()"></i>
         <span>My Profile</span>
     </div>
 
-    <div style="padding:20px; text-align:center;">
-        <h3 id="user-email" style="color:var(--accent)">Not Logged In</h3>
+    <div id="auth-section" style="padding: 20px;">
+        <h3 style="color: var(--accent); text-align:center; margin-bottom: 5px;">Welcome to Dkart</h3>
+        <p style="text-align:center; color:#888; font-size:13px; margin-top:0;">Login or Register to continue</p>
 
-        <button onclick="loginUser()" style="margin-top:20px;padding:12px 20px;background:#ffff00;border:none;font-weight:800;">
-            Login with Google
-        </button>
+        <div class="auth-tabs">
+            <button class="auth-tab-btn active" id="tab-login-btn" onclick="switchAuthTab('login')">Login</button>
+            <button class="auth-tab-btn" id="tab-register-btn" onclick="switchAuthTab('register')">Register</button>
+        </div>
 
-        <button onclick="logoutUser()" style="margin-top:10px;padding:12px 20px;background:#ff4444;border:none;font-weight:800;color:#fff;">
-            Logout
+        <div id="login-form" class="auth-form active">
+            <input type="email" id="login-email" class="addr-input" placeholder="Email address">
+            <input type="password" id="login-password" class="addr-input" placeholder="Password">
+            <button class="auth-btn" onclick="emailLogin()"><i class="fa-solid fa-right-to-bracket"></i> Login</button>
+        </div>
+
+        <div id="register-form" class="auth-form">
+            <input type="text" id="reg-name" class="addr-input" placeholder="Full Name">
+            <input type="email" id="reg-email" class="addr-input" placeholder="Email address">
+            <input type="password" id="reg-password" class="addr-input" placeholder="Password (min 6 chars)">
+            <button class="auth-btn" onclick="emailRegister()"><i class="fa-solid fa-user-plus"></i> Create Account</button>
+        </div>
+
+        <div class="or-divider">OR</div>
+
+        <button class="google-btn" onclick="loginUser()">
+            <i class="fa-brands fa-google" style="color:#DB4437;"></i> Continue with Google
         </button>
     </div>
-</div>
-    <div class="view-header"><i class="fa-solid fa-arrow-left" onclick="hideAllViews()"></i><span>Wishlist</span></div>
-    <div class="grid" id="wishlistGrid"></div>
+
+    <div id="profile-logged-in" class="profile-logged-in" style="display:none;">
+        <div class="profile-avatar" id="profile-avatar">U</div>
+        <h3 id="profile-name" style="color: var(--accent); margin: 5px 0;">User</h3>
+        <p id="user-email" style="color: #aaa; font-size: 13px; margin: 0 0 20px 0;">email@example.com</p>
+
+        <div style="background:#151515; border:1px solid #333; border-radius:10px; padding:15px; margin-top:10px; text-align:left;">
+            <p style="margin:0; color:#888; font-size:11px; text-transform:uppercase; font-weight:700;">Account Status</p>
+            <p style="margin:5px 0 0 0; color:#0f0; font-weight:700;"><i class="fa-solid fa-circle-check"></i> Active</p>
+        </div>
+
+        <button class="logout-btn" onclick="logoutUser()"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+    </div>
 </div>
 
 <div id="pay-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:5000; align-items:center; justify-content:center; overflow-y: auto;">
@@ -212,44 +239,34 @@
 
         <button onclick="closePayModal()" style="margin-top:20px; background:none; border:none; color:#ff4444; font-weight:700;">Cancel</button>
     </div>
-</
-<nav class="nav-bar">
+</div>
 
-    <div class="nav-tab active" onclick="location.reload()">
+<nav class="nav-bar">
+    <div class="nav-tab active" id="nav-home" onclick="goHome()">
         <i class="fa-solid fa-house"></i>
         <span>Home</span>
     </div>
-
-    <div class="nav-tab" onclick="showOrders()">
+    <div class="nav-tab" id="nav-orders" onclick="showOrders()">
         <i class="fa-solid fa-bag-shopping"></i>
         <span>Orders</span>
     </div>
-
-    <div class="nav-tab" onclick="showWishlist()">
+    <div class="nav-tab" id="nav-wishlist" onclick="showWishlist()">
         <i class="fa-solid fa-heart"></i>
         <span>Wishlist</span>
     </div>
-
-    <div class="nav-tab" onclick="showProfile()">
+    <div class="nav-tab" id="nav-profile" onclick="showProfile()">
         <i class="fa-solid fa-user"></i>
         <span>Profile</span>
     </div>
-
 </nav>
-
-
-
-
-    <div class="nav-tab active" onclick="location.reload()"><i class="fa-solid fa-house"></i><span>Home</span></div>
-    <div class="nav-tab" onclick="showOrders()"><i class="fa-solid fa-bag-shopping"></i><span>Orders</span></div>
-    <div class="nav-tab" onclick="showWishlist()"><i class="fa-solid fa-heart"></i><span>Wishlist</span></div>
-</nav>
-
+👆 Upar wala PART 1 copy ho gaya? Ab neeche PART 2 bhej raha hun. Is part ko Part 1 ke end mein (nav ke turant baad) paste karna hai 👇
+📋 PART 2 / 2 — (JavaScript + closing tags)
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
     import { getFirestore, collection, getDocs, addDoc, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
-    import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } 
-from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+    import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut,
+             createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } 
+        from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyAchWzhIxqmS7G0HPpvuq6WBwcr8pXzFAE",
@@ -261,8 +278,8 @@ from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const auth = getAuth(app);
-const provider = new GoogleAuthProvider();
-let currentUser = null;
+    const provider = new GoogleAuthProvider();
+    let currentUser = null;
     let allP = [], currentP = null, selectedSize = "";
 
     async function load() {
@@ -318,6 +335,17 @@ let currentUser = null;
         });
     }
 
+    function setActiveNav(id) {
+        document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+        if(id) document.getElementById(id).classList.add('active');
+    }
+
+    window.goHome = () => {
+        hideAllViews();
+        setActiveNav('nav-home');
+        window.scrollTo(0, 0);
+    };
+
     window.filterCat = (cat) => {
         if(cat === 'All') render(allP, 'productList');
         else {
@@ -354,7 +382,7 @@ let currentUser = null;
 
     window.processOrder = (method) => {
         if(method === 'COD') {
-            currentP.tempPrice = currentP.price; // Set price same for COD
+            currentP.tempPrice = currentP.price;
             closePayModal();
             updateCheckoutView("COD");
         }
@@ -362,7 +390,6 @@ let currentUser = null;
 
     function updateCheckoutView(method) {
         document.getElementById('c-prod-name').innerText = currentP.name;
-        // FIX: Display current tempPrice (either discounted or original)
         document.getElementById('c-prod-price-display').innerText = "Amount: ₹" + currentP.tempPrice;
         document.getElementById('c-prod-size').innerText = (selectedSize ? "Size: " + selectedSize : "Free Size") + " | " + method;
         document.getElementById('checkout-view').style.display = 'block';
@@ -388,7 +415,7 @@ let currentUser = null;
             size: selectedSize || "Free Size",
             customer: n, phone: ph, address: fullAddress, 
             userId: currentUser ? currentUser.uid : "guest",
-userEmail: currentUser ? currentUser.email : "guest",
+            userEmail: currentUser ? currentUser.email : "guest",
             time: serverTimestamp(),
             status: "Pending"
         };
@@ -401,41 +428,119 @@ userEmail: currentUser ? currentUser.email : "guest",
     };
 
     window.toggleWish = (e, id) => { e.stopPropagation(); let wish = JSON.parse(localStorage.getItem('dk_wish')) || []; if(wish.includes(id)) wish = wish.filter(i => i !== id); else wish.push(id); localStorage.setItem('dk_wish', JSON.stringify(wish)); alert("Wishlist updated!"); };
-    window.showWishlist = () => { const wIds = JSON.parse(localStorage.getItem('dk_wish')) || []; render(allP.filter(p => wIds.includes(p.id)), 'wishlistGrid'); document.getElementById('wishlist-view').style.display = 'block'; };
-    window.showOrders = () => { const orders = JSON.parse(localStorage.getItem('dk_orders')) || []; const cont = document.getElementById('orderListContainer'); cont.innerHTML = orders.length ? "" : "<p style='text-align:center;padding:20px;'>No orders yet.</p>"; orders.forEach(o => { cont.innerHTML += `<div class="order-card"><img src="${o.img}" class="order-img"><div><h4 style="margin:0;color:var(--accent)">${o.name}</h4><p style="margin:5px 0;font-size:12px;">Size: ${o.size}</p><p style="margin:5px 0;font-size:12px;">Price: ₹${o.price}</p><p style="margin:0;font-size:10px;color:#0f0;">Status: Pending</p></div></div>`; }); document.getElementById('orders-view').style.display = 'block'; };
+
+    window.showWishlist = () => {
+        hideAllViews();
+        setActiveNav('nav-wishlist');
+        const wIds = JSON.parse(localStorage.getItem('dk_wish')) || [];
+        render(allP.filter(p => wIds.includes(p.id)), 'wishlistGrid');
+        document.getElementById('wishlist-view').style.display = 'block';
+    };
+
+    window.showOrders = () => {
+        hideAllViews();
+        setActiveNav('nav-orders');
+        const orders = JSON.parse(localStorage.getItem('dk_orders')) || [];
+        const cont = document.getElementById('orderListContainer');
+        cont.innerHTML = orders.length ? "" : "<p style='text-align:center;padding:20px;color:#888;'>No orders yet.</p>";
+        orders.forEach(o => {
+            cont.innerHTML += `<div class="order-card"><img src="${o.img}" class="order-img"><div><h4 style="margin:0;color:var(--accent)">${o.name}</h4><p style="margin:5px 0;font-size:12px;">Size: ${o.size}</p><p style="margin:5px 0;font-size:12px;">Price: ₹${o.price}</p><p style="margin:0;font-size:10px;color:#0f0;">Status: Pending</p></div></div>`;
+        });
+        document.getElementById('orders-view').style.display = 'block';
+    };
+
+    window.showProfile = () => {
+        hideAllViews();
+        setActiveNav('nav-profile');
+        document.getElementById('profile-view').style.display = 'block';
+    };
+
     window.searchFun = () => render(allP.filter(p => p.name.toLowerCase().includes(document.getElementById('searchInput').value.toLowerCase())), 'productList');
     window.closeAll = () => document.getElementById('detail-view').style.display = 'none';
     window.closeCheckout = () => document.getElementById('checkout-view').style.display = 'none';
-    window.hideAllViews = () => { document.querySelectorAll('.full-view').forEach(v => v.style.display = 'none'); };
+
+    window.hideAllViews = () => {
+        document.querySelectorAll('.full-view').forEach(v => v.style.display = 'none');
+        setActiveNav('nav-home');
+    };
+
+    window.switchAuthTab = (tab) => {
+        document.getElementById('tab-login-btn').classList.toggle('active', tab === 'login');
+        document.getElementById('tab-register-btn').classList.toggle('active', tab === 'register');
+        document.getElementById('login-form').classList.toggle('active', tab === 'login');
+        document.getElementById('register-form').classList.toggle('active', tab === 'register');
+    };
+
+    window.loginUser = async () => {
+        try {
+            await signInWithPopup(auth, provider);
+            alert("Login Success ✅");
+        } catch (err) {
+            alert("Error: " + err.message);
+        }
+    };
+
+    window.emailLogin = async () => {
+        const email = document.getElementById('login-email').value.trim();
+        const password = document.getElementById('login-password').value;
+        if(!email || !password) return alert("Email aur Password bhariye!");
+        try {
+            await signInWithEmailAndPassword(auth, email, password);
+            alert("Login Success ✅");
+            document.getElementById('login-email').value = '';
+            document.getElementById('login-password').value = '';
+        } catch (err) {
+            alert("Login failed: " + err.message);
+        }
+    };
+
+    window.emailRegister = async () => {
+        const name = document.getElementById('reg-name').value.trim();
+        const email = document.getElementById('reg-email').value.trim();
+        const password = document.getElementById('reg-password').value;
+        if(!name || !email || !password) return alert("Sari details bhariye!");
+        if(password.length < 6) return alert("Password kam se kam 6 characters ka hona chahiye!");
+        try {
+            const userCred = await createUserWithEmailAndPassword(auth, email, password);
+            await updateProfile(userCred.user, { displayName: name });
+            alert("Account Created ✅ Welcome " + name + "!");
+            document.getElementById('reg-name').value = '';
+            document.getElementById('reg-email').value = '';
+            document.getElementById('reg-password').value = '';
+        } catch (err) {
+            alert("Register failed: " + err.message);
+        }
+    };
+
+    window.logoutUser = async () => {
+        try {
+            await signOut(auth);
+            alert("Logout ho gaya");
+        } catch (err) {
+            alert("Error: " + err.message);
+        }
+    };
+
+    onAuthStateChanged(auth, (user) => {
+        const authSection = document.getElementById('auth-section');
+        const loggedInSection = document.getElementById('profile-logged-in');
+        if(user){
+            currentUser = user;
+            authSection.style.display = 'none';
+            loggedInSection.style.display = 'block';
+            const displayName = user.displayName || (user.email ? user.email.split('@')[0] : 'User');
+            document.getElementById('profile-name').innerText = displayName;
+            document.getElementById('user-email').innerText = user.email || '';
+            document.getElementById('profile-avatar').innerText = displayName.charAt(0).toUpperCase();
+        } else {
+            currentUser = null;
+            authSection.style.display = 'block';
+            loggedInSection.style.display = 'none';
+        }
+    });
 
     load();
 </script>
-window.loginUser = async () => {
-    try {
-        await signInWithPopup(auth, provider);
-        alert("Login Success ✅");
-    } catch (err) {
-        alert(err.message);
-    }
-};
 
-window.logoutUser = async () => {
-    await signOut(auth);
-    alert("Logout ho gaya");
-};
-
-onAuthStateChanged(auth, (user) => {
-    if(user){
-        currentUser = user;
-        document.getElementById("user-email").innerText = user.email;
-    } else {
-        currentUser = null;
-        document.getElementById("user-email").innerText = "Not Logged In";
-    }
-});
-
-window.showProfile = () => {
-    document.getElementById('profile-view').style.display = 'block';
-};
 </body>
 </html>

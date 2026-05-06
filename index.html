@@ -150,6 +150,24 @@
 </div>
 
 <div id="wishlist-view" class="full-view">
+    <div id="profile-view" class="full-view">
+    <div class="view-header">
+        <i class="fa-solid fa-arrow-left" onclick="hideAllViews()"></i>
+        <span>My Profile</span>
+    </div>
+
+    <div style="padding:20px; text-align:center;">
+        <h3 id="user-email" style="color:var(--accent)">Not Logged In</h3>
+
+        <button onclick="loginUser()" style="margin-top:20px;padding:12px 20px;background:#ffff00;border:none;font-weight:800;">
+            Login with Google
+        </button>
+
+        <button onclick="logoutUser()" style="margin-top:10px;padding:12px 20px;background:#ff4444;border:none;font-weight:800;color:#fff;">
+            Logout
+        </button>
+    </div>
+</div>
     <div class="view-header"><i class="fa-solid fa-arrow-left" onclick="hideAllViews()"></i><span>Wishlist</span></div>
     <div class="grid" id="wishlistGrid"></div>
 </div>

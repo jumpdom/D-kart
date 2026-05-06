@@ -9,7 +9,7 @@
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#ffff00">
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Montserrat:wght@900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Montserrat:wght@900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         :root { --primary: #000000; --accent: #ffff00; --white: #ffffff; --bg: #0a0a0a; }
@@ -52,11 +52,77 @@
         .slider-dot.active { background: var(--accent); width: 20px; border-radius: 4px; }
         .slider-counter { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.7); color: #fff; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700; z-index: 5; }
 
+        .pd-name-box { background: #ffffff; color: #111; border-radius: 14px; padding: 16px 16px 14px; margin: 16px 10px 0; box-shadow: 0 4px 18px rgba(255,255,0,0.08); border: 1px solid #e5e5e5; }
+        .pd-name-box .pd-title { font-size: 17px; font-weight: 600; color: #1a1a1a; line-height: 1.35; margin: 0 0 8px 0; letter-spacing: 0.1px; }
+        .pd-rating-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+        .rating-pill { display: inline-flex; align-items: center; gap: 5px; background: #26a541; color: #fff; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: 700; }
+        .rating-pill i { font-size: 10px; }
+        .rating-meta { font-size: 12px; color: #878787; font-weight: 600; }
+        .rating-meta b { color: #555; }
+        .pd-price-row { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+        .pd-price-now { font-size: 26px; font-weight: 800; color: #111; }
+        .pd-price-mrp { font-size: 14px; color: #878787; text-decoration: line-through; font-weight: 500; }
+        .pd-price-off { font-size: 13px; color: #26a541; font-weight: 700; }
+        .pd-stock { font-size: 12px; color: #26a541; font-weight: 700; margin-top: 6px; }
+
+        .pd-variant-box { background: linear-gradient(135deg, #1a1a2e, #16213e); border: 1.5px solid #00bcd4; border-radius: 14px; padding: 14px; margin: 12px 10px 0; }
+        .pd-variant-title { font-size: 12px; color: #00e5ff; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .pd-variant-title i { color: #00e5ff; }
+        .variant-strip { display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; padding-bottom: 4px; }
+        .variant-strip::-webkit-scrollbar { display: none; }
+        .v-card { flex: 0 0 78px; background: #fff; border-radius: 10px; padding: 6px; cursor: pointer; border: 2px solid transparent; transition: 0.2s; position: relative; }
+        .v-card.selected { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(255,255,0,0.25); }
+        .v-card img { width: 100%; height: 60px; object-fit: contain; border-radius: 6px; background: #f5f5f5; }
+        .v-card .v-name { font-size: 10px; color: #222; font-weight: 700; text-align: center; margin-top: 4px; height: 26px; overflow: hidden; line-height: 1.2; }
+        .v-card .v-price { font-size: 11px; color: #d32f2f; font-weight: 800; text-align: center; }
+        .v-card .v-tick { position: absolute; top: 4px; right: 4px; width: 18px; height: 18px; border-radius: 50%; background: var(--accent); color: #000; font-size: 10px; display: none; align-items: center; justify-content: center; font-weight: 900; }
+        .v-card.selected .v-tick { display: flex; }
+
         .size-box { margin-top: 20px; text-align: left; padding: 0 10px; }
         .size-label { font-size: 12px; color: #888; text-transform: uppercase; font-weight: 700; margin-bottom: 8px; display: block; }
         .size-chips { display: flex; flex-wrap: wrap; gap: 10px; }
         .size-chip { padding: 8px 15px; border: 1px solid #444; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.2s; color: white; }
         .size-chip.selected { background: var(--accent); color: #000; border-color: var(--accent); }
+
+        .reviews-section { margin: 24px 10px 0; background: #0f0f0f; border: 1px solid #2a2a2a; border-radius: 14px; padding: 16px; }
+        .rev-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+        .rev-title { font-size: 15px; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px; }
+        .rev-title::before { content:''; width:4px; height:18px; background: var(--accent); border-radius:2px; }
+        .write-rev-btn { background: var(--accent); color: #000; border: none; padding: 8px 14px; border-radius: 20px; font-weight: 800; font-size: 12px; cursor: pointer; text-transform: uppercase; }
+        .rev-summary { display: flex; align-items: center; gap: 16px; padding: 12px; background: #1a1a1a; border-radius: 10px; margin-bottom: 14px; }
+        .rev-avg { font-size: 38px; font-weight: 800; color: #fff; line-height: 1; }
+        .rev-stars-big { color: var(--accent); font-size: 14px; margin: 4px 0; }
+        .rev-count-text { font-size: 11px; color: #999; font-weight: 600; }
+        .rev-item { padding: 12px 0; border-bottom: 1px solid #222; }
+        .rev-item:last-child { border-bottom: none; }
+        .rev-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+        .rev-user { display: flex; align-items: center; gap: 10px; }
+        .rev-avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--accent); color: #000; font-weight: 800; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+        .rev-user-name { font-size: 13px; font-weight: 700; color: #fff; }
+        .rev-date { font-size: 10px; color: #777; }
+        .rev-stars { background: #26a541; color: #fff; padding: 2px 7px; border-radius: 4px; font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; gap: 3px; }
+        .rev-text { font-size: 13px; color: #ccc; line-height: 1.5; margin: 8px 0 0 0; }
+        .rev-photos { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+        .rev-photos img { width: 64px; height: 64px; border-radius: 8px; object-fit: cover; border: 1px solid #333; cursor: pointer; }
+        .rev-empty { text-align: center; padding: 24px 10px; color: #666; font-size: 13px; }
+
+        .rev-form-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 9000; align-items: flex-end; justify-content: center; }
+        .rev-form-bg.show { display: flex; }
+        .rev-form { background: #111; width: 100%; max-width: 500px; border-top-left-radius: 20px; border-top-right-radius: 20px; padding: 20px; max-height: 90vh; overflow-y: auto; border-top: 2px solid var(--accent); animation: slideUp 0.3s ease; }
+        .rev-form h3 { margin: 0 0 14px 0; color: var(--accent); font-size: 16px; }
+        .star-picker { display: flex; gap: 8px; margin-bottom: 14px; justify-content: center; }
+        .star-picker i { font-size: 30px; color: #444; cursor: pointer; transition: 0.2s; }
+        .star-picker i.active { color: var(--accent); transform: scale(1.1); }
+        .rev-form textarea { width: 100%; min-height: 90px; padding: 12px; background: #0a0a0a; color: #fff; border: 1px solid #333; border-radius: 8px; font-size: 14px; resize: vertical; font-family: inherit; }
+        .rev-form textarea:focus { border-color: var(--accent); }
+        .photo-upload-row { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0; }
+        .photo-thumb { width: 64px; height: 64px; border-radius: 8px; background: #222; border: 1px dashed #444; position: relative; overflow: hidden; }
+        .photo-thumb img { width: 100%; height: 100%; object-fit: cover; }
+        .photo-thumb .x { position: absolute; top: 2px; right: 2px; background: #ff4444; color: #fff; width: 18px; height: 18px; border-radius: 50%; display:flex; align-items:center; justify-content:center; font-size: 10px; cursor: pointer; }
+        .photo-add { width: 64px; height: 64px; border: 1px dashed #555; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #888; cursor: pointer; flex-direction: column; font-size: 10px; }
+        .photo-add i { font-size: 18px; margin-bottom: 2px; }
+        .rev-submit { width: 100%; padding: 14px; background: var(--accent); color: #000; border: none; font-weight: 800; border-radius: 10px; font-size: 15px; cursor: pointer; margin-top: 10px; text-transform: uppercase; }
+        .rev-cancel { width: 100%; padding: 12px; background: transparent; color: #888; border: none; font-weight: 600; cursor: pointer; margin-top: 6px; }
 
         .suggest-section { padding: 20px 12px 0; text-align: left; }
         .suggest-title { font-size: 14px; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
@@ -77,14 +143,12 @@
         .view-header { padding: 15px; display: flex; align-items: center; border-bottom: 1px solid #333; background: var(--primary); position: sticky; top: 0; z-index: 10; }
         .view-header span { color: var(--accent); font-weight: 700; margin-left: 15px; text-transform: uppercase; }
 
-        /* === ORDER CARD with Status Tracker === */
         .order-card { background: #151515; margin: 12px; padding: 14px; border-radius: 12px; border: 1px solid #2a2a2a; }
         .order-top { display: flex; gap: 12px; margin-bottom: 14px; }
         .order-img { width: 70px; height: 70px; border-radius: 8px; object-fit: cover; background: #222; flex-shrink: 0; }
         .order-info h4 { margin: 0; color: var(--accent); font-size: 14px; }
         .order-info p { margin: 4px 0 0 0; font-size: 12px; color: #aaa; }
         .order-info .price-tag { color: #fff; font-weight: 800; font-size: 15px; }
-
         .status-tracker { display: flex; justify-content: space-between; align-items: flex-start; padding: 8px 4px 4px; position: relative; }
         .status-tracker::before { content: ''; position: absolute; top: 14px; left: 14%; right: 14%; height: 3px; background: #2a2a2a; z-index: 1; }
         .status-tracker .progress-line { position: absolute; top: 14px; left: 14%; height: 3px; background: linear-gradient(90deg, #00c853, #00e676); z-index: 2; transition: width 0.5s ease; }
@@ -96,12 +160,12 @@
         .status-step.done .label { color: #00e676; }
         .status-step.current .label { color: var(--accent); }
         @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.15); } }
-
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         .order-meta { display: flex; justify-content: space-between; margin-top: 12px; padding-top: 10px; border-top: 1px dashed #2a2a2a; font-size: 11px; color: #777; }
 
         .btn-box { position: fixed; bottom: 0; left: 0; width: 100%; height: 60px; z-index: 3500; }
         .btn-main { width: 100%; height: 100%; border: none; font-weight: 900; background: var(--accent); color: #000; font-size: 16px; text-transform: uppercase; cursor: pointer; }
-
         .addr-input { width: 100%; padding: 15px; margin-bottom: 10px; background: #111; color: white; border: 1px solid #333; border-radius: 8px; font-size: 14px; }
 
         .auth-tabs { display: flex; gap: 0; margin: 20px 0 15px 0; border-bottom: 1px solid #333; }
@@ -118,11 +182,8 @@
         .profile-logged-in { text-align: center; padding: 30px 20px; }
         .profile-avatar { width: 80px; height: 80px; border-radius: 50%; background: var(--accent); color: #000; display: flex; align-items: center; justify-content: center; font-size: 36px; font-weight: 900; margin: 0 auto 15px; }
 
-        /* === Custom Modal (Professional Popups) === */
         .dk-modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(8px); z-index: 9999; align-items: center; justify-content: center; padding: 20px; animation: fadeIn 0.2s ease; }
         .dk-modal-bg.show { display: flex; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         .dk-modal { background: linear-gradient(180deg, #1a1a1a, #0d0d0d); width: 100%; max-width: 360px; border-radius: 18px; border: 1.5px solid var(--accent); padding: 24px 22px; text-align: center; animation: slideUp 0.3s ease; box-shadow: 0 20px 60px rgba(255,255,0,0.2); }
         .dk-modal-icon { width: 56px; height: 56px; border-radius: 50%; margin: 0 auto 14px; display: flex; align-items: center; justify-content: center; font-size: 26px; }
         .dk-modal-icon.success { background: rgba(0,200,83,0.15); color: #00e676; border: 2px solid #00e676; }
@@ -139,7 +200,6 @@
         .dk-btn-primary:active { transform: scale(0.97); }
         .dk-btn-secondary { background: #2a2a2a; color: #ccc; }
 
-        /* Toast */
         .dk-toast { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%); background: #1a1a1a; color: #fff; padding: 12px 20px; border-radius: 30px; font-size: 13px; font-weight: 600; z-index: 10000; border: 1px solid var(--accent); box-shadow: 0 8px 24px rgba(0,0,0,0.5); display: none; animation: slideUp 0.3s ease; }
         .dk-toast.show { display: block; }
         .dk-toast.success { border-color: #00e676; }
@@ -147,6 +207,11 @@
 
         .empty-state { text-align: center; padding: 60px 20px; color: #666; }
         .empty-state i { font-size: 48px; margin-bottom: 12px; color: #333; }
+
+        .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 11000; align-items: center; justify-content: center; padding: 20px; }
+        .lightbox.show { display: flex; }
+        .lightbox img { max-width: 100%; max-height: 90vh; border-radius: 8px; }
+        .lightbox .close { position: absolute; top: 20px; right: 20px; color: #fff; font-size: 28px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -158,7 +223,6 @@
             <span class="brand">DKART</span>
         </div>
         <div class="trust-text"><i class="fa-solid fa-shield-check"></i> 100% Trusted • Fast Delivery</div>
-
         <div class="header-action-row">
             <div class="search-box">
                 <i class="fa-solid fa-magnifying-glass" style="color:var(--accent)"></i>
@@ -191,13 +255,53 @@
             <div class="slider-track" id="slider-track"></div>
         </div>
         <div class="slider-dots" id="slider-dots"></div>
-        <h2 id="det-name" style="color: var(--accent); margin-top: 15px; text-align:center;"></h2>
-        <div id="det-price" style="font-size: 26px; font-weight: 800; text-align:center;"></div>
+
+        <div class="pd-name-box">
+            <h2 class="pd-title" id="det-name"></h2>
+            <div class="pd-rating-row">
+                <span class="rating-pill"><span id="det-rating-val">0.0</span> <i class="fa-solid fa-star"></i></span>
+                <span class="rating-meta"><b id="det-rating-count">0</b> Ratings &amp; <b id="det-review-count">0</b> Reviews</span>
+            </div>
+            <div class="pd-price-row">
+                <span class="pd-price-now" id="det-price"></span>
+                <span class="pd-price-mrp" id="det-mrp"></span>
+                <span class="pd-price-off" id="det-off"></span>
+            </div>
+            <div class="pd-stock"><i class="fa-solid fa-circle-check"></i> In Stock • Free Delivery</div>
+        </div>
+
+        <div class="pd-variant-box" id="variant-box" style="display:none;">
+            <div class="pd-variant-title"><i class="fa-solid fa-palette"></i> <span id="variant-heading">More Colours</span></div>
+            <div class="variant-strip" id="variant-strip"></div>
+        </div>
+
         <div class="size-box" id="size-options-container" style="display:none;">
             <span class="size-label">Choose Size</span>
             <div class="size-chips" id="det-sizes"></div>
         </div>
+
         <p id="det-desc" style="text-align:left; color:#ccc; font-size:13px; margin-top:20px; line-height:1.6; padding: 0 10px;"></p>
+
+        <div class="reviews-section">
+            <div class="rev-head">
+                <div class="rev-title">Ratings &amp; Reviews</div>
+                <button class="write-rev-btn" onclick="openReviewForm()"><i class="fa-solid fa-pen"></i> Rate</button>
+            </div>
+            <div class="rev-summary" id="rev-summary" style="display:none;">
+                <div>
+                    <div class="rev-avg" id="rs-avg">0.0</div>
+                    <div class="rev-stars-big" id="rs-stars">★★★★★</div>
+                </div>
+                <div>
+                    <div style="color:#fff; font-weight:700; font-size:14px;" id="rs-count">0 Ratings</div>
+                    <div class="rev-count-text" id="rs-rev-count">0 Reviews</div>
+                </div>
+            </div>
+            <div id="rev-list">
+                <div class="rev-empty"><i class="fa-regular fa-comment-dots" style="font-size:28px; display:block; margin-bottom:8px;"></i>Abhi koi review nahi hai. Pehla review aap likhein!</div>
+            </div>
+        </div>
+
         <div class="suggest-section" id="suggest-section" style="display:none;">
             <div class="suggest-title">You May Also Like</div>
             <div class="suggest-grid" id="suggest-grid"></div>
@@ -302,7 +406,30 @@
     </div>
 </div>
 
-<!-- Custom Professional Modal -->
+<div id="rev-form-bg" class="rev-form-bg">
+    <div class="rev-form">
+        <h3><i class="fa-solid fa-star" style="color:var(--accent);"></i> Rate this Product</h3>
+        <div class="star-picker" id="star-picker">
+            <i class="fa-solid fa-star" data-v="1"></i>
+            <i class="fa-solid fa-star" data-v="2"></i>
+            <i class="fa-solid fa-star" data-v="3"></i>
+            <i class="fa-solid fa-star" data-v="4"></i>
+            <i class="fa-solid fa-star" data-v="5"></i>
+        </div>
+        <textarea id="rev-text" placeholder="Apna experience share karein... (product kaisa laga, quality, fit, etc.)"></textarea>
+        <p style="font-size:11px; color:#888; margin: 10px 0 4px;">Add Photos (max 3, optional)</p>
+        <div class="photo-upload-row" id="photo-upload-row">
+            <label class="photo-add" for="rev-photo-input">
+                <i class="fa-solid fa-camera"></i>
+                Photo
+            </label>
+            <input type="file" id="rev-photo-input" accept="image/*" multiple style="display:none;">
+        </div>
+        <button class="rev-submit" onclick="submitReview()">Submit Review</button>
+        <button class="rev-cancel" onclick="closeReviewForm()">Cancel</button>
+    </div>
+</div>
+
 <div id="dk-modal-bg" class="dk-modal-bg">
     <div class="dk-modal">
         <div id="dk-modal-icon" class="dk-modal-icon info"><i class="fa-solid fa-info"></i></div>
@@ -316,7 +443,11 @@
     </div>
 </div>
 
-<!-- Toast -->
+<div id="lightbox" class="lightbox" onclick="this.classList.remove('show')">
+    <span class="close">&times;</span>
+    <img id="lightbox-img" src="">
+</div>
+
 <div id="dk-toast" class="dk-toast"></div>
 
 <nav class="nav-bar">
@@ -346,9 +477,9 @@
     const auth = getAuth(app);
     const provider = new GoogleAuthProvider();
     let currentUser = null;
-    let allP = [], currentP = null, selectedSize = "";
+    let allP = [], currentP = null, selectedSize = "", selectedVariant = null;
+    let reviewStars = 0, reviewPhotos = [];
 
-    // === Custom Modal System ===
     const modalBg = document.getElementById('dk-modal-bg');
     const modalIcon = document.getElementById('dk-modal-icon');
     const modalTitle = document.getElementById('dk-modal-title');
@@ -376,28 +507,18 @@
         modalCancel.style.display = showCancel ? 'block' : 'none';
         modalBg.classList.add('show');
         if (input) setTimeout(() => modalInput.focus(), 100);
-
-        modalOk.onclick = () => {
-            const val = modalInput.value;
-            modalBg.classList.remove('show');
-            if (onOk) onOk(val);
-        };
-        modalCancel.onclick = () => {
-            modalBg.classList.remove('show');
-            if (onCancel) onCancel();
-        };
+        modalOk.onclick = () => { const val = modalInput.value; modalBg.classList.remove('show'); if (onOk) onOk(val); };
+        modalCancel.onclick = () => { modalBg.classList.remove('show'); if (onCancel) onCancel(); };
     }
 
     window.dkAlert = (msg, type='info', title) => {
         const titles = { success: 'Success', error: 'Error', info: 'Info', warn: 'Warning' };
         showModal({ type, title: title || titles[type], msg, okText: 'OK' });
     };
-
     window.dkPrompt = (title, msg, placeholder, onOk) => {
         showModal({ type:'info', title, msg, input:true, placeholder, showCancel:true, onOk, okText:'Submit' });
     };
 
-    // Toast
     const toast = document.getElementById('dk-toast');
     let toastTimer;
     window.dkToast = (msg, type='success') => {
@@ -405,6 +526,11 @@
         toast.className = 'dk-toast show ' + type;
         toast.innerHTML = (type==='success'?'<i class="fa-solid fa-check"></i> ':type==='error'?'<i class="fa-solid fa-xmark"></i> ':'') + msg;
         toastTimer = setTimeout(() => toast.classList.remove('show'), 2500);
+    };
+
+    window.openLightbox = (src) => {
+        document.getElementById('lightbox-img').src = src;
+        document.getElementById('lightbox').classList.add('show');
     };
 
     async function load() {
@@ -460,6 +586,44 @@
         };
     }
 
+    // Variants: Firestore product me ye field add karo:
+    // variants: [{ name:"Red", image:"https://...", price:270 }, ...]
+    function buildVariants(prod) {
+        const box = document.getElementById('variant-box');
+        const strip = document.getElementById('variant-strip');
+        const heading = document.getElementById('variant-heading');
+        strip.innerHTML = '';
+        const variants = prod.variants || [];
+        if (!variants.length) { box.style.display = 'none'; return; }
+        box.style.display = 'block';
+        heading.innerText = `More ${prod.variantLabel || 'Colours'} (${variants.length})`;
+        variants.forEach((v, idx) => {
+            const card = document.createElement('div');
+            card.className = 'v-card' + (idx === 0 ? ' selected' : '');
+            card.innerHTML = `
+                <div class="v-tick"><i class="fa-solid fa-check"></i></div>
+                <img src="${v.image || (prod.images && prod.images[0]) || 'Dkart.jpg'}" onerror="this.src='https://via.placeholder.com/60'">
+                <div class="v-name">${v.name || 'Variant'}</div>
+                ${v.price ? `<div class="v-price">₹${v.price}</div>` : ''}
+            `;
+            card.onclick = () => {
+                strip.querySelectorAll('.v-card').forEach(c => c.classList.remove('selected'));
+                card.classList.add('selected');
+                selectedVariant = v;
+                if (v.price) {
+                    document.getElementById('det-price').innerText = "₹" + v.price;
+                    currentP.tempSelectedPrice = v.price;
+                }
+                if (v.image) {
+                    const newImgs = [v.image, ...(prod.images || []).filter(x => x !== v.image)];
+                    buildSlider(newImgs);
+                }
+            };
+            strip.appendChild(card);
+        });
+        selectedVariant = variants[0];
+    }
+
     function buildSuggestions(currentProd) {
         const section = document.getElementById('suggest-section');
         const grid = document.getElementById('suggest-grid');
@@ -491,10 +655,21 @@
     function openProductDetail(p) {
         currentP = p;
         selectedSize = "";
+        selectedVariant = null;
+        currentP.tempSelectedPrice = null;
         buildSlider(p.images || []);
         document.getElementById('det-name').innerText = p.name;
         document.getElementById('det-price').innerText = "₹" + p.price;
+        const mrp = p.mrp || Math.round(parseInt(p.price) * 1.4);
+        const off = Math.max(0, Math.round(((mrp - parseInt(p.price)) / mrp) * 100));
+        document.getElementById('det-mrp').innerText = "₹" + mrp;
+        document.getElementById('det-off').innerText = off > 0 ? off + "% off" : "";
+        const baseRating = p.rating || 4.2;
+        document.getElementById('det-rating-val').innerText = baseRating.toFixed(1);
+        document.getElementById('det-rating-count').innerText = p.ratingCount || 0;
+        document.getElementById('det-review-count').innerText = 0;
         document.getElementById('det-desc').innerText = p.desc || "";
+
         const sContainer = document.getElementById('det-sizes');
         const sBox = document.getElementById('size-options-container');
         sContainer.innerHTML = "";
@@ -512,10 +687,165 @@
                 sContainer.appendChild(chip);
             });
         } else { sBox.style.display = 'none'; }
+
+        buildVariants(p);
         buildSuggestions(p);
+        loadReviews(p.id);
+
         document.body.classList.add('view-open');
         document.getElementById('detail-view').style.display = 'block';
     }
+
+    async function loadReviews(productId) {
+        const list = document.getElementById('rev-list');
+        const summary = document.getElementById('rev-summary');
+        list.innerHTML = '<div class="rev-empty"><i class="fa-solid fa-spinner fa-spin"></i> Reviews load ho rahe hain...</div>';
+        try {
+            const q = query(collection(db, "reviews"), where("productId", "==", productId));
+            const snap = await getDocs(q);
+            let reviews = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+            reviews.sort((a,b) => {
+                const tA = a.time && a.time.toDate ? a.time.toDate().getTime() : 0;
+                const tB = b.time && b.time.toDate ? b.time.toDate().getTime() : 0;
+                return tB - tA;
+            });
+            if (reviews.length === 0) {
+                summary.style.display = 'none';
+                list.innerHTML = '<div class="rev-empty"><i class="fa-regular fa-comment-dots" style="font-size:28px; display:block; margin-bottom:8px;"></i>Abhi koi review nahi hai. Pehla review aap likhein!</div>';
+                document.getElementById('det-review-count').innerText = 0;
+                return;
+            }
+            const avg = reviews.reduce((s,r) => s + (r.rating || 0), 0) / reviews.length;
+            const avgFix = avg.toFixed(1);
+            summary.style.display = 'flex';
+            document.getElementById('rs-avg').innerText = avgFix;
+            document.getElementById('rs-stars').innerText = '★'.repeat(Math.round(avg)) + '☆'.repeat(5 - Math.round(avg));
+            document.getElementById('rs-count').innerText = reviews.length + ' Ratings';
+            document.getElementById('rs-rev-count').innerText = reviews.filter(r => r.text).length + ' Reviews';
+            document.getElementById('det-rating-val').innerText = avgFix;
+            document.getElementById('det-rating-count').innerText = reviews.length;
+            document.getElementById('det-review-count').innerText = reviews.filter(r => r.text).length;
+
+            list.innerHTML = reviews.map(r => {
+                const dateStr = r.time && r.time.toDate ? r.time.toDate().toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' }) : '';
+                const initial = (r.userName || 'U').charAt(0).toUpperCase();
+                const photosHtml = (r.photos && r.photos.length) ? `<div class="rev-photos">${r.photos.map(ph => `<img src="${ph}" onclick="openLightbox('${ph.replace(/'/g, "\\'")}')">`).join('')}</div>` : '';
+                return `
+                    <div class="rev-item">
+                        <div class="rev-top">
+                            <div class="rev-user">
+                                <div class="rev-avatar">${initial}</div>
+                                <div>
+                                    <div class="rev-user-name">${r.userName || 'Anonymous'}</div>
+                                    <div class="rev-date">${dateStr}</div>
+                                </div>
+                            </div>
+                            <span class="rev-stars">${r.rating || 0} <i class="fa-solid fa-star"></i></span>
+                        </div>
+                        ${r.text ? `<p class="rev-text">${r.text}</p>` : ''}
+                        ${photosHtml}
+                    </div>
+                `;
+            }).join('');
+        } catch(err) {
+            console.error(err);
+            list.innerHTML = '<div class="rev-empty">Reviews load nahi ho paye.</div>';
+        }
+    }
+
+    document.getElementById('star-picker').addEventListener('click', (e) => {
+        if (e.target.dataset && e.target.dataset.v) {
+            const v = parseInt(e.target.dataset.v);
+            reviewStars = v;
+            document.querySelectorAll('#star-picker i').forEach(i => {
+                i.classList.toggle('active', parseInt(i.dataset.v) <= v);
+            });
+        }
+    });
+
+    document.getElementById('rev-photo-input').addEventListener('change', async (e) => {
+        const files = Array.from(e.target.files || []);
+        for (const file of files) {
+            if (reviewPhotos.length >= 3) { dkAlert("Max 3 photos allowed", 'warn'); break; }
+            try {
+                const compressed = await compressImage(file, 800, 0.7);
+                reviewPhotos.push(compressed);
+                renderPhotoThumbs();
+            } catch(err) { console.error(err); }
+        }
+        e.target.value = '';
+    });
+
+    function compressImage(file, maxDim, quality) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                const img = new Image();
+                img.onload = () => {
+                    let { width, height } = img;
+                    if (width > height && width > maxDim) { height = height * (maxDim/width); width = maxDim; }
+                    else if (height > maxDim) { width = width * (maxDim/height); height = maxDim; }
+                    const canvas = document.createElement('canvas');
+                    canvas.width = width; canvas.height = height;
+                    canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+                    resolve(canvas.toDataURL('image/jpeg', quality));
+                };
+                img.onerror = reject;
+                img.src = ev.target.result;
+            };
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+        });
+    }
+
+    function renderPhotoThumbs() {
+        const row = document.getElementById('photo-upload-row');
+        row.querySelectorAll('.photo-thumb').forEach(el => el.remove());
+        const addBtn = row.querySelector('.photo-add');
+        reviewPhotos.forEach((src, idx) => {
+            const t = document.createElement('div');
+            t.className = 'photo-thumb';
+            t.innerHTML = `<img src="${src}"><div class="x">×</div>`;
+            t.querySelector('.x').onclick = () => { reviewPhotos.splice(idx, 1); renderPhotoThumbs(); };
+            row.insertBefore(t, addBtn);
+        });
+        addBtn.style.display = reviewPhotos.length >= 3 ? 'none' : 'flex';
+    }
+
+    window.openReviewForm = () => {
+        if (!currentUser) return dkAlert("Review likhne ke liye pehle login karein!", 'warn', 'Login Required');
+        reviewStars = 0;
+        reviewPhotos = [];
+        document.getElementById('rev-text').value = '';
+        document.querySelectorAll('#star-picker i').forEach(i => i.classList.remove('active'));
+        renderPhotoThumbs();
+        document.getElementById('rev-form-bg').classList.add('show');
+    };
+    window.closeReviewForm = () => document.getElementById('rev-form-bg').classList.remove('show');
+
+    window.submitReview = async () => {
+        if (!currentUser) return dkAlert("Pehle login karein!", 'warn');
+        if (!reviewStars) return dkAlert("Star rating dein!", 'warn');
+        const text = document.getElementById('rev-text').value.trim();
+        const data = {
+            productId: currentP.id,
+            userId: currentUser.uid,
+            userName: currentUser.displayName || (currentUser.email ? currentUser.email.split('@')[0] : 'User'),
+            userEmail: currentUser.email || '',
+            rating: reviewStars,
+            text: text,
+            photos: reviewPhotos,
+            time: serverTimestamp()
+        };
+        try {
+            await addDoc(collection(db, "reviews"), data);
+            closeReviewForm();
+            dkToast('Review submit ho gaya ✅', 'success');
+            loadReviews(currentP.id);
+        } catch(err) {
+            dkAlert("Review submit me error: " + err.message, 'error');
+        }
+    };
 
     function setActiveNav(id) {
         document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
@@ -523,45 +853,33 @@
     }
 
     window.goHome = () => { hideAllViews(); setActiveNav('nav-home'); window.scrollTo(0, 0); };
-
     window.filterCat = (cat) => {
         if(cat === 'All') render(allP, 'productList');
         else render(allP.filter(p => p.category && p.category.toLowerCase() === cat.toLowerCase()), 'productList');
     };
-
     window.closePayModal = () => {
         document.getElementById('pay-modal').style.display = 'none';
         document.getElementById('upi-options').style.display = 'block';
         document.getElementById('scanner-display').style.display = 'none';
     };
-
     window.openCheckout = () => {
-        if(currentP.sizes && currentP.sizes.length > 0 && !selectedSize) {
-            return dkAlert("Pehle Size choose karein!", 'warn');
-        }
+        if(currentP.sizes && currentP.sizes.length > 0 && !selectedSize) return dkAlert("Pehle Size choose karein!", 'warn');
         document.getElementById('pay-modal').style.display = 'flex';
     };
-
+    function getEffectivePrice() { return currentP.tempSelectedPrice || currentP.price; }
     window.showScanner = () => {
-        const finalPrice = parseInt(currentP.price) - 20;
+        const finalPrice = parseInt(getEffectivePrice()) - 20;
         currentP.tempPrice = finalPrice;
         document.getElementById('dis-price').innerText = "₹" + finalPrice;
         document.getElementById('upi-options').style.display = 'none';
         document.getElementById('scanner-display').style.display = 'block';
     };
-
     window.confirmUPIDone = () => { closePayModal(); updateCheckoutView("UPI (Paid)"); };
-
     window.processOrder = (method) => {
-        if(method === 'COD') {
-            currentP.tempPrice = currentP.price;
-            closePayModal();
-            updateCheckoutView("COD");
-        }
+        if(method === 'COD') { currentP.tempPrice = getEffectivePrice(); closePayModal(); updateCheckoutView("COD"); }
     };
-
     function updateCheckoutView(method) {
-        document.getElementById('c-prod-name').innerText = currentP.name;
+        document.getElementById('c-prod-name').innerText = currentP.name + (selectedVariant ? ` (${selectedVariant.name})` : '');
         document.getElementById('c-prod-price-display').innerText = "Amount: ₹" + currentP.tempPrice;
         document.getElementById('c-prod-size').innerText = (selectedSize ? "Size: " + selectedSize : "Free Size") + " | " + method;
         document.body.classList.add('view-open');
@@ -569,25 +887,22 @@
     }
 
     document.getElementById('order-btn').onclick = async () => {
-        const n = document.getElementById('c-name').value,
-              ph = document.getElementById('c-phone').value,
-              ad1 = document.getElementById('c-addr1').value,
-              ad2 = document.getElementById('c-addr2').value,
-              ad3 = document.getElementById('c-addr3').value,
-              pin = document.getElementById('c-pin').value,
+        const n = document.getElementById('c-name').value, ph = document.getElementById('c-phone').value,
+              ad1 = document.getElementById('c-addr1').value, ad2 = document.getElementById('c-addr2').value,
+              ad3 = document.getElementById('c-addr3').value, pin = document.getElementById('c-pin').value,
               state = document.getElementById('c-state').value;
         if(!n || !ph || !ad1 || !pin || !state) return dkAlert("Sari details bhariye!", 'warn');
         const fullAddress = `${ad1}, ${ad2}, ${ad3}, Pincode: ${pin}, State: ${state}`;
         const orderData = {
-            name: currentP.name,
+            name: currentP.name + (selectedVariant ? ` (${selectedVariant.name})` : ''),
             price: currentP.tempPrice || currentP.price,
-            img: (currentP.images && currentP.images[0]) || 'Dkart.jpg',
+            img: (selectedVariant && selectedVariant.image) || (currentP.images && currentP.images[0]) || 'Dkart.jpg',
             size: selectedSize || "Free Size",
+            variant: selectedVariant ? selectedVariant.name : "",
             customer: n, phone: ph, address: fullAddress,
             userId: currentUser ? currentUser.uid : "guest",
             userEmail: currentUser ? currentUser.email : "guest",
-            time: serverTimestamp(),
-            status: "Pending"
+            time: serverTimestamp(), status: "Pending"
         };
         try {
             const docRef = await addDoc(collection(db, "orders"), orderData);
@@ -595,16 +910,8 @@
             let myOrders = JSON.parse(localStorage.getItem('dk_orders')) || [];
             myOrders.unshift(localOrder);
             localStorage.setItem('dk_orders', JSON.stringify(myOrders));
-            showModal({
-                type: 'success',
-                title: 'Order Confirmed!',
-                msg: 'Aapka order successfully place ho gaya hai. Thank you for shopping with Dkart!',
-                okText: 'View Orders',
-                onOk: () => { location.reload(); }
-            });
-        } catch(err) {
-            dkAlert("Order place karne me error: " + err.message, 'error');
-        }
+            showModal({ type:'success', title:'Order Confirmed!', msg:'Aapka order successfully place ho gaya hai. Thank you for shopping with Dkart!', okText:'View Orders', onOk:()=>{location.reload();} });
+        } catch(err) { dkAlert("Order place karne me error: " + err.message, 'error'); }
     };
 
     window.toggleWish = (e, id) => {
@@ -614,22 +921,16 @@
         else { wish.push(id); dkToast('Wishlist me add ho gaya ❤️', 'success'); }
         localStorage.setItem('dk_wish', JSON.stringify(wish));
     };
-
     window.showWishlist = () => {
-        hideAllViews();
-        setActiveNav('nav-wishlist');
+        hideAllViews(); setActiveNav('nav-wishlist');
         const wIds = JSON.parse(localStorage.getItem('dk_wish')) || [];
         const wishProds = allP.filter(p => wIds.includes(p.id));
-        if (wishProds.length === 0) {
-            document.getElementById('wishlistGrid').innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><i class="fa-solid fa-heart-crack"></i><p>Wishlist khaali hai</p></div>';
-        } else {
-            render(wishProds, 'wishlistGrid');
-        }
+        if (wishProds.length === 0) document.getElementById('wishlistGrid').innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><i class="fa-solid fa-heart-crack"></i><p>Wishlist khaali hai</p></div>';
+        else render(wishProds, 'wishlistGrid');
         document.body.classList.add('view-open');
         document.getElementById('wishlist-view').style.display = 'block';
     };
 
-    // === Order Status Tracker ===
     const STATUS_STEPS = ['Pending', 'Packed', 'Shipped', 'Delivered'];
     function getStatusIndex(status) {
         if (!status) return 0;
@@ -637,46 +938,34 @@
         if (s.includes('deliver')) return 3;
         if (s.includes('ship') || s.includes('out for')) return 2;
         if (s.includes('pack') || s.includes('confirm')) return 1;
-        return 0; // Pending / default
+        return 0;
     }
-
     function statusTrackerHTML(status) {
         const idx = getStatusIndex(status);
-        const progressPct = (idx / (STATUS_STEPS.length - 1)) * 72; // 72% = matches before-line width
+        const progressPct = (idx / (STATUS_STEPS.length - 1)) * 72;
         const icons = ['fa-clock', 'fa-box', 'fa-truck-fast', 'fa-circle-check'];
         let stepsHtml = STATUS_STEPS.map((label, i) => {
             const cls = i < idx ? 'done' : (i === idx ? 'current' : '');
             const iconHtml = i < idx ? '<i class="fa-solid fa-check"></i>' : `<i class="fa-solid ${icons[i]}"></i>`;
             return `<div class="status-step ${cls}"><div class="dot">${iconHtml}</div><div class="label">${label}</div></div>`;
         }).join('');
-        return `
-            <div class="status-tracker">
-                <div class="progress-line" style="width: ${progressPct}%;"></div>
-                ${stepsHtml}
-            </div>
-        `;
+        return `<div class="status-tracker"><div class="progress-line" style="width: ${progressPct}%;"></div>${stepsHtml}</div>`;
     }
-
     function formatOrderTime(t) {
         if (!t) return '';
-        try {
-            const d = t.toDate ? t.toDate() : new Date(t);
-            return d.toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' });
-        } catch(e) { return ''; }
+        try { const d = t.toDate ? t.toDate() : new Date(t); return d.toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' }); }
+        catch(e) { return ''; }
     }
 
     window.showOrders = async () => {
-        hideAllViews();
-        setActiveNav('nav-orders');
+        hideAllViews(); setActiveNav('nav-orders');
         document.body.classList.add('view-open');
         document.getElementById('orders-view').style.display = 'block';
         const cont = document.getElementById('orderListContainer');
         cont.innerHTML = '<div class="empty-state"><i class="fa-solid fa-spinner fa-spin"></i><p>Orders load ho rahe hain...</p></div>';
-
         let orders = [];
         try {
             if (currentUser) {
-                // Logged in: fetch fresh from Firestore
                 const q = query(collection(db, "orders"), where("userId", "==", currentUser.uid));
                 const snap = await getDocs(q);
                 orders = snap.docs.map(d => ({ id: d.id, ...d.data() }));
@@ -685,20 +974,9 @@
                     const tB = b.time && b.time.toDate ? b.time.toDate().getTime() : 0;
                     return tB - tA;
                 });
-            } else {
-                // Guest: use localStorage (no userId match possible)
-                orders = JSON.parse(localStorage.getItem('dk_orders')) || [];
-            }
-        } catch(err) {
-            console.error(err);
-            orders = JSON.parse(localStorage.getItem('dk_orders')) || [];
-        }
-
-        if (orders.length === 0) {
-            cont.innerHTML = '<div class="empty-state"><i class="fa-solid fa-bag-shopping"></i><p>Abhi koi order nahi hai</p></div>';
-            return;
-        }
-
+            } else { orders = JSON.parse(localStorage.getItem('dk_orders')) || []; }
+        } catch(err) { console.error(err); orders = JSON.parse(localStorage.getItem('dk_orders')) || []; }
+        if (orders.length === 0) { cont.innerHTML = '<div class="empty-state"><i class="fa-solid fa-bag-shopping"></i><p>Abhi koi order nahi hai</p></div>'; return; }
         cont.innerHTML = orders.map(o => `
             <div class="order-card">
                 <div class="order-top">
@@ -718,40 +996,29 @@
         `).join('');
     };
 
-    window.showProfile = () => {
-        hideAllViews();
-        setActiveNav('nav-profile');
-        document.body.classList.add('view-open');
-        document.getElementById('profile-view').style.display = 'block';
-    };
-
+    window.showProfile = () => { hideAllViews(); setActiveNav('nav-profile'); document.body.classList.add('view-open'); document.getElementById('profile-view').style.display = 'block'; };
     window.searchFun = () => render(allP.filter(p => p.name.toLowerCase().includes(document.getElementById('searchInput').value.toLowerCase())), 'productList');
-
     window.closeAll = () => { document.getElementById('detail-view').style.display = 'none'; document.body.classList.remove('view-open'); };
     window.closeCheckout = () => {
         document.getElementById('checkout-view').style.display = 'none';
         const anyOpen = Array.from(document.querySelectorAll('.full-view')).some(v => v.style.display === 'block');
         if (!anyOpen) document.body.classList.remove('view-open');
     };
-
     window.hideAllViews = () => {
         document.querySelectorAll('.full-view').forEach(v => v.style.display = 'none');
         document.body.classList.remove('view-open');
         setActiveNav('nav-home');
     };
-
     window.switchAuthTab = (tab) => {
         document.getElementById('tab-login-btn').classList.toggle('active', tab === 'login');
         document.getElementById('tab-register-btn').classList.toggle('active', tab === 'register');
         document.getElementById('login-form').classList.toggle('active', tab === 'login');
         document.getElementById('register-form').classList.toggle('active', tab === 'register');
     };
-
     window.loginUser = async () => {
         try { await signInWithPopup(auth, provider); dkToast('Login Success ✅', 'success'); }
         catch (err) { dkAlert(err.message, 'error', 'Login Failed'); }
     };
-
     window.emailLogin = async () => {
         const email = document.getElementById('login-email').value.trim();
         const password = document.getElementById('login-password').value;
@@ -763,7 +1030,6 @@
             document.getElementById('login-password').value = '';
         } catch (err) { dkAlert(err.message, 'error', 'Login Failed'); }
     };
-
     window.emailRegister = async () => {
         const name = document.getElementById('reg-name').value.trim();
         const email = document.getElementById('reg-email').value.trim();
@@ -779,12 +1045,10 @@
             document.getElementById('reg-password').value = '';
         } catch (err) { dkAlert(err.message, 'error', 'Register Failed'); }
     };
-
     window.logoutUser = async () => {
         try { await signOut(auth); dkToast('Logout ho gaya', 'success'); }
         catch (err) { dkAlert(err.message, 'error'); }
     };
-
     window.forgotPassword = async () => {
         const prefilled = document.getElementById('login-email').value.trim();
         const proceed = (email) => {

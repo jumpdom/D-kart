@@ -526,6 +526,21 @@
             alert("Error: " + err.message);
         }
     };
+    window.forgotPassword = async () => {
+        let email = document.getElementById('login-email').value.trim();
+        if(!email) {
+            email = prompt("Apna registered email daalein password reset link ke liye:");
+            if(!email) return;
+            email = email.trim();
+        }
+        if(!email.includes('@')) return alert("Sahi email daalein!");
+        try {
+            await sendPasswordResetEmail(auth, email);
+            alert("✅ Password reset link aapke email par bhej diya gaya hai!\n\nApna inbox (aur Spam folder bhi) check karein: " + email);
+        } catch (err) {
+            alert("Error: " + err.message);
+        }
+    };
 
     onAuthStateChanged(auth, (user) => {
         const authSection = document.getElementById('auth-section');

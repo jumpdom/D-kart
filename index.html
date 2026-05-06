@@ -1,3 +1,4 @@
+Pura customer code copy karke paste kar do (dkart wala HTML file me):
 <!DOCTYPE html>
 <html lang="hi">
 <head>
@@ -85,10 +86,14 @@
         .size-chip.selected { background: var(--accent); color: #000; border-color: var(--accent); }
 
         .reviews-section { margin: 24px 10px 0; background: #0f0f0f; border: 1px solid #2a2a2a; border-radius: 14px; padding: 16px; }
-        .rev-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+        .rev-head { display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; }
         .rev-title { font-size: 15px; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px; }
         .rev-title::before { content:''; width:4px; height:18px; background: var(--accent); border-radius:2px; }
-        .write-rev-btn { background: var(--accent); color: #000; border: none; padding: 8px 14px; border-radius: 20px; font-weight: 800; font-size: 12px; cursor: pointer; text-transform: uppercase; }
+        .rev-toggle-arrow { background: #1a1a1a; color: var(--accent); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid var(--accent); transition: transform 0.3s ease; font-size: 14px; }
+        .rev-toggle-arrow.open { transform: rotate(180deg); }
+        .rev-body { display: none; margin-top: 14px; }
+        .rev-body.open { display: block; animation: fadeIn 0.3s ease; }
+        .write-rev-btn { background: var(--accent); color: #000; border: none; padding: 8px 14px; border-radius: 20px; font-weight: 800; font-size: 12px; cursor: pointer; text-transform: uppercase; margin-bottom: 14px; }
         .rev-summary { display: flex; align-items: center; gap: 16px; padding: 12px; background: #1a1a1a; border-radius: 10px; margin-bottom: 14px; }
         .rev-avg { font-size: 38px; font-weight: 800; color: #fff; line-height: 1; }
         .rev-stars-big { color: var(--accent); font-size: 14px; margin: 4px 0; }
@@ -283,22 +288,25 @@
         <p id="det-desc" style="text-align:left; color:#ccc; font-size:13px; margin-top:20px; line-height:1.6; padding: 0 10px;"></p>
 
         <div class="reviews-section">
-            <div class="rev-head">
+            <div class="rev-head" onclick="toggleReviews()">
                 <div class="rev-title">Ratings &amp; Reviews</div>
-                <button class="write-rev-btn" onclick="openReviewForm()"><i class="fa-solid fa-pen"></i> Rate</button>
+                <div class="rev-toggle-arrow" id="rev-toggle-arrow"><i class="fa-solid fa-chevron-down"></i></div>
             </div>
-            <div class="rev-summary" id="rev-summary" style="display:none;">
-                <div>
-                    <div class="rev-avg" id="rs-avg">0.0</div>
-                    <div class="rev-stars-big" id="rs-stars">★★★★★</div>
+            <div class="rev-body" id="rev-body">
+                <button class="write-rev-btn" onclick="openReviewForm()"><i class="fa-solid fa-pen"></i> Write a Review</button>
+                <div class="rev-summary" id="rev-summary" style="display:none;">
+                    <div>
+                        <div class="rev-avg" id="rs-avg">0.0</div>
+                        <div class="rev-stars-big" id="rs-stars">★★★★★</div>
+                    </div>
+                    <div>
+                        <div style="color:#fff; font-weight:700; font-size:14px;" id="rs-count">0 Ratings</div>
+                        <div class="rev-count-text" id="rs-rev-count">0 Reviews</div>
+                    </div>
                 </div>
-                <div>
-                    <div style="color:#fff; font-weight:700; font-size:14px;" id="rs-count">0 Ratings</div>
-                    <div class="rev-count-text" id="rs-rev-count">0 Reviews</div>
+                <div id="rev-list">
+                    <div class="rev-empty"><i class="fa-regular fa-comment-dots" style="font-size:28px; display:block; margin-bottom:8px;"></i>Abhi koi review nahi hai. Pehla review aap likhein!</div>
                 </div>
-            </div>
-            <div id="rev-list">
-                <div class="rev-empty"><i class="fa-regular fa-comment-dots" style="font-size:28px; display:block; margin-bottom:8px;"></i>Abhi koi review nahi hai. Pehla review aap likhein!</div>
             </div>
         </div>
 
@@ -533,17 +541,39 @@
         document.getElementById('lightbox').classList.add('show');
     };
 
+    // Reviews collapsible toggle
+    window.toggleReviews = () => {
+        const body = document.getElementById('rev-body');
+        const arrow = document.getElementById('rev-toggle-arrow');
+        body.classList.toggle('open');
+        arrow.classList.toggle('open');
+    };
+
     async function load() {
-        const q = query(collection(db, "products"), orderBy("time", "desc"));
-        const snap = await getDocs(q);
-        allP = snap.docs.map(d => ({id: d.id, ...d.data()}));
-        render(allP, 'productList');
+        const list = document.getElementById('productList');
+        list.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><i class="fa-solid fa-spinner fa-spin"></i><p>Products load ho rahe hain...</p></div>';
+        try {
+            // Try with orderBy first
+            let snap;
+            try {
+                const q = query(collection(db, "products"), orderBy("time", "desc"));
+                snap = await getDocs(q);
+            } catch(e) {
+                // Fallback: fetch without orderBy (in case some docs don't have time field)
+                snap = await getDocs(collection(db, "products"));
+            }
+            allP = snap.docs.map(d => ({id: d.id, ...d.data()}));
+            render(allP, 'productList');
+        } catch(err) {
+            console.error("Load error:", err);
+            list.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><i class="fa-solid fa-triangle-exclamation"></i><p>Products load nahi ho paye.<br>Internet check karein.</p></div>';
+        }
     }
 
     function render(data, target) {
         const list = document.getElementById(target);
         list.innerHTML = "";
-        if (data.length === 0) {
+        if (!data || data.length === 0) {
             list.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><i class="fa-solid fa-box-open"></i><p>No products found</p></div>';
             return;
         }
@@ -553,8 +583,8 @@
             card.innerHTML = `
                 <i class="fa-solid fa-heart wish-icon" onclick="toggleWish(event, '${p.id}')"></i>
                 <img src="${(p.images && p.images[0]) || 'Dkart.jpg'}" onerror="this.src='https://via.placeholder.com/140'">
-                <div class="p-name">${p.name}</div>
-                <div class="p-price">₹${p.price}</div>
+                <div class="p-name">${p.name || 'Product'}</div>
+                <div class="p-price">₹${p.price || '0'}</div>
             `;
             card.onclick = () => openProductDetail(p);
             list.appendChild(card);
@@ -586,8 +616,6 @@
         };
     }
 
-    // Variants: Firestore product me ye field add karo:
-    // variants: [{ name:"Red", image:"https://...", price:270 }, ...]
     function buildVariants(prod) {
         const box = document.getElementById('variant-box');
         const strip = document.getElementById('variant-strip');
@@ -657,11 +685,16 @@
         selectedSize = "";
         selectedVariant = null;
         currentP.tempSelectedPrice = null;
+
+        // Reset reviews collapsible to closed
+        document.getElementById('rev-body').classList.remove('open');
+        document.getElementById('rev-toggle-arrow').classList.remove('open');
+
         buildSlider(p.images || []);
-        document.getElementById('det-name').innerText = p.name;
-        document.getElementById('det-price').innerText = "₹" + p.price;
-        const mrp = p.mrp || Math.round(parseInt(p.price) * 1.4);
-        const off = Math.max(0, Math.round(((mrp - parseInt(p.price)) / mrp) * 100));
+        document.getElementById('det-name').innerText = p.name || '';
+        document.getElementById('det-price').innerText = "₹" + (p.price || '0');
+        const mrp = p.mrp || Math.round(parseInt(p.price || 0) * 1.4);
+        const off = Math.max(0, Math.round(((mrp - parseInt(p.price || 0)) / mrp) * 100));
         document.getElementById('det-mrp').innerText = "₹" + mrp;
         document.getElementById('det-off').innerText = off > 0 ? off + "% off" : "";
         const baseRating = p.rating || 4.2;
@@ -849,7 +882,7 @@
 
     function setActiveNav(id) {
         document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-        if(id) document.getElementById(id).classList.add('active');
+        if(id) { const el = document.getElementById(id); if(el) el.classList.add('active'); }
     }
 
     window.goHome = () => { hideAllViews(); setActiveNav('nav-home'); window.scrollTo(0, 0); };
@@ -997,7 +1030,7 @@
     };
 
     window.showProfile = () => { hideAllViews(); setActiveNav('nav-profile'); document.body.classList.add('view-open'); document.getElementById('profile-view').style.display = 'block'; };
-    window.searchFun = () => render(allP.filter(p => p.name.toLowerCase().includes(document.getElementById('searchInput').value.toLowerCase())), 'productList');
+    window.searchFun = () => render(allP.filter(p => (p.name || '').toLowerCase().includes(document.getElementById('searchInput').value.toLowerCase())), 'productList');
     window.closeAll = () => { document.getElementById('detail-view').style.display = 'none'; document.body.classList.remove('view-open'); };
     window.closeCheckout = () => {
         document.getElementById('checkout-view').style.display = 'none';

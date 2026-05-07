@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang=\"hi\">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta charset=\"UTF-8\">
+    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no\">
     <title>Dkart | Premium Shop</title>
-    <link rel="icon" type="image/jpeg" href="Dkart.jpg">
-    <link rel="apple-touch-icon" href="Dkart.jpg">
-    <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#ffff00">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Montserrat:wght@900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel=\"icon\" type=\"image/jpeg\" href=\"Dkart.jpg\">
+    <link rel=\"apple-touch-icon\" href=\"Dkart.jpg\">
+    <link rel=\"manifest\" href=\"/manifest.json\">
+    <meta name=\"theme-color\" content=\"#ffff00\">
+    <link href=\"https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Montserrat:wght@900&display=swap\" rel=\"stylesheet\">
+    <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css\">
     <style>
         :root { --primary: #000000; --accent: #ffff00; --white: #ffffff; --bg: #0a0a0a; }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
@@ -24,7 +24,6 @@
         .search-box input { background: transparent; border: none; color: white; width: 100%; margin-left: 10px; font-size: 14px; }
         .help-btn { background: #25D366; color: white; width: 42px; height: 42px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 22px; text-decoration: none; border: 1px solid white; }
 
-        /* DISCOUNT BANNER */
         .promo-banner { display: none; width: calc(100% - 20px); margin: 12px auto 0; border-radius: 14px; overflow: hidden; border: 2px solid var(--accent); box-shadow: 0 6px 20px rgba(255,255,0,0.15); aspect-ratio: 1312 / 804; background: #111; position: relative; }
         .promo-banner img { width: 100%; height: 100%; object-fit: cover; display: block; }
         .promo-banner.show { display: block; }
@@ -79,7 +78,6 @@
         .size-chip { padding: 8px 15px; border: 1px solid #444; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; color: white; }
         .size-chip.selected { background: var(--accent); color: #000; border-color: var(--accent); }
 
-        /* DESCRIPTION BOX WITH MORE DETAILS */
         .desc-box { margin: 20px 10px 0; background: #0f0f0f; border: 1px solid #2a2a2a; border-radius: 14px; padding: 16px; }
         .desc-label { font-size: 12px; color: var(--accent); text-transform: uppercase; font-weight: 800; margin-bottom: 10px; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px; }
         .desc-label::before { content:''; width:4px; height:16px; background: var(--accent); border-radius:2px; }
@@ -180,7 +178,7 @@
         .or-divider { text-align: center; color: #666; font-size: 12px; margin: 15px 0 5px 0; position: relative; }
         .or-divider::before, .or-divider::after { content: ''; position: absolute; top: 50%; width: 40%; height: 1px; background: #333; }
         .or-divider::before { left: 0; } .or-divider::after { right: 0; }
-        .profile-logged-in { text-align: center; padding: 30px 20px; }
+        .profile-logged-in { text-align: center; padding: 30px 20px 10px; }
         .profile-avatar { width: 80px; height: 80px; border-radius: 50%; background: var(--accent); color: #000; display: flex; align-items: center; justify-content: center; font-size: 36px; font-weight: 900; margin: 0 auto 15px; }
         .dk-modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(8px); z-index: 9999; align-items: center; justify-content: center; padding: 20px; }
         .dk-modal-bg.show { display: flex; }
@@ -197,6 +195,7 @@
         .dk-btn { flex: 1; padding: 12px; border: none; border-radius: 10px; font-weight: 800; font-size: 14px; cursor: pointer; text-transform: uppercase; }
         .dk-btn-primary { background: var(--accent); color: #000; }
         .dk-btn-secondary { background: #2a2a2a; color: #ccc; }
+        .dk-btn-danger { background: #ff4444; color: #fff; }
         .dk-toast { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%); background: #1a1a1a; color: #fff; padding: 12px 20px; border-radius: 30px; font-size: 13px; font-weight: 600; z-index: 10000; border: 1px solid var(--accent); display: none; }
         .dk-toast.show { display: block; }
         .empty-state { text-align: center; padding: 60px 20px; color: #666; }
@@ -205,253 +204,489 @@
         .lightbox.show { display: flex; }
         .lightbox img { max-width: 100%; max-height: 90vh; border-radius: 8px; }
         .lightbox .close { position: absolute; top: 20px; right: 20px; color: #fff; font-size: 28px; cursor: pointer; }
+
+        /* ================= NEW: PREMIUM CHECKOUT FLOW ================= */
+        .step-bar { display: flex; align-items: center; padding: 18px 20px 12px; gap: 6px; background: linear-gradient(180deg,#0d0d0d,#0a0a0a); border-bottom: 1px solid #1f1f1f; }
+        .step-pill { flex: 1; display:flex; align-items:center; justify-content:center; gap:6px; padding: 9px 6px; border-radius: 30px; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.4px; background:#151515; color:#666; border:1px solid #222; }
+        .step-pill.active { background: linear-gradient(135deg, #ffff00, #ffd000); color:#000; border-color: var(--accent); box-shadow: 0 4px 14px rgba(255,255,0,0.25); }
+        .step-pill.done { background:#0e2a17; color:#00e676; border-color:#00c853; }
+        .step-pill .num { width:18px; height:18px; border-radius:50%; background:rgba(0,0,0,0.25); display:inline-flex; align-items:center; justify-content:center; font-size:10px; }
+        .step-pill.active .num { background:#000; color:var(--accent); }
+
+        .premium-card { margin: 14px; background: linear-gradient(180deg,#161616,#0e0e0e); border-radius: 16px; border: 1px solid #262626; padding: 16px; box-shadow: 0 6px 22px rgba(0,0,0,0.45); }
+        .premium-card .pc-title { font-size: 13px; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 0.6px; margin: 0 0 12px; display:flex; align-items:center; gap:8px; }
+        .premium-card .pc-title::before { content:''; width:4px; height:16px; background:var(--accent); border-radius:2px; }
+
+        .prod-mini { display:flex; gap:12px; align-items:center; }
+        .prod-mini img { width: 56px; height: 56px; border-radius: 10px; background:#fff; object-fit: contain; padding:4px; }
+        .prod-mini .pm-name { font-size: 13px; color:#fff; font-weight: 700; line-height:1.3; }
+        .prod-mini .pm-meta { font-size: 11px; color:#888; margin-top:2px; }
+        .prod-mini .pm-price { font-size: 16px; color: var(--accent); font-weight: 900; margin-top:4px; }
+
+        .addr-card-pick { background:#0f0f0f; border:1.5px solid #2a2a2a; border-radius:12px; padding:12px; margin-bottom:10px; cursor:pointer; position:relative; transition:0.2s; }
+        .addr-card-pick.selected { border-color: var(--accent); background:#1b1a08; box-shadow: 0 0 0 2px rgba(255,255,0,0.1); }
+        .addr-card-pick .ac-name { font-size: 13px; font-weight: 800; color:#fff; }
+        .addr-card-pick .ac-phone { font-size: 12px; color: #aaa; margin-top:2px; }
+        .addr-card-pick .ac-text { font-size: 12px; color: #ccc; margin-top:6px; line-height:1.5; }
+        .addr-card-pick .ac-tag { display:inline-block; font-size:9px; background:#222; color:var(--accent); padding:2px 8px; border-radius:10px; margin-top:6px; font-weight:800; text-transform:uppercase; }
+        .addr-card-pick .ac-tick { position:absolute; top:10px; right:10px; width:22px; height:22px; border-radius:50%; background:var(--accent); color:#000; display:none; align-items:center; justify-content:center; font-size:11px; font-weight:900; }
+        .addr-card-pick.selected .ac-tick { display:flex; }
+        .add-new-addr-btn { width:100%; padding: 14px; background: transparent; color: var(--accent); border: 1.5px dashed var(--accent); border-radius: 12px; font-weight:800; cursor:pointer; font-size:13px; text-transform:uppercase; margin-top: 6px; display:flex; align-items:center; justify-content:center; gap:8px; }
+
+        /* PAYMENT METHODS */
+        .pay-grid { display:grid; grid-template-columns: 1fr 1fr; gap:10px; }
+        .pay-method { background:#0f0f0f; border:1.5px solid #2a2a2a; border-radius: 14px; padding:14px 10px; cursor:pointer; text-align:center; transition:0.2s; position:relative; min-height: 92px; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+        .pay-method.selected { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(255,255,0,0.15); background:#161602; }
+        .pay-method .pm-logo { width:38px; height:38px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:20px; margin-bottom:6px; color:#fff; font-weight:900; }
+        .pay-method .pm-label { font-size:11px; font-weight:800; color:#fff; text-transform:uppercase; letter-spacing:0.3px; }
+        .pay-method .pm-sub { font-size:9px; color:#00e676; font-weight:700; margin-top:2px; }
+        .pay-method .pm-tick { position:absolute; top:6px; right:6px; width:18px; height:18px; border-radius:50%; background:var(--accent); color:#000; display:none; align-items:center; justify-content:center; font-size:9px; font-weight:900; }
+        .pay-method.selected .pm-tick { display:flex; }
+        .pm-phonepe .pm-logo { background:#5f259f; }
+        .pm-gpay .pm-logo { background:#fff; color:#4285f4; border:1px solid #ddd; }
+        .pm-paytm .pm-logo { background:#00baf2; }
+        .pm-upi .pm-logo { background:#ff7300; }
+        .pm-scanner .pm-logo { background:#000; color:var(--accent); border:1px solid var(--accent); }
+        .pm-cod .pm-logo { background:#26a541; }
+
+        /* BILL */
+        .bill-row { display:flex; justify-content:space-between; padding: 9px 0; font-size:13px; color:#ccc; border-bottom: 1px dashed #222; }
+        .bill-row:last-child { border-bottom: none; }
+        .bill-row.total { font-size:16px; color:#fff; font-weight:900; padding-top:12px; }
+        .bill-row .free-tag { color:#00e676; font-weight:800; }
+        .bill-row .disc-tag { color:#00e676; font-weight:800; }
+        .free-del-banner { background: linear-gradient(90deg, rgba(0,230,118,0.15), rgba(0,230,118,0.05)); color:#00e676; padding: 10px 12px; border-radius:10px; font-size:12px; font-weight:800; text-align:center; margin-top:12px; border:1px dashed #00c853; text-transform:uppercase; letter-spacing:0.5px; }
+
+        /* Scanner overlay */
+        .scanner-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.95); z-index:5500; align-items:center; justify-content:center; padding:20px; }
+        .scanner-overlay.show { display:flex; }
+        .scanner-card { background:#111; max-width:380px; width:100%; border:1.5px solid var(--accent); border-radius:18px; padding:22px; text-align:center; }
+        .scanner-card h3 { color:var(--accent); margin:0 0 10px; }
+        .scanner-card .pay-amt { font-size: 26px; font-weight:900; color:#00e676; margin: 6px 0 12px; }
+        .scanner-card img { width:100%; border-radius:12px; border:2px solid #fff; margin-bottom:14px; }
+        .scanner-card .paid-btn { width:100%; padding: 14px; background:#00e676; color:#000; border:none; border-radius:10px; font-weight:900; font-size:15px; cursor:pointer; text-transform:uppercase; }
+        .scanner-card .cancel-link { display:block; margin-top:12px; background:none; border:none; color:#ff4444; font-weight:700; cursor:pointer; width:100%; }
+
+        /* Profile sections */
+        .pf-section { margin: 16px 14px; background: linear-gradient(180deg,#141414,#0d0d0d); border:1px solid #262626; border-radius:14px; padding:14px; }
+        .pf-section .pf-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+        .pf-section .pf-title { font-size:13px; color:var(--accent); font-weight:800; text-transform:uppercase; letter-spacing:0.5px; display:flex; align-items:center; gap:8px; }
+        .pf-section .pf-title::before { content:''; width:4px; height:16px; background:var(--accent); border-radius:2px; }
+        .pf-section .pf-add-btn { background:var(--accent); color:#000; border:none; padding:6px 12px; border-radius:18px; font-weight:800; font-size:11px; cursor:pointer; text-transform:uppercase; display:flex; align-items:center; gap:5px; }
+        .saved-addr { background:#0a0a0a; border:1px solid #262626; border-radius:10px; padding:11px; margin-bottom:8px; position:relative; }
+        .saved-addr .sa-name { font-size:13px; font-weight:800; color:#fff; }
+        .saved-addr .sa-phone { font-size:11px; color:#999; }
+        .saved-addr .sa-text { font-size:12px; color:#bbb; margin-top:5px; line-height:1.45; }
+        .saved-addr .sa-actions { display:flex; gap:8px; margin-top:10px; }
+        .saved-addr .sa-btn { background:#1a1a1a; color:#ccc; border:1px solid #333; padding:5px 12px; border-radius:14px; font-size:11px; font-weight:700; cursor:pointer; }
+        .saved-addr .sa-btn.del { color:#ff5566; border-color:#552028; }
+        .saved-addr .sa-btn.edit { color: var(--accent); border-color: #443a00; }
+        .empty-mini { color:#666; font-size:12px; text-align:center; padding:14px 0; }
+
+        .policy-line { font-size:12px; color:#bbb; line-height:1.65; }
+        .policy-line b { color:#fff; }
+        .policy-icon-row { display:flex; gap:10px; margin: 8px 0 12px; }
+        .policy-chip { flex:1; background:#0a0a0a; border:1px solid #262626; border-radius:10px; padding:10px 8px; text-align:center; }
+        .policy-chip i { font-size:18px; color:var(--accent); margin-bottom:5px; display:block; }
+        .policy-chip .pc-l { font-size:10px; color:#aaa; font-weight:700; text-transform:uppercase; }
+
+        /* Order cancel */
+        .cancel-policy-card { margin: 12px; background: linear-gradient(135deg, #1a1208, #0d0a04); border:1px solid #443a00; border-radius:12px; padding: 12px; }
+        .cancel-policy-card .cp-h { color:var(--accent); font-size:12px; font-weight:800; text-transform:uppercase; margin-bottom:6px; display:flex; align-items:center; gap:6px; }
+        .cancel-policy-card .cp-t { font-size:11px; color:#ccc; line-height:1.5; }
+        .cancel-btn { background:#330; color:#ff7676; border:1px solid #552; padding:7px 14px; border-radius:18px; font-weight:800; font-size:11px; cursor:pointer; text-transform:uppercase; margin-top:10px; display:inline-flex; align-items:center; gap:6px; }
+        .cancel-btn:hover { background:#441515; color:#ff5555; border-color:#883333; }
+        .cancelled-pill { background:#3a0a0a; color:#ff5555; padding:3px 10px; border-radius:12px; font-size:10px; font-weight:800; text-transform:uppercase; border:1px solid #661a1a; display:inline-block; margin-top:8px; }
+
+        /* Address modal form */
+        .addr-form-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:9500; align-items:flex-end; justify-content:center; }
+        .addr-form-modal.show { display:flex; }
+        .addr-form-modal .afm-card { background:#111; width:100%; max-width:500px; border-top-left-radius:20px; border-top-right-radius:20px; padding:20px; max-height:90vh; overflow-y:auto; border-top:2px solid var(--accent); animation: slideUp 0.3s ease; }
+        .addr-form-modal h3 { color:var(--accent); margin:0 0 14px; font-size:16px; }
+        .label-tag-row { display:flex; gap:8px; margin-bottom:12px; }
+        .label-tag { flex:1; padding:9px; background:#0a0a0a; border:1.5px solid #333; border-radius:8px; color:#aaa; font-size:12px; font-weight:700; text-align:center; cursor:pointer; text-transform:uppercase; }
+        .label-tag.selected { border-color:var(--accent); color:var(--accent); background:#161602; }
     </style>
 </head>
 <body>
 
-<div id="home-sec">
+<div id=\"home-sec\">
     <header>
-        <div class="logo-row">
-            <img src="Dkart.jpg" class="logo-img" onerror="this.src='https://via.placeholder.com/40'">
-            <span class="brand">DKART</span>
+        <div class=\"logo-row\">
+            <img src=\"Dkart.jpg\" class=\"logo-img\" onerror=\"this.src='https://via.placeholder.com/40'\">
+            <span class=\"brand\">DKART</span>
         </div>
-        <div class="trust-text"><i class="fa-solid fa-shield-check"></i> 100% Trusted • Fast Delivery</div>
-        <div class="header-action-row">
-            <div class="search-box">
-                <i class="fa-solid fa-magnifying-glass" style="color:var(--accent)"></i>
-                <input type="text" id="searchInput" placeholder="Search products..." onkeyup="searchFun()">
+        <div class=\"trust-text\"><i class=\"fa-solid fa-shield-check\"></i> 100% Trusted • Fast Delivery</div>
+        <div class=\"header-action-row\">
+            <div class=\"search-box\">
+                <i class=\"fa-solid fa-magnifying-glass\" style=\"color:var(--accent)\"></i>
+                <input type=\"text\" id=\"searchInput\" placeholder=\"Search products...\" onkeyup=\"searchFun()\" data-testid=\"search-input\">
             </div>
-            <a href="https://wa.me/918521694137?text=Hello%20Dkart%20Help%20Needed" target="_blank" class="help-btn">
-                <i class="fa-brands fa-whatsapp"></i>
+            <a href=\"https://wa.me/918521694137?text=Hello%20Dkart%20Help%20Needed\" target=\"_blank\" class=\"help-btn\" data-testid=\"help-whatsapp-btn\">
+                <i class=\"fa-brands fa-whatsapp\"></i>
             </a>
         </div>
     </header>
 
-    <!-- DISCOUNT BANNER (1312x804) - Admin se URL aane par dikhega -->
-    <div class="promo-banner" id="promo-banner"><img id="promo-banner-img" src="" alt="Offer"></div>
+    <div class=\"promo-banner\" id=\"promo-banner\"><img id=\"promo-banner-img\" src=\"\" alt=\"Offer\"></div>
 
-    <div class="cat-row">
-        <div class="cat-item" onclick="filterCat('All')"><div class="cat-icon" style="background: #FFD700;"><i class="fa-solid fa-border-all"></i></div><span>All</span></div>
-        <div class="cat-item" onclick="filterCat('Men')"><div class="cat-icon" style="background: #1E90FF;"><i class="fa-solid fa-person"></i></div><span>Men</span></div>
-        <div class="cat-item" onclick="filterCat('Women')"><div class="cat-icon" style="background: #FF4757;"><i class="fa-solid fa-person-dress"></i></div><span>Women</span></div>
-        <div class="cat-item" onclick="filterCat('Cosmetics')"><div class="cat-icon" style="background: #FF9FF3;"><i class="fa-solid fa-sparkles"></i></div><span>Cosmetics</span></div>
-        <div class="cat-item" onclick="filterCat('Kitchen')"><div class="cat-icon" style="background: #2ED573;"><i class="fa-solid fa-utensils"></i></div><span>Kitchen</span></div>
-        <div class="cat-item" onclick="filterCat('Electronics')"><div class="cat-icon" style="background: #54a0ff;"><i class="fa-solid fa-plug"></i></div><span>Electronics</span></div>
-        <div class="cat-item" onclick="filterCat('Mobile')"><div class="cat-icon" style="background: #feca57;"><i class="fa-solid fa-mobile-screen"></i></div><span>Mobile</span></div>
+    <div class=\"cat-row\">
+        <div class=\"cat-item\" onclick=\"filterCat('All')\"><div class=\"cat-icon\" style=\"background: #FFD700;\"><i class=\"fa-solid fa-border-all\"></i></div><span>All</span></div>
+        <div class=\"cat-item\" onclick=\"filterCat('Men')\"><div class=\"cat-icon\" style=\"background: #1E90FF;\"><i class=\"fa-solid fa-person\"></i></div><span>Men</span></div>
+        <div class=\"cat-item\" onclick=\"filterCat('Women')\"><div class=\"cat-icon\" style=\"background: #FF4757;\"><i class=\"fa-solid fa-person-dress\"></i></div><span>Women</span></div>
+        <div class=\"cat-item\" onclick=\"filterCat('Cosmetics')\"><div class=\"cat-icon\" style=\"background: #FF9FF3;\"><i class=\"fa-solid fa-sparkles\"></i></div><span>Cosmetics</span></div>
+        <div class=\"cat-item\" onclick=\"filterCat('Kitchen')\"><div class=\"cat-icon\" style=\"background: #2ED573;\"><i class=\"fa-solid fa-utensils\"></i></div><span>Kitchen</span></div>
+        <div class=\"cat-item\" onclick=\"filterCat('Electronics')\"><div class=\"cat-icon\" style=\"background: #54a0ff;\"><i class=\"fa-solid fa-plug\"></i></div><span>Electronics</span></div>
+        <div class=\"cat-item\" onclick=\"filterCat('Mobile')\"><div class=\"cat-icon\" style=\"background: #feca57;\"><i class=\"fa-solid fa-mobile-screen\"></i></div><span>Mobile</span></div>
     </div>
 
-    <div class="grid" id="productList"></div>
+    <div class=\"grid\" id=\"productList\"></div>
 </div>
 
-<div id="detail-view" class="full-view">
-    <div class="view-header"><i class="fa-solid fa-arrow-left" onclick="closeAll()"></i><span>Details</span></div>
-    <div style="padding: 15px; padding-bottom: 100px;">
-        <div class="slider-wrap">
-            <div class="slider-counter" id="slide-counter">1 / 1</div>
-            <div class="slider-track" id="slider-track"></div>
+<!-- DETAIL VIEW -->
+<div id=\"detail-view\" class=\"full-view\">
+    <div class=\"view-header\"><i class=\"fa-solid fa-arrow-left\" onclick=\"closeAll()\" data-testid=\"back-from-detail\"></i><span>Details</span></div>
+    <div style=\"padding: 15px; padding-bottom: 100px;\">
+        <div class=\"slider-wrap\">
+            <div class=\"slider-counter\" id=\"slide-counter\">1 / 1</div>
+            <div class=\"slider-track\" id=\"slider-track\"></div>
         </div>
-        <div class="slider-dots" id="slider-dots"></div>
-        <div class="pd-name-box">
-            <h2 class="pd-title" id="det-name"></h2>
-            <div class="pd-rating-row">
-                <span class="rating-pill"><span id="det-rating-val">0.0</span> <i class="fa-solid fa-star"></i></span>
-                <span class="rating-meta"><b id="det-rating-count">0</b> Ratings &amp; <b id="det-review-count">0</b> Reviews</span>
+        <div class=\"slider-dots\" id=\"slider-dots\"></div>
+        <div class=\"pd-name-box\">
+            <h2 class=\"pd-title\" id=\"det-name\"></h2>
+            <div class=\"pd-rating-row\">
+                <span class=\"rating-pill\"><span id=\"det-rating-val\">0.0</span> <i class=\"fa-solid fa-star\"></i></span>
+                <span class=\"rating-meta\"><b id=\"det-rating-count\">0</b> Ratings &amp; <b id=\"det-review-count\">0</b> Reviews</span>
             </div>
-            <div class="pd-price-row">
-                <span class="pd-price-now" id="det-price"></span>
-                <span class="pd-price-mrp" id="det-mrp"></span>
-                <span class="pd-price-off" id="det-off"></span>
+            <div class=\"pd-price-row\">
+                <span class=\"pd-price-now\" id=\"det-price\"></span>
+                <span class=\"pd-price-mrp\" id=\"det-mrp\"></span>
+                <span class=\"pd-price-off\" id=\"det-off\"></span>
             </div>
-            <div class="pd-stock"><i class="fa-solid fa-circle-check"></i> In Stock • Free Delivery</div>
+            <div class=\"pd-stock\"><i class=\"fa-solid fa-circle-check\"></i> In Stock • Free Delivery</div>
         </div>
-        <div class="pd-variant-box" id="variant-box" style="display:none;">
-            <div class="pd-variant-title"><i class="fa-solid fa-palette"></i> <span id="variant-heading">More Colours</span></div>
-            <div class="variant-strip" id="variant-strip"></div>
+        <div class=\"pd-variant-box\" id=\"variant-box\" style=\"display:none;\">
+            <div class=\"pd-variant-title\"><i class=\"fa-solid fa-palette\"></i> <span id=\"variant-heading\">More Colours</span></div>
+            <div class=\"variant-strip\" id=\"variant-strip\"></div>
         </div>
-        <div class="size-box" id="size-options-container" style="display:none;">
-            <span class="size-label">Choose Size</span>
-            <div class="size-chips" id="det-sizes"></div>
+        <div class=\"size-box\" id=\"size-options-container\" style=\"display:none;\">
+            <span class=\"size-label\">Choose Size</span>
+            <div class=\"size-chips\" id=\"det-sizes\"></div>
         </div>
 
-        <!-- DESCRIPTION BOX with More Details -->
-        <div class="desc-box" id="desc-box" style="display:none;">
-            <div class="desc-label">Product Description</div>
-            <p id="det-desc" class="desc-text"></p>
-            <button class="more-details-btn" id="more-details-btn" onclick="toggleDesc()" style="display:none;">
-                <span id="more-details-label">More Details</span>
-                <i class="fa-solid fa-chevron-down"></i>
+        <div class=\"desc-box\" id=\"desc-box\" style=\"display:none;\">
+            <div class=\"desc-label\">Product Description</div>
+            <p id=\"det-desc\" class=\"desc-text\"></p>
+            <button class=\"more-details-btn\" id=\"more-details-btn\" onclick=\"toggleDesc()\" style=\"display:none;\">
+                <span id=\"more-details-label\">More Details</span>
+                <i class=\"fa-solid fa-chevron-down\"></i>
             </button>
         </div>
 
-        <div class="reviews-section">
-            <div class="rev-head" onclick="toggleReviews()">
-                <div class="rev-title">Ratings &amp; Reviews</div>
-                <div class="rev-toggle-arrow" id="rev-toggle-arrow"><i class="fa-solid fa-chevron-down"></i></div>
+        <div class=\"reviews-section\">
+            <div class=\"rev-head\" onclick=\"toggleReviews()\">
+                <div class=\"rev-title\">Ratings &amp; Reviews</div>
+                <div class=\"rev-toggle-arrow\" id=\"rev-toggle-arrow\"><i class=\"fa-solid fa-chevron-down\"></i></div>
             </div>
-            <div class="rev-body" id="rev-body">
-                <button class="write-rev-btn" onclick="openReviewForm()"><i class="fa-solid fa-pen"></i> Write a Review</button>
-                <div class="rev-summary" id="rev-summary" style="display:none;">
-                    <div><div class="rev-avg" id="rs-avg">0.0</div><div class="rev-stars-big" id="rs-stars">★★★★★</div></div>
-                    <div><div style="color:#fff; font-weight:700; font-size:14px;" id="rs-count">0 Ratings</div><div class="rev-count-text" id="rs-rev-count">0 Reviews</div></div>
+            <div class=\"rev-body\" id=\"rev-body\">
+                <button class=\"write-rev-btn\" onclick=\"openReviewForm()\"><i class=\"fa-solid fa-pen\"></i> Write a Review</button>
+                <div class=\"rev-summary\" id=\"rev-summary\" style=\"display:none;\">
+                    <div><div class=\"rev-avg\" id=\"rs-avg\">0.0</div><div class=\"rev-stars-big\" id=\"rs-stars\">★★★★★</div></div>
+                    <div><div style=\"color:#fff; font-weight:700; font-size:14px;\" id=\"rs-count\">0 Ratings</div><div class=\"rev-count-text\" id=\"rs-rev-count\">0 Reviews</div></div>
                 </div>
-                <div id="rev-list"><div class="rev-empty"><i class="fa-regular fa-comment-dots" style="font-size:28px; display:block; margin-bottom:8px;"></i>Abhi koi review nahi hai. Pehla review aap likhein!</div></div>
+                <div id=\"rev-list\"><div class=\"rev-empty\"><i class=\"fa-regular fa-comment-dots\" style=\"font-size:28px; display:block; margin-bottom:8px;\"></i>Abhi koi review nahi hai. Pehla review aap likhein!</div></div>
             </div>
         </div>
-        <div class="suggest-section" id="suggest-section" style="display:none;">
-            <div class="suggest-title">You May Also Like</div>
-            <div class="suggest-grid" id="suggest-grid"></div>
+        <div class=\"suggest-section\" id=\"suggest-section\" style=\"display:none;\">
+            <div class=\"suggest-title\">You May Also Like</div>
+            <div class=\"suggest-grid\" id=\"suggest-grid\"></div>
         </div>
     </div>
-    <div class="btn-box"><button class="btn-main" onclick="openCheckout()"><i class="fa-solid fa-bolt"></i> Buy Now</button></div>
+    <div class=\"btn-box\"><button class=\"btn-main\" onclick=\"startCheckout()\" data-testid=\"buy-now-btn\"><i class=\"fa-solid fa-bolt\"></i> Buy Now</button></div>
 </div>
 
-<div id="checkout-view" class="full-view">
-    <div class="view-header"><i class="fa-solid fa-arrow-left" onclick="closeCheckout()"></i><span>Checkout</span></div>
-    <div style="padding: 20px; padding-bottom: 100px;">
-        <div id="checkout-summary" style="background:#111; padding:15px; border-radius:10px; margin-bottom:20px; border:1.5px solid var(--accent);">
-            <p id="c-prod-name" style="margin:0; font-weight:600; color:var(--accent); font-size: 16px;"></p>
-            <p id="c-prod-price-display" style="margin:5px 0; font-size:20px; font-weight:800; color:#fff;"></p>
-            <p id="c-prod-size" style="margin:0; font-size:12px; color:#888"></p>
-        </div>
-        <input type="text" id="c-name" class="addr-input" placeholder="Full Name">
-        <input type="tel" id="c-phone" class="addr-input" placeholder="Mobile Number">
-        <p style="color:var(--accent); font-size:12px; font-weight:bold; margin: 15px 0 5px 0;">ADDRESS DETAILS</p>
-        <input type="text" id="c-addr1" class="addr-input" placeholder="Address Line 1 (House No, Building)">
-        <input type="text" id="c-addr2" class="addr-input" placeholder="Address Line 2 (Area, Street)">
-        <input type="text" id="c-addr3" class="addr-input" placeholder="Address Line 3 (Landmark)">
-        <div style="display: flex; gap: 10px;">
-            <input type="number" id="c-pin" class="addr-input" placeholder="Pincode" style="flex:1;">
-            <input type="text" id="c-state" class="addr-input" placeholder="State" style="flex:1;">
-        </div>
-    </div>
-    <div class="btn-box"><button class="btn-main" id="order-btn">Confirm Order</button></div>
-</div>
+<!-- ============ NEW PREMIUM CHECKOUT (3 Steps) ============ -->
+<div id=\"checkout-view\" class=\"full-view\">
+    <div class=\"view-header\"><i class=\"fa-solid fa-arrow-left\" onclick=\"checkoutBack()\" data-testid=\"checkout-back\"></i><span id=\"checkout-header-label\">Delivery Address</span></div>
 
-<div id="orders-view" class="full-view"><div class="view-header"><i class="fa-solid fa-arrow-left" onclick="hideAllViews()"></i><span>My Orders</span></div><div id="orderListContainer"></div></div>
-<div id="wishlist-view" class="full-view"><div class="view-header"><i class="fa-solid fa-arrow-left" onclick="hideAllViews()"></i><span>Wishlist</span></div><div class="grid" id="wishlistGrid"></div></div>
-
-<div id="profile-view" class="full-view">
-    <div class="view-header"><i class="fa-solid fa-arrow-left" onclick="hideAllViews()"></i><span>My Profile</span></div>
-    <div id="auth-section" style="padding: 20px;">
-        <h3 style="color: var(--accent); text-align:center; margin-bottom: 5px;">Welcome to Dkart</h3>
-        <p style="text-align:center; color:#888; font-size:13px; margin-top:0;">Login or Register to continue</p>
-        <div class="auth-tabs">
-            <button class="auth-tab-btn active" id="tab-login-btn" onclick="switchAuthTab('login')">Login</button>
-            <button class="auth-tab-btn" id="tab-register-btn" onclick="switchAuthTab('register')">Register</button>
-        </div>
-        <div id="login-form" class="auth-form active">
-            <input type="email" id="login-email" class="addr-input" placeholder="Email address">
-            <input type="password" id="login-password" class="addr-input" placeholder="Password">
-            <button class="auth-btn" onclick="emailLogin()"><i class="fa-solid fa-right-to-bracket"></i> Login</button>
-            <p style="text-align:right; margin-top:10px;"><a href="javascript:void(0)" onclick="forgotPassword()" style="color:var(--accent); font-size:13px; font-weight:600; text-decoration:none;"><i class="fa-solid fa-key"></i> Forgot Password?</a></p>
-        </div>
-        <div id="register-form" class="auth-form">
-            <input type="text" id="reg-name" class="addr-input" placeholder="Full Name">
-            <input type="email" id="reg-email" class="addr-input" placeholder="Email address">
-            <input type="password" id="reg-password" class="addr-input" placeholder="Password (min 6 chars)">
-            <button class="auth-btn" onclick="emailRegister()"><i class="fa-solid fa-user-plus"></i> Create Account</button>
-        </div>
-        <div class="or-divider">OR</div>
-        <button class="google-btn" onclick="loginUser()"><i class="fa-brands fa-google" style="color:#DB4437;"></i> Continue with Google</button>
+    <div class=\"step-bar\">
+        <div class=\"step-pill\" id=\"step-1\"><span class=\"num\">1</span> Address</div>
+        <div class=\"step-pill\" id=\"step-2\"><span class=\"num\">2</span> Payment</div>
+        <div class=\"step-pill\" id=\"step-3\"><span class=\"num\">3</span> Bill</div>
     </div>
-    <div id="profile-logged-in" class="profile-logged-in" style="display:none;">
-        <div class="profile-avatar" id="profile-avatar">U</div>
-        <h3 id="profile-name" style="color: var(--accent); margin: 5px 0;">User</h3>
-        <p id="user-email" style="color: #aaa; font-size: 13px; margin: 0 0 20px 0;">email@example.com</p>
-        <div style="background:#151515; border:1px solid #333; border-radius:10px; padding:15px; margin-top:10px; text-align:left;">
-            <p style="margin:0; color:#888; font-size:11px; text-transform:uppercase; font-weight:700;">Account Status</p>
-            <p style="margin:5px 0 0 0; color:#0f0; font-weight:700;"><i class="fa-solid fa-circle-check"></i> Active</p>
-        </div>
-        <button class="logout-btn" onclick="logoutUser()"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
-    </div>
-</div>
 
-<div id="pay-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:5000; align-items:center; justify-content:center; overflow-y: auto;">
-    <div style="background:#111; width:90%; max-width:400px; padding:25px; border-radius:20px; border:1px solid #ffff00; text-align:center;">
-        <h3 style="color:#ffff00; margin-bottom:15px;">Payment Method</h3>
-        <div id="upi-options">
-            <div onclick="showScanner()" style="background:#1a1a1a; padding:18px; border-radius:12px; margin-bottom:15px; cursor:pointer; border:1.5px solid #ffff00;">
-                <div style="font-weight:800; font-size:18px; color:#fff;"><i class="fa-solid fa-qrcode" style="color:#ffff00"></i> Pay via Scanner</div>
-                <div style="font-size:12px; color:#00ff00; font-weight:700; margin-top:5px;">(Get ₹20 Instant Discount! 🔥)</div>
-            </div>
-            <div onclick="processOrder('COD')" style="background:#1a1a1a; padding:18px; border-radius:12px; cursor:pointer; border:1.5px solid #333;">
-                <div style="font-weight:800; font-size:18px; color:#fff;"><i class="fa-solid fa-truck-fast"></i> Cash On Delivery</div>
-                <div style="font-size:11px; color:#888; margin-top:5px;">No discount available</div>
+    <!-- ITEM PREVIEW -->
+    <div class=\"premium-card\">
+        <div class=\"prod-mini\">
+            <img id=\"ck-prod-img\" src=\"\">
+            <div style=\"flex:1; min-width:0;\">
+                <div class=\"pm-name\" id=\"ck-prod-name\"></div>
+                <div class=\"pm-meta\" id=\"ck-prod-meta\"></div>
+                <div class=\"pm-price\" id=\"ck-prod-price\"></div>
             </div>
         </div>
-        <div id="scanner-display" style="display:none;">
-            <p style="font-size:12px; color:#ccc;">Scan QR & Pay <span id="dis-price" style="color:#0f0; font-weight:bold;"></span></p>
-            <img src="https://i.postimg.cc/nVShYS07/IMG-6402.jpg" style="width:100%; border-radius:10px; margin:10px 0; border: 2px solid #fff;">
-            <button onclick="confirmUPIDone()" style="width:100%; background:#00ff00; color:#000; border:none; padding:12px; border-radius:8px; font-weight:800; margin-top:10px;">I HAVE PAID (Confirm Order)</button>
+    </div>
+
+    <!-- STEP 1: ADDRESS -->
+    <div id=\"ck-step-address\">
+        <div class=\"premium-card\">
+            <div class=\"pc-title\"><i class=\"fa-solid fa-location-dot\"></i> Choose Delivery Address</div>
+            <div id=\"ck-saved-addresses\"></div>
+            <button class=\"add-new-addr-btn\" onclick=\"openAddrForm(null, 'checkout')\" data-testid=\"ck-add-new-addr-btn\"><i class=\"fa-solid fa-plus\"></i> Add New Address</button>
         </div>
-        <button onclick="closePayModal()" style="margin-top:20px; background:none; border:none; color:#ff4444; font-weight:700;">Cancel</button>
+    </div>
+
+    <!-- STEP 2: PAYMENT -->
+    <div id=\"ck-step-payment\" style=\"display:none;\">
+        <div class=\"premium-card\">
+            <div class=\"pc-title\"><i class=\"fa-solid fa-credit-card\"></i> Select Payment Method</div>
+            <div class=\"pay-grid\">
+                <div class=\"pay-method pm-phonepe\" data-pm=\"UPI\" onclick=\"selectPayment(this)\" data-testid=\"pm-phonepe\">
+                    <div class=\"pm-tick\"><i class=\"fa-solid fa-check\"></i></div>
+                    <div class=\"pm-logo\"><i class=\"fa-solid fa-mobile-screen-button\"></i></div>
+                    <div class=\"pm-label\">PhonePe</div><div class=\"pm-sub\">₹20 OFF</div>
+                </div>
+                <div class=\"pay-method pm-gpay\" data-pm=\"UPI\" onclick=\"selectPayment(this)\" data-testid=\"pm-gpay\">
+                    <div class=\"pm-tick\"><i class=\"fa-solid fa-check\"></i></div>
+                    <div class=\"pm-logo\">G</div>
+                    <div class=\"pm-label\">Google Pay</div><div class=\"pm-sub\">₹20 OFF</div>
+                </div>
+                <div class=\"pay-method pm-paytm\" data-pm=\"UPI\" onclick=\"selectPayment(this)\" data-testid=\"pm-paytm\">
+                    <div class=\"pm-tick\"><i class=\"fa-solid fa-check\"></i></div>
+                    <div class=\"pm-logo\"><i class=\"fa-solid fa-wallet\"></i></div>
+                    <div class=\"pm-label\">Paytm</div><div class=\"pm-sub\">₹20 OFF</div>
+                </div>
+                <div class=\"pay-method pm-upi\" data-pm=\"UPI\" onclick=\"selectPayment(this)\" data-testid=\"pm-upi\">
+                    <div class=\"pm-tick\"><i class=\"fa-solid fa-check\"></i></div>
+                    <div class=\"pm-logo\">UPI</div>
+                    <div class=\"pm-label\">Other UPI</div><div class=\"pm-sub\">₹20 OFF</div>
+                </div>
+                <div class=\"pay-method pm-scanner\" data-pm=\"UPI\" onclick=\"selectPayment(this)\" data-testid=\"pm-scanner\">
+                    <div class=\"pm-tick\"><i class=\"fa-solid fa-check\"></i></div>
+                    <div class=\"pm-logo\"><i class=\"fa-solid fa-qrcode\"></i></div>
+                    <div class=\"pm-label\">QR Scanner</div><div class=\"pm-sub\">₹20 OFF</div>
+                </div>
+                <div class=\"pay-method pm-cod\" data-pm=\"COD\" onclick=\"selectPayment(this)\" data-testid=\"pm-cod\">
+                    <div class=\"pm-tick\"><i class=\"fa-solid fa-check\"></i></div>
+                    <div class=\"pm-logo\"><i class=\"fa-solid fa-truck-fast\"></i></div>
+                    <div class=\"pm-label\">Cash on Delivery</div><div class=\"pm-sub\" style=\"color:#aaa\">No discount</div>
+                </div>
+            </div>
+            <div class=\"free-del-banner\"><i class=\"fa-solid fa-truck-fast\"></i> Free Delivery on this order</div>
+        </div>
+    </div>
+
+    <!-- STEP 3: BILL -->
+    <div id=\"ck-step-bill\" style=\"display:none;\">
+        <div class=\"premium-card\">
+            <div class=\"pc-title\"><i class=\"fa-solid fa-receipt\"></i> Order Summary</div>
+            <div id=\"ck-bill-rows\"></div>
+            <div class=\"free-del-banner\"><i class=\"fa-solid fa-shield-check\"></i> Safe & Secure • Free Delivery</div>
+        </div>
+        <div class=\"premium-card\">
+            <div class=\"pc-title\"><i class=\"fa-solid fa-location-dot\"></i> Delivering To</div>
+            <div id=\"ck-final-addr\" style=\"font-size:12px; color:#ccc; line-height:1.5;\"></div>
+        </div>
+    </div>
+
+    <div class=\"btn-box\"><button class=\"btn-main\" id=\"ck-action-btn\" data-testid=\"checkout-action-btn\">Continue</button></div>
+</div>
+
+<!-- ADDRESS FORM MODAL -->
+<div id=\"addr-form-modal\" class=\"addr-form-modal\">
+    <div class=\"afm-card\">
+        <h3 id=\"afm-title\"><i class=\"fa-solid fa-location-dot\" style=\"color:var(--accent);\"></i> Add New Address</h3>
+        <input type=\"text\" id=\"af-name\" class=\"addr-input\" placeholder=\"Full Name\" data-testid=\"af-name\">
+        <input type=\"tel\" id=\"af-phone\" class=\"addr-input\" placeholder=\"Mobile Number\" data-testid=\"af-phone\">
+        <input type=\"text\" id=\"af-addr1\" class=\"addr-input\" placeholder=\"House No, Building\" data-testid=\"af-addr1\">
+        <input type=\"text\" id=\"af-addr2\" class=\"addr-input\" placeholder=\"Area, Street\">
+        <input type=\"text\" id=\"af-addr3\" class=\"addr-input\" placeholder=\"Landmark (optional)\">
+        <div style=\"display:flex; gap:10px;\">
+            <input type=\"number\" id=\"af-pin\" class=\"addr-input\" placeholder=\"Pincode\" style=\"flex:1;\">
+            <input type=\"text\" id=\"af-state\" class=\"addr-input\" placeholder=\"State\" style=\"flex:1;\">
+        </div>
+        <p style=\"font-size:11px; color:#888; margin: 6px 0 6px;\">Address Type</p>
+        <div class=\"label-tag-row\">
+            <div class=\"label-tag selected\" data-tag=\"Home\" onclick=\"selectTag(this)\" data-testid=\"tag-home\"><i class=\"fa-solid fa-house\"></i> Home</div>
+            <div class=\"label-tag\" data-tag=\"Work\" onclick=\"selectTag(this)\" data-testid=\"tag-work\"><i class=\"fa-solid fa-briefcase\"></i> Work</div>
+            <div class=\"label-tag\" data-tag=\"Other\" onclick=\"selectTag(this)\" data-testid=\"tag-other\"><i class=\"fa-solid fa-location-pin\"></i> Other</div>
+        </div>
+        <button class=\"rev-submit\" onclick=\"saveAddress()\" data-testid=\"save-addr-btn\">Save Address</button>
+        <button class=\"rev-cancel\" onclick=\"closeAddrForm()\">Cancel</button>
     </div>
 </div>
 
-<div id="rev-form-bg" class="rev-form-bg">
-    <div class="rev-form">
-        <h3><i class="fa-solid fa-star" style="color:var(--accent);"></i> Rate this Product</h3>
-        <div class="star-picker" id="star-picker">
-            <i class="fa-solid fa-star" data-v="1"></i><i class="fa-solid fa-star" data-v="2"></i><i class="fa-solid fa-star" data-v="3"></i><i class="fa-solid fa-star" data-v="4"></i><i class="fa-solid fa-star" data-v="5"></i>
-        </div>
-        <textarea id="rev-text" placeholder="Apna experience share karein..."></textarea>
-        <p style="font-size:11px; color:#888; margin: 10px 0 4px;">Add Photos (max 3, optional)</p>
-        <div class="photo-upload-row" id="photo-upload-row">
-            <label class="photo-add" for="rev-photo-input"><i class="fa-solid fa-camera"></i>Photo</label>
-            <input type="file" id="rev-photo-input" accept="image/*" multiple style="display:none;">
-        </div>
-        <button class="rev-submit" onclick="submitReview()">Submit Review</button>
-        <button class="rev-cancel" onclick="closeReviewForm()">Cancel</button>
+<!-- SCANNER OVERLAY -->
+<div id=\"scanner-overlay\" class=\"scanner-overlay\">
+    <div class=\"scanner-card\">
+        <h3><i class=\"fa-solid fa-qrcode\"></i> Scan & Pay</h3>
+        <div class=\"pay-amt\" id=\"scanner-amount\">₹0</div>
+        <img src=\"https://i.postimg.cc/nVShYS07/IMG-6402.jpg\" alt=\"QR Scanner\">
+        <button class=\"paid-btn\" onclick=\"confirmPaidAndOrder()\" data-testid=\"confirm-paid-btn\"><i class=\"fa-solid fa-check\"></i> I HAVE PAID — Confirm Order</button>
+        <button class=\"cancel-link\" onclick=\"closeScanner()\">Cancel Payment</button>
     </div>
 </div>
 
-<div id="dk-modal-bg" class="dk-modal-bg">
-    <div class="dk-modal">
-        <div id="dk-modal-icon" class="dk-modal-icon info"><i class="fa-solid fa-info"></i></div>
-        <h3 id="dk-modal-title">Title</h3>
-        <p id="dk-modal-msg">Message</p>
-        <input type="text" id="dk-modal-input" style="display:none;">
-        <div class="dk-modal-actions">
-            <button id="dk-modal-cancel" class="dk-btn dk-btn-secondary" style="display:none;">Cancel</button>
-            <button id="dk-modal-ok" class="dk-btn dk-btn-primary">OK</button>
+<!-- ORDERS VIEW -->
+<div id=\"orders-view\" class=\"full-view\">
+    <div class=\"view-header\"><i class=\"fa-solid fa-arrow-left\" onclick=\"hideAllViews()\"></i><span>My Orders</span></div>
+    <div class=\"cancel-policy-card\">
+        <div class=\"cp-h\"><i class=\"fa-solid fa-circle-info\"></i> Order Cancellation Policy</div>
+        <div class=\"cp-t\">Aap apna order <b style=\"color:var(--accent);\">\"Pending\"</b> stage tak hi cancel kar sakte hain. Packed/Shipped hone ke baad cancellation possible nahi hai. Cancel hone par 7 working days me refund process ho jaayega.</div>
+    </div>
+    <div id=\"orderListContainer\"></div>
+</div>
+
+<!-- WISHLIST -->
+<div id=\"wishlist-view\" class=\"full-view\"><div class=\"view-header\"><i class=\"fa-solid fa-arrow-left\" onclick=\"hideAllViews()\"></i><span>Wishlist</span></div><div class=\"grid\" id=\"wishlistGrid\"></div></div>
+
+<!-- PROFILE -->
+<div id=\"profile-view\" class=\"full-view\">
+    <div class=\"view-header\"><i class=\"fa-solid fa-arrow-left\" onclick=\"hideAllViews()\"></i><span>My Profile</span></div>
+
+    <!-- AUTH -->
+    <div id=\"auth-section\" style=\"padding: 20px;\">
+        <h3 style=\"color: var(--accent); text-align:center; margin-bottom: 5px;\">Welcome to Dkart</h3>
+        <p style=\"text-align:center; color:#888; font-size:13px; margin-top:0;\">Login or Register to continue</p>
+        <div class=\"auth-tabs\">
+            <button class=\"auth-tab-btn active\" id=\"tab-login-btn\" onclick=\"switchAuthTab('login')\" data-testid=\"tab-login-btn\">Login</button>
+            <button class=\"auth-tab-btn\" id=\"tab-register-btn\" onclick=\"switchAuthTab('register')\" data-testid=\"tab-register-btn\">Register</button>
+        </div>
+        <div id=\"login-form\" class=\"auth-form active\">
+            <input type=\"email\" id=\"login-email\" class=\"addr-input\" placeholder=\"Email address\" data-testid=\"login-email\">
+            <input type=\"password\" id=\"login-password\" class=\"addr-input\" placeholder=\"Password\" data-testid=\"login-password\">
+            <button class=\"auth-btn\" onclick=\"emailLogin()\" data-testid=\"email-login-btn\"><i class=\"fa-solid fa-right-to-bracket\"></i> Login</button>
+            <p style=\"text-align:right; margin-top:10px;\"><a href=\"javascript:void(0)\" onclick=\"forgotPassword()\" style=\"color:var(--accent); font-size:13px; font-weight:600; text-decoration:none;\"><i class=\"fa-solid fa-key\"></i> Forgot Password?</a></p>
+        </div>
+        <div id=\"register-form\" class=\"auth-form\">
+            <input type=\"text\" id=\"reg-name\" class=\"addr-input\" placeholder=\"Full Name\" data-testid=\"reg-name\">
+            <input type=\"email\" id=\"reg-email\" class=\"addr-input\" placeholder=\"Email address\" data-testid=\"reg-email\">
+            <input type=\"password\" id=\"reg-password\" class=\"addr-input\" placeholder=\"Password (min 6 chars)\" data-testid=\"reg-password\">
+            <button class=\"auth-btn\" onclick=\"emailRegister()\" data-testid=\"email-register-btn\"><i class=\"fa-solid fa-user-plus\"></i> Create Account</button>
+        </div>
+        <div class=\"or-divider\">OR</div>
+        <button class=\"google-btn\" onclick=\"loginUser()\" data-testid=\"google-login-btn\"><i class=\"fa-brands fa-google\" style=\"color:#DB4437;\"></i> Continue with Google</button>
+    </div>
+
+    <!-- LOGGED IN -->
+    <div id=\"profile-logged-in\" class=\"profile-logged-in\" style=\"display:none;\">
+        <div class=\"profile-avatar\" id=\"profile-avatar\">U</div>
+        <h3 id=\"profile-name\" style=\"color: var(--accent); margin: 5px 0;\">User</h3>
+        <p id=\"user-email\" style=\"color: #aaa; font-size: 13px; margin: 0 0 10px 0;\">email@example.com</p>
+    </div>
+
+    <!-- MY ADDRESS -->
+    <div id=\"pf-address-section\" class=\"pf-section\" style=\"display:none;\">
+        <div class=\"pf-head\">
+            <div class=\"pf-title\"><i class=\"fa-solid fa-location-dot\"></i> My Addresses</div>
+            <button class=\"pf-add-btn\" onclick=\"openAddrForm(null, 'profile')\" data-testid=\"pf-add-addr-btn\"><i class=\"fa-solid fa-plus\"></i> Add</button>
+        </div>
+        <div id=\"pf-addr-list\"></div>
+    </div>
+
+    <!-- TERMS / RETURN POLICY -->
+    <div id=\"pf-policy-section\" class=\"pf-section\" style=\"display:none;\">
+        <div class=\"pf-title\" style=\"margin-bottom:8px;\"><i class=\"fa-solid fa-file-shield\"></i> Terms & Return Policy</div>
+        <div class=\"policy-icon-row\">
+            <div class=\"policy-chip\"><i class=\"fa-solid fa-rotate-left\"></i><div class=\"pc-l\">7 Days<br>Return</div></div>
+            <div class=\"policy-chip\"><i class=\"fa-solid fa-money-bill-transfer\"></i><div class=\"pc-l\">Easy<br>Refund</div></div>
+            <div class=\"policy-chip\"><i class=\"fa-solid fa-truck-fast\"></i><div class=\"pc-l\">Free<br>Delivery</div></div>
+        </div>
+        <div class=\"policy-line\">
+            <b>Return Policy:</b> Delivery hone ke <b style=\"color:var(--accent);\">7 din ke andar</b> hi product return kar sakte hain. Product unused, original packaging me aur tags ke saath hona chahiye.<br><br>
+            <b>Refund:</b> Return approve hone par <b>7 working days</b> me refund aapke account me aa jaayega (UPI/COD dono).<br><br>
+            <b>Cancellation:</b> Order sirf <b style=\"color:#ff7676;\">\"Pending\"</b> stage tak cancel ho sakta hai.<br><br>
+            <b>Damaged/Wrong Product:</b> 24 ghante ke andar WhatsApp pe contact karein, full refund/replacement milega.
+        </div>
+        <div style=\"margin-top:12px; text-align:center;\">
+            <a href=\"https://wa.me/918521694137?text=Hello%20Dkart%20Help%20Needed\" target=\"_blank\" style=\"background:#25D366; color:#fff; padding:8px 16px; border-radius:18px; font-weight:800; font-size:11px; text-decoration:none; display:inline-flex; align-items:center; gap:6px;\"><i class=\"fa-brands fa-whatsapp\"></i> Need Help? Contact Us</a>
+        </div>
+    </div>
+
+    <div id=\"pf-logout-wrap\" style=\"padding: 0 20px 20px; display:none;\">
+        <button class=\"logout-btn\" onclick=\"logoutUser()\" data-testid=\"logout-btn\"><i class=\"fa-solid fa-right-from-bracket\"></i> Logout</button>
+    </div>
+</div>
+
+<!-- REVIEW FORM -->
+<div id=\"rev-form-bg\" class=\"rev-form-bg\">
+    <div class=\"rev-form\">
+        <h3><i class=\"fa-solid fa-star\" style=\"color:var(--accent);\"></i> Rate this Product</h3>
+        <div class=\"star-picker\" id=\"star-picker\">
+            <i class=\"fa-solid fa-star\" data-v=\"1\"></i><i class=\"fa-solid fa-star\" data-v=\"2\"></i><i class=\"fa-solid fa-star\" data-v=\"3\"></i><i class=\"fa-solid fa-star\" data-v=\"4\"></i><i class=\"fa-solid fa-star\" data-v=\"5\"></i>
+        </div>
+        <textarea id=\"rev-text\" placeholder=\"Apna experience share karein...\"></textarea>
+        <p style=\"font-size:11px; color:#888; margin: 10px 0 4px;\">Add Photos (max 3, optional)</p>
+        <div class=\"photo-upload-row\" id=\"photo-upload-row\">
+            <label class=\"photo-add\" for=\"rev-photo-input\"><i class=\"fa-solid fa-camera\"></i>Photo</label>
+            <input type=\"file\" id=\"rev-photo-input\" accept=\"image/*\" multiple style=\"display:none;\">
+        </div>
+        <button class=\"rev-submit\" onclick=\"submitReview()\">Submit Review</button>
+        <button class=\"rev-cancel\" onclick=\"closeReviewForm()\">Cancel</button>
+    </div>
+</div>
+
+<!-- COMMON MODAL & TOAST -->
+<div id=\"dk-modal-bg\" class=\"dk-modal-bg\">
+    <div class=\"dk-modal\">
+        <div id=\"dk-modal-icon\" class=\"dk-modal-icon info\"><i class=\"fa-solid fa-info\"></i></div>
+        <h3 id=\"dk-modal-title\">Title</h3>
+        <p id=\"dk-modal-msg\">Message</p>
+        <input type=\"text\" id=\"dk-modal-input\" style=\"display:none;\">
+        <div class=\"dk-modal-actions\">
+            <button id=\"dk-modal-cancel\" class=\"dk-btn dk-btn-secondary\" style=\"display:none;\">Cancel</button>
+            <button id=\"dk-modal-ok\" class=\"dk-btn dk-btn-primary\">OK</button>
         </div>
     </div>
 </div>
 
-<div id="lightbox" class="lightbox" onclick="this.classList.remove('show')"><span class="close">&times;</span><img id="lightbox-img" src=""></div>
-<div id="dk-toast" class="dk-toast"></div>
+<div id=\"lightbox\" class=\"lightbox\" onclick=\"this.classList.remove('show')\"><span class=\"close\">&times;</span><img id=\"lightbox-img\" src=\"\"></div>
+<div id=\"dk-toast\" class=\"dk-toast\"></div>
 
-<nav class="nav-bar">
-    <div class="nav-tab active" id="nav-home" onclick="goHome()"><i class="fa-solid fa-house"></i><span>Home</span></div>
-    <div class="nav-tab" id="nav-orders" onclick="showOrders()"><i class="fa-solid fa-bag-shopping"></i><span>Orders</span></div>
-    <div class="nav-tab" id="nav-wishlist" onclick="showWishlist()"><i class="fa-solid fa-heart"></i><span>Wishlist</span></div>
-    <div class="nav-tab" id="nav-profile" onclick="showProfile()"><i class="fa-solid fa-user"></i><span>Profile</span></div>
+<nav class=\"nav-bar\">
+    <div class=\"nav-tab active\" id=\"nav-home\" onclick=\"goHome()\" data-testid=\"nav-home\"><i class=\"fa-solid fa-house\"></i><span>Home</span></div>
+    <div class=\"nav-tab\" id=\"nav-orders\" onclick=\"showOrders()\" data-testid=\"nav-orders\"><i class=\"fa-solid fa-bag-shopping\"></i><span>Orders</span></div>
+    <div class=\"nav-tab\" id=\"nav-wishlist\" onclick=\"showWishlist()\" data-testid=\"nav-wishlist\"><i class=\"fa-solid fa-heart\"></i><span>Wishlist</span></div>
+    <div class=\"nav-tab\" id=\"nav-profile\" onclick=\"showProfile()\" data-testid=\"nav-profile\"><i class=\"fa-solid fa-user\"></i><span>Profile</span></div>
 </nav>
 
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
-    import { getFirestore, collection, getDocs, addDoc, query, orderBy, where, serverTimestamp, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
-    import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+<script type=\"module\">
+    import { initializeApp } from \"https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js\";
+    import { getFirestore, collection, getDocs, addDoc, updateDoc, deleteDoc, query, orderBy, where, serverTimestamp, doc, getDoc, setDoc } from \"https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js\";
+    import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, sendPasswordResetEmail } from \"https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js\";
 
-    const firebaseConfig = { apiKey: "AIzaSyAchWzhIxqmS7G0HPpvuq6WBwcr8pXzFAE", authDomain: "dkart-87860.firebaseapp.com", projectId: "dkart-87860", appId: "1:894407834952:web:3067589b758c9819fe877d" };
+    const firebaseConfig = { apiKey: \"AIzaSyAchWzhIxqmS7G0HPpvuq6WBwcr8pXzFAE\", authDomain: \"dkart-87860.firebaseapp.com\", projectId: \"dkart-87860\", appId: \"1:894407834952:web:3067589b758c9819fe877d\" };
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const auth = getAuth(app);
     const provider = new GoogleAuthProvider();
     let currentUser = null;
-    let allP = [], currentP = null, selectedSize = "", selectedVariant = null;
+    let allP = [], currentP = null, selectedSize = \"\", selectedVariant = null;
     let reviewStars = 0, reviewPhotos = [];
 
-    const modalBg = document.getElementById('dk-modal-bg'), modalIcon = document.getElementById('dk-modal-icon'), modalTitle = document.getElementById('dk-modal-title'), modalMsg = document.getElementById('dk-modal-msg'), modalInput = document.getElementById('dk-modal-input'), modalOk = document.getElementById('dk-modal-ok'), modalCancel = document.getElementById('dk-modal-cancel');
-    const ICONS = { success: '<i class="fa-solid fa-circle-check"></i>', error: '<i class="fa-solid fa-circle-exclamation"></i>', info: '<i class="fa-solid fa-circle-info"></i>', warn: '<i class="fa-solid fa-triangle-exclamation"></i>' };
+    // Checkout state
+    let ckStep = 1; // 1 address, 2 payment, 3 bill
+    let ckAddresses = [];
+    let ckSelectedAddrId = null;
+    let ckPaymentMethod = null; // 'UPI' or 'COD'
+    let ckPaymentBrand = null; // PhonePe/GPay/...
+    let editingAddrId = null;
+    let addrFormSource = 'profile'; // 'profile' or 'checkout'
+    let selectedAddrTag = 'Home';
 
-    function showModal({type='info', title='Dkart', msg='', input=false, placeholder='', okText='OK', showCancel=false, onOk=null, onCancel=null}) {
+    const UPI_DISCOUNT = 20;
+
+    const modalBg = document.getElementById('dk-modal-bg'), modalIcon = document.getElementById('dk-modal-icon'), modalTitle = document.getElementById('dk-modal-title'), modalMsg = document.getElementById('dk-modal-msg'), modalInput = document.getElementById('dk-modal-input'), modalOk = document.getElementById('dk-modal-ok'), modalCancel = document.getElementById('dk-modal-cancel');
+    const ICONS = { success: '<i class=\"fa-solid fa-circle-check\"></i>', error: '<i class=\"fa-solid fa-circle-exclamation\"></i>', info: '<i class=\"fa-solid fa-circle-info\"></i>', warn: '<i class=\"fa-solid fa-triangle-exclamation\"></i>' };
+
+    function showModal({type='info', title='Dkart', msg='', input=false, placeholder='', okText='OK', showCancel=false, onOk=null, onCancel=null, dangerOk=false}) {
         modalIcon.className = 'dk-modal-icon ' + type;
         modalIcon.innerHTML = ICONS[type] || ICONS.info;
         modalTitle.innerText = title; modalMsg.innerText = msg;
         modalInput.style.display = input ? 'block' : 'none';
         modalInput.value = ''; modalInput.placeholder = placeholder;
         modalOk.innerText = okText;
+        modalOk.className = 'dk-btn ' + (dangerOk ? 'dk-btn-danger' : 'dk-btn-primary');
         modalCancel.style.display = showCancel ? 'block' : 'none';
         modalBg.classList.add('show');
         if (input) setTimeout(() => modalInput.focus(), 100);
@@ -459,15 +694,15 @@
         modalCancel.onclick = () => { modalBg.classList.remove('show'); if (onCancel) onCancel(); };
     }
     window.dkAlert = (msg, type='info', title) => { const titles = { success: 'Success', error: 'Error', info: 'Info', warn: 'Warning' }; showModal({ type, title: title || titles[type], msg, okText: 'OK' }); };
+    window.dkConfirm = (title, msg, onOk, dangerOk=true) => showModal({ type:'warn', title, msg, showCancel:true, onOk, okText:'Yes', dangerOk });
     window.dkPrompt = (title, msg, placeholder, onOk) => showModal({ type:'info', title, msg, input:true, placeholder, showCancel:true, onOk, okText:'Submit' });
 
     const toast = document.getElementById('dk-toast'); let toastTimer;
-    window.dkToast = (msg, type='success') => { clearTimeout(toastTimer); toast.className = 'dk-toast show ' + type; toast.innerHTML = (type==='success'?'<i class="fa-solid fa-check"></i> ':type==='error'?'<i class="fa-solid fa-xmark"></i> ':'') + msg; toastTimer = setTimeout(() => toast.classList.remove('show'), 2500); };
+    window.dkToast = (msg, type='success') => { clearTimeout(toastTimer); toast.className = 'dk-toast show ' + type; toast.innerHTML = (type==='success'?'<i class=\"fa-solid fa-check\"></i> ':type==='error'?'<i class=\"fa-solid fa-xmark\"></i> ':'') + msg; toastTimer = setTimeout(() => toast.classList.remove('show'), 2500); };
     window.openLightbox = (src) => { document.getElementById('lightbox-img').src = src; document.getElementById('lightbox').classList.add('show'); };
 
     window.toggleReviews = () => { document.getElementById('rev-body').classList.toggle('open'); document.getElementById('rev-toggle-arrow').classList.toggle('open'); };
 
-    // DESCRIPTION TOGGLE
     window.toggleDesc = () => {
         const txt = document.getElementById('det-desc');
         const btn = document.getElementById('more-details-btn');
@@ -477,43 +712,43 @@
         lbl.innerText = txt.classList.contains('expanded') ? 'Show Less' : 'More Details';
     };
 
-    // LOAD BANNER from Firestore settings/home
     async function loadBanner() {
         try {
-            const ref = doc(db, "settings", "home");
+            const ref = doc(db, \"settings\", \"home\");
             const snap = await getDoc(ref);
             if (snap.exists()) {
                 const data = snap.data();
-                const url = (data.bannerUrl || "").trim();
-                const active = data.bannerActive !== false; // default true
+                const url = (data.bannerUrl || \"\").trim();
+                const active = data.bannerActive !== false;
                 if (url && active) {
                     document.getElementById('promo-banner-img').src = url;
                     document.getElementById('promo-banner').classList.add('show');
                 }
             }
-        } catch(e) { console.log("No banner set"); }
+        } catch(e) { console.log(\"No banner set\"); }
     }
 
     async function load() {
         const list = document.getElementById('productList');
-        list.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><i class="fa-solid fa-spinner fa-spin"></i><p>Products load ho rahe hain...</p></div>';
+        list.innerHTML = '<div class=\"empty-state\" style=\"grid-column:1/-1;\"><i class=\"fa-solid fa-spinner fa-spin\"></i><p>Products load ho rahe hain...</p></div>';
         try {
             let snap;
-            try { snap = await getDocs(query(collection(db, "products"), orderBy("time", "desc"))); }
-            catch(e) { snap = await getDocs(collection(db, "products")); }
+            try { snap = await getDocs(query(collection(db, \"products\"), orderBy(\"time\", \"desc\"))); }
+            catch(e) { snap = await getDocs(collection(db, \"products\")); }
             allP = snap.docs.map(d => ({id: d.id, ...d.data()}));
             render(allP, 'productList');
-        } catch(err) { console.error(err); list.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><i class="fa-solid fa-triangle-exclamation"></i><p>Products load nahi ho paye.</p></div>'; }
+        } catch(err) { console.error(err); list.innerHTML = '<div class=\"empty-state\" style=\"grid-column:1/-1;\"><i class=\"fa-solid fa-triangle-exclamation\"></i><p>Products load nahi ho paye.</p></div>'; }
     }
 
     function render(data, target) {
         const list = document.getElementById(target);
-        list.innerHTML = "";
-        if (!data || data.length === 0) { list.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><i class="fa-solid fa-box-open"></i><p>No products found</p></div>'; return; }
+        list.innerHTML = \"\";
+        if (!data || data.length === 0) { list.innerHTML = '<div class=\"empty-state\" style=\"grid-column:1/-1;\"><i class=\"fa-solid fa-box-open\"></i><p>No products found</p></div>'; return; }
         data.forEach(p => {
             const card = document.createElement('div');
             card.className = 'p-card';
-            card.innerHTML = `<i class="fa-solid fa-heart wish-icon" onclick="toggleWish(event, '${p.id}')"></i><img src="${(p.images && p.images[0]) || 'Dkart.jpg'}" onerror="this.src='https://via.placeholder.com/140'"><div class="p-name">${p.name || 'Product'}</div><div class="p-price">₹${p.price || '0'}</div>`;
+            card.setAttribute('data-testid', 'product-card-' + p.id);
+            card.innerHTML = `<i class=\"fa-solid fa-heart wish-icon\" onclick=\"toggleWish(event, '${p.id}')\"></i><img src=\"${(p.images && p.images[0]) || 'Dkart.jpg'}\" onerror=\"this.src='https://via.placeholder.com/140'\"><div class=\"p-name\">${p.name || 'Product'}</div><div class=\"p-price\">₹${p.price || '0'}</div>`;
             card.onclick = () => openProductDetail(p);
             list.appendChild(card);
         });
@@ -525,7 +760,7 @@
         const imgs = (images && images.length) ? images : ['Dkart.jpg'];
         imgs.forEach((src, idx) => {
             const slide = document.createElement('div'); slide.className = 'slider-slide';
-            slide.innerHTML = `<img src="${src}" onerror="this.src='https://via.placeholder.com/400'">`;
+            slide.innerHTML = `<img src=\"${src}\" onerror=\"this.src='https://via.placeholder.com/400'\">`;
             track.appendChild(slide);
             const dot = document.createElement('div'); dot.className = 'slider-dot' + (idx === 0 ? ' active' : '');
             dot.onclick = () => track.scrollTo({ left: track.clientWidth * idx, behavior: 'smooth' });
@@ -546,11 +781,11 @@
         variants.forEach((v, idx) => {
             const card = document.createElement('div');
             card.className = 'v-card' + (idx === 0 ? ' selected' : '');
-            card.innerHTML = `<div class="v-tick"><i class="fa-solid fa-check"></i></div><img src="${v.image || (prod.images && prod.images[0]) || 'Dkart.jpg'}" onerror="this.src='https://via.placeholder.com/60'"><div class="v-name">${v.name || 'Variant'}</div>${v.price ? `<div class="v-price">₹${v.price}</div>` : ''}`;
+            card.innerHTML = `<div class=\"v-tick\"><i class=\"fa-solid fa-check\"></i></div><img src=\"${v.image || (prod.images && prod.images[0]) || 'Dkart.jpg'}\" onerror=\"this.src='https://via.placeholder.com/60'\"><div class=\"v-name\">${v.name || 'Variant'}</div>${v.price ? `<div class=\"v-price\">₹${v.price}</div>` : ''}`;
             card.onclick = () => {
                 strip.querySelectorAll('.v-card').forEach(c => c.classList.remove('selected'));
                 card.classList.add('selected'); selectedVariant = v;
-                if (v.price) { document.getElementById('det-price').innerText = "₹" + v.price; currentP.tempSelectedPrice = v.price; }
+                if (v.price) { document.getElementById('det-price').innerText = \"₹\" + v.price; currentP.tempSelectedPrice = v.price; }
                 if (v.image) { const newImgs = [v.image, ...(prod.images || []).filter(x => x !== v.image)]; buildSlider(newImgs); }
             };
             strip.appendChild(card);
@@ -571,42 +806,40 @@
         section.style.display = 'block';
         picks.forEach(p => {
             const card = document.createElement('div'); card.className = 'suggest-card';
-            card.innerHTML = `<img src="${(p.images && p.images[0]) || 'Dkart.jpg'}" onerror="this.src='https://via.placeholder.com/110'"><div class="sn">${p.name}</div><div class="sp">₹${p.price}</div>`;
+            card.innerHTML = `<img src=\"${(p.images && p.images[0]) || 'Dkart.jpg'}\" onerror=\"this.src='https://via.placeholder.com/110'\"><div class=\"sn\">${p.name}</div><div class=\"sp\">₹${p.price}</div>`;
             card.onclick = () => { openProductDetail(p); document.getElementById('detail-view').scrollTo({ top: 0, behavior: 'smooth' }); };
             grid.appendChild(card);
         });
     }
 
     function openProductDetail(p) {
-        currentP = p; selectedSize = ""; selectedVariant = null; currentP.tempSelectedPrice = null;
+        currentP = p; selectedSize = \"\"; selectedVariant = null; currentP.tempSelectedPrice = null;
         document.getElementById('rev-body').classList.remove('open');
         document.getElementById('rev-toggle-arrow').classList.remove('open');
 
         buildSlider(p.images || []);
         document.getElementById('det-name').innerText = p.name || '';
-        document.getElementById('det-price').innerText = "₹" + (p.price || '0');
+        document.getElementById('det-price').innerText = \"₹\" + (p.price || '0');
         const mrp = p.mrp || Math.round(parseInt(p.price || 0) * 1.4);
         const off = Math.max(0, Math.round(((mrp - parseInt(p.price || 0)) / mrp) * 100));
-        document.getElementById('det-mrp').innerText = "₹" + mrp;
-        document.getElementById('det-off').innerText = off > 0 ? off + "% off" : "";
+        document.getElementById('det-mrp').innerText = \"₹\" + mrp;
+        document.getElementById('det-off').innerText = off > 0 ? off + \"% off\" : \"\";
         const baseRating = p.rating || 4.2;
         document.getElementById('det-rating-val').innerText = baseRating.toFixed(1);
         document.getElementById('det-rating-count').innerText = p.ratingCount || 0;
         document.getElementById('det-review-count').innerText = 0;
 
-        // DESCRIPTION - reset collapsed and check if More Details button needed
         const descBox = document.getElementById('desc-box');
         const descEl = document.getElementById('det-desc');
         const moreBtn = document.getElementById('more-details-btn');
         const moreLbl = document.getElementById('more-details-label');
-        const descText = (p.desc || "").trim();
+        const descText = (p.desc || \"\").trim();
         descEl.classList.remove('expanded');
         moreBtn.classList.remove('open');
         moreLbl.innerText = 'More Details';
         if (descText) {
             descBox.style.display = 'block';
             descEl.innerText = descText;
-            // Check if text overflows 5 lines - show button if yes
             setTimeout(() => {
                 const lineHeight = parseFloat(getComputedStyle(descEl).lineHeight);
                 const maxHeight = lineHeight * 5;
@@ -618,7 +851,7 @@
         }
 
         const sContainer = document.getElementById('det-sizes'), sBox = document.getElementById('size-options-container');
-        sContainer.innerHTML = "";
+        sContainer.innerHTML = \"\";
         if(p.sizes && p.sizes.length > 0) {
             sBox.style.display = 'block';
             p.sizes.forEach(s => {
@@ -635,12 +868,12 @@
 
     async function loadReviews(productId) {
         const list = document.getElementById('rev-list'), summary = document.getElementById('rev-summary');
-        list.innerHTML = '<div class="rev-empty"><i class="fa-solid fa-spinner fa-spin"></i> Reviews load ho rahe hain...</div>';
+        list.innerHTML = '<div class=\"rev-empty\"><i class=\"fa-solid fa-spinner fa-spin\"></i> Reviews load ho rahe hain...</div>';
         try {
-            const snap = await getDocs(query(collection(db, "reviews"), where("productId", "==", productId)));
+            const snap = await getDocs(query(collection(db, \"reviews\"), where(\"productId\", \"==\", productId)));
             let reviews = snap.docs.map(d => ({ id: d.id, ...d.data() }));
             reviews.sort((a,b) => { const tA = a.time && a.time.toDate ? a.time.toDate().getTime() : 0; const tB = b.time && b.time.toDate ? b.time.toDate().getTime() : 0; return tB - tA; });
-            if (reviews.length === 0) { summary.style.display = 'none'; list.innerHTML = '<div class="rev-empty"><i class="fa-regular fa-comment-dots" style="font-size:28px; display:block; margin-bottom:8px;"></i>Abhi koi review nahi hai. Pehla review aap likhein!</div>'; document.getElementById('det-review-count').innerText = 0; return; }
+            if (reviews.length === 0) { summary.style.display = 'none'; list.innerHTML = '<div class=\"rev-empty\"><i class=\"fa-regular fa-comment-dots\" style=\"font-size:28px; display:block; margin-bottom:8px;\"></i>Abhi koi review nahi hai. Pehla review aap likhein!</div>'; document.getElementById('det-review-count').innerText = 0; return; }
             const avg = reviews.reduce((s,r) => s + (r.rating || 0), 0) / reviews.length, avgFix = avg.toFixed(1);
             summary.style.display = 'flex';
             document.getElementById('rs-avg').innerText = avgFix;
@@ -653,73 +886,396 @@
             list.innerHTML = reviews.map(r => {
                 const dateStr = r.time && r.time.toDate ? r.time.toDate().toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' }) : '';
                 const initial = (r.userName || 'U').charAt(0).toUpperCase();
-                const photosHtml = (r.photos && r.photos.length) ? `<div class="rev-photos">${r.photos.map(ph => `<img src="${ph}" onclick="openLightbox('${ph.replace(/'/g, "\\'")}')">`).join('')}</div>` : '';
-                return `<div class="rev-item"><div class="rev-top"><div class="rev-user"><div class="rev-avatar">${initial}</div><div><div class="rev-user-name">${r.userName || 'Anonymous'}</div><div class="rev-date">${dateStr}</div></div></div><span class="rev-stars">${r.rating || 0} <i class="fa-solid fa-star"></i></span></div>${r.text ? `<p class="rev-text">${r.text}</p>` : ''}${photosHtml}</div>`;
+                const photosHtml = (r.photos && r.photos.length) ? `<div class=\"rev-photos\">${r.photos.map(ph => `<img src=\"${ph}\" onclick=\"openLightbox('${ph.replace(/'/g, \"\\'\")}')\">`).join('')}</div>` : '';
+                return `<div class=\"rev-item\"><div class=\"rev-top\"><div class=\"rev-user\"><div class=\"rev-avatar\">${initial}</div><div><div class=\"rev-user-name\">${r.userName || 'Anonymous'}</div><div class=\"rev-date\">${dateStr}</div></div></div><span class=\"rev-stars\">${r.rating || 0} <i class=\"fa-solid fa-star\"></i></span></div>${r.text ? `<p class=\"rev-text\">${r.text}</p>` : ''}${photosHtml}</div>`;
             }).join('');
-        } catch(err) { console.error(err); list.innerHTML = '<div class="rev-empty">Reviews load nahi ho paye.</div>'; }
+        } catch(err) { console.error(err); list.innerHTML = '<div class=\"rev-empty\">Reviews load nahi ho paye.</div>'; }
     }
 
     document.getElementById('star-picker').addEventListener('click', (e) => { if (e.target.dataset && e.target.dataset.v) { const v = parseInt(e.target.dataset.v); reviewStars = v; document.querySelectorAll('#star-picker i').forEach(i => { i.classList.toggle('active', parseInt(i.dataset.v) <= v); }); } });
-    document.getElementById('rev-photo-input').addEventListener('change', async (e) => { const files = Array.from(e.target.files || []); for (const file of files) { if (reviewPhotos.length >= 3) { dkAlert("Max 3 photos allowed", 'warn'); break; } try { const compressed = await compressImage(file, 800, 0.7); reviewPhotos.push(compressed); renderPhotoThumbs(); } catch(err) { console.error(err); } } e.target.value = ''; });
+    document.getElementById('rev-photo-input').addEventListener('change', async (e) => { const files = Array.from(e.target.files || []); for (const file of files) { if (reviewPhotos.length >= 3) { dkAlert(\"Max 3 photos allowed\", 'warn'); break; } try { const compressed = await compressImage(file, 800, 0.7); reviewPhotos.push(compressed); renderPhotoThumbs(); } catch(err) { console.error(err); } } e.target.value = ''; });
 
     function compressImage(file, maxDim, quality) { return new Promise((resolve, reject) => { const reader = new FileReader(); reader.onload = (ev) => { const img = new Image(); img.onload = () => { let { width, height } = img; if (width > height && width > maxDim) { height = height * (maxDim/width); width = maxDim; } else if (height > maxDim) { width = width * (maxDim/height); height = maxDim; } const canvas = document.createElement('canvas'); canvas.width = width; canvas.height = height; canvas.getContext('2d').drawImage(img, 0, 0, width, height); resolve(canvas.toDataURL('image/jpeg', quality)); }; img.onerror = reject; img.src = ev.target.result; }; reader.onerror = reject; reader.readAsDataURL(file); }); }
 
-    function renderPhotoThumbs() { const row = document.getElementById('photo-upload-row'); row.querySelectorAll('.photo-thumb').forEach(el => el.remove()); const addBtn = row.querySelector('.photo-add'); reviewPhotos.forEach((src, idx) => { const t = document.createElement('div'); t.className = 'photo-thumb'; t.innerHTML = `<img src="${src}"><div class="x">×</div>`; t.querySelector('.x').onclick = () => { reviewPhotos.splice(idx, 1); renderPhotoThumbs(); }; row.insertBefore(t, addBtn); }); addBtn.style.display = reviewPhotos.length >= 3 ? 'none' : 'flex'; }
+    function renderPhotoThumbs() { const row = document.getElementById('photo-upload-row'); row.querySelectorAll('.photo-thumb').forEach(el => el.remove()); const addBtn = row.querySelector('.photo-add'); reviewPhotos.forEach((src, idx) => { const t = document.createElement('div'); t.className = 'photo-thumb'; t.innerHTML = `<img src=\"${src}\"><div class=\"x\">×</div>`; t.querySelector('.x').onclick = () => { reviewPhotos.splice(idx, 1); renderPhotoThumbs(); }; row.insertBefore(t, addBtn); }); addBtn.style.display = reviewPhotos.length >= 3 ? 'none' : 'flex'; }
 
-    window.openReviewForm = () => { if (!currentUser) return dkAlert("Review likhne ke liye pehle login karein!", 'warn', 'Login Required'); reviewStars = 0; reviewPhotos = []; document.getElementById('rev-text').value = ''; document.querySelectorAll('#star-picker i').forEach(i => i.classList.remove('active')); renderPhotoThumbs(); document.getElementById('rev-form-bg').classList.add('show'); };
+    window.openReviewForm = () => { if (!currentUser) return dkAlert(\"Review likhne ke liye pehle login karein!\", 'warn', 'Login Required'); reviewStars = 0; reviewPhotos = []; document.getElementById('rev-text').value = ''; document.querySelectorAll('#star-picker i').forEach(i => i.classList.remove('active')); renderPhotoThumbs(); document.getElementById('rev-form-bg').classList.add('show'); };
     window.closeReviewForm = () => document.getElementById('rev-form-bg').classList.remove('show');
-    window.submitReview = async () => { if (!currentUser) return dkAlert("Pehle login karein!", 'warn'); if (!reviewStars) return dkAlert("Star rating dein!", 'warn'); const text = document.getElementById('rev-text').value.trim(); const data = { productId: currentP.id, userId: currentUser.uid, userName: currentUser.displayName || (currentUser.email ? currentUser.email.split('@')[0] : 'User'), userEmail: currentUser.email || '', rating: reviewStars, text: text, photos: reviewPhotos, time: serverTimestamp() }; try { await addDoc(collection(db, "reviews"), data); closeReviewForm(); dkToast('Review submit ho gaya ✅', 'success'); loadReviews(currentP.id); } catch(err) { dkAlert("Review submit me error: " + err.message, 'error'); } };
+    window.submitReview = async () => { if (!currentUser) return dkAlert(\"Pehle login karein!\", 'warn'); if (!reviewStars) return dkAlert(\"Star rating dein!\", 'warn'); const text = document.getElementById('rev-text').value.trim(); const data = { productId: currentP.id, userId: currentUser.uid, userName: currentUser.displayName || (currentUser.email ? currentUser.email.split('@')[0] : 'User'), userEmail: currentUser.email || '', rating: reviewStars, text: text, photos: reviewPhotos, time: serverTimestamp() }; try { await addDoc(collection(db, \"reviews\"), data); closeReviewForm(); dkToast('Review submit ho gaya ✅', 'success'); loadReviews(currentP.id); } catch(err) { dkAlert(\"Review submit me error: \" + err.message, 'error'); } };
 
     function setActiveNav(id) { document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active')); if(id) { const el = document.getElementById(id); if(el) el.classList.add('active'); } }
     window.goHome = () => { hideAllViews(); setActiveNav('nav-home'); window.scrollTo(0, 0); };
     window.filterCat = (cat) => { if(cat === 'All') render(allP, 'productList'); else render(allP.filter(p => p.category && p.category.toLowerCase() === cat.toLowerCase()), 'productList'); };
-    window.closePayModal = () => { document.getElementById('pay-modal').style.display = 'none'; document.getElementById('upi-options').style.display = 'block'; document.getElementById('scanner-display').style.display = 'none'; };
-    window.openCheckout = () => { if(currentP.sizes && currentP.sizes.length > 0 && !selectedSize) return dkAlert("Pehle Size choose karein!", 'warn'); document.getElementById('pay-modal').style.display = 'flex'; };
-    function getEffectivePrice() { return currentP.tempSelectedPrice || currentP.price; }
-    window.showScanner = () => { const finalPrice = parseInt(getEffectivePrice()) - 20; currentP.tempPrice = finalPrice; document.getElementById('dis-price').innerText = "₹" + finalPrice; document.getElementById('upi-options').style.display = 'none'; document.getElementById('scanner-display').style.display = 'block'; };
-    window.confirmUPIDone = () => { closePayModal(); updateCheckoutView("UPI (Paid)"); };
-    window.processOrder = (method) => { if(method === 'COD') { currentP.tempPrice = getEffectivePrice(); closePayModal(); updateCheckoutView("COD"); } };
-    function updateCheckoutView(method) { document.getElementById('c-prod-name').innerText = currentP.name + (selectedVariant ? ` (${selectedVariant.name})` : ''); document.getElementById('c-prod-price-display').innerText = "Amount: ₹" + currentP.tempPrice; document.getElementById('c-prod-size').innerText = (selectedSize ? "Size: " + selectedSize : "Free Size") + " | " + method; document.body.classList.add('view-open'); document.getElementById('checkout-view').style.display = 'block'; }
 
-    document.getElementById('order-btn').onclick = async () => {
-        const n = document.getElementById('c-name').value, ph = document.getElementById('c-phone').value, ad1 = document.getElementById('c-addr1').value, ad2 = document.getElementById('c-addr2').value, ad3 = document.getElementById('c-addr3').value, pin = document.getElementById('c-pin').value, state = document.getElementById('c-state').value;
-        if(!n || !ph || !ad1 || !pin || !state) return dkAlert("Sari details bhariye!", 'warn');
-        const fullAddress = `${ad1}, ${ad2}, ${ad3}, Pincode: ${pin}, State: ${state}`;
-        const orderData = { name: currentP.name + (selectedVariant ? ` (${selectedVariant.name})` : ''), price: currentP.tempPrice || currentP.price, img: (selectedVariant && selectedVariant.image) || (currentP.images && currentP.images[0]) || 'Dkart.jpg', size: selectedSize || "Free Size", variant: selectedVariant ? selectedVariant.name : "", customer: n, phone: ph, address: fullAddress, userId: currentUser ? currentUser.uid : "guest", userEmail: currentUser ? currentUser.email : "guest", time: serverTimestamp(), status: "Pending" };
-        try { const docRef = await addDoc(collection(db, "orders"), orderData); const localOrder = { ...orderData, id: docRef.id, time: Date.now() }; let myOrders = JSON.parse(localStorage.getItem('dk_orders')) || []; myOrders.unshift(localOrder); localStorage.setItem('dk_orders', JSON.stringify(myOrders)); showModal({ type:'success', title:'Order Confirmed!', msg:'Aapka order successfully place ho gaya hai. Thank you for shopping with Dkart!', okText:'View Orders', onOk:()=>{location.reload();} }); } catch(err) { dkAlert("Order place karne me error: " + err.message, 'error'); }
+    // ============ ADDRESS MANAGEMENT ============
+    async function fetchUserAddresses() {
+        if (!currentUser) return [];
+        try {
+            const snap = await getDocs(query(collection(db, \"addresses\"), where(\"userId\", \"==\", currentUser.uid)));
+            return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        } catch(err) { console.error(err); return []; }
+    }
+
+    window.openAddrForm = (addrId, source) => {
+        if (!currentUser) return dkAlert(\"Pehle login karein!\", 'warn', 'Login Required');
+        addrFormSource = source || 'profile';
+        editingAddrId = addrId;
+        const modal = document.getElementById('addr-form-modal');
+        document.getElementById('afm-title').innerHTML = '<i class=\"fa-solid fa-location-dot\" style=\"color:var(--accent);\"></i> ' + (addrId ? 'Edit Address' : 'Add New Address');
+        ['af-name','af-phone','af-addr1','af-addr2','af-addr3','af-pin','af-state'].forEach(id => document.getElementById(id).value = '');
+        selectedAddrTag = 'Home';
+        document.querySelectorAll('.label-tag').forEach(t => t.classList.toggle('selected', t.dataset.tag === 'Home'));
+        if (addrId) {
+            const a = ckAddresses.find(x => x.id === addrId);
+            if (a) {
+                document.getElementById('af-name').value = a.name || '';
+                document.getElementById('af-phone').value = a.phone || '';
+                document.getElementById('af-addr1').value = a.addr1 || '';
+                document.getElementById('af-addr2').value = a.addr2 || '';
+                document.getElementById('af-addr3').value = a.addr3 || '';
+                document.getElementById('af-pin').value = a.pin || '';
+                document.getElementById('af-state').value = a.state || '';
+                selectedAddrTag = a.tag || 'Home';
+                document.querySelectorAll('.label-tag').forEach(t => t.classList.toggle('selected', t.dataset.tag === selectedAddrTag));
+            }
+        }
+        modal.classList.add('show');
+    };
+    window.closeAddrForm = () => document.getElementById('addr-form-modal').classList.remove('show');
+    window.selectTag = (el) => { document.querySelectorAll('.label-tag').forEach(t => t.classList.remove('selected')); el.classList.add('selected'); selectedAddrTag = el.dataset.tag; };
+
+    window.saveAddress = async () => {
+        if (!currentUser) return dkAlert(\"Pehle login karein!\", 'warn');
+        const name = document.getElementById('af-name').value.trim();
+        const phone = document.getElementById('af-phone').value.trim();
+        const addr1 = document.getElementById('af-addr1').value.trim();
+        const addr2 = document.getElementById('af-addr2').value.trim();
+        const addr3 = document.getElementById('af-addr3').value.trim();
+        const pin = document.getElementById('af-pin').value.trim();
+        const state = document.getElementById('af-state').value.trim();
+        if (!name || !phone || !addr1 || !pin || !state) return dkAlert(\"Name, Phone, Address Line 1, Pincode aur State zaroori hain!\", 'warn');
+        const data = { userId: currentUser.uid, name, phone, addr1, addr2, addr3, pin, state, tag: selectedAddrTag };
+        try {
+            if (editingAddrId) {
+                await updateDoc(doc(db, \"addresses\", editingAddrId), data);
+                dkToast('Address update ho gaya ✅');
+            } else {
+                data.time = serverTimestamp();
+                await addDoc(collection(db, \"addresses\"), data);
+                dkToast('Address save ho gaya ✅');
+            }
+            closeAddrForm();
+            ckAddresses = await fetchUserAddresses();
+            if (addrFormSource === 'profile') renderProfileAddresses();
+            else renderCheckoutAddresses();
+        } catch(err) { dkAlert(\"Save me error: \" + err.message, 'error'); }
     };
 
-    window.toggleWish = (e, id) => { e.stopPropagation(); let wish = JSON.parse(localStorage.getItem('dk_wish')) || []; if(wish.includes(id)) { wish = wish.filter(i => i !== id); dkToast('Wishlist se hata diya', 'success'); } else { wish.push(id); dkToast('Wishlist me add ho gaya ❤️', 'success'); } localStorage.setItem('dk_wish', JSON.stringify(wish)); };
-    window.showWishlist = () => { hideAllViews(); setActiveNav('nav-wishlist'); const wIds = JSON.parse(localStorage.getItem('dk_wish')) || []; const wishProds = allP.filter(p => wIds.includes(p.id)); if (wishProds.length === 0) document.getElementById('wishlistGrid').innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><i class="fa-solid fa-heart-crack"></i><p>Wishlist khaali hai</p></div>'; else render(wishProds, 'wishlistGrid'); document.body.classList.add('view-open'); document.getElementById('wishlist-view').style.display = 'block'; };
+    window.deleteAddress = (addrId) => {
+        dkConfirm('Delete Address?', 'Kya aap is address ko hatana chahte hain?', async () => {
+            try {
+                await deleteDoc(doc(db, \"addresses\", addrId));
+                dkToast('Address delete ho gaya', 'success');
+                ckAddresses = await fetchUserAddresses();
+                renderProfileAddresses();
+            } catch(err) { dkAlert(\"Delete me error: \" + err.message, 'error'); }
+        });
+    };
 
+    function addrFullText(a) {
+        const parts = [a.addr1, a.addr2, a.addr3].filter(x => x && x.trim());
+        return `${parts.join(', ')}, Pincode: ${a.pin}, ${a.state}`;
+    }
+
+    function renderProfileAddresses() {
+        const list = document.getElementById('pf-addr-list');
+        if (!ckAddresses.length) { list.innerHTML = '<div class=\"empty-mini\"><i class=\"fa-solid fa-location-dot\" style=\"font-size:24px; display:block; margin-bottom:6px; color:#333;\"></i>Koi saved address nahi hai. Add karein!</div>'; return; }
+        list.innerHTML = ckAddresses.map(a => `
+            <div class=\"saved-addr\">
+                <div class=\"sa-name\">${a.name} <span style=\"font-size:10px; color:var(--accent); margin-left:6px; background:#222; padding:2px 8px; border-radius:10px;\">${a.tag || 'Home'}</span></div>
+                <div class=\"sa-phone\"><i class=\"fa-solid fa-phone\" style=\"font-size:9px;\"></i> ${a.phone}</div>
+                <div class=\"sa-text\">${addrFullText(a)}</div>
+                <div class=\"sa-actions\">
+                    <button class=\"sa-btn edit\" onclick=\"openAddrForm('${a.id}','profile')\" data-testid=\"edit-addr-${a.id}\"><i class=\"fa-solid fa-pen\"></i> Edit</button>
+                    <button class=\"sa-btn del\" onclick=\"deleteAddress('${a.id}')\" data-testid=\"del-addr-${a.id}\"><i class=\"fa-solid fa-trash\"></i> Delete</button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function renderCheckoutAddresses() {
+        const box = document.getElementById('ck-saved-addresses');
+        if (!ckAddresses.length) { box.innerHTML = '<div class=\"empty-mini\">Koi address save nahi hai. Pehle Add karein.</div>'; return; }
+        if (!ckSelectedAddrId || !ckAddresses.find(a => a.id === ckSelectedAddrId)) ckSelectedAddrId = ckAddresses[0].id;
+        box.innerHTML = ckAddresses.map(a => `
+            <div class=\"addr-card-pick ${a.id === ckSelectedAddrId ? 'selected':''}\" onclick=\"pickCkAddr('${a.id}')\" data-testid=\"ck-addr-${a.id}\">
+                <div class=\"ac-tick\"><i class=\"fa-solid fa-check\"></i></div>
+                <div class=\"ac-name\">${a.name}</div>
+                <div class=\"ac-phone\"><i class=\"fa-solid fa-phone\" style=\"font-size:9px;\"></i> ${a.phone}</div>
+                <div class=\"ac-text\">${addrFullText(a)}</div>
+                <span class=\"ac-tag\">${a.tag || 'Home'}</span>
+            </div>
+        `).join('');
+    }
+    window.pickCkAddr = (id) => { ckSelectedAddrId = id; renderCheckoutAddresses(); };
+
+    // ============ CHECKOUT FLOW ============
+    window.startCheckout = async () => {
+        if (currentP.sizes && currentP.sizes.length > 0 && !selectedSize) return dkAlert(\"Pehle Size choose karein!\", 'warn');
+        if (!currentUser) return dkAlert(\"Order ke liye pehle login karein!\", 'warn', 'Login Required');
+        // load addresses
+        ckAddresses = await fetchUserAddresses();
+        ckSelectedAddrId = ckAddresses.length ? ckAddresses[0].id : null;
+        ckPaymentMethod = null; ckPaymentBrand = null;
+        ckStep = 1;
+        // header product
+        document.getElementById('ck-prod-img').src = (selectedVariant && selectedVariant.image) || (currentP.images && currentP.images[0]) || 'Dkart.jpg';
+        document.getElementById('ck-prod-name').innerText = currentP.name + (selectedVariant ? ` (${selectedVariant.name})` : '');
+        document.getElementById('ck-prod-meta').innerText = (selectedSize ? 'Size: ' + selectedSize : 'Free Size');
+        document.getElementById('ck-prod-price').innerText = '₹' + getEffectivePrice();
+        renderCheckoutAddresses();
+        updateCheckoutStep();
+        document.body.classList.add('view-open');
+        document.getElementById('checkout-view').style.display = 'block';
+        document.getElementById('checkout-view').scrollTo(0,0);
+    };
+
+    function updateCheckoutStep() {
+        // pills
+        ['step-1','step-2','step-3'].forEach((id, i) => {
+            const el = document.getElementById(id);
+            el.classList.remove('active','done');
+            if (i+1 === ckStep) el.classList.add('active');
+            else if (i+1 < ckStep) el.classList.add('done');
+        });
+        document.getElementById('ck-step-address').style.display = ckStep === 1 ? 'block' : 'none';
+        document.getElementById('ck-step-payment').style.display = ckStep === 2 ? 'block' : 'none';
+        document.getElementById('ck-step-bill').style.display = ckStep === 3 ? 'block' : 'none';
+        const headers = { 1: 'Delivery Address', 2: 'Payment Method', 3: 'Order Summary' };
+        document.getElementById('checkout-header-label').innerText = headers[ckStep];
+        const btn = document.getElementById('ck-action-btn');
+        if (ckStep === 1) btn.innerHTML = '<i class=\"fa-solid fa-arrow-right\"></i> Continue to Payment';
+        else if (ckStep === 2) btn.innerHTML = '<i class=\"fa-solid fa-arrow-right\"></i> Continue to Bill';
+        else btn.innerHTML = '<i class=\"fa-solid fa-bag-shopping\"></i> Place Order';
+        if (ckStep === 3) renderBill();
+    }
+
+    document.getElementById('ck-action-btn').onclick = () => {
+        if (ckStep === 1) {
+            if (!ckSelectedAddrId) return dkAlert(\"Pehle address select/add karein!\", 'warn');
+            ckStep = 2; updateCheckoutStep();
+            document.getElementById('checkout-view').scrollTo(0,0);
+        } else if (ckStep === 2) {
+            if (!ckPaymentMethod) return dkAlert(\"Payment method choose karein!\", 'warn');
+            ckStep = 3; updateCheckoutStep();
+            document.getElementById('checkout-view').scrollTo(0,0);
+        } else {
+            // place order
+            if (ckPaymentMethod === 'UPI') {
+                openScanner();
+            } else {
+                placeFinalOrder();
+            }
+        }
+    };
+
+    window.checkoutBack = () => {
+        if (ckStep > 1) { ckStep -= 1; updateCheckoutStep(); document.getElementById('checkout-view').scrollTo(0,0); }
+        else { closeCheckout(); }
+    };
+
+    window.selectPayment = (el) => {
+        document.querySelectorAll('.pay-method').forEach(x => x.classList.remove('selected'));
+        el.classList.add('selected');
+        ckPaymentMethod = el.dataset.pm;
+        ckPaymentBrand = el.querySelector('.pm-label').innerText;
+    };
+
+    function getEffectivePrice() { return parseInt(currentP.tempSelectedPrice || currentP.price || 0); }
+
+    function calcBill() {
+        const itemPrice = getEffectivePrice();
+        const deliveryFee = 0;
+        const discount = (ckPaymentMethod === 'UPI') ? UPI_DISCOUNT : 0;
+        const total = Math.max(0, itemPrice + deliveryFee - discount);
+        return { itemPrice, deliveryFee, discount, total };
+    }
+
+    function renderBill() {
+        const b = calcBill();
+        const addr = ckAddresses.find(a => a.id === ckSelectedAddrId);
+        document.getElementById('ck-bill-rows').innerHTML = `
+            <div class=\"bill-row\"><span>Item Price</span><span>₹${b.itemPrice}</span></div>
+            <div class=\"bill-row\"><span>Delivery Charge</span><span class=\"free-tag\">FREE</span></div>
+            ${b.discount > 0 ? `<div class=\"bill-row\"><span>UPI Discount (${ckPaymentBrand})</span><span class=\"disc-tag\">- ₹${b.discount}</span></div>` : ''}
+            <div class=\"bill-row\"><span>Payment Method</span><span style=\"color:#fff; font-weight:700;\">${ckPaymentBrand}</span></div>
+            <div class=\"bill-row total\"><span>Total Amount</span><span style=\"color:var(--accent);\">₹${b.total}</span></div>
+        `;
+        if (addr) {
+            document.getElementById('ck-final-addr').innerHTML = `<b style=\"color:#fff;\">${addr.name}</b> <span style=\"color:var(--accent); font-size:10px; background:#222; padding:1px 7px; border-radius:8px; margin-left:6px;\">${addr.tag||'Home'}</span><br><span style=\"color:#aaa;\">${addr.phone}</span><br>${addrFullText(addr)}`;
+        }
+    }
+
+    function openScanner() {
+        const b = calcBill();
+        document.getElementById('scanner-amount').innerText = '₹' + b.total;
+        document.getElementById('scanner-overlay').classList.add('show');
+    }
+    window.closeScanner = () => document.getElementById('scanner-overlay').classList.remove('show');
+    window.confirmPaidAndOrder = () => { closeScanner(); placeFinalOrder(); };
+
+    async function placeFinalOrder() {
+        const addr = ckAddresses.find(a => a.id === ckSelectedAddrId);
+        if (!addr) return dkAlert(\"Address missing!\", 'error');
+        const b = calcBill();
+        const fullAddress = addrFullText(addr);
+        const orderData = {
+            name: currentP.name + (selectedVariant ? ` (${selectedVariant.name})` : ''),
+            price: b.total,
+            originalPrice: b.itemPrice,
+            discount: b.discount,
+            deliveryFee: b.deliveryFee,
+            paymentMethod: ckPaymentMethod === 'COD' ? 'COD' : ckPaymentBrand + ' (UPI Paid)',
+            paymentBrand: ckPaymentBrand,
+            img: (selectedVariant && selectedVariant.image) || (currentP.images && currentP.images[0]) || 'Dkart.jpg',
+            size: selectedSize || \"Free Size\",
+            variant: selectedVariant ? selectedVariant.name : \"\",
+            customer: addr.name,
+            phone: addr.phone,
+            address: fullAddress,
+            addressTag: addr.tag || 'Home',
+            userId: currentUser ? currentUser.uid : \"guest\",
+            userEmail: currentUser ? currentUser.email : \"guest\",
+            time: serverTimestamp(),
+            status: \"Pending\"
+        };
+        try {
+            const docRef = await addDoc(collection(db, \"orders\"), orderData);
+            const localOrder = { ...orderData, id: docRef.id, time: Date.now() };
+            let myOrders = JSON.parse(localStorage.getItem('dk_orders')) || [];
+            myOrders.unshift(localOrder);
+            localStorage.setItem('dk_orders', JSON.stringify(myOrders));
+            showModal({
+                type:'success',
+                title:'Order Confirmed!',
+                msg:`Aapka order successfully place ho gaya.\nTotal: ₹${b.total}\nPayment: ${orderData.paymentMethod}\n\nThank you for shopping with Dkart!`,
+                okText:'View Orders',
+                onOk: () => { closeCheckout(); showOrders(); }
+            });
+        } catch(err) { dkAlert(\"Order place karne me error: \" + err.message, 'error'); }
+    }
+
+    // ============ ORDER CANCEL ============
+    window.cancelOrder = (orderId) => {
+        dkConfirm('Cancel Order?', 'Kya aap is order ko cancel karna chahte hain? Ye action wapas nahi liya jaa sakta.', async () => {
+            try {
+                await updateDoc(doc(db, \"orders\", orderId), { status: 'Cancelled', cancelTime: serverTimestamp() });
+                // also update local
+                let myOrders = JSON.parse(localStorage.getItem('dk_orders')) || [];
+                myOrders = myOrders.map(o => o.id === orderId ? { ...o, status: 'Cancelled' } : o);
+                localStorage.setItem('dk_orders', JSON.stringify(myOrders));
+                dkToast('Order cancel ho gaya', 'success');
+                showOrders();
+            } catch(err) { dkAlert(\"Cancel me error: \" + err.message, 'error'); }
+        });
+    };
+
+    // ============ WISHLIST ============
+    window.toggleWish = (e, id) => { e.stopPropagation(); let wish = JSON.parse(localStorage.getItem('dk_wish')) || []; if(wish.includes(id)) { wish = wish.filter(i => i !== id); dkToast('Wishlist se hata diya', 'success'); } else { wish.push(id); dkToast('Wishlist me add ho gaya ❤️', 'success'); } localStorage.setItem('dk_wish', JSON.stringify(wish)); };
+    window.showWishlist = () => { hideAllViews(); setActiveNav('nav-wishlist'); const wIds = JSON.parse(localStorage.getItem('dk_wish')) || []; const wishProds = allP.filter(p => wIds.includes(p.id)); if (wishProds.length === 0) document.getElementById('wishlistGrid').innerHTML = '<div class=\"empty-state\" style=\"grid-column:1/-1;\"><i class=\"fa-solid fa-heart-crack\"></i><p>Wishlist khaali hai</p></div>'; else render(wishProds, 'wishlistGrid'); document.body.classList.add('view-open'); document.getElementById('wishlist-view').style.display = 'block'; };
+
+    // ============ ORDERS VIEW ============
     const STATUS_STEPS = ['Pending', 'Packed', 'Shipped', 'Delivered'];
-    function getStatusIndex(status) { if (!status) return 0; const s = status.toString().trim().toLowerCase(); if (s.includes('deliver')) return 3; if (s.includes('ship') || s.includes('out for')) return 2; if (s.includes('pack') || s.includes('confirm')) return 1; return 0; }
-    function statusTrackerHTML(status) { const idx = getStatusIndex(status); const progressPct = (idx / (STATUS_STEPS.length - 1)) * 72; const icons = ['fa-clock', 'fa-box', 'fa-truck-fast', 'fa-circle-check']; let stepsHtml = STATUS_STEPS.map((label, i) => { const cls = i < idx ? 'done' : (i === idx ? 'current' : ''); const iconHtml = i < idx ? '<i class="fa-solid fa-check"></i>' : `<i class="fa-solid ${icons[i]}"></i>`; return `<div class="status-step ${cls}"><div class="dot">${iconHtml}</div><div class="label">${label}</div></div>`; }).join(''); return `<div class="status-tracker"><div class="progress-line" style="width: ${progressPct}%;"></div>${stepsHtml}</div>`; }
+    function getStatusIndex(status) { if (!status) return 0; const s = status.toString().trim().toLowerCase(); if (s.includes('cancel')) return -1; if (s.includes('deliver')) return 3; if (s.includes('ship') || s.includes('out for')) return 2; if (s.includes('pack') || s.includes('confirm')) return 1; return 0; }
+    function statusTrackerHTML(status) {
+        const idx = getStatusIndex(status);
+        if (idx === -1) return `<div style=\"text-align:center; padding:10px 0;\"><span class=\"cancelled-pill\"><i class=\"fa-solid fa-circle-xmark\"></i> Order Cancelled</span></div>`;
+        const progressPct = (idx / (STATUS_STEPS.length - 1)) * 72;
+        const icons = ['fa-clock', 'fa-box', 'fa-truck-fast', 'fa-circle-check'];
+        let stepsHtml = STATUS_STEPS.map((label, i) => { const cls = i < idx ? 'done' : (i === idx ? 'current' : ''); const iconHtml = i < idx ? '<i class=\"fa-solid fa-check\"></i>' : `<i class=\"fa-solid ${icons[i]}\"></i>`; return `<div class=\"status-step ${cls}\"><div class=\"dot\">${iconHtml}</div><div class=\"label\">${label}</div></div>`; }).join('');
+        return `<div class=\"status-tracker\"><div class=\"progress-line\" style=\"width: ${progressPct}%;\"></div>${stepsHtml}</div>`;
+    }
     function formatOrderTime(t) { if (!t) return ''; try { const d = t.toDate ? t.toDate() : new Date(t); return d.toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' }); } catch(e) { return ''; } }
 
     window.showOrders = async () => {
         hideAllViews(); setActiveNav('nav-orders'); document.body.classList.add('view-open'); document.getElementById('orders-view').style.display = 'block';
         const cont = document.getElementById('orderListContainer');
-        cont.innerHTML = '<div class="empty-state"><i class="fa-solid fa-spinner fa-spin"></i><p>Orders load ho rahe hain...</p></div>';
+        cont.innerHTML = '<div class=\"empty-state\"><i class=\"fa-solid fa-spinner fa-spin\"></i><p>Orders load ho rahe hain...</p></div>';
         let orders = [];
-        try { if (currentUser) { const snap = await getDocs(query(collection(db, "orders"), where("userId", "==", currentUser.uid))); orders = snap.docs.map(d => ({ id: d.id, ...d.data() })); orders.sort((a,b) => { const tA = a.time && a.time.toDate ? a.time.toDate().getTime() : 0; const tB = b.time && b.time.toDate ? b.time.toDate().getTime() : 0; return tB - tA; }); } else { orders = JSON.parse(localStorage.getItem('dk_orders')) || []; } } catch(err) { console.error(err); orders = JSON.parse(localStorage.getItem('dk_orders')) || []; }
-        if (orders.length === 0) { cont.innerHTML = '<div class="empty-state"><i class="fa-solid fa-bag-shopping"></i><p>Abhi koi order nahi hai</p></div>'; return; }
-        cont.innerHTML = orders.map(o => `<div class="order-card"><div class="order-top"><img src="${o.img || 'Dkart.jpg'}" class="order-img" onerror="this.src='https://via.placeholder.com/70'"><div class="order-info" style="flex:1; min-width:0;"><h4>${o.name || 'Product'}</h4><p>Size: ${o.size || 'Free Size'}</p><p class="price-tag">₹${o.price || '-'}</p></div></div>${statusTrackerHTML(o.status)}<div class="order-meta"><span><i class="fa-regular fa-calendar"></i> ${formatOrderTime(o.time)}</span><span style="color:${getStatusIndex(o.status) === 3 ? '#00e676' : 'var(--accent)'}; font-weight:700;">${o.status || 'Pending'}</span></div></div>`).join('');
+        try { if (currentUser) { const snap = await getDocs(query(collection(db, \"orders\"), where(\"userId\", \"==\", currentUser.uid))); orders = snap.docs.map(d => ({ id: d.id, ...d.data() })); orders.sort((a,b) => { const tA = a.time && a.time.toDate ? a.time.toDate().getTime() : 0; const tB = b.time && b.time.toDate ? b.time.toDate().getTime() : 0; return tB - tA; }); } else { orders = JSON.parse(localStorage.getItem('dk_orders')) || []; } } catch(err) { console.error(err); orders = JSON.parse(localStorage.getItem('dk_orders')) || []; }
+        if (orders.length === 0) { cont.innerHTML = '<div class=\"empty-state\"><i class=\"fa-solid fa-bag-shopping\"></i><p>Abhi koi order nahi hai</p></div>'; return; }
+        cont.innerHTML = orders.map(o => {
+            const isPending = (o.status || '').toLowerCase().trim() === 'pending';
+            const cancelBtnHtml = isPending ? `<button class=\"cancel-btn\" onclick=\"cancelOrder('${o.id}')\" data-testid=\"cancel-order-${o.id}\"><i class=\"fa-solid fa-xmark\"></i> Cancel Order</button>` : '';
+            const statusColor = getStatusIndex(o.status) === 3 ? '#00e676' : getStatusIndex(o.status) === -1 ? '#ff5555' : 'var(--accent)';
+            return `<div class=\"order-card\" data-testid=\"order-card-${o.id}\">
+                <div class=\"order-top\">
+                    <img src=\"${o.img || 'Dkart.jpg'}\" class=\"order-img\" onerror=\"this.src='https://via.placeholder.com/70'\">
+                    <div class=\"order-info\" style=\"flex:1; min-width:0;\">
+                        <h4>${o.name || 'Product'}</h4>
+                        <p>Size: ${o.size || 'Free Size'}</p>
+                        <p>Payment: <b style=\"color:#fff;\">${o.paymentMethod || 'COD'}</b></p>
+                        <p class=\"price-tag\">₹${o.price || '-'}</p>
+                    </div>
+                </div>
+                ${statusTrackerHTML(o.status)}
+                <div class=\"order-meta\">
+                    <span><i class=\"fa-regular fa-calendar\"></i> ${formatOrderTime(o.time)}</span>
+                    <span style=\"color:${statusColor}; font-weight:700;\">${o.status || 'Pending'}</span>
+                </div>
+                ${cancelBtnHtml}
+            </div>`;
+        }).join('');
     };
 
-    window.showProfile = () => { hideAllViews(); setActiveNav('nav-profile'); document.body.classList.add('view-open'); document.getElementById('profile-view').style.display = 'block'; };
+    // ============ PROFILE ============
+    window.showProfile = async () => {
+        hideAllViews(); setActiveNav('nav-profile'); document.body.classList.add('view-open'); document.getElementById('profile-view').style.display = 'block';
+        if (currentUser) {
+            ckAddresses = await fetchUserAddresses();
+            renderProfileAddresses();
+        }
+    };
     window.searchFun = () => render(allP.filter(p => (p.name || '').toLowerCase().includes(document.getElementById('searchInput').value.toLowerCase())), 'productList');
     window.closeAll = () => { document.getElementById('detail-view').style.display = 'none'; document.body.classList.remove('view-open'); };
     window.closeCheckout = () => { document.getElementById('checkout-view').style.display = 'none'; const anyOpen = Array.from(document.querySelectorAll('.full-view')).some(v => v.style.display === 'block'); if (!anyOpen) document.body.classList.remove('view-open'); };
     window.hideAllViews = () => { document.querySelectorAll('.full-view').forEach(v => v.style.display = 'none'); document.body.classList.remove('view-open'); setActiveNav('nav-home'); };
     window.switchAuthTab = (tab) => { document.getElementById('tab-login-btn').classList.toggle('active', tab === 'login'); document.getElementById('tab-register-btn').classList.toggle('active', tab === 'register'); document.getElementById('login-form').classList.toggle('active', tab === 'login'); document.getElementById('register-form').classList.toggle('active', tab === 'register'); };
     window.loginUser = async () => { try { await signInWithPopup(auth, provider); dkToast('Login Success ✅', 'success'); } catch (err) { dkAlert(err.message, 'error', 'Login Failed'); } };
-    window.emailLogin = async () => { const email = document.getElementById('login-email').value.trim(), password = document.getElementById('login-password').value; if(!email || !password) return dkAlert("Email aur Password bhariye!", 'warn'); try { await signInWithEmailAndPassword(auth, email, password); dkToast('Login Success ✅', 'success'); document.getElementById('login-email').value = ''; document.getElementById('login-password').value = ''; } catch (err) { dkAlert(err.message, 'error', 'Login Failed'); } };
-    window.emailRegister = async () => { const name = document.getElementById('reg-name').value.trim(), email = document.getElementById('reg-email').value.trim(), password = document.getElementById('reg-password').value; if(!name || !email || !password) return dkAlert("Sari details bhariye!", 'warn'); if(password.length < 6) return dkAlert("Password kam se kam 6 characters ka hona chahiye!", 'warn'); try { const userCred = await createUserWithEmailAndPassword(auth, email, password); await updateProfile(userCred.user, { displayName: name }); dkAlert("Welcome " + name + "! Account banaya gaya hai.", 'success', 'Account Created'); document.getElementById('reg-name').value = ''; document.getElementById('reg-email').value = ''; document.getElementById('reg-password').value = ''; } catch (err) { dkAlert(err.message, 'error', 'Register Failed'); } };
+    window.emailLogin = async () => { const email = document.getElementById('login-email').value.trim(), password = document.getElementById('login-password').value; if(!email || !password) return dkAlert(\"Email aur Password bhariye!\", 'warn'); try { await signInWithEmailAndPassword(auth, email, password); dkToast('Login Success ✅', 'success'); document.getElementById('login-email').value = ''; document.getElementById('login-password').value = ''; } catch (err) { dkAlert(err.message, 'error', 'Login Failed'); } };
+    window.emailRegister = async () => { const name = document.getElementById('reg-name').value.trim(), email = document.getElementById('reg-email').value.trim(), password = document.getElementById('reg-password').value; if(!name || !email || !password) return dkAlert(\"Sari details bhariye!\", 'warn'); if(password.length < 6) return dkAlert(\"Password kam se kam 6 characters ka hona chahiye!\", 'warn'); try { const userCred = await createUserWithEmailAndPassword(auth, email, password); await updateProfile(userCred.user, { displayName: name }); dkAlert(\"Welcome \" + name + \"! Account banaya gaya hai.\", 'success', 'Account Created'); document.getElementById('reg-name').value = ''; document.getElementById('reg-email').value = ''; document.getElementById('reg-password').value = ''; } catch (err) { dkAlert(err.message, 'error', 'Register Failed'); } };
     window.logoutUser = async () => { try { await signOut(auth); dkToast('Logout ho gaya', 'success'); } catch (err) { dkAlert(err.message, 'error'); } };
-    window.forgotPassword = async () => { const prefilled = document.getElementById('login-email').value.trim(); const proceed = (email) => { email = (email || '').trim(); if(!email || !email.includes('@')) return dkAlert("Sahi email daalein!", 'warn'); sendPasswordResetEmail(auth, email).then(() => dkAlert("Password reset link bhej diya gaya hai!\n\nApna inbox aur Spam folder check karein:\n" + email, 'success', 'Email Sent')).catch(err => dkAlert(err.message, 'error')); }; if (prefilled) proceed(prefilled); else dkPrompt('Forgot Password', 'Apna registered email daalein, hum reset link bhej denge:', 'you@example.com', proceed); };
+    window.forgotPassword = async () => { const prefilled = document.getElementById('login-email').value.trim(); const proceed = (email) => { email = (email || '').trim(); if(!email || !email.includes('@')) return dkAlert(\"Sahi email daalein!\", 'warn'); sendPasswordResetEmail(auth, email).then(() => dkAlert(\"Password reset link bhej diya gaya hai!\n\nApna inbox aur Spam folder check karein:\n\" + email, 'success', 'Email Sent')).catch(err => dkAlert(err.message, 'error')); }; if (prefilled) proceed(prefilled); else dkPrompt('Forgot Password', 'Apna registered email daalein, hum reset link bhej denge:', 'you@example.com', proceed); };
 
-    onAuthStateChanged(auth, (user) => { const authSection = document.getElementById('auth-section'), loggedInSection = document.getElementById('profile-logged-in'); if(user){ currentUser = user; authSection.style.display = 'none'; loggedInSection.style.display = 'block'; const displayName = user.displayName || (user.email ? user.email.split('@')[0] : 'User'); document.getElementById('profile-name').innerText = displayName; document.getElementById('user-email').innerText = user.email || ''; document.getElementById('profile-avatar').innerText = displayName.charAt(0).toUpperCase(); } else { currentUser = null; authSection.style.display = 'block'; loggedInSection.style.display = 'none'; } });
+    onAuthStateChanged(auth, async (user) => {
+        const authSection = document.getElementById('auth-section'),
+              loggedInSection = document.getElementById('profile-logged-in'),
+              addrSection = document.getElementById('pf-address-section'),
+              policySection = document.getElementById('pf-policy-section'),
+              logoutWrap = document.getElementById('pf-logout-wrap');
+        if(user){
+            currentUser = user;
+            authSection.style.display = 'none';
+            loggedInSection.style.display = 'block';
+            addrSection.style.display = 'block';
+            policySection.style.display = 'block';
+            logoutWrap.style.display = 'block';
+            const displayName = user.displayName || (user.email ? user.email.split('@')[0] : 'User');
+            document.getElementById('profile-name').innerText = displayName;
+            document.getElementById('user-email').innerText = user.email || '';
+            document.getElementById('profile-avatar').innerText = displayName.charAt(0).toUpperCase();
+            ckAddresses = await fetchUserAddresses();
+            renderProfileAddresses();
+        } else {
+            currentUser = null;
+            authSection.style.display = 'block';
+            loggedInSection.style.display = 'none';
+            addrSection.style.display = 'none';
+            policySection.style.display = 'none';
+            logoutWrap.style.display = 'none';
+            ckAddresses = [];
+        }
+    });
 
     loadBanner();
     load();
@@ -727,3 +1283,4 @@
 
 </body>
 </html>
+

@@ -1,3 +1,12 @@
+products/{id} document me ye optional fields:
+  - sizePrices: { S: 299, M: 349, L: 399, XL: 499, XXL: 599 }
+  - sizeMRPs:   { S: 499, M: 549, L: 599, XL: 799, XXL: 899 }
+  - codPrice:   449         (single COD price for whole product)
+  - codPrices:  { S: 320, M: 370, L: 420, XL: 520 }   (per-size COD price)
+  - codExtra:   40          (extra COD fee added to base price)
+  
+Priority: codPrices[size] > codPrice > codExtra > base price
+Ye raha aapka complete updated code (one-click copy):
 <!DOCTYPE html>
 <html lang="hi">
 <head>
@@ -24,7 +33,6 @@
         .search-box input { background: transparent; border: none; color: white; width: 100%; margin-left: 10px; font-size: 14px; }
         .help-btn { background: #25D366; color: white; width: 42px; height: 42px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 22px; text-decoration: none; border: 1px solid white; }
 
-        /* DISCOUNT BANNER */
         .promo-banner { display: none; width: calc(100% - 20px); margin: 12px auto 0; border-radius: 14px; overflow: hidden; border: 2px solid var(--accent); box-shadow: 0 6px 20px rgba(255,255,0,0.15); aspect-ratio: 1312 / 804; background: #111; position: relative; }
         .promo-banner img { width: 100%; height: 100%; object-fit: cover; display: block; }
         .promo-banner.show { display: block; }
@@ -51,6 +59,8 @@
         .slider-dot { width: 7px; height: 7px; border-radius: 50%; background: #444; transition: all 0.3s; cursor: pointer; }
         .slider-dot.active { background: var(--accent); width: 20px; border-radius: 4px; }
         .slider-counter { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.7); color: #fff; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700; z-index: 5; }
+
+        /* PRICE BOX - upgraded */
         .pd-name-box { background: #ffffff; color: #111; border-radius: 14px; padding: 16px 16px 14px; margin: 16px 10px 0; border: 1px solid #e5e5e5; }
         .pd-name-box .pd-title { font-size: 17px; font-weight: 600; color: #1a1a1a; line-height: 1.35; margin: 0 0 8px 0; }
         .pd-rating-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
@@ -58,10 +68,13 @@
         .rating-meta { font-size: 12px; color: #878787; font-weight: 600; }
         .rating-meta b { color: #555; }
         .pd-price-row { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
-        .pd-price-now { font-size: 26px; font-weight: 800; color: #111; }
-        .pd-price-mrp { font-size: 14px; color: #878787; text-decoration: line-through; font-weight: 500; }
-        .pd-price-off { font-size: 13px; color: #26a541; font-weight: 700; }
-        .pd-stock { font-size: 12px; color: #26a541; font-weight: 700; margin-top: 6px; }
+        .pd-price-now { font-size: 30px; font-weight: 900; color: #111; letter-spacing: -0.5px; }
+        .pd-price-mrp { font-size: 15px; color: #878787; text-decoration: line-through; font-weight: 500; }
+        .pd-price-off { font-size: 14px; color: #26a541; font-weight: 800; }
+        .pd-save-badge { display: inline-block; margin-top: 6px; background: #fff3cd; color: #b8860b; font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 4px; border: 1px dashed #d4a017; text-transform: uppercase; letter-spacing: 0.3px; }
+        .pd-size-tag { display: inline-block; margin-top: 6px; margin-left: 6px; background: #e8f5e9; color: #1b5e20; font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 4px; }
+        .pd-stock { font-size: 12px; color: #26a541; font-weight: 700; margin-top: 8px; }
+
         .pd-variant-box { background: linear-gradient(135deg, #1a1a2e, #16213e); border: 1.5px solid #00bcd4; border-radius: 14px; padding: 14px; margin: 12px 10px 0; }
         .pd-variant-title { font-size: 12px; color: #00e5ff; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
         .variant-strip { display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; padding-bottom: 4px; }
@@ -73,13 +86,17 @@
         .v-card .v-price { font-size: 11px; color: #d32f2f; font-weight: 800; text-align: center; }
         .v-card .v-tick { position: absolute; top: 4px; right: 4px; width: 18px; height: 18px; border-radius: 50%; background: var(--accent); color: #000; font-size: 10px; display: none; align-items: center; justify-content: center; font-weight: 900; }
         .v-card.selected .v-tick { display: flex; }
+
+        /* SIZE CHIPS - with price label */
         .size-box { margin-top: 20px; text-align: left; padding: 0 10px; }
         .size-label { font-size: 12px; color: #888; text-transform: uppercase; font-weight: 700; margin-bottom: 8px; display: block; }
         .size-chips { display: flex; flex-wrap: wrap; gap: 10px; }
-        .size-chip { padding: 8px 15px; border: 1px solid #444; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; color: white; }
-        .size-chip.selected { background: var(--accent); color: #000; border-color: var(--accent); }
+        .size-chip { padding: 8px 14px; border: 1.5px solid #444; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; color: white; background: #1a1a1a; min-width: 60px; text-align: center; transition: 0.2s; }
+        .size-chip .sc-name { display: block; font-size: 14px; font-weight: 800; }
+        .size-chip .sc-price { display: block; font-size: 10px; font-weight: 700; color: var(--accent); margin-top: 2px; }
+        .size-chip.selected { background: var(--accent); color: #000; border-color: var(--accent); transform: scale(1.05); }
+        .size-chip.selected .sc-price { color: #000; }
 
-        /* DESCRIPTION BOX WITH MORE DETAILS */
         .desc-box { margin: 20px 10px 0; background: #0f0f0f; border: 1px solid #2a2a2a; border-radius: 14px; padding: 16px; }
         .desc-label { font-size: 12px; color: var(--accent); text-transform: uppercase; font-weight: 800; margin-bottom: 10px; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px; }
         .desc-label::before { content:''; width:4px; height:16px; background: var(--accent); border-radius:2px; }
@@ -205,6 +222,27 @@
         .lightbox.show { display: flex; }
         .lightbox img { max-width: 100%; max-height: 90vh; border-radius: 8px; }
         .lightbox .close { position: absolute; top: 20px; right: 20px; color: #fff; font-size: 28px; cursor: pointer; }
+
+        /* CONGRATULATIONS BLAST */
+        .congrats-overlay { display: none; position: fixed; inset: 0; z-index: 12000; pointer-events: none; overflow: hidden; }
+        .congrats-overlay.show { display: block; }
+        .congrats-text { position: absolute; top: 35%; left: 50%; transform: translate(-50%, -50%) scale(0); font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 38px; color: #ffff00; text-shadow: 0 4px 20px rgba(255,255,0,0.6), 0 0 40px rgba(255,255,0,0.4); text-align: center; white-space: nowrap; animation: congratsPop 1.8s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards; }
+        .congrats-text small { display: block; font-size: 14px; color: #fff; margin-top: 8px; font-weight: 600; letter-spacing: 1px; text-shadow: 0 2px 8px rgba(0,0,0,0.8); }
+        @keyframes congratsPop { 0% { transform: translate(-50%, -50%) scale(0) rotate(-15deg); opacity: 0; } 30% { transform: translate(-50%, -50%) scale(1.2) rotate(2deg); opacity: 1; } 50% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; } 80% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(0.85) rotate(0deg); opacity: 0; } }
+        .confetti-piece { position: absolute; width: 10px; height: 16px; top: -20px; opacity: 0; animation: confettiFall linear forwards; border-radius: 2px; }
+        @keyframes confettiFall { 0% { transform: translate3d(var(--x-start), -10vh, 0) rotate(0deg); opacity: 1; } 100% { transform: translate3d(var(--x-end), 110vh, 0) rotate(720deg); opacity: 1; } }
+
+        /* PAYMENT MODAL upgraded for COD price */
+        .pay-method-card { background:#1a1a1a; padding:16px; border-radius:14px; margin-bottom:12px; cursor:pointer; border:1.5px solid #333; text-align:left; transition: 0.2s; }
+        .pay-method-card:hover { border-color: var(--accent); }
+        .pay-method-card.featured { border-color: var(--accent); background: linear-gradient(135deg, #1f1f0a, #1a1a1a); }
+        .pay-method-head { display:flex; justify-content:space-between; align-items:center; gap:10px; }
+        .pay-method-title { font-weight:800; font-size:16px; color:#fff; display:flex; align-items:center; gap:8px; }
+        .pay-method-amt { font-weight:900; font-size:18px; color: var(--accent); }
+        .pay-method-amt .pma-mrp { font-size:12px; color:#888; text-decoration:line-through; font-weight:600; margin-right:5px; }
+        .pay-method-sub { font-size:11px; margin-top:6px; font-weight:700; }
+        .pay-method-sub.green { color:#00ff88; }
+        .pay-method-sub.muted { color:#888; }
     </style>
 </head>
 <body>
@@ -227,7 +265,6 @@
         </div>
     </header>
 
-    <!-- DISCOUNT BANNER (1312x804) - Admin se URL aane par dikhega -->
     <div class="promo-banner" id="promo-banner"><img id="promo-banner-img" src="" alt="Offer"></div>
 
     <div class="cat-row">
@@ -262,6 +299,10 @@
                 <span class="pd-price-mrp" id="det-mrp"></span>
                 <span class="pd-price-off" id="det-off"></span>
             </div>
+            <div>
+                <span class="pd-save-badge" id="det-save" style="display:none;"></span>
+                <span class="pd-size-tag" id="det-size-tag" style="display:none;"></span>
+            </div>
             <div class="pd-stock"><i class="fa-solid fa-circle-check"></i> In Stock • Free Delivery</div>
         </div>
         <div class="pd-variant-box" id="variant-box" style="display:none;">
@@ -273,7 +314,6 @@
             <div class="size-chips" id="det-sizes"></div>
         </div>
 
-        <!-- DESCRIPTION BOX with More Details -->
         <div class="desc-box" id="desc-box" style="display:none;">
             <div class="desc-label">Product Description</div>
             <p id="det-desc" class="desc-text"></p>
@@ -366,25 +406,37 @@
     </div>
 </div>
 
-<div id="pay-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:5000; align-items:center; justify-content:center; overflow-y: auto;">
-    <div style="background:#111; width:90%; max-width:400px; padding:25px; border-radius:20px; border:1px solid #ffff00; text-align:center;">
-        <h3 style="color:#ffff00; margin-bottom:15px;">Payment Method</h3>
+<!-- PAYMENT MODAL with customizable COD price -->
+<div id="pay-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:5000; align-items:center; justify-content:center; overflow-y: auto; padding: 20px;">
+    <div style="background:#111; width:100%; max-width:400px; padding:22px; border-radius:20px; border:1px solid #ffff00; text-align:center;">
+        <h3 style="color:#ffff00; margin:0 0 16px 0;">Payment Method</h3>
         <div id="upi-options">
-            <div onclick="showScanner()" style="background:#1a1a1a; padding:18px; border-radius:12px; margin-bottom:15px; cursor:pointer; border:1.5px solid #ffff00;">
-                <div style="font-weight:800; font-size:18px; color:#fff;"><i class="fa-solid fa-qrcode" style="color:#ffff00"></i> Pay via Scanner</div>
-                <div style="font-size:12px; color:#00ff00; font-weight:700; margin-top:5px;">(Get ₹20 Instant Discount! 🔥)</div>
+
+            <!-- UPI / Scanner option -->
+            <div class="pay-method-card featured" onclick="showScanner()">
+                <div class="pay-method-head">
+                    <div class="pay-method-title"><i class="fa-solid fa-qrcode" style="color:#ffff00"></i> Pay via Scanner</div>
+                    <div class="pay-method-amt"><span class="pma-mrp" id="upi-mrp"></span>₹<span id="upi-final-amt">0</span></div>
+                </div>
+                <div class="pay-method-sub green">🔥 Get ₹20 Instant Discount on UPI!</div>
             </div>
-            <div onclick="processOrder('COD')" style="background:#1a1a1a; padding:18px; border-radius:12px; cursor:pointer; border:1.5px solid #333;">
-                <div style="font-weight:800; font-size:18px; color:#fff;"><i class="fa-solid fa-truck-fast"></i> Cash On Delivery</div>
-                <div style="font-size:11px; color:#888; margin-top:5px;">No discount available</div>
+
+            <!-- COD option -->
+            <div class="pay-method-card" onclick="processOrder('COD')">
+                <div class="pay-method-head">
+                    <div class="pay-method-title"><i class="fa-solid fa-truck-fast"></i> Cash On Delivery</div>
+                    <div class="pay-method-amt"><span class="pma-mrp" id="cod-mrp"></span>₹<span id="cod-final-amt">0</span></div>
+                </div>
+                <div class="pay-method-sub muted" id="cod-sub-text">Pay at the time of delivery</div>
             </div>
+
         </div>
         <div id="scanner-display" style="display:none;">
-            <p style="font-size:12px; color:#ccc;">Scan QR & Pay <span id="dis-price" style="color:#0f0; font-weight:bold;"></span></p>
+            <p style="font-size:13px; color:#ccc; margin: 0 0 8px;">Scan QR & Pay <span id="dis-price" style="color:#0f0; font-weight:bold;"></span></p>
             <img src="https://i.postimg.cc/nVShYS07/IMG-6402.jpg" style="width:100%; border-radius:10px; margin:10px 0; border: 2px solid #fff;">
             <button onclick="confirmUPIDone()" style="width:100%; background:#00ff00; color:#000; border:none; padding:12px; border-radius:8px; font-weight:800; margin-top:10px;">I HAVE PAID (Confirm Order)</button>
         </div>
-        <button onclick="closePayModal()" style="margin-top:20px; background:none; border:none; color:#ff4444; font-weight:700;">Cancel</button>
+        <button onclick="closePayModal()" style="margin-top:18px; background:none; border:none; color:#ff4444; font-weight:700; cursor:pointer;">Cancel</button>
     </div>
 </div>
 
@@ -418,6 +470,11 @@
     </div>
 </div>
 
+<!-- Congratulations Blast Overlay -->
+<div id="congrats-overlay" class="congrats-overlay">
+    <div class="congrats-text">🎉 Congratulations! 🎉<small>Get ready to checkout</small></div>
+</div>
+
 <div id="lightbox" class="lightbox" onclick="this.classList.remove('show')"><span class="close">&times;</span><img id="lightbox-img" src=""></div>
 <div id="dk-toast" class="dk-toast"></div>
 
@@ -442,6 +499,20 @@
     let allP = [], currentP = null, selectedSize = "", selectedVariant = null;
     let reviewStars = 0, reviewPhotos = [];
 
+    /* =====================================================================
+       ADMIN GUIDE — Firestore product fields ke liye:
+       products/{id} document me ye optional fields add karein:
+         - price       : 299                      (default base price)
+         - mrp         : 499                      (default MRP for strikethrough)
+         - sizes       : ["S","M","L","XL","XXL"]
+         - sizePrices  : { S:299, M:349, L:399, XL:499, XXL:599 }   <-- HAR SIZE KA ALAG PRICE
+         - sizeMRPs    : { S:499, M:549, L:599, XL:799, XXL:899 }   <-- HAR SIZE KI MRP (optional)
+         - codPrice    : 449                      (single COD price for product)
+         - codPrices   : { S:320, M:370, L:420 }  (per-size COD price - highest priority)
+         - codExtra    : 40                       (extra COD fee jo base price me add hoga)
+       Priority: codPrices[size] > codPrice > (price + codExtra) > price
+       ===================================================================== */
+
     const modalBg = document.getElementById('dk-modal-bg'), modalIcon = document.getElementById('dk-modal-icon'), modalTitle = document.getElementById('dk-modal-title'), modalMsg = document.getElementById('dk-modal-msg'), modalInput = document.getElementById('dk-modal-input'), modalOk = document.getElementById('dk-modal-ok'), modalCancel = document.getElementById('dk-modal-cancel');
     const ICONS = { success: '<i class="fa-solid fa-circle-check"></i>', error: '<i class="fa-solid fa-circle-exclamation"></i>', info: '<i class="fa-solid fa-circle-info"></i>', warn: '<i class="fa-solid fa-triangle-exclamation"></i>' };
 
@@ -464,10 +535,8 @@
     const toast = document.getElementById('dk-toast'); let toastTimer;
     window.dkToast = (msg, type='success') => { clearTimeout(toastTimer); toast.className = 'dk-toast show ' + type; toast.innerHTML = (type==='success'?'<i class="fa-solid fa-check"></i> ':type==='error'?'<i class="fa-solid fa-xmark"></i> ':'') + msg; toastTimer = setTimeout(() => toast.classList.remove('show'), 2500); };
     window.openLightbox = (src) => { document.getElementById('lightbox-img').src = src; document.getElementById('lightbox').classList.add('show'); };
-
     window.toggleReviews = () => { document.getElementById('rev-body').classList.toggle('open'); document.getElementById('rev-toggle-arrow').classList.toggle('open'); };
 
-    // DESCRIPTION TOGGLE
     window.toggleDesc = () => {
         const txt = document.getElementById('det-desc');
         const btn = document.getElementById('more-details-btn');
@@ -477,7 +546,36 @@
         lbl.innerText = txt.classList.contains('expanded') ? 'Show Less' : 'More Details';
     };
 
-    // LOAD BANNER from Firestore settings/home
+    /* ===== CONGRATULATIONS BLAST ===== */
+    function blastConfetti() {
+        const overlay = document.getElementById('congrats-overlay');
+        // Clear old confetti
+        overlay.querySelectorAll('.confetti-piece').forEach(el => el.remove());
+        const colors = ['#ffff00', '#ff4757', '#00ff88', '#54a0ff', '#ff9ff3', '#feca57', '#ffffff', '#ff6b6b'];
+        const W = window.innerWidth;
+        const COUNT = 90;
+        for (let i = 0; i < COUNT; i++) {
+            const piece = document.createElement('div');
+            piece.className = 'confetti-piece';
+            const startX = Math.random() * W;
+            const drift = (Math.random() - 0.5) * 300;
+            piece.style.setProperty('--x-start', startX + 'px');
+            piece.style.setProperty('--x-end', (startX + drift) + 'px');
+            piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+            piece.style.width = (6 + Math.random() * 8) + 'px';
+            piece.style.height = (10 + Math.random() * 10) + 'px';
+            piece.style.animationDuration = (1.6 + Math.random() * 1.4) + 's';
+            piece.style.animationDelay = (Math.random() * 0.3) + 's';
+            piece.style.left = '0';
+            overlay.appendChild(piece);
+        }
+        overlay.classList.add('show');
+        setTimeout(() => {
+            overlay.classList.remove('show');
+            overlay.querySelectorAll('.confetti-piece').forEach(el => el.remove());
+        }, 2400);
+    }
+
     async function loadBanner() {
         try {
             const ref = doc(db, "settings", "home");
@@ -485,7 +583,7 @@
             if (snap.exists()) {
                 const data = snap.data();
                 const url = (data.bannerUrl || "").trim();
-                const active = data.bannerActive !== false; // default true
+                const active = data.bannerActive !== false;
                 if (url && active) {
                     document.getElementById('promo-banner-img').src = url;
                     document.getElementById('promo-banner').classList.add('show');
@@ -513,7 +611,13 @@
         data.forEach(p => {
             const card = document.createElement('div');
             card.className = 'p-card';
-            card.innerHTML = `<i class="fa-solid fa-heart wish-icon" onclick="toggleWish(event, '${p.id}')"></i><img src="${(p.images && p.images[0]) || 'Dkart.jpg'}" onerror="this.src='https://via.placeholder.com/140'"><div class="p-name">${p.name || 'Product'}</div><div class="p-price">₹${p.price || '0'}</div>`;
+            // Show "from" price if sizePrices exist
+            let displayPrice = p.price || '0';
+            if (p.sizePrices && Object.keys(p.sizePrices).length) {
+                const vals = Object.values(p.sizePrices).map(v => parseInt(v)).filter(v => !isNaN(v));
+                if (vals.length) displayPrice = Math.min(...vals);
+            }
+            card.innerHTML = `<i class="fa-solid fa-heart wish-icon" onclick="toggleWish(event, '${p.id}')"></i><img src="${(p.images && p.images[0]) || 'Dkart.jpg'}" onerror="this.src='https://via.placeholder.com/140'"><div class="p-name">${p.name || 'Product'}</div><div class="p-price">₹${displayPrice}</div>`;
             card.onclick = () => openProductDetail(p);
             list.appendChild(card);
         });
@@ -550,7 +654,7 @@
             card.onclick = () => {
                 strip.querySelectorAll('.v-card').forEach(c => c.classList.remove('selected'));
                 card.classList.add('selected'); selectedVariant = v;
-                if (v.price) { document.getElementById('det-price').innerText = "₹" + v.price; currentP.tempSelectedPrice = v.price; }
+                if (v.price) { document.getElementById('det-price').innerText = "₹" + v.price; currentP.tempSelectedPrice = v.price; updatePriceUI(v.price, currentP.mrp); }
                 if (v.image) { const newImgs = [v.image, ...(prod.images || []).filter(x => x !== v.image)]; buildSlider(newImgs); }
             };
             strip.appendChild(card);
@@ -570,60 +674,85 @@
         if (picks.length === 0) { section.style.display = 'none'; return; }
         section.style.display = 'block';
         picks.forEach(p => {
+            let dispPrice = p.price || '0';
+            if (p.sizePrices && Object.keys(p.sizePrices).length) {
+                const vals = Object.values(p.sizePrices).map(v => parseInt(v)).filter(v => !isNaN(v));
+                if (vals.length) dispPrice = Math.min(...vals);
+            }
             const card = document.createElement('div'); card.className = 'suggest-card';
-            card.innerHTML = `<img src="${(p.images && p.images[0]) || 'Dkart.jpg'}" onerror="this.src='https://via.placeholder.com/110'"><div class="sn">${p.name}</div><div class="sp">₹${p.price}</div>`;
+            card.innerHTML = `<img src="${(p.images && p.images[0]) || 'Dkart.jpg'}" onerror="this.src='https://via.placeholder.com/110'"><div class="sn">${p.name}</div><div class="sp">₹${dispPrice}</div>`;
             card.onclick = () => { openProductDetail(p); document.getElementById('detail-view').scrollTo({ top: 0, behavior: 'smooth' }); };
             grid.appendChild(card);
         });
+    }
+
+    /* ===== UPDATE PRICE UI (used by size & variant click) ===== */
+    function updatePriceUI(price, mrp) {
+        const p = parseInt(price) || 0;
+        const m = parseInt(mrp) || Math.round(p * 1.4);
+        document.getElementById('det-price').innerText = "₹" + p;
+        document.getElementById('det-mrp').innerText = m > p ? ("₹" + m) : "";
+        const off = m > p ? Math.round(((m - p) / m) * 100) : 0;
+        document.getElementById('det-off').innerText = off > 0 ? off + "% off" : "";
+        const saveEl = document.getElementById('det-save');
+        if (m > p) { saveEl.style.display = 'inline-block'; saveEl.innerText = `You Save ₹${m - p}`; }
+        else { saveEl.style.display = 'none'; }
     }
 
     function openProductDetail(p) {
         currentP = p; selectedSize = ""; selectedVariant = null; currentP.tempSelectedPrice = null;
         document.getElementById('rev-body').classList.remove('open');
         document.getElementById('rev-toggle-arrow').classList.remove('open');
+        document.getElementById('det-size-tag').style.display = 'none';
 
         buildSlider(p.images || []);
         document.getElementById('det-name').innerText = p.name || '';
-        document.getElementById('det-price').innerText = "₹" + (p.price || '0');
-        const mrp = p.mrp || Math.round(parseInt(p.price || 0) * 1.4);
-        const off = Math.max(0, Math.round(((mrp - parseInt(p.price || 0)) / mrp) * 100));
-        document.getElementById('det-mrp').innerText = "₹" + mrp;
-        document.getElementById('det-off').innerText = off > 0 ? off + "% off" : "";
+
+        // Default price/mrp
+        updatePriceUI(p.price, p.mrp);
+
         const baseRating = p.rating || 4.2;
         document.getElementById('det-rating-val').innerText = baseRating.toFixed(1);
         document.getElementById('det-rating-count').innerText = p.ratingCount || 0;
         document.getElementById('det-review-count').innerText = 0;
 
-        // DESCRIPTION - reset collapsed and check if More Details button needed
-        const descBox = document.getElementById('desc-box');
-        const descEl = document.getElementById('det-desc');
-        const moreBtn = document.getElementById('more-details-btn');
-        const moreLbl = document.getElementById('more-details-label');
+        // Description
+        const descBox = document.getElementById('desc-box'), descEl = document.getElementById('det-desc');
+        const moreBtn = document.getElementById('more-details-btn'), moreLbl = document.getElementById('more-details-label');
         const descText = (p.desc || "").trim();
-        descEl.classList.remove('expanded');
-        moreBtn.classList.remove('open');
-        moreLbl.innerText = 'More Details';
+        descEl.classList.remove('expanded'); moreBtn.classList.remove('open'); moreLbl.innerText = 'More Details';
         if (descText) {
-            descBox.style.display = 'block';
-            descEl.innerText = descText;
-            // Check if text overflows 5 lines - show button if yes
+            descBox.style.display = 'block'; descEl.innerText = descText;
             setTimeout(() => {
-                const lineHeight = parseFloat(getComputedStyle(descEl).lineHeight);
-                const maxHeight = lineHeight * 5;
-                if (descEl.scrollHeight > maxHeight + 2) moreBtn.style.display = 'inline-flex';
+                const lh = parseFloat(getComputedStyle(descEl).lineHeight);
+                if (descEl.scrollHeight > (lh * 5) + 2) moreBtn.style.display = 'inline-flex';
                 else moreBtn.style.display = 'none';
             }, 50);
-        } else {
-            descBox.style.display = 'none';
-        }
+        } else { descBox.style.display = 'none'; }
 
+        /* ===== SIZE CHIPS WITH PER-SIZE PRICE ===== */
         const sContainer = document.getElementById('det-sizes'), sBox = document.getElementById('size-options-container');
         sContainer.innerHTML = "";
         if(p.sizes && p.sizes.length > 0) {
             sBox.style.display = 'block';
             p.sizes.forEach(s => {
-                const chip = document.createElement('div'); chip.className = 'size-chip'; chip.innerText = s;
-                chip.onclick = () => { document.querySelectorAll('.size-chip').forEach(c => c.classList.remove('selected')); chip.classList.add('selected'); selectedSize = s; };
+                const chip = document.createElement('div');
+                chip.className = 'size-chip';
+                const sPrice = (p.sizePrices && p.sizePrices[s] != null) ? p.sizePrices[s] : null;
+                chip.innerHTML = `<span class="sc-name">${s}</span>${sPrice != null ? `<span class="sc-price">₹${sPrice}</span>` : ''}`;
+                chip.onclick = () => {
+                    document.querySelectorAll('.size-chip').forEach(c => c.classList.remove('selected'));
+                    chip.classList.add('selected');
+                    selectedSize = s;
+                    // Update price display based on size
+                    const sP = (p.sizePrices && p.sizePrices[s] != null) ? p.sizePrices[s] : p.price;
+                    const sM = (p.sizeMRPs && p.sizeMRPs[s] != null) ? p.sizeMRPs[s] : p.mrp;
+                    currentP.tempSelectedPrice = sP;
+                    updatePriceUI(sP, sM);
+                    const tag = document.getElementById('det-size-tag');
+                    tag.style.display = 'inline-block';
+                    tag.innerText = `Size: ${s}`;
+                };
                 sContainer.appendChild(chip);
             });
         } else { sBox.style.display = 'none'; }
@@ -674,11 +803,74 @@
     window.goHome = () => { hideAllViews(); setActiveNav('nav-home'); window.scrollTo(0, 0); };
     window.filterCat = (cat) => { if(cat === 'All') render(allP, 'productList'); else render(allP.filter(p => p.category && p.category.toLowerCase() === cat.toLowerCase()), 'productList'); };
     window.closePayModal = () => { document.getElementById('pay-modal').style.display = 'none'; document.getElementById('upi-options').style.display = 'block'; document.getElementById('scanner-display').style.display = 'none'; };
-    window.openCheckout = () => { if(currentP.sizes && currentP.sizes.length > 0 && !selectedSize) return dkAlert("Pehle Size choose karein!", 'warn'); document.getElementById('pay-modal').style.display = 'flex'; };
-    function getEffectivePrice() { return currentP.tempSelectedPrice || currentP.price; }
-    window.showScanner = () => { const finalPrice = parseInt(getEffectivePrice()) - 20; currentP.tempPrice = finalPrice; document.getElementById('dis-price').innerText = "₹" + finalPrice; document.getElementById('upi-options').style.display = 'none'; document.getElementById('scanner-display').style.display = 'block'; };
+
+    /* ===== HELPER: Get effective price (size-based or default) ===== */
+    function getEffectivePrice() {
+        if (currentP.tempSelectedPrice) return parseInt(currentP.tempSelectedPrice);
+        return parseInt(currentP.price) || 0;
+    }
+
+    /* ===== HELPER: Get COD price (admin customizable) ===== */
+    function getCODPrice() {
+        // Priority 1: codPrices[selectedSize] (per-size COD)
+        if (currentP.codPrices && selectedSize && currentP.codPrices[selectedSize] != null) {
+            return parseInt(currentP.codPrices[selectedSize]);
+        }
+        // Priority 2: codPrice (single COD price for product)
+        if (currentP.codPrice != null && currentP.codPrice !== '') {
+            return parseInt(currentP.codPrice);
+        }
+        // Priority 3: codExtra (extra fee on base/size price)
+        if (currentP.codExtra != null && currentP.codExtra !== '') {
+            return getEffectivePrice() + parseInt(currentP.codExtra);
+        }
+        // Default: same as effective price
+        return getEffectivePrice();
+    }
+
+    /* ===== HELPER: Get UPI price (with ₹20 discount) ===== */
+    function getUPIPrice() {
+        return Math.max(0, getEffectivePrice() - 20);
+    }
+
+    /* ===== BUY NOW with CONGRATULATIONS BLAST ===== */
+    window.openCheckout = () => {
+        if(currentP.sizes && currentP.sizes.length > 0 && !selectedSize) return dkAlert("Pehle Size choose karein!", 'warn');
+        // BLAST!
+        blastConfetti();
+        // Update payment modal amounts
+        const upiAmt = getUPIPrice();
+        const codAmt = getCODPrice();
+        const baseAmt = getEffectivePrice();
+        document.getElementById('upi-final-amt').innerText = upiAmt;
+        document.getElementById('upi-mrp').innerText = baseAmt > upiAmt ? "₹" + baseAmt + " " : "";
+        document.getElementById('cod-final-amt').innerText = codAmt;
+        // Show original price strikethrough on COD only if codPrice is a discount; usually COD is same/higher
+        document.getElementById('cod-mrp').innerText = "";
+        // COD subtitle
+        let codSub = 'Pay at the time of delivery';
+        if (codAmt > baseAmt) codSub = `Pay at delivery (incl. ₹${codAmt - baseAmt} COD fee)`;
+        else if (codAmt < baseAmt) codSub = `Special COD price • Save ₹${baseAmt - codAmt}`;
+        document.getElementById('cod-sub-text').innerText = codSub;
+        // Open modal after short delay (so blast is visible)
+        setTimeout(() => { document.getElementById('pay-modal').style.display = 'flex'; }, 700);
+    };
+
+    window.showScanner = () => {
+        const finalPrice = getUPIPrice();
+        currentP.tempPrice = finalPrice;
+        document.getElementById('dis-price').innerText = "₹" + finalPrice;
+        document.getElementById('upi-options').style.display = 'none';
+        document.getElementById('scanner-display').style.display = 'block';
+    };
     window.confirmUPIDone = () => { closePayModal(); updateCheckoutView("UPI (Paid)"); };
-    window.processOrder = (method) => { if(method === 'COD') { currentP.tempPrice = getEffectivePrice(); closePayModal(); updateCheckoutView("COD"); } };
+    window.processOrder = (method) => {
+        if(method === 'COD') {
+            currentP.tempPrice = getCODPrice();
+            closePayModal();
+            updateCheckoutView("COD");
+        }
+    };
     function updateCheckoutView(method) { document.getElementById('c-prod-name').innerText = currentP.name + (selectedVariant ? ` (${selectedVariant.name})` : ''); document.getElementById('c-prod-price-display').innerText = "Amount: ₹" + currentP.tempPrice; document.getElementById('c-prod-size').innerText = (selectedSize ? "Size: " + selectedSize : "Free Size") + " | " + method; document.body.classList.add('view-open'); document.getElementById('checkout-view').style.display = 'block'; }
 
     document.getElementById('order-btn').onclick = async () => {
@@ -686,7 +878,17 @@
         if(!n || !ph || !ad1 || !pin || !state) return dkAlert("Sari details bhariye!", 'warn');
         const fullAddress = `${ad1}, ${ad2}, ${ad3}, Pincode: ${pin}, State: ${state}`;
         const orderData = { name: currentP.name + (selectedVariant ? ` (${selectedVariant.name})` : ''), price: currentP.tempPrice || currentP.price, img: (selectedVariant && selectedVariant.image) || (currentP.images && currentP.images[0]) || 'Dkart.jpg', size: selectedSize || "Free Size", variant: selectedVariant ? selectedVariant.name : "", customer: n, phone: ph, address: fullAddress, userId: currentUser ? currentUser.uid : "guest", userEmail: currentUser ? currentUser.email : "guest", time: serverTimestamp(), status: "Pending" };
-        try { const docRef = await addDoc(collection(db, "orders"), orderData); const localOrder = { ...orderData, id: docRef.id, time: Date.now() }; let myOrders = JSON.parse(localStorage.getItem('dk_orders')) || []; myOrders.unshift(localOrder); localStorage.setItem('dk_orders', JSON.stringify(myOrders)); showModal({ type:'success', title:'Order Confirmed!', msg:'Aapka order successfully place ho gaya hai. Thank you for shopping with Dkart!', okText:'View Orders', onOk:()=>{location.reload();} }); } catch(err) { dkAlert("Order place karne me error: " + err.message, 'error'); }
+        try {
+            const docRef = await addDoc(collection(db, "orders"), orderData);
+            const localOrder = { ...orderData, id: docRef.id, time: Date.now() };
+            let myOrders = JSON.parse(localStorage.getItem('dk_orders')) || [];
+            myOrders.unshift(localOrder); localStorage.setItem('dk_orders', JSON.stringify(myOrders));
+            // Final celebration on order confirmation
+            blastConfetti();
+            setTimeout(() => {
+                showModal({ type:'success', title:'Order Confirmed! 🎉', msg:'Aapka order successfully place ho gaya hai. Thank you for shopping with Dkart!', okText:'View Orders', onOk:()=>{location.reload();} });
+            }, 500);
+        } catch(err) { dkAlert("Order place karne me error: " + err.message, 'error'); }
     };
 
     window.toggleWish = (e, id) => { e.stopPropagation(); let wish = JSON.parse(localStorage.getItem('dk_wish')) || []; if(wish.includes(id)) { wish = wish.filter(i => i !== id); dkToast('Wishlist se hata diya', 'success'); } else { wish.push(id); dkToast('Wishlist me add ho gaya ❤️', 'success'); } localStorage.setItem('dk_wish', JSON.stringify(wish)); };
@@ -724,3 +926,6 @@
     loadBanner();
     load();
 </script>
+
+</body>
+</html>

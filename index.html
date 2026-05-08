@@ -1,15 +1,15 @@
- "<!DOCTYPE html>
-<html lang=\"hi\">
+<!DOCTYPE html>
+<html lang="hi">
 <head>
-    <meta charset=\"UTF-8\">
-    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no\">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Dkart | Premium Shop</title>
-    <link rel=\"icon\" type=\"image/jpeg\" href=\"Dkart.jpg\">
-    <link rel=\"apple-touch-icon\" href=\"Dkart.jpg\">
-    <link rel=\"manifest\" href=\"/manifest.json\">
-    <meta name=\"theme-color\" content=\"#ffff00\">
-    <link href=\"https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Montserrat:wght@900&display=swap\" rel=\"stylesheet\">
-    <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css\">
+    <link rel="icon" type="image/jpeg" href="Dkart.jpg">
+    <link rel="apple-touch-icon" href="Dkart.jpg">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#ffff00">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Montserrat:wght@900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         :root { --primary: #000000; --accent: #ffff00; --white: #ffffff; --bg: #0a0a0a; }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
@@ -40,14 +40,7 @@
         .wish-icon { position: absolute; top: 15px; right: 15px; font-size: 18px; color: #444; z-index: 5; }
         .wish-icon.active { color: #ff4757; }
         .p-name { font-size: 12px; font-weight: 600; color: var(--accent); margin-top: 10px; height: 35px; overflow: hidden; text-transform: uppercase; }
-
-        /* === NEW: Card price block with UPI discount highlight === */
-        .p-price-block { margin: 6px 0 4px; }
-        .p-upi-row { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; }
-        .p-upi-price { font-size: 18px; font-weight: 800; color: var(--white); letter-spacing: -0.3px; }
-        .p-mrp-strike { font-size: 12px; color: #888; text-decoration: line-through; font-weight: 600; }
-        .p-upi-badge { display: inline-block; background: linear-gradient(90deg,#00c853,#00e676); color: #000; font-size: 9px; font-weight: 800; padding: 2px 6px; border-radius: 4px; margin-top: 3px; text-transform: uppercase; letter-spacing: 0.3px; }
-
+        .p-price { font-size: 17px; font-weight: 800; color: var(--white); margin: 5px 0; }
         .slider-wrap { position: relative; width: 100%; background: #fff; border-radius: 12px; overflow: hidden; border: 1px solid #333; }
         .slider-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
         .slider-track::-webkit-scrollbar { display: none; }
@@ -58,6 +51,7 @@
         .slider-dot.active { background: var(--accent); width: 20px; border-radius: 4px; }
         .slider-counter { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.7); color: #fff; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700; z-index: 5; }
 
+        /* PRICE BOX - upgraded */
         .pd-name-box { background: #ffffff; color: #111; border-radius: 14px; padding: 16px 16px 14px; margin: 16px 10px 0; border: 1px solid #e5e5e5; }
         .pd-name-box .pd-title { font-size: 17px; font-weight: 600; color: #1a1a1a; line-height: 1.35; margin: 0 0 8px 0; }
         .pd-rating-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
@@ -71,8 +65,6 @@
         .pd-save-badge { display: inline-block; margin-top: 6px; background: #fff3cd; color: #b8860b; font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 4px; border: 1px dashed #d4a017; text-transform: uppercase; letter-spacing: 0.3px; }
         .pd-size-tag { display: inline-block; margin-top: 6px; margin-left: 6px; background: #e8f5e9; color: #1b5e20; font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 4px; }
         .pd-stock { font-size: 12px; color: #26a541; font-weight: 700; margin-top: 8px; }
-        .pd-upi-hint { display:flex; align-items:center; gap:6px; margin-top: 10px; background: #e8f5e9; color: #1b5e20; padding: 7px 10px; border-radius: 8px; font-size: 12px; font-weight: 700; }
-        .pd-upi-hint i { color: #00c853; }
 
         .pd-variant-box { background: linear-gradient(135deg, #1a1a2e, #16213e); border: 1.5px solid #00bcd4; border-radius: 14px; padding: 14px; margin: 12px 10px 0; }
         .pd-variant-title { font-size: 12px; color: #00e5ff; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
@@ -86,6 +78,7 @@
         .v-card .v-tick { position: absolute; top: 4px; right: 4px; width: 18px; height: 18px; border-radius: 50%; background: var(--accent); color: #000; font-size: 10px; display: none; align-items: center; justify-content: center; font-weight: 900; }
         .v-card.selected .v-tick { display: flex; }
 
+        /* SIZE CHIPS - with price label */
         .size-box { margin-top: 20px; text-align: left; padding: 0 10px; }
         .size-label { font-size: 12px; color: #888; text-transform: uppercase; font-weight: 700; margin-bottom: 8px; display: block; }
         .size-chips { display: flex; flex-wrap: wrap; gap: 10px; }
@@ -181,13 +174,6 @@
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         .order-meta { display: flex; justify-content: space-between; margin-top: 12px; padding-top: 10px; border-top: 1px dashed #2a2a2a; font-size: 11px; color: #777; }
-
-        /* === NEW: Cancel order button & cancelled badge === */
-        .order-actions { margin-top: 12px; display: flex; gap: 8px; }
-        .cancel-order-btn { flex: 1; background: transparent; color: #ff4444; border: 1.5px solid #ff4444; padding: 10px; border-radius: 8px; font-weight: 800; font-size: 12px; cursor: pointer; text-transform: uppercase; transition: 0.2s; }
-        .cancel-order-btn:hover { background: #ff4444; color: #fff; }
-        .order-cancelled-badge { background: rgba(255,68,68,0.12); color: #ff6b6b; padding: 10px; text-align: center; border-radius: 8px; font-weight: 800; font-size: 12px; text-transform: uppercase; border: 1px dashed #ff4444; margin-top: 12px; }
-
         .btn-box { position: fixed; bottom: 0; left: 0; width: 100%; height: 60px; z-index: 3500; }
         .btn-main { width: 100%; height: 100%; border: none; font-weight: 900; background: var(--accent); color: #000; font-size: 16px; text-transform: uppercase; cursor: pointer; }
         .addr-input { width: 100%; padding: 15px; margin-bottom: 10px; background: #111; color: white; border: 1px solid #333; border-radius: 8px; font-size: 14px; }
@@ -204,28 +190,6 @@
         .or-divider::before { left: 0; } .or-divider::after { right: 0; }
         .profile-logged-in { text-align: center; padding: 30px 20px; }
         .profile-avatar { width: 80px; height: 80px; border-radius: 50%; background: var(--accent); color: #000; display: flex; align-items: center; justify-content: center; font-size: 36px; font-weight: 900; margin: 0 auto 15px; }
-
-        /* === NEW: Profile menu links (T&C, Return Policy) === */
-        .profile-menu { margin-top: 18px; background: #0f0f0f; border: 1px solid #2a2a2a; border-radius: 12px; overflow: hidden; }
-        .profile-menu-item { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; cursor: pointer; border-bottom: 1px solid #1f1f1f; transition: background 0.2s; text-align: left; }
-        .profile-menu-item:last-child { border-bottom: none; }
-        .profile-menu-item:hover, .profile-menu-item:active { background: #1a1a1a; }
-        .profile-menu-item .pmi-left { display: flex; align-items: center; gap: 12px; }
-        .profile-menu-item .pmi-icon { width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,0,0.12); color: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 14px; }
-        .profile-menu-item .pmi-text { color: #fff; font-weight: 600; font-size: 14px; }
-        .profile-menu-item .pmi-arrow { color: #666; font-size: 14px; }
-
-        /* === NEW: Policy view content === */
-        .policy-content { padding: 20px; color: #ddd; line-height: 1.7; font-size: 14px; }
-        .policy-content h2 { color: var(--accent); font-size: 20px; margin: 0 0 8px 0; }
-        .policy-content .last-upd { color: #888; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 18px; }
-        .policy-content h3 { color: var(--accent); font-size: 15px; margin: 22px 0 8px 0; display: flex; align-items: center; gap: 8px; }
-        .policy-content h3::before { content:''; width: 3px; height: 16px; background: var(--accent); border-radius: 2px; }
-        .policy-content p, .policy-content li { color: #ccc; }
-        .policy-content ul { padding-left: 20px; margin: 6px 0 12px; }
-        .policy-content li { margin-bottom: 6px; }
-        .policy-card { background: #0f0f0f; border: 1px solid #2a2a2a; border-radius: 12px; padding: 16px; margin-bottom: 14px; }
-
         .dk-modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(8px); z-index: 9999; align-items: center; justify-content: center; padding: 20px; }
         .dk-modal-bg.show { display: flex; }
         .dk-modal { background: linear-gradient(180deg, #1a1a1a, #0d0d0d); width: 100%; max-width: 360px; border-radius: 18px; border: 1.5px solid var(--accent); padding: 24px 22px; text-align: center; }
@@ -250,6 +214,7 @@
         .lightbox img { max-width: 100%; max-height: 90vh; border-radius: 8px; }
         .lightbox .close { position: absolute; top: 20px; right: 20px; color: #fff; font-size: 28px; cursor: pointer; }
 
+        /* CONGRATULATIONS BLAST */
         .congrats-overlay { display: none; position: fixed; inset: 0; z-index: 12000; pointer-events: none; overflow: hidden; }
         .congrats-overlay.show { display: block; }
         .congrats-text { position: absolute; top: 35%; left: 50%; transform: translate(-50%, -50%) scale(0); font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 38px; color: #ffff00; text-shadow: 0 4px 20px rgba(255,255,0,0.6), 0 0 40px rgba(255,255,0,0.4); text-align: center; white-space: nowrap; animation: congratsPop 1.8s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards; }
@@ -258,6 +223,7 @@
         .confetti-piece { position: absolute; width: 10px; height: 16px; top: -20px; opacity: 0; animation: confettiFall linear forwards; border-radius: 2px; }
         @keyframes confettiFall { 0% { transform: translate3d(var(--x-start), -10vh, 0) rotate(0deg); opacity: 1; } 100% { transform: translate3d(var(--x-end), 110vh, 0) rotate(720deg); opacity: 1; } }
 
+        /* PAYMENT MODAL upgraded for COD price */
         .pay-method-card { background:#1a1a1a; padding:16px; border-radius:14px; margin-bottom:12px; cursor:pointer; border:1.5px solid #333; text-align:left; transition: 0.2s; }
         .pay-method-card:hover { border-color: var(--accent); }
         .pay-method-card.featured { border-color: var(--accent); background: linear-gradient(135deg, #1f1f0a, #1a1a1a); }
@@ -272,315 +238,274 @@
 </head>
 <body>
 
-<div id=\"home-sec\">
+<div id="home-sec">
     <header>
-        <div class=\"logo-row\">
-            <img src=\"Dkart.jpg\" class=\"logo-img\" onerror=\"this.src='https://via.placeholder.com/40'\">
-            <span class=\"brand\">DKART</span>
+        <div class="logo-row">
+            <img src="Dkart.jpg" class="logo-img" onerror="this.src='https://via.placeholder.com/40'">
+            <span class="brand">DKART</span>
         </div>
-        <div class=\"trust-text\"><i class=\"fa-solid fa-shield-check\"></i> 100% Trusted • Fast Delivery</div>
-        <div class=\"header-action-row\">
-            <div class=\"search-box\">
-                <i class=\"fa-solid fa-magnifying-glass\" style=\"color:var(--accent)\"></i>
-                <input type=\"text\" id=\"searchInput\" placeholder=\"Search products...\" onkeyup=\"searchFun()\">
+        <div class="trust-text"><i class="fa-solid fa-shield-check"></i> 100% Trusted • Fast Delivery</div>
+        <div class="header-action-row">
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass" style="color:var(--accent)"></i>
+                <input type="text" id="searchInput" placeholder="Search products..." onkeyup="searchFun()">
             </div>
-            <a href=\"https://wa.me/918521694137?text=Hello%20Dkart%20Help%20Needed\" target=\"_blank\" class=\"help-btn\">
-                <i class=\"fa-brands fa-whatsapp\"></i>
+            <a href="https://wa.me/918521694137?text=Hello%20Dkart%20Help%20Needed" target="_blank" class="help-btn">
+                <i class="fa-brands fa-whatsapp"></i>
             </a>
         </div>
     </header>
 
-    <div class=\"promo-banner\" id=\"promo-banner\"><img id=\"promo-banner-img\" src=\"\" alt=\"Offer\"></div>
+    <div class="promo-banner" id="promo-banner"><img id="promo-banner-img" src="" alt="Offer"></div>
 
-    <div class=\"cat-row\">
-        <div class=\"cat-item\" onclick=\"filterCat('All')\"><div class=\"cat-icon\" style=\"background: #FFD700;\"><i class=\"fa-solid fa-border-all\"></i></div><span>All</span></div>
-        <div class=\"cat-item\" onclick=\"filterCat('Men')\"><div class=\"cat-icon\" style=\"background: #1E90FF;\"><i class=\"fa-solid fa-person\"></i></div><span>Men</span></div>
-        <div class=\"cat-item\" onclick=\"filterCat('Women')\"><div class=\"cat-icon\" style=\"background: #FF4757;\"><i class=\"fa-solid fa-person-dress\"></i></div><span>Women</span></div>
-        <div class=\"cat-item\" onclick=\"filterCat('Cosmetics')\"><div class=\"cat-icon\" style=\"background: #FF9FF3;\"><i class=\"fa-solid fa-sparkles\"></i></div><span>Cosmetics</span></div>
-        <div class=\"cat-item\" onclick=\"filterCat('Kitchen')\"><div class=\"cat-icon\" style=\"background: #2ED573;\"><i class=\"fa-solid fa-utensils\"></i></div><span>Kitchen</span></div>
-        <div class=\"cat-item\" onclick=\"filterCat('Electronics')\"><div class=\"cat-icon\" style=\"background: #54a0ff;\"><i class=\"fa-solid fa-plug\"></i></div><span>Electronics</span></div>
-        <div class=\"cat-item\" onclick=\"filterCat('Mobile')\"><div class=\"cat-icon\" style=\"background: #feca57;\"><i class=\"fa-solid fa-mobile-screen\"></i></div><span>Mobile</span></div>
+    <div class="cat-row">
+        <div class="cat-item" onclick="filterCat('All')"><div class="cat-icon" style="background: #FFD700;"><i class="fa-solid fa-border-all"></i></div><span>All</span></div>
+        <div class="cat-item" onclick="filterCat('Men')"><div class="cat-icon" style="background: #1E90FF;"><i class="fa-solid fa-person"></i></div><span>Men</span></div>
+        <div class="cat-item" onclick="filterCat('Women')"><div class="cat-icon" style="background: #FF4757;"><i class="fa-solid fa-person-dress"></i></div><span>Women</span></div>
+        <div class="cat-item" onclick="filterCat('Cosmetics')"><div class="cat-icon" style="background: #FF9FF3;"><i class="fa-solid fa-sparkles"></i></div><span>Cosmetics</span></div>
+        <div class="cat-item" onclick="filterCat('Kitchen')"><div class="cat-icon" style="background: #2ED573;"><i class="fa-solid fa-utensils"></i></div><span>Kitchen</span></div>
+        <div class="cat-item" onclick="filterCat('Electronics')"><div class="cat-icon" style="background: #54a0ff;"><i class="fa-solid fa-plug"></i></div><span>Electronics</span></div>
+        <div class="cat-item" onclick="filterCat('Mobile')"><div class="cat-icon" style="background: #feca57;"><i class="fa-solid fa-mobile-screen"></i></div><span>Mobile</span></div>
     </div>
 
-    <div class=\"grid\" id=\"productList\"></div>
+    <div class="grid" id="productList"></div>
 </div>
 
-<div id=\"detail-view\" class=\"full-view\">
-    <div class=\"view-header\"><i class=\"fa-solid fa-arrow-left\" onclick=\"closeAll()\"></i><span>Details</span></div>
-    <div style=\"padding: 15px; padding-bottom: 100px;\">
-        <div class=\"slider-wrap\">
-            <div class=\"slider-counter\" id=\"slide-counter\">1 / 1</div>
-            <div class=\"slider-track\" id=\"slider-track\"></div>
+<div id="detail-view" class="full-view">
+    <div class="view-header"><i class="fa-solid fa-arrow-left" onclick="closeAll()"></i><span>Details</span></div>
+    <div style="padding: 15px; padding-bottom: 100px;">
+        <div class="slider-wrap">
+            <div class="slider-counter" id="slide-counter">1 / 1</div>
+            <div class="slider-track" id="slider-track"></div>
         </div>
-        <div class=\"slider-dots\" id=\"slider-dots\"></div>
-        <div class=\"pd-name-box\">
-            <h2 class=\"pd-title\" id=\"det-name\"></h2>
-            <div class=\"pd-rating-row\">
-                <span class=\"rating-pill\"><span id=\"det-rating-val\">0.0</span> <i class=\"fa-solid fa-star\"></i></span>
-                <span class=\"rating-meta\"><b id=\"det-rating-count\">0</b> Ratings &amp; <b id=\"det-review-count\">0</b> Reviews</span>
+        <div class="slider-dots" id="slider-dots"></div>
+        <div class="pd-name-box">
+            <h2 class="pd-title" id="det-name"></h2>
+            <div class="pd-rating-row">
+                <span class="rating-pill"><span id="det-rating-val">0.0</span> <i class="fa-solid fa-star"></i></span>
+                <span class="rating-meta"><b id="det-rating-count">0</b> Ratings &amp; <b id="det-review-count">0</b> Reviews</span>
             </div>
-            <div class=\"pd-price-row\">
-                <span class=\"pd-price-now\" id=\"det-price\"></span>
-                <span class=\"pd-price-mrp\" id=\"det-mrp\"></span>
-                <span class=\"pd-price-off\" id=\"det-off\"></span>
+            <div class="pd-price-row">
+                <span class="pd-price-now" id="det-price"></span>
+                <span class="pd-price-mrp" id="det-mrp"></span>
+                <span class="pd-price-off" id="det-off"></span>
             </div>
             <div>
-                <span class=\"pd-save-badge\" id=\"det-save\" style=\"display:none;\"></span>
-                <span class=\"pd-size-tag\" id=\"det-size-tag\" style=\"display:none;\"></span>
+                <span class="pd-save-badge" id="det-save" style="display:none;"></span>
+                <span class="pd-size-tag" id="det-size-tag" style="display:none;"></span>
             </div>
-            <div class=\"pd-stock\"><i class=\"fa-solid fa-circle-check\"></i> In Stock • Free Delivery</div>
-            <div class=\"pd-upi-hint\"><i class=\"fa-solid fa-bolt-lightning\"></i> Online (UPI) Payment par <b style=\"margin:0 3px;\">₹20 Extra OFF</b> — Buy Now par dekhein</div>
+            <div class="pd-stock"><i class="fa-solid fa-circle-check"></i> In Stock • Free Delivery</div>
         </div>
-        <div class=\"pd-variant-box\" id=\"variant-box\" style=\"display:none;\">
-            <div class=\"pd-variant-title\"><i class=\"fa-solid fa-palette\"></i> <span id=\"variant-heading\">More Colours</span></div>
-            <div class=\"variant-strip\" id=\"variant-strip\"></div>
+        <div class="pd-variant-box" id="variant-box" style="display:none;">
+            <div class="pd-variant-title"><i class="fa-solid fa-palette"></i> <span id="variant-heading">More Colours</span></div>
+            <div class="variant-strip" id="variant-strip"></div>
         </div>
-        <div class=\"size-box\" id=\"size-options-container\" style=\"display:none;\">
-            <span class=\"size-label\">Choose Size</span>
-            <div class=\"size-chips\" id=\"det-sizes\"></div>
+        <div class="size-box" id="size-options-container" style="display:none;">
+            <span class="size-label">Choose Size</span>
+            <div class="size-chips" id="det-sizes"></div>
         </div>
 
-        <div class=\"desc-box\" id=\"desc-box\" style=\"display:none;\">
-            <div class=\"desc-label\">Product Description</div>
-            <p id=\"det-desc\" class=\"desc-text\"></p>
-            <button class=\"more-details-btn\" id=\"more-details-btn\" onclick=\"toggleDesc()\" style=\"display:none;\">
-                <span id=\"more-details-label\">More Details</span>
-                <i class=\"fa-solid fa-chevron-down\"></i>
+        <div class="desc-box" id="desc-box" style="display:none;">
+            <div class="desc-label">Product Description</div>
+            <p id="det-desc" class="desc-text"></p>
+            <button class="more-details-btn" id="more-details-btn" onclick="toggleDesc()" style="display:none;">
+                <span id="more-details-label">More Details</span>
+                <i class="fa-solid fa-chevron-down"></i>
             </button>
         </div>
 
-        <div class=\"reviews-section\">
-            <div class=\"rev-head\" onclick=\"toggleReviews()\">
-                <div class=\"rev-title\">Ratings &amp; Reviews</div>
-                <div class=\"rev-toggle-arrow\" id=\"rev-toggle-arrow\"><i class=\"fa-solid fa-chevron-down\"></i></div>
+        <div class="reviews-section">
+            <div class="rev-head" onclick="toggleReviews()">
+                <div class="rev-title">Ratings &amp; Reviews</div>
+                <div class="rev-toggle-arrow" id="rev-toggle-arrow"><i class="fa-solid fa-chevron-down"></i></div>
             </div>
-            <div class=\"rev-body\" id=\"rev-body\">
-                <button class=\"write-rev-btn\" onclick=\"openReviewForm()\"><i class=\"fa-solid fa-pen\"></i> Write a Review</button>
-                <div class=\"rev-summary\" id=\"rev-summary\" style=\"display:none;\">
-                    <div><div class=\"rev-avg\" id=\"rs-avg\">0.0</div><div class=\"rev-stars-big\" id=\"rs-stars\">★★★★★</div></div>
-                    <div><div style=\"color:#fff; font-weight:700; font-size:14px;\" id=\"rs-count\">0 Ratings</div><div class=\"rev-count-text\" id=\"rs-rev-count\">0 Reviews</div></div>
+            <div class="rev-body" id="rev-body">
+                <button class="write-rev-btn" onclick="openReviewForm()"><i class="fa-solid fa-pen"></i> Write a Review</button>
+                <div class="rev-summary" id="rev-summary" style="display:none;">
+                    <div><div class="rev-avg" id="rs-avg">0.0</div><div class="rev-stars-big" id="rs-stars">★★★★★</div></div>
+                    <div><div style="color:#fff; font-weight:700; font-size:14px;" id="rs-count">0 Ratings</div><div class="rev-count-text" id="rs-rev-count">0 Reviews</div></div>
                 </div>
-                <div id=\"rev-list\"><div class=\"rev-empty\"><i class=\"fa-regular fa-comment-dots\" style=\"font-size:28px; display:block; margin-bottom:8px;\"></i>Abhi koi review nahi hai. Pehla review aap likhein!</div></div>
+                <div id="rev-list"><div class="rev-empty"><i class="fa-regular fa-comment-dots" style="font-size:28px; display:block; margin-bottom:8px;"></i>Abhi koi review nahi hai. Pehla review aap likhein!</div></div>
             </div>
         </div>
-        <div class=\"suggest-section\" id=\"suggest-section\" style=\"display:none;\">
-            <div class=\"suggest-title\">You May Also Like</div>
-            <div class=\"suggest-grid\" id=\"suggest-grid\"></div>
+        <div class="suggest-section" id="suggest-section" style="display:none;">
+            <div class="suggest-title">You May Also Like</div>
+            <div class="suggest-grid" id="suggest-grid"></div>
         </div>
     </div>
-    <div class=\"btn-box\"><button class=\"btn-main\" onclick=\"openCheckout()\"><i class=\"fa-solid fa-bolt\"></i> Buy Now</button></div>
+    <div class="btn-box"><button class="btn-main" onclick="openCheckout()"><i class="fa-solid fa-bolt"></i> Buy Now</button></div>
 </div>
 
-<div id=\"checkout-view\" class=\"full-view\">
-    <div class=\"view-header\"><i class=\"fa-solid fa-arrow-left\" onclick=\"closeCheckout()\"></i><span>Checkout</span></div>
-    <div style=\"padding: 20px; padding-bottom: 100px;\">
-        <div id=\"checkout-summary\" style=\"background:#111; padding:15px; border-radius:10px; margin-bottom:20px; border:1.5px solid var(--accent);\">
-            <p id=\"c-prod-name\" style=\"margin:0; font-weight:600; color:var(--accent); font-size: 16px;\"></p>
-            <p id=\"c-prod-price-display\" style=\"margin:5px 0; font-size:20px; font-weight:800; color:#fff;\"></p>
-            <p id=\"c-prod-size\" style=\"margin:0; font-size:12px; color:#888\"></p>
+<div id="checkout-view" class="full-view">
+    <div class="view-header"><i class="fa-solid fa-arrow-left" onclick="closeCheckout()"></i><span>Checkout</span></div>
+    <div style="padding: 20px; padding-bottom: 100px;">
+        <div id="checkout-summary" style="background:#111; padding:15px; border-radius:10px; margin-bottom:20px; border:1.5px solid var(--accent);">
+            <p id="c-prod-name" style="margin:0; font-weight:600; color:var(--accent); font-size: 16px;"></p>
+            <p id="c-prod-price-display" style="margin:5px 0; font-size:20px; font-weight:800; color:#fff;"></p>
+            <p id="c-prod-size" style="margin:0; font-size:12px; color:#888"></p>
         </div>
-        <input type=\"text\" id=\"c-name\" class=\"addr-input\" placeholder=\"Full Name\">
-        <input type=\"tel\" id=\"c-phone\" class=\"addr-input\" placeholder=\"Mobile Number\">
-        <p style=\"color:var(--accent); font-size:12px; font-weight:bold; margin: 15px 0 5px 0;\">ADDRESS DETAILS</p>
-        <input type=\"text\" id=\"c-addr1\" class=\"addr-input\" placeholder=\"Address Line 1 (House No, Building)\">
-        <input type=\"text\" id=\"c-addr2\" class=\"addr-input\" placeholder=\"Address Line 2 (Area, Street)\">
-        <input type=\"text\" id=\"c-addr3\" class=\"addr-input\" placeholder=\"Address Line 3 (Landmark)\">
-        <div style=\"display: flex; gap: 10px;\">
-            <input type=\"number\" id=\"c-pin\" class=\"addr-input\" placeholder=\"Pincode\" style=\"flex:1;\">
-            <input type=\"text\" id=\"c-state\" class=\"addr-input\" placeholder=\"State\" style=\"flex:1;\">
+        <input type="text" id="c-name" class="addr-input" placeholder="Full Name">
+        <input type="tel" id="c-phone" class="addr-input" placeholder="Mobile Number">
+        <p style="color:var(--accent); font-size:12px; font-weight:bold; margin: 15px 0 5px 0;">ADDRESS DETAILS</p>
+        <input type="text" id="c-addr1" class="addr-input" placeholder="Address Line 1 (House No, Building)">
+        <input type="text" id="c-addr2" class="addr-input" placeholder="Address Line 2 (Area, Street)">
+        <input type="text" id="c-addr3" class="addr-input" placeholder="Address Line 3 (Landmark)">
+        <div style="display: flex; gap: 10px;">
+            <input type="number" id="c-pin" class="addr-input" placeholder="Pincode" style="flex:1;">
+            <input type="text" id="c-state" class="addr-input" placeholder="State" style="flex:1;">
         </div>
     </div>
-    <div class=\"btn-box\"><button class=\"btn-main\" id=\"order-btn\">Confirm Order</button></div>
+    <div class="btn-box"><button class="btn-main" id="order-btn">Confirm Order</button></div>
 </div>
 
-<div id=\"orders-view\" class=\"full-view\"><div class=\"view-header\"><i class=\"fa-solid fa-arrow-left\" onclick=\"hideAllViews()\"></i><span>My Orders</span></div><div id=\"orderListContainer\"></div></div>
-<div id=\"wishlist-view\" class=\"full-view\"><div class=\"view-header\"><i class=\"fa-solid fa-arrow-left\" onclick=\"hideAllViews()\"></i><span>Wishlist</span></div><div class=\"grid\" id=\"wishlistGrid\"></div></div>
+<div id="orders-view" class="full-view"><div class="view-header"><i class="fa-solid fa-arrow-left" onclick="hideAllViews()"></i><span>My Orders</span></div><div id="orderListContainer"></div></div>
+<div id="wishlist-view" class="full-view"><div class="view-header"><i class="fa-solid fa-arrow-left" onclick="hideAllViews()"></i><span>Wishlist</span></div><div class="grid" id="wishlistGrid"></div></div>
 
-<div id=\"profile-view\" class=\"full-view\">
-    <div class=\"view-header\"><i class=\"fa-solid fa-arrow-left\" onclick=\"hideAllViews()\"></i><span>My Profile</span></div>
-    <div id=\"auth-section\" style=\"padding: 20px;\">
-        <h3 style=\"color: var(--accent); text-align:center; margin-bottom: 5px;\">Welcome to Dkart</h3>
-        <p style=\"text-align:center; color:#888; font-size:13px; margin-top:0;\">Login or Register to continue</p>
-        <div class=\"auth-tabs\">
-            <button class=\"auth-tab-btn active\" id=\"tab-login-btn\" onclick=\"switchAuthTab('login')\">Login</button>
-            <button class=\"auth-tab-btn\" id=\"tab-register-btn\" onclick=\"switchAuthTab('register')\">Register</button>
+<div id="profile-view" class="full-view">
+    <div class="view-header"><i class="fa-solid fa-arrow-left" onclick="hideAllViews()"></i><span>My Profile</span></div>
+    <div id="auth-section" style="padding: 20px;">
+        <h3 style="color: var(--accent); text-align:center; margin-bottom: 5px;">Welcome to Dkart</h3>
+        <p style="text-align:center; color:#888; font-size:13px; margin-top:0;">Login or Register to continue</p>
+        <div class="auth-tabs">
+            <button class="auth-tab-btn active" id="tab-login-btn" onclick="switchAuthTab('login')">Login</button>
+            <button class="auth-tab-btn" id="tab-register-btn" onclick="switchAuthTab('register')">Register</button>
         </div>
-        <div id=\"login-form\" class=\"auth-form active\">
-            <input type=\"email\" id=\"login-email\" class=\"addr-input\" placeholder=\"Email address\">
-            <input type=\"password\" id=\"login-password\" class=\"addr-input\" placeholder=\"Password\">
-            <button class=\"auth-btn\" onclick=\"emailLogin()\"><i class=\"fa-solid fa-right-to-bracket\"></i> Login</button>
-            <p style=\"text-align:right; margin-top:10px;\"><a href=\"javascript:void(0)\" onclick=\"forgotPassword()\" style=\"color:var(--accent); font-size:13px; font-weight:600; text-decoration:none;\"><i class=\"fa-solid fa-key\"></i> Forgot Password?</a></p>
+        <div id="login-form" class="auth-form active">
+            <input type="email" id="login-email" class="addr-input" placeholder="Email address">
+            <input type="password" id="login-password" class="addr-input" placeholder="Password">
+            <button class="auth-btn" onclick="emailLogin()"><i class="fa-solid fa-right-to-bracket"></i> Login</button>
+            <p style="text-align:right; margin-top:10px;"><a href="javascript:void(0)" onclick="forgotPassword()" style="color:var(--accent); font-size:13px; font-weight:600; text-decoration:none;"><i class="fa-solid fa-key"></i> Forgot Password?</a></p>
         </div>
-        <div id=\"register-form\" class=\"auth-form\">
-            <input type=\"text\" id=\"reg-name\" class=\"addr-input\" placeholder=\"Full Name\">
-            <input type=\"email\" id=\"reg-email\" class=\"addr-input\" placeholder=\"Email address\">
-            <input type=\"password\" id=\"reg-password\" class=\"addr-input\" placeholder=\"Password (min 6 chars)\">
-            <button class=\"auth-btn\" onclick=\"emailRegister()\"><i class=\"fa-solid fa-user-plus\"></i> Create Account</button>
+        <div id="register-form" class="auth-form">
+            <input type="text" id="reg-name" class="addr-input" placeholder="Full Name">
+            <input type="email" id="reg-email" class="addr-input" placeholder="Email address">
+            <input type="password" id="reg-password" class="addr-input" placeholder="Password (min 6 chars)">
+            <button class="auth-btn" onclick="emailRegister()"><i class="fa-solid fa-user-plus"></i> Create Account</button>
         </div>
-        <div class=\"or-divider\">OR</div>
-        <button class=\"google-btn\" onclick=\"loginUser()\"><i class=\"fa-brands fa-google\" style=\"color:#DB4437;\"></i> Continue with Google</button>
-
-        <!-- Policy links visible to logged-out users too -->
-        <div class=\"profile-menu\">
-            <div class=\"profile-menu-item\" onclick=\"showPolicy('terms')\">
-                <div class=\"pmi-left\"><div class=\"pmi-icon\"><i class=\"fa-solid fa-file-contract\"></i></div><div class=\"pmi-text\">Terms &amp; Conditions</div></div>
-                <i class=\"fa-solid fa-chevron-right pmi-arrow\"></i>
-            </div>
-            <div class=\"profile-menu-item\" onclick=\"showPolicy('return')\">
-                <div class=\"pmi-left\"><div class=\"pmi-icon\"><i class=\"fa-solid fa-rotate-left\"></i></div><div class=\"pmi-text\">Return &amp; Refund Policy</div></div>
-                <i class=\"fa-solid fa-chevron-right pmi-arrow\"></i>
-            </div>
-            <div class=\"profile-menu-item\" onclick=\"showPolicy('privacy')\">
-                <div class=\"pmi-left\"><div class=\"pmi-icon\"><i class=\"fa-solid fa-user-shield\"></i></div><div class=\"pmi-text\">Privacy Policy</div></div>
-                <i class=\"fa-solid fa-chevron-right pmi-arrow\"></i>
-            </div>
-            <div class=\"profile-menu-item\" onclick=\"showPolicy('shipping')\">
-                <div class=\"pmi-left\"><div class=\"pmi-icon\"><i class=\"fa-solid fa-truck-fast\"></i></div><div class=\"pmi-text\">Shipping Policy</div></div>
-                <i class=\"fa-solid fa-chevron-right pmi-arrow\"></i>
-            </div>
-            <div class=\"profile-menu-item\" onclick=\"showPolicy('contact')\">
-                <div class=\"pmi-left\"><div class=\"pmi-icon\"><i class=\"fa-solid fa-headset\"></i></div><div class=\"pmi-text\">Contact Us</div></div>
-                <i class=\"fa-solid fa-chevron-right pmi-arrow\"></i>
-            </div>
-        </div>
+        <div class="or-divider">OR</div>
+        <button class="google-btn" onclick="loginUser()"><i class="fa-brands fa-google" style="color:#DB4437;"></i> Continue with Google</button>
     </div>
-    <div id=\"profile-logged-in\" class=\"profile-logged-in\" style=\"display:none;\">
-        <div class=\"profile-avatar\" id=\"profile-avatar\">U</div>
-        <h3 id=\"profile-name\" style=\"color: var(--accent); margin: 5px 0;\">User</h3>
-        <p id=\"user-email\" style=\"color: #aaa; font-size: 13px; margin: 0 0 20px 0;\">email@example.com</p>
-        <div style=\"background:#151515; border:1px solid #333; border-radius:10px; padding:15px; margin-top:10px; text-align:left;\">
-            <p style=\"margin:0; color:#888; font-size:11px; text-transform:uppercase; font-weight:700;\">Account Status</p>
-            <p style=\"margin:5px 0 0 0; color:#0f0; font-weight:700;\"><i class=\"fa-solid fa-circle-check\"></i> Active</p>
+    <div id="profile-logged-in" class="profile-logged-in" style="display:none;">
+        <div class="profile-avatar" id="profile-avatar">U</div>
+        <h3 id="profile-name" style="color: var(--accent); margin: 5px 0;">User</h3>
+        <p id="user-email" style="color: #aaa; font-size: 13px; margin: 0 0 20px 0;">email@example.com</p>
+        <div style="background:#151515; border:1px solid #333; border-radius:10px; padding:15px; margin-top:10px; text-align:left;">
+            <p style="margin:0; color:#888; font-size:11px; text-transform:uppercase; font-weight:700;">Account Status</p>
+            <p style="margin:5px 0 0 0; color:#0f0; font-weight:700;"><i class="fa-solid fa-circle-check"></i> Active</p>
         </div>
-
-        <!-- Profile menu (T&C, Return Policy etc.) -->
-        <div class=\"profile-menu\">
-            <div class=\"profile-menu-item\" onclick=\"showPolicy('terms')\">
-                <div class=\"pmi-left\"><div class=\"pmi-icon\"><i class=\"fa-solid fa-file-contract\"></i></div><div class=\"pmi-text\">Terms &amp; Conditions</div></div>
-                <i class=\"fa-solid fa-chevron-right pmi-arrow\"></i>
-            </div>
-            <div class=\"profile-menu-item\" onclick=\"showPolicy('return')\">
-                <div class=\"pmi-left\"><div class=\"pmi-icon\"><i class=\"fa-solid fa-rotate-left\"></i></div><div class=\"pmi-text\">Return &amp; Refund Policy</div></div>
-                <i class=\"fa-solid fa-chevron-right pmi-arrow\"></i>
-            </div>
-            <div class=\"profile-menu-item\" onclick=\"showPolicy('privacy')\">
-                <div class=\"pmi-left\"><div class=\"pmi-icon\"><i class=\"fa-solid fa-user-shield\"></i></div><div class=\"pmi-text\">Privacy Policy</div></div>
-                <i class=\"fa-solid fa-chevron-right pmi-arrow\"></i>
-            </div>
-            <div class=\"profile-menu-item\" onclick=\"showPolicy('shipping')\">
-                <div class=\"pmi-left\"><div class=\"pmi-icon\"><i class=\"fa-solid fa-truck-fast\"></i></div><div class=\"pmi-text\">Shipping Policy</div></div>
-                <i class=\"fa-solid fa-chevron-right pmi-arrow\"></i>
-            </div>
-            <div class=\"profile-menu-item\" onclick=\"showPolicy('contact')\">
-                <div class=\"pmi-left\"><div class=\"pmi-icon\"><i class=\"fa-solid fa-headset\"></i></div><div class=\"pmi-text\">Contact Us</div></div>
-                <i class=\"fa-solid fa-chevron-right pmi-arrow\"></i>
-            </div>
-        </div>
-
-        <button class=\"logout-btn\" onclick=\"logoutUser()\"><i class=\"fa-solid fa-right-from-bracket\"></i> Logout</button>
+        <button class="logout-btn" onclick="logoutUser()"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
     </div>
 </div>
 
-<!-- POLICY VIEW -->
-<div id=\"policy-view\" class=\"full-view\">
-    <div class=\"view-header\"><i class=\"fa-solid fa-arrow-left\" onclick=\"hideAllViews(); showProfile();\"></i><span id=\"policy-view-title\">Policy</span></div>
-    <div class=\"policy-content\" id=\"policy-content\"></div>
-</div>
+<!-- PAYMENT MODAL with customizable COD price -->
+<div id="pay-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:5000; align-items:center; justify-content:center; overflow-y: auto; padding: 20px;">
+    <div style="background:#111; width:100%; max-width:400px; padding:22px; border-radius:20px; border:1px solid #ffff00; text-align:center;">
+        <h3 style="color:#ffff00; margin:0 0 16px 0;">Payment Method</h3>
+        <div id="upi-options">
 
-<!-- PAYMENT MODAL -->
-<div id=\"pay-modal\" style=\"display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:5000; align-items:center; justify-content:center; overflow-y: auto; padding: 20px;\">
-    <div style=\"background:#111; width:100%; max-width:400px; padding:22px; border-radius:20px; border:1px solid #ffff00; text-align:center;\">
-        <h3 style=\"color:#ffff00; margin:0 0 16px 0;\">Payment Method</h3>
-        <div id=\"upi-options\">
-
-            <div class=\"pay-method-card featured\" onclick=\"showScanner()\">
-                <div class=\"pay-method-head\">
-                    <div class=\"pay-method-title\"><i class=\"fa-solid fa-qrcode\" style=\"color:#ffff00\"></i> Pay via Scanner</div>
-                    <div class=\"pay-method-amt\"><span class=\"pma-mrp\" id=\"upi-mrp\"></span>₹<span id=\"upi-final-amt\">0</span></div>
+            <!-- UPI / Scanner option -->
+            <div class="pay-method-card featured" onclick="showScanner()">
+                <div class="pay-method-head">
+                    <div class="pay-method-title"><i class="fa-solid fa-qrcode" style="color:#ffff00"></i> Pay via Scanner</div>
+                    <div class="pay-method-amt"><span class="pma-mrp" id="upi-mrp"></span>₹<span id="upi-final-amt">0</span></div>
                 </div>
-                <div class=\"pay-method-sub green\">🔥 Get ₹20 Instant Discount on UPI!</div>
+                <div class="pay-method-sub green">🔥 Get ₹20 Instant Discount on UPI!</div>
             </div>
 
-            <div class=\"pay-method-card\" onclick=\"processOrder('COD')\">
-                <div class=\"pay-method-head\">
-                    <div class=\"pay-method-title\"><i class=\"fa-solid fa-truck-fast\"></i> Cash On Delivery</div>
-                    <div class=\"pay-method-amt\"><span class=\"pma-mrp\" id=\"cod-mrp\"></span>₹<span id=\"cod-final-amt\">0</span></div>
+            <!-- COD option -->
+            <div class="pay-method-card" onclick="processOrder('COD')">
+                <div class="pay-method-head">
+                    <div class="pay-method-title"><i class="fa-solid fa-truck-fast"></i> Cash On Delivery</div>
+                    <div class="pay-method-amt"><span class="pma-mrp" id="cod-mrp"></span>₹<span id="cod-final-amt">0</span></div>
                 </div>
-                <div class=\"pay-method-sub muted\" id=\"cod-sub-text\">Pay at the time of delivery</div>
+                <div class="pay-method-sub muted" id="cod-sub-text">Pay at the time of delivery</div>
             </div>
 
         </div>
-        <div id=\"scanner-display\" style=\"display:none;\">
-            <p style=\"font-size:13px; color:#ccc; margin: 0 0 8px;\">Scan QR &amp; Pay <span id=\"dis-price\" style=\"color:#0f0; font-weight:bold;\"></span></p>
-            <img src=\"https://i.postimg.cc/nVShYS07/IMG-6402.jpg\" style=\"width:100%; border-radius:10px; margin:10px 0; border: 2px solid #fff;\">
-            <button onclick=\"confirmUPIDone()\" style=\"width:100%; background:#00ff00; color:#000; border:none; padding:12px; border-radius:8px; font-weight:800; margin-top:10px;\">I HAVE PAID (Confirm Order)</button>
+        <div id="scanner-display" style="display:none;">
+            <p style="font-size:13px; color:#ccc; margin: 0 0 8px;">Scan QR & Pay <span id="dis-price" style="color:#0f0; font-weight:bold;"></span></p>
+            <img src="https://i.postimg.cc/nVShYS07/IMG-6402.jpg" style="width:100%; border-radius:10px; margin:10px 0; border: 2px solid #fff;">
+            <button onclick="confirmUPIDone()" style="width:100%; background:#00ff00; color:#000; border:none; padding:12px; border-radius:8px; font-weight:800; margin-top:10px;">I HAVE PAID (Confirm Order)</button>
         </div>
-        <button onclick=\"closePayModal()\" style=\"margin-top:18px; background:none; border:none; color:#ff4444; font-weight:700; cursor:pointer;\">Cancel</button>
+        <button onclick="closePayModal()" style="margin-top:18px; background:none; border:none; color:#ff4444; font-weight:700; cursor:pointer;">Cancel</button>
     </div>
 </div>
 
-<div id=\"rev-form-bg\" class=\"rev-form-bg\">
-    <div class=\"rev-form\">
-        <h3><i class=\"fa-solid fa-star\" style=\"color:var(--accent);\"></i> Rate this Product</h3>
-        <div class=\"star-picker\" id=\"star-picker\">
-            <i class=\"fa-solid fa-star\" data-v=\"1\"></i><i class=\"fa-solid fa-star\" data-v=\"2\"></i><i class=\"fa-solid fa-star\" data-v=\"3\"></i><i class=\"fa-solid fa-star\" data-v=\"4\"></i><i class=\"fa-solid fa-star\" data-v=\"5\"></i>
+<div id="rev-form-bg" class="rev-form-bg">
+    <div class="rev-form">
+        <h3><i class="fa-solid fa-star" style="color:var(--accent);"></i> Rate this Product</h3>
+        <div class="star-picker" id="star-picker">
+            <i class="fa-solid fa-star" data-v="1"></i><i class="fa-solid fa-star" data-v="2"></i><i class="fa-solid fa-star" data-v="3"></i><i class="fa-solid fa-star" data-v="4"></i><i class="fa-solid fa-star" data-v="5"></i>
         </div>
-        <textarea id=\"rev-text\" placeholder=\"Apna experience share karein...\"></textarea>
-        <p style=\"font-size:11px; color:#888; margin: 10px 0 4px;\">Add Photos (max 3, optional)</p>
-        <div class=\"photo-upload-row\" id=\"photo-upload-row\">
-            <label class=\"photo-add\" for=\"rev-photo-input\"><i class=\"fa-solid fa-camera\"></i>Photo</label>
-            <input type=\"file\" id=\"rev-photo-input\" accept=\"image/*\" multiple style=\"display:none;\">
+        <textarea id="rev-text" placeholder="Apna experience share karein..."></textarea>
+        <p style="font-size:11px; color:#888; margin: 10px 0 4px;">Add Photos (max 3, optional)</p>
+        <div class="photo-upload-row" id="photo-upload-row">
+            <label class="photo-add" for="rev-photo-input"><i class="fa-solid fa-camera"></i>Photo</label>
+            <input type="file" id="rev-photo-input" accept="image/*" multiple style="display:none;">
         </div>
-        <button class=\"rev-submit\" onclick=\"submitReview()\">Submit Review</button>
-        <button class=\"rev-cancel\" onclick=\"closeReviewForm()\">Cancel</button>
+        <button class="rev-submit" onclick="submitReview()">Submit Review</button>
+        <button class="rev-cancel" onclick="closeReviewForm()">Cancel</button>
     </div>
 </div>
 
-<div id=\"dk-modal-bg\" class=\"dk-modal-bg\">
-    <div class=\"dk-modal\">
-        <div id=\"dk-modal-icon\" class=\"dk-modal-icon info\"><i class=\"fa-solid fa-info\"></i></div>
-        <h3 id=\"dk-modal-title\">Title</h3>
-        <p id=\"dk-modal-msg\">Message</p>
-        <input type=\"text\" id=\"dk-modal-input\" style=\"display:none;\">
-        <div class=\"dk-modal-actions\">
-            <button id=\"dk-modal-cancel\" class=\"dk-btn dk-btn-secondary\" style=\"display:none;\">Cancel</button>
-            <button id=\"dk-modal-ok\" class=\"dk-btn dk-btn-primary\">OK</button>
+<div id="dk-modal-bg" class="dk-modal-bg">
+    <div class="dk-modal">
+        <div id="dk-modal-icon" class="dk-modal-icon info"><i class="fa-solid fa-info"></i></div>
+        <h3 id="dk-modal-title">Title</h3>
+        <p id="dk-modal-msg">Message</p>
+        <input type="text" id="dk-modal-input" style="display:none;">
+        <div class="dk-modal-actions">
+            <button id="dk-modal-cancel" class="dk-btn dk-btn-secondary" style="display:none;">Cancel</button>
+            <button id="dk-modal-ok" class="dk-btn dk-btn-primary">OK</button>
         </div>
     </div>
 </div>
 
-<div id=\"congrats-overlay\" class=\"congrats-overlay\">
-    <div class=\"congrats-text\">🎉 Congratulations! 🎉<small>Get ready to checkout</small></div>
+<!-- Congratulations Blast Overlay -->
+<div id="congrats-overlay" class="congrats-overlay">
+    <div class="congrats-text">🎉 Congratulations! 🎉<small>Get ready to checkout</small></div>
 </div>
 
-<div id=\"lightbox\" class=\"lightbox\" onclick=\"this.classList.remove('show')\"><span class=\"close\">&times;</span><img id=\"lightbox-img\" src=\"\"></div>
-<div id=\"dk-toast\" class=\"dk-toast\"></div>
+<div id="lightbox" class="lightbox" onclick="this.classList.remove('show')"><span class="close">&times;</span><img id="lightbox-img" src=""></div>
+<div id="dk-toast" class="dk-toast"></div>
 
-<nav class=\"nav-bar\">
-    <div class=\"nav-tab active\" id=\"nav-home\" onclick=\"goHome()\"><i class=\"fa-solid fa-house\"></i><span>Home</span></div>
-    <div class=\"nav-tab\" id=\"nav-orders\" onclick=\"showOrders()\"><i class=\"fa-solid fa-bag-shopping\"></i><span>Orders</span></div>
-    <div class=\"nav-tab\" id=\"nav-wishlist\" onclick=\"showWishlist()\"><i class=\"fa-solid fa-heart\"></i><span>Wishlist</span></div>
-    <div class=\"nav-tab\" id=\"nav-profile\" onclick=\"showProfile()\"><i class=\"fa-solid fa-user\"></i><span>Profile</span></div>
+<nav class="nav-bar">
+    <div class="nav-tab active" id="nav-home" onclick="goHome()"><i class="fa-solid fa-house"></i><span>Home</span></div>
+    <div class="nav-tab" id="nav-orders" onclick="showOrders()"><i class="fa-solid fa-bag-shopping"></i><span>Orders</span></div>
+    <div class="nav-tab" id="nav-wishlist" onclick="showWishlist()"><i class="fa-solid fa-heart"></i><span>Wishlist</span></div>
+    <div class="nav-tab" id="nav-profile" onclick="showProfile()"><i class="fa-solid fa-user"></i><span>Profile</span></div>
 </nav>
 
-<script type=\"module\">
-    import { initializeApp } from \"https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js\";
-    import { getFirestore, collection, getDocs, addDoc, query, orderBy, where, serverTimestamp, doc, getDoc, updateDoc } from \"https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js\";
-    import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, sendPasswordResetEmail } from \"https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js\";
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+    import { getFirestore, collection, getDocs, addDoc, query, orderBy, where, serverTimestamp, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+    import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
 
-    const firebaseConfig = { apiKey: \"AIzaSyAchWzhIxqmS7G0HPpvuq6WBwcr8pXzFAE\", authDomain: \"dkart-87860.firebaseapp.com\", projectId: \"dkart-87860\", appId: \"1:894407834952:web:3067589b758c9819fe877d\" };
+    const firebaseConfig = { apiKey: "AIzaSyAchWzhIxqmS7G0HPpvuq6WBwcr8pXzFAE", authDomain: "dkart-87860.firebaseapp.com", projectId: "dkart-87860", appId: "1:894407834952:web:3067589b758c9819fe877d" };
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const auth = getAuth(app);
     const provider = new GoogleAuthProvider();
     let currentUser = null;
-    let allP = [], currentP = null, selectedSize = \"\", selectedVariant = null;
+    let allP = [], currentP = null, selectedSize = "", selectedVariant = null;
     let reviewStars = 0, reviewPhotos = [];
 
-    const UPI_DISCOUNT = 20;  // ₹20 off on UPI
+    /* =====================================================================
+       ADMIN GUIDE — Firestore product fields ke liye:
+       products/{id} document me ye optional fields add karein:
+         - price       : 299                      (default base price)
+         - mrp         : 499                      (default MRP for strikethrough)
+         - sizes       : ["S","M","L","XL","XXL"]
+         - sizePrices  : { S:299, M:349, L:399, XL:499, XXL:599 }   <-- HAR SIZE KA ALAG PRICE
+         - sizeMRPs    : { S:499, M:549, L:599, XL:799, XXL:899 }   <-- HAR SIZE KI MRP (optional)
+         - codPrice    : 449                      (single COD price for product)
+         - codPrices   : { S:320, M:370, L:420 }  (per-size COD price - highest priority)
+         - codExtra    : 40                       (extra COD fee jo base price me add hoga)
+       Priority: codPrices[size] > codPrice > (price + codExtra) > price
+       ===================================================================== */
 
     const modalBg = document.getElementById('dk-modal-bg'), modalIcon = document.getElementById('dk-modal-icon'), modalTitle = document.getElementById('dk-modal-title'), modalMsg = document.getElementById('dk-modal-msg'), modalInput = document.getElementById('dk-modal-input'), modalOk = document.getElementById('dk-modal-ok'), modalCancel = document.getElementById('dk-modal-cancel');
-    const ICONS = { success: '<i class=\"fa-solid fa-circle-check\"></i>', error: '<i class=\"fa-solid fa-circle-exclamation\"></i>', info: '<i class=\"fa-solid fa-circle-info\"></i>', warn: '<i class=\"fa-solid fa-triangle-exclamation\"></i>' };
+    const ICONS = { success: '<i class="fa-solid fa-circle-check"></i>', error: '<i class="fa-solid fa-circle-exclamation"></i>', info: '<i class="fa-solid fa-circle-info"></i>', warn: '<i class="fa-solid fa-triangle-exclamation"></i>' };
 
     function showModal({type='info', title='Dkart', msg='', input=false, placeholder='', okText='OK', showCancel=false, onOk=null, onCancel=null}) {
         modalIcon.className = 'dk-modal-icon ' + type;
@@ -597,10 +522,9 @@
     }
     window.dkAlert = (msg, type='info', title) => { const titles = { success: 'Success', error: 'Error', info: 'Info', warn: 'Warning' }; showModal({ type, title: title || titles[type], msg, okText: 'OK' }); };
     window.dkPrompt = (title, msg, placeholder, onOk) => showModal({ type:'info', title, msg, input:true, placeholder, showCancel:true, onOk, okText:'Submit' });
-    window.dkConfirm = (title, msg, onOk, okText='Yes') => showModal({ type:'warn', title, msg, showCancel:true, onOk, okText });
 
     const toast = document.getElementById('dk-toast'); let toastTimer;
-    window.dkToast = (msg, type='success') => { clearTimeout(toastTimer); toast.className = 'dk-toast show ' + type; toast.innerHTML = (type==='success'?'<i class=\"fa-solid fa-check\"></i> ':type==='error'?'<i class=\"fa-solid fa-xmark\"></i> ':'') + msg; toastTimer = setTimeout(() => toast.classList.remove('show'), 2500); };
+    window.dkToast = (msg, type='success') => { clearTimeout(toastTimer); toast.className = 'dk-toast show ' + type; toast.innerHTML = (type==='success'?'<i class="fa-solid fa-check"></i> ':type==='error'?'<i class="fa-solid fa-xmark"></i> ':'') + msg; toastTimer = setTimeout(() => toast.classList.remove('show'), 2500); };
     window.openLightbox = (src) => { document.getElementById('lightbox-img').src = src; document.getElementById('lightbox').classList.add('show'); };
     window.toggleReviews = () => { document.getElementById('rev-body').classList.toggle('open'); document.getElementById('rev-toggle-arrow').classList.toggle('open'); };
 
@@ -613,8 +537,10 @@
         lbl.innerText = txt.classList.contains('expanded') ? 'Show Less' : 'More Details';
     };
 
+    /* ===== CONGRATULATIONS BLAST ===== */
     function blastConfetti() {
         const overlay = document.getElementById('congrats-overlay');
+        // Clear old confetti
         overlay.querySelectorAll('.confetti-piece').forEach(el => el.remove());
         const colors = ['#ffff00', '#ff4757', '#00ff88', '#54a0ff', '#ff9ff3', '#feca57', '#ffffff', '#ff6b6b'];
         const W = window.innerWidth;
@@ -643,63 +569,46 @@
 
     async function loadBanner() {
         try {
-            const ref = doc(db, \"settings\", \"home\");
+            const ref = doc(db, "settings", "home");
             const snap = await getDoc(ref);
             if (snap.exists()) {
                 const data = snap.data();
-                const url = (data.bannerUrl || \"\").trim();
+                const url = (data.bannerUrl || "").trim();
                 const active = data.bannerActive !== false;
                 if (url && active) {
                     document.getElementById('promo-banner-img').src = url;
                     document.getElementById('promo-banner').classList.add('show');
                 }
             }
-        } catch(e) { console.log(\"No banner set\"); }
+        } catch(e) { console.log("No banner set"); }
     }
 
     async function load() {
         const list = document.getElementById('productList');
-        list.innerHTML = '<div class=\"empty-state\" style=\"grid-column:1/-1;\"><i class=\"fa-solid fa-spinner fa-spin\"></i><p>Products load ho rahe hain...</p></div>';
+        list.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><i class="fa-solid fa-spinner fa-spin"></i><p>Products load ho rahe hain...</p></div>';
         try {
             let snap;
-            try { snap = await getDocs(query(collection(db, \"products\"), orderBy(\"time\", \"desc\"))); }
-            catch(e) { snap = await getDocs(collection(db, \"products\")); }
+            try { snap = await getDocs(query(collection(db, "products"), orderBy("time", "desc"))); }
+            catch(e) { snap = await getDocs(collection(db, "products")); }
             allP = snap.docs.map(d => ({id: d.id, ...d.data()}));
             render(allP, 'productList');
-        } catch(err) { console.error(err); list.innerHTML = '<div class=\"empty-state\" style=\"grid-column:1/-1;\"><i class=\"fa-solid fa-triangle-exclamation\"></i><p>Products load nahi ho paye.</p></div>'; }
-    }
-
-    /* ===== CARD: Show UPI discounted price (₹20 off) prominently ===== */
-    function getCardBasePrice(p) {
-        let base = parseInt(p.price) || 0;
-        if (p.sizePrices && Object.keys(p.sizePrices).length) {
-            const vals = Object.values(p.sizePrices).map(v => parseInt(v)).filter(v => !isNaN(v));
-            if (vals.length) base = Math.min(...vals);
-        }
-        return base;
+        } catch(err) { console.error(err); list.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><i class="fa-solid fa-triangle-exclamation"></i><p>Products load nahi ho paye.</p></div>'; }
     }
 
     function render(data, target) {
         const list = document.getElementById(target);
-        list.innerHTML = \"\";
-        if (!data || data.length === 0) { list.innerHTML = '<div class=\"empty-state\" style=\"grid-column:1/-1;\"><i class=\"fa-solid fa-box-open\"></i><p>No products found</p></div>'; return; }
+        list.innerHTML = "";
+        if (!data || data.length === 0) { list.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><i class="fa-solid fa-box-open"></i><p>No products found</p></div>'; return; }
         data.forEach(p => {
             const card = document.createElement('div');
             card.className = 'p-card';
-            const basePrice = getCardBasePrice(p);                       // COD/Original price
-            const upiPrice = Math.max(0, basePrice - UPI_DISCOUNT);      // After ₹20 off
-            const showStrike = basePrice > upiPrice;
-            card.innerHTML = `
-                <i class=\"fa-solid fa-heart wish-icon\" onclick=\"toggleWish(event, '${p.id}')\"></i>
-                <img src=\"${(p.images && p.images[0]) || 'Dkart.jpg'}\" onerror=\"this.src='https://via.placeholder.com/140'\">
-                <div class=\"p-name\">${p.name || 'Product'}</div>
-                <div class=\"p-price-block\">
-                    <div class=\"p-upi-row\">
-                        <span class=\"p-upi-price\">₹${upiPrice}</span>
-                        ${showStrike ? `<span class=\"p-mrp-strike\">₹${basePrice}</span>` : ''}
-                    </div>
-                    <span class=\"p-upi-badge\"><i class=\"fa-solid fa-bolt\"></i> UPI Price • ₹${UPI_DISCOUNT} OFF</span>
-                </div>`;
+            // Show "from" price if sizePrices exist
+            let displayPrice = p.price || '0';
+            if (p.sizePrices && Object.keys(p.sizePrices).length) {
+                const vals = Object.values(p.sizePrices).map(v => parseInt(v)).filter(v => !isNaN(v));
+                if (vals.length) displayPrice = Math.min(...vals);
+            }
+            card.innerHTML = `<i class="fa-solid fa-heart wish-icon" onclick="toggleWish(event, '${p.id}')"></i><img src="${(p.images && p.images[0]) || 'Dkart.jpg'}" onerror="this.src='https://via.placeholder.com/140'"><div class="p-name">${p.name || 'Product'}</div><div class="p-price">₹${displayPrice}</div>`;
             card.onclick = () => openProductDetail(p);
             list.appendChild(card);
         });
@@ -711,7 +620,7 @@
         const imgs = (images && images.length) ? images : ['Dkart.jpg'];
         imgs.forEach((src, idx) => {
             const slide = document.createElement('div'); slide.className = 'slider-slide';
-            slide.innerHTML = `<img src=\"${src}\" onerror=\"this.src='https://via.placeholder.com/400'\">`;
+            slide.innerHTML = `<img src="${src}" onerror="this.src='https://via.placeholder.com/400'">`;
             track.appendChild(slide);
             const dot = document.createElement('div'); dot.className = 'slider-dot' + (idx === 0 ? ' active' : '');
             dot.onclick = () => track.scrollTo({ left: track.clientWidth * idx, behavior: 'smooth' });
@@ -732,11 +641,11 @@
         variants.forEach((v, idx) => {
             const card = document.createElement('div');
             card.className = 'v-card' + (idx === 0 ? ' selected' : '');
-            card.innerHTML = `<div class=\"v-tick\"><i class=\"fa-solid fa-check\"></i></div><img src=\"${v.image || (prod.images && prod.images[0]) || 'Dkart.jpg'}\" onerror=\"this.src='https://via.placeholder.com/60'\"><div class=\"v-name\">${v.name || 'Variant'}</div>${v.price ? `<div class=\"v-price\">₹${v.price}</div>` : ''}`;
+            card.innerHTML = `<div class="v-tick"><i class="fa-solid fa-check"></i></div><img src="${v.image || (prod.images && prod.images[0]) || 'Dkart.jpg'}" onerror="this.src='https://via.placeholder.com/60'"><div class="v-name">${v.name || 'Variant'}</div>${v.price ? `<div class="v-price">₹${v.price}</div>` : ''}`;
             card.onclick = () => {
                 strip.querySelectorAll('.v-card').forEach(c => c.classList.remove('selected'));
                 card.classList.add('selected'); selectedVariant = v;
-                if (v.price) { document.getElementById('det-price').innerText = \"₹\" + v.price; currentP.tempSelectedPrice = v.price; updatePriceUI(v.price, currentP.mrp); }
+                if (v.price) { document.getElementById('det-price').innerText = "₹" + v.price; currentP.tempSelectedPrice = v.price; updatePriceUI(v.price, currentP.mrp); }
                 if (v.image) { const newImgs = [v.image, ...(prod.images || []).filter(x => x !== v.image)]; buildSlider(newImgs); }
             };
             strip.appendChild(card);
@@ -756,35 +665,41 @@
         if (picks.length === 0) { section.style.display = 'none'; return; }
         section.style.display = 'block';
         picks.forEach(p => {
-            const base = getCardBasePrice(p);
-            const upi = Math.max(0, base - UPI_DISCOUNT);
+            let dispPrice = p.price || '0';
+            if (p.sizePrices && Object.keys(p.sizePrices).length) {
+                const vals = Object.values(p.sizePrices).map(v => parseInt(v)).filter(v => !isNaN(v));
+                if (vals.length) dispPrice = Math.min(...vals);
+            }
             const card = document.createElement('div'); card.className = 'suggest-card';
-            card.innerHTML = `<img src=\"${(p.images && p.images[0]) || 'Dkart.jpg'}\" onerror=\"this.src='https://via.placeholder.com/110'\"><div class=\"sn\">${p.name}</div><div class=\"sp\">₹${upi} <span style=\"color:#888; text-decoration:line-through; font-size:11px; font-weight:600;\">₹${base}</span></div>`;
+            card.innerHTML = `<img src="${(p.images && p.images[0]) || 'Dkart.jpg'}" onerror="this.src='https://via.placeholder.com/110'"><div class="sn">${p.name}</div><div class="sp">₹${dispPrice}</div>`;
             card.onclick = () => { openProductDetail(p); document.getElementById('detail-view').scrollTo({ top: 0, behavior: 'smooth' }); };
             grid.appendChild(card);
         });
     }
 
+    /* ===== UPDATE PRICE UI (used by size & variant click) ===== */
     function updatePriceUI(price, mrp) {
         const p = parseInt(price) || 0;
         const m = parseInt(mrp) || Math.round(p * 1.4);
-        document.getElementById('det-price').innerText = \"₹\" + p;
-        document.getElementById('det-mrp').innerText = m > p ? (\"₹\" + m) : \"\";
+        document.getElementById('det-price').innerText = "₹" + p;
+        document.getElementById('det-mrp').innerText = m > p ? ("₹" + m) : "";
         const off = m > p ? Math.round(((m - p) / m) * 100) : 0;
-        document.getElementById('det-off').innerText = off > 0 ? off + \"% off\" : \"\";
+        document.getElementById('det-off').innerText = off > 0 ? off + "% off" : "";
         const saveEl = document.getElementById('det-save');
         if (m > p) { saveEl.style.display = 'inline-block'; saveEl.innerText = `You Save ₹${m - p}`; }
         else { saveEl.style.display = 'none'; }
     }
 
     function openProductDetail(p) {
-        currentP = p; selectedSize = \"\"; selectedVariant = null; currentP.tempSelectedPrice = null;
+        currentP = p; selectedSize = ""; selectedVariant = null; currentP.tempSelectedPrice = null;
         document.getElementById('rev-body').classList.remove('open');
         document.getElementById('rev-toggle-arrow').classList.remove('open');
         document.getElementById('det-size-tag').style.display = 'none';
 
         buildSlider(p.images || []);
         document.getElementById('det-name').innerText = p.name || '';
+
+        // Default price/mrp
         updatePriceUI(p.price, p.mrp);
 
         const baseRating = p.rating || 4.2;
@@ -792,9 +707,10 @@
         document.getElementById('det-rating-count').innerText = p.ratingCount || 0;
         document.getElementById('det-review-count').innerText = 0;
 
+        // Description
         const descBox = document.getElementById('desc-box'), descEl = document.getElementById('det-desc');
         const moreBtn = document.getElementById('more-details-btn'), moreLbl = document.getElementById('more-details-label');
-        const descText = (p.desc || \"\").trim();
+        const descText = (p.desc || "").trim();
         descEl.classList.remove('expanded'); moreBtn.classList.remove('open'); moreLbl.innerText = 'More Details';
         if (descText) {
             descBox.style.display = 'block'; descEl.innerText = descText;
@@ -805,19 +721,21 @@
             }, 50);
         } else { descBox.style.display = 'none'; }
 
+        /* ===== SIZE CHIPS WITH PER-SIZE PRICE ===== */
         const sContainer = document.getElementById('det-sizes'), sBox = document.getElementById('size-options-container');
-        sContainer.innerHTML = \"\";
+        sContainer.innerHTML = "";
         if(p.sizes && p.sizes.length > 0) {
             sBox.style.display = 'block';
             p.sizes.forEach(s => {
                 const chip = document.createElement('div');
                 chip.className = 'size-chip';
                 const sPrice = (p.sizePrices && p.sizePrices[s] != null) ? p.sizePrices[s] : null;
-                chip.innerHTML = `<span class=\"sc-name\">${s}</span>${sPrice != null ? `<span class=\"sc-price\">₹${sPrice}</span>` : ''}`;
+                chip.innerHTML = `<span class="sc-name">${s}</span>${sPrice != null ? `<span class="sc-price">₹${sPrice}</span>` : ''}`;
                 chip.onclick = () => {
                     document.querySelectorAll('.size-chip').forEach(c => c.classList.remove('selected'));
                     chip.classList.add('selected');
                     selectedSize = s;
+                    // Update price display based on size
                     const sP = (p.sizePrices && p.sizePrices[s] != null) ? p.sizePrices[s] : p.price;
                     const sM = (p.sizeMRPs && p.sizeMRPs[s] != null) ? p.sizeMRPs[s] : p.mrp;
                     currentP.tempSelectedPrice = sP;
@@ -837,12 +755,12 @@
 
     async function loadReviews(productId) {
         const list = document.getElementById('rev-list'), summary = document.getElementById('rev-summary');
-        list.innerHTML = '<div class=\"rev-empty\"><i class=\"fa-solid fa-spinner fa-spin\"></i> Reviews load ho rahe hain...</div>';
+        list.innerHTML = '<div class="rev-empty"><i class="fa-solid fa-spinner fa-spin"></i> Reviews load ho rahe hain...</div>';
         try {
-            const snap = await getDocs(query(collection(db, \"reviews\"), where(\"productId\", \"==\", productId)));
+            const snap = await getDocs(query(collection(db, "reviews"), where("productId", "==", productId)));
             let reviews = snap.docs.map(d => ({ id: d.id, ...d.data() }));
             reviews.sort((a,b) => { const tA = a.time && a.time.toDate ? a.time.toDate().getTime() : 0; const tB = b.time && b.time.toDate ? b.time.toDate().getTime() : 0; return tB - tA; });
-            if (reviews.length === 0) { summary.style.display = 'none'; list.innerHTML = '<div class=\"rev-empty\"><i class=\"fa-regular fa-comment-dots\" style=\"font-size:28px; display:block; margin-bottom:8px;\"></i>Abhi koi review nahi hai. Pehla review aap likhein!</div>'; document.getElementById('det-review-count').innerText = 0; return; }
+            if (reviews.length === 0) { summary.style.display = 'none'; list.innerHTML = '<div class="rev-empty"><i class="fa-regular fa-comment-dots" style="font-size:28px; display:block; margin-bottom:8px;"></i>Abhi koi review nahi hai. Pehla review aap likhein!</div>'; document.getElementById('det-review-count').innerText = 0; return; }
             const avg = reviews.reduce((s,r) => s + (r.rating || 0), 0) / reviews.length, avgFix = avg.toFixed(1);
             summary.style.display = 'flex';
             document.getElementById('rs-avg').innerText = avgFix;
@@ -855,328 +773,131 @@
             list.innerHTML = reviews.map(r => {
                 const dateStr = r.time && r.time.toDate ? r.time.toDate().toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' }) : '';
                 const initial = (r.userName || 'U').charAt(0).toUpperCase();
-                const photosHtml = (r.photos && r.photos.length) ? `<div class=\"rev-photos\">${r.photos.map(ph => `<img src=\"${ph}\" onclick=\"openLightbox('${ph.replace(/'/g, \"\\'\")}')\">`).join('')}</div>` : '';
-                return `<div class=\"rev-item\"><div class=\"rev-top\"><div class=\"rev-user\"><div class=\"rev-avatar\">${initial}</div><div><div class=\"rev-user-name\">${r.userName || 'Anonymous'}</div><div class=\"rev-date\">${dateStr}</div></div></div><span class=\"rev-stars\">${r.rating || 0} <i class=\"fa-solid fa-star\"></i></span></div>${r.text ? `<p class=\"rev-text\">${r.text}</p>` : ''}${photosHtml}</div>`;
+                const photosHtml = (r.photos && r.photos.length) ? `<div class="rev-photos">${r.photos.map(ph => `<img src="${ph}" onclick="openLightbox('${ph.replace(/'/g, "\\'")}')">`).join('')}</div>` : '';
+                return `<div class="rev-item"><div class="rev-top"><div class="rev-user"><div class="rev-avatar">${initial}</div><div><div class="rev-user-name">${r.userName || 'Anonymous'}</div><div class="rev-date">${dateStr}</div></div></div><span class="rev-stars">${r.rating || 0} <i class="fa-solid fa-star"></i></span></div>${r.text ? `<p class="rev-text">${r.text}</p>` : ''}${photosHtml}</div>`;
             }).join('');
-        } catch(err) { console.error(err); list.innerHTML = '<div class=\"rev-empty\">Reviews load nahi ho paye.</div>'; }
+        } catch(err) { console.error(err); list.innerHTML = '<div class="rev-empty">Reviews load nahi ho paye.</div>'; }
     }
 
     document.getElementById('star-picker').addEventListener('click', (e) => { if (e.target.dataset && e.target.dataset.v) { const v = parseInt(e.target.dataset.v); reviewStars = v; document.querySelectorAll('#star-picker i').forEach(i => { i.classList.toggle('active', parseInt(i.dataset.v) <= v); }); } });
-    document.getElementById('rev-photo-input').addEventListener('change', async (e) => { const files = Array.from(e.target.files || []); for (const file of files) { if (reviewPhotos.length >= 3) { dkAlert(\"Max 3 photos allowed\", 'warn'); break; } try { const compressed = await compressImage(file, 800, 0.7); reviewPhotos.push(compressed); renderPhotoThumbs(); } catch(err) { console.error(err); } } e.target.value = ''; });
+    document.getElementById('rev-photo-input').addEventListener('change', async (e) => { const files = Array.from(e.target.files || []); for (const file of files) { if (reviewPhotos.length >= 3) { dkAlert("Max 3 photos allowed", 'warn'); break; } try { const compressed = await compressImage(file, 800, 0.7); reviewPhotos.push(compressed); renderPhotoThumbs(); } catch(err) { console.error(err); } } e.target.value = ''; });
 
     function compressImage(file, maxDim, quality) { return new Promise((resolve, reject) => { const reader = new FileReader(); reader.onload = (ev) => { const img = new Image(); img.onload = () => { let { width, height } = img; if (width > height && width > maxDim) { height = height * (maxDim/width); width = maxDim; } else if (height > maxDim) { width = width * (maxDim/height); height = maxDim; } const canvas = document.createElement('canvas'); canvas.width = width; canvas.height = height; canvas.getContext('2d').drawImage(img, 0, 0, width, height); resolve(canvas.toDataURL('image/jpeg', quality)); }; img.onerror = reject; img.src = ev.target.result; }; reader.onerror = reject; reader.readAsDataURL(file); }); }
 
-    function renderPhotoThumbs() { const row = document.getElementById('photo-upload-row'); row.querySelectorAll('.photo-thumb').forEach(el => el.remove()); const addBtn = row.querySelector('.photo-add'); reviewPhotos.forEach((src, idx) => { const t = document.createElement('div'); t.className = 'photo-thumb'; t.innerHTML = `<img src=\"${src}\"><div class=\"x\">×</div>`; t.querySelector('.x').onclick = () => { reviewPhotos.splice(idx, 1); renderPhotoThumbs(); }; row.insertBefore(t, addBtn); }); addBtn.style.display = reviewPhotos.length >= 3 ? 'none' : 'flex'; }
+    function renderPhotoThumbs() { const row = document.getElementById('photo-upload-row'); row.querySelectorAll('.photo-thumb').forEach(el => el.remove()); const addBtn = row.querySelector('.photo-add'); reviewPhotos.forEach((src, idx) => { const t = document.createElement('div'); t.className = 'photo-thumb'; t.innerHTML = `<img src="${src}"><div class="x">×</div>`; t.querySelector('.x').onclick = () => { reviewPhotos.splice(idx, 1); renderPhotoThumbs(); }; row.insertBefore(t, addBtn); }); addBtn.style.display = reviewPhotos.length >= 3 ? 'none' : 'flex'; }
 
-    window.openReviewForm = () => { if (!currentUser) return dkAlert(\"Review likhne ke liye pehle login karein!\", 'warn', 'Login Required'); reviewStars = 0; reviewPhotos = []; document.getElementById('rev-text').value = ''; document.querySelectorAll('#star-picker i').forEach(i => i.classList.remove('active')); renderPhotoThumbs(); document.getElementById('rev-form-bg').classList.add('show'); };
+    window.openReviewForm = () => { if (!currentUser) return dkAlert("Review likhne ke liye pehle login karein!", 'warn', 'Login Required'); reviewStars = 0; reviewPhotos = []; document.getElementById('rev-text').value = ''; document.querySelectorAll('#star-picker i').forEach(i => i.classList.remove('active')); renderPhotoThumbs(); document.getElementById('rev-form-bg').classList.add('show'); };
     window.closeReviewForm = () => document.getElementById('rev-form-bg').classList.remove('show');
-    window.submitReview = async () => { if (!currentUser) return dkAlert(\"Pehle login karein!\", 'warn'); if (!reviewStars) return dkAlert(\"Star rating dein!\", 'warn'); const text = document.getElementById('rev-text').value.trim(); const data = { productId: currentP.id, userId: currentUser.uid, userName: currentUser.displayName || (currentUser.email ? currentUser.email.split('@')[0] : 'User'), userEmail: currentUser.email || '', rating: reviewStars, text: text, photos: reviewPhotos, time: serverTimestamp() }; try { await addDoc(collection(db, \"reviews\"), data); closeReviewForm(); dkToast('Review submit ho gaya ✅', 'success'); loadReviews(currentP.id); } catch(err) { dkAlert(\"Review submit me error: \" + err.message, 'error'); } };
+    window.submitReview = async () => { if (!currentUser) return dkAlert("Pehle login karein!", 'warn'); if (!reviewStars) return dkAlert("Star rating dein!", 'warn'); const text = document.getElementById('rev-text').value.trim(); const data = { productId: currentP.id, userId: currentUser.uid, userName: currentUser.displayName || (currentUser.email ? currentUser.email.split('@')[0] : 'User'), userEmail: currentUser.email || '', rating: reviewStars, text: text, photos: reviewPhotos, time: serverTimestamp() }; try { await addDoc(collection(db, "reviews"), data); closeReviewForm(); dkToast('Review submit ho gaya ✅', 'success'); loadReviews(currentP.id); } catch(err) { dkAlert("Review submit me error: " + err.message, 'error'); } };
 
     function setActiveNav(id) { document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active')); if(id) { const el = document.getElementById(id); if(el) el.classList.add('active'); } }
     window.goHome = () => { hideAllViews(); setActiveNav('nav-home'); window.scrollTo(0, 0); };
     window.filterCat = (cat) => { if(cat === 'All') render(allP, 'productList'); else render(allP.filter(p => p.category && p.category.toLowerCase() === cat.toLowerCase()), 'productList'); };
     window.closePayModal = () => { document.getElementById('pay-modal').style.display = 'none'; document.getElementById('upi-options').style.display = 'block'; document.getElementById('scanner-display').style.display = 'none'; };
 
+    /* ===== HELPER: Get effective price (size-based or default) ===== */
     function getEffectivePrice() {
         if (currentP.tempSelectedPrice) return parseInt(currentP.tempSelectedPrice);
         return parseInt(currentP.price) || 0;
     }
+
+    /* ===== HELPER: Get COD price (admin customizable) ===== */
     function getCODPrice() {
-        if (currentP.codPrices && selectedSize && currentP.codPrices[selectedSize] != null) return parseInt(currentP.codPrices[selectedSize]);
-        if (currentP.codPrice != null && currentP.codPrice !== '') return parseInt(currentP.codPrice);
-        if (currentP.codExtra != null && currentP.codExtra !== '') return getEffectivePrice() + parseInt(currentP.codExtra);
+        // Priority 1: codPrices[selectedSize] (per-size COD)
+        if (currentP.codPrices && selectedSize && currentP.codPrices[selectedSize] != null) {
+            return parseInt(currentP.codPrices[selectedSize]);
+        }
+        // Priority 2: codPrice (single COD price for product)
+        if (currentP.codPrice != null && currentP.codPrice !== '') {
+            return parseInt(currentP.codPrice);
+        }
+        // Priority 3: codExtra (extra fee on base/size price)
+        if (currentP.codExtra != null && currentP.codExtra !== '') {
+            return getEffectivePrice() + parseInt(currentP.codExtra);
+        }
+        // Default: same as effective price
         return getEffectivePrice();
     }
-    function getUPIPrice() { return Math.max(0, getEffectivePrice() - UPI_DISCOUNT); }
 
+    /* ===== HELPER: Get UPI price (with ₹20 discount) ===== */
+    function getUPIPrice() {
+        return Math.max(0, getEffectivePrice() - 20);
+    }
+
+    /* ===== BUY NOW with CONGRATULATIONS BLAST ===== */
     window.openCheckout = () => {
-        if(currentP.sizes && currentP.sizes.length > 0 && !selectedSize) return dkAlert(\"Pehle Size choose karein!\", 'warn');
+        if(currentP.sizes && currentP.sizes.length > 0 && !selectedSize) return dkAlert("Pehle Size choose karein!", 'warn');
+        // BLAST!
         blastConfetti();
+        // Update payment modal amounts
         const upiAmt = getUPIPrice();
         const codAmt = getCODPrice();
         const baseAmt = getEffectivePrice();
         document.getElementById('upi-final-amt').innerText = upiAmt;
-        document.getElementById('upi-mrp').innerText = baseAmt > upiAmt ? \"₹\" + baseAmt + \" \" : \"\";
+        document.getElementById('upi-mrp').innerText = baseAmt > upiAmt ? "₹" + baseAmt + " " : "";
         document.getElementById('cod-final-amt').innerText = codAmt;
-        document.getElementById('cod-mrp').innerText = \"\";
+        // Show original price strikethrough on COD only if codPrice is a discount; usually COD is same/higher
+        document.getElementById('cod-mrp').innerText = "";
+        // COD subtitle
         let codSub = 'Pay at the time of delivery';
         if (codAmt > baseAmt) codSub = `Pay at delivery (incl. ₹${codAmt - baseAmt} COD fee)`;
         else if (codAmt < baseAmt) codSub = `Special COD price • Save ₹${baseAmt - codAmt}`;
         document.getElementById('cod-sub-text').innerText = codSub;
+        // Open modal after short delay (so blast is visible)
         setTimeout(() => { document.getElementById('pay-modal').style.display = 'flex'; }, 700);
     };
 
     window.showScanner = () => {
         const finalPrice = getUPIPrice();
         currentP.tempPrice = finalPrice;
-        currentP.tempPaymentMethod = \"UPI\";
-        document.getElementById('dis-price').innerText = \"₹\" + finalPrice;
+        document.getElementById('dis-price').innerText = "₹" + finalPrice;
         document.getElementById('upi-options').style.display = 'none';
         document.getElementById('scanner-display').style.display = 'block';
     };
-    window.confirmUPIDone = () => { closePayModal(); updateCheckoutView(\"UPI (Paid)\"); };
+    window.confirmUPIDone = () => { closePayModal(); updateCheckoutView("UPI (Paid)"); };
     window.processOrder = (method) => {
         if(method === 'COD') {
             currentP.tempPrice = getCODPrice();
-            currentP.tempPaymentMethod = \"COD\";
             closePayModal();
-            updateCheckoutView(\"COD\");
+            updateCheckoutView("COD");
         }
     };
-    function updateCheckoutView(method) { document.getElementById('c-prod-name').innerText = currentP.name + (selectedVariant ? ` (${selectedVariant.name})` : ''); document.getElementById('c-prod-price-display').innerText = \"Amount: ₹\" + currentP.tempPrice; document.getElementById('c-prod-size').innerText = (selectedSize ? \"Size: \" + selectedSize : \"Free Size\") + \" | \" + method; document.body.classList.add('view-open'); document.getElementById('checkout-view').style.display = 'block'; }
+    function updateCheckoutView(method) { document.getElementById('c-prod-name').innerText = currentP.name + (selectedVariant ? ` (${selectedVariant.name})` : ''); document.getElementById('c-prod-price-display').innerText = "Amount: ₹" + currentP.tempPrice; document.getElementById('c-prod-size').innerText = (selectedSize ? "Size: " + selectedSize : "Free Size") + " | " + method; document.body.classList.add('view-open'); document.getElementById('checkout-view').style.display = 'block'; }
 
     document.getElementById('order-btn').onclick = async () => {
         const n = document.getElementById('c-name').value, ph = document.getElementById('c-phone').value, ad1 = document.getElementById('c-addr1').value, ad2 = document.getElementById('c-addr2').value, ad3 = document.getElementById('c-addr3').value, pin = document.getElementById('c-pin').value, state = document.getElementById('c-state').value;
-        if(!n || !ph || !ad1 || !pin || !state) return dkAlert(\"Sari details bhariye!\", 'warn');
+        if(!n || !ph || !ad1 || !pin || !state) return dkAlert("Sari details bhariye!", 'warn');
         const fullAddress = `${ad1}, ${ad2}, ${ad3}, Pincode: ${pin}, State: ${state}`;
-        const orderData = { name: currentP.name + (selectedVariant ? ` (${selectedVariant.name})` : ''), price: currentP.tempPrice || currentP.price, paymentMethod: currentP.tempPaymentMethod || 'COD', img: (selectedVariant && selectedVariant.image) || (currentP.images && currentP.images[0]) || 'Dkart.jpg', size: selectedSize || \"Free Size\", variant: selectedVariant ? selectedVariant.name : \"\", customer: n, phone: ph, address: fullAddress, userId: currentUser ? currentUser.uid : \"guest\", userEmail: currentUser ? currentUser.email : \"guest\", time: serverTimestamp(), status: \"Pending\" };
+        const orderData = { name: currentP.name + (selectedVariant ? ` (${selectedVariant.name})` : ''), price: currentP.tempPrice || currentP.price, img: (selectedVariant && selectedVariant.image) || (currentP.images && currentP.images[0]) || 'Dkart.jpg', size: selectedSize || "Free Size", variant: selectedVariant ? selectedVariant.name : "", customer: n, phone: ph, address: fullAddress, userId: currentUser ? currentUser.uid : "guest", userEmail: currentUser ? currentUser.email : "guest", time: serverTimestamp(), status: "Pending" };
         try {
-            const docRef = await addDoc(collection(db, \"orders\"), orderData);
+            const docRef = await addDoc(collection(db, "orders"), orderData);
             const localOrder = { ...orderData, id: docRef.id, time: Date.now() };
             let myOrders = JSON.parse(localStorage.getItem('dk_orders')) || [];
             myOrders.unshift(localOrder); localStorage.setItem('dk_orders', JSON.stringify(myOrders));
+            // Final celebration on order confirmation
             blastConfetti();
             setTimeout(() => {
                 showModal({ type:'success', title:'Order Confirmed! 🎉', msg:'Aapka order successfully place ho gaya hai. Thank you for shopping with Dkart!', okText:'View Orders', onOk:()=>{location.reload();} });
             }, 500);
-        } catch(err) { dkAlert(\"Order place karne me error: \" + err.message, 'error'); }
+        } catch(err) { dkAlert("Order place karne me error: " + err.message, 'error'); }
     };
 
     window.toggleWish = (e, id) => { e.stopPropagation(); let wish = JSON.parse(localStorage.getItem('dk_wish')) || []; if(wish.includes(id)) { wish = wish.filter(i => i !== id); dkToast('Wishlist se hata diya', 'success'); } else { wish.push(id); dkToast('Wishlist me add ho gaya ❤️', 'success'); } localStorage.setItem('dk_wish', JSON.stringify(wish)); };
-    window.showWishlist = () => { hideAllViews(); setActiveNav('nav-wishlist'); const wIds = JSON.parse(localStorage.getItem('dk_wish')) || []; const wishProds = allP.filter(p => wIds.includes(p.id)); if (wishProds.length === 0) document.getElementById('wishlistGrid').innerHTML = '<div class=\"empty-state\" style=\"grid-column:1/-1;\"><i class=\"fa-solid fa-heart-crack\"></i><p>Wishlist khaali hai</p></div>'; else render(wishProds, 'wishlistGrid'); document.body.classList.add('view-open'); document.getElementById('wishlist-view').style.display = 'block'; };
+    window.showWishlist = () => { hideAllViews(); setActiveNav('nav-wishlist'); const wIds = JSON.parse(localStorage.getItem('dk_wish')) || []; const wishProds = allP.filter(p => wIds.includes(p.id)); if (wishProds.length === 0) document.getElementById('wishlistGrid').innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><i class="fa-solid fa-heart-crack"></i><p>Wishlist khaali hai</p></div>'; else render(wishProds, 'wishlistGrid'); document.body.classList.add('view-open'); document.getElementById('wishlist-view').style.display = 'block'; };
 
     const STATUS_STEPS = ['Pending', 'Packed', 'Shipped', 'Delivered'];
-    function isCancelled(status) { return status && status.toString().toLowerCase().includes('cancel'); }
     function getStatusIndex(status) { if (!status) return 0; const s = status.toString().trim().toLowerCase(); if (s.includes('deliver')) return 3; if (s.includes('ship') || s.includes('out for')) return 2; if (s.includes('pack') || s.includes('confirm')) return 1; return 0; }
-    function statusTrackerHTML(status) { const idx = getStatusIndex(status); const progressPct = (idx / (STATUS_STEPS.length - 1)) * 72; const icons = ['fa-clock', 'fa-box', 'fa-truck-fast', 'fa-circle-check']; let stepsHtml = STATUS_STEPS.map((label, i) => { const cls = i < idx ? 'done' : (i === idx ? 'current' : ''); const iconHtml = i < idx ? '<i class=\"fa-solid fa-check\"></i>' : `<i class=\"fa-solid ${icons[i]}\"></i>`; return `<div class=\"status-step ${cls}\"><div class=\"dot\">${iconHtml}</div><div class=\"label\">${label}</div></div>`; }).join(''); return `<div class=\"status-tracker\"><div class=\"progress-line\" style=\"width: ${progressPct}%;\"></div>${stepsHtml}</div>`; }
+    function statusTrackerHTML(status) { const idx = getStatusIndex(status); const progressPct = (idx / (STATUS_STEPS.length - 1)) * 72; const icons = ['fa-clock', 'fa-box', 'fa-truck-fast', 'fa-circle-check']; let stepsHtml = STATUS_STEPS.map((label, i) => { const cls = i < idx ? 'done' : (i === idx ? 'current' : ''); const iconHtml = i < idx ? '<i class="fa-solid fa-check"></i>' : `<i class="fa-solid ${icons[i]}"></i>`; return `<div class="status-step ${cls}"><div class="dot">${iconHtml}</div><div class="label">${label}</div></div>`; }).join(''); return `<div class="status-tracker"><div class="progress-line" style="width: ${progressPct}%;"></div>${stepsHtml}</div>`; }
     function formatOrderTime(t) { if (!t) return ''; try { const d = t.toDate ? t.toDate() : new Date(t); return d.toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' }); } catch(e) { return ''; } }
-
-    /* ===== CANCEL ORDER FUNCTION ===== */
-    window.cancelOrder = (orderId, isFirestore) => {
-        dkConfirm('Cancel Order?', 'Kya aap waqai is order ko cancel karna chahte hain? Ye action wapas nahi ho sakta.', async () => {
-            try {
-                if (isFirestore && currentUser) {
-                    const ref = doc(db, \"orders\", orderId);
-                    await updateDoc(ref, { status: \"Cancelled\", cancelledAt: serverTimestamp() });
-                }
-                // Also update localStorage copy
-                let local = JSON.parse(localStorage.getItem('dk_orders')) || [];
-                local = local.map(o => o.id === orderId ? { ...o, status: \"Cancelled\", cancelledAt: Date.now() } : o);
-                localStorage.setItem('dk_orders', JSON.stringify(local));
-                dkToast('Order cancel ho gaya', 'success');
-                showOrders();
-            } catch(err) {
-                console.error(err);
-                dkAlert(\"Cancel karne me error: \" + err.message, 'error');
-            }
-        }, 'Yes, Cancel');
-    };
 
     window.showOrders = async () => {
         hideAllViews(); setActiveNav('nav-orders'); document.body.classList.add('view-open'); document.getElementById('orders-view').style.display = 'block';
         const cont = document.getElementById('orderListContainer');
-        cont.innerHTML = '<div class=\"empty-state\"><i class=\"fa-solid fa-spinner fa-spin\"></i><p>Orders load ho rahe hain...</p></div>';
-        let orders = []; let isFirestore = false;
-        try { if (currentUser) { isFirestore = true; const snap = await getDocs(query(collection(db, \"orders\"), where(\"userId\", \"==\", currentUser.uid))); orders = snap.docs.map(d => ({ id: d.id, ...d.data() })); orders.sort((a,b) => { const tA = a.time && a.time.toDate ? a.time.toDate().getTime() : 0; const tB = b.time && b.time.toDate ? b.time.toDate().getTime() : 0; return tB - tA; }); } else { orders = JSON.parse(localStorage.getItem('dk_orders')) || []; } } catch(err) { console.error(err); orders = JSON.parse(localStorage.getItem('dk_orders')) || []; isFirestore = false; }
-        if (orders.length === 0) { cont.innerHTML = '<div class=\"empty-state\"><i class=\"fa-solid fa-bag-shopping\"></i><p>Abhi koi order nahi hai</p></div>'; return; }
-        cont.innerHTML = orders.map(o => {
-            const cancelled = isCancelled(o.status);
-            const statusColor = cancelled ? '#ff6b6b' : (getStatusIndex(o.status) === 3 ? '#00e676' : 'var(--accent)');
-            const trackerHTML = cancelled ? '' : statusTrackerHTML(o.status);
-            const actionHTML = cancelled
-                ? `<div class=\"order-cancelled-badge\"><i class=\"fa-solid fa-circle-xmark\"></i> Order Cancelled</div>`
-                : `<div class=\"order-actions\"><button class=\"cancel-order-btn\" onclick=\"cancelOrder('${o.id}', ${isFirestore})\"><i class=\"fa-solid fa-xmark\"></i> Cancel Order</button></div>`;
-            const payMethodHTML = o.paymentMethod ? ` • ${o.paymentMethod}` : '';
-            return `<div class=\"order-card\">
-                <div class=\"order-top\">
-                    <img src=\"${o.img || 'Dkart.jpg'}\" class=\"order-img\" onerror=\"this.src='https://via.placeholder.com/70'\">
-                    <div class=\"order-info\" style=\"flex:1; min-width:0;\">
-                        <h4>${o.name || 'Product'}</h4>
-                        <p>Size: ${o.size || 'Free Size'}${payMethodHTML}</p>
-                        <p class=\"price-tag\">₹${o.price || '-'}</p>
-                    </div>
-                </div>
-                ${trackerHTML}
-                <div class=\"order-meta\">
-                    <span><i class=\"fa-regular fa-calendar\"></i> ${formatOrderTime(o.time)}</span>
-                    <span style=\"color:${statusColor}; font-weight:700;\">${o.status || 'Pending'}</span>
-                </div>
-                ${actionHTML}
-            </div>`;
-        }).join('');
-    };
-
-    /* ===== POLICIES (T&C, Return, Privacy, Shipping, Contact) ===== */
-    const POLICIES = {
-        terms: {
-            title: 'Terms & Conditions',
-            html: `
-                <div class=\"policy-card\">
-                    <h2>Terms &amp; Conditions</h2>
-                    <div class=\"last-upd\">Last Updated: January 2026</div>
-                    <p>Dkart par shopping karne se pehle kripya in terms ko dhyan se padhein. Hamari website use karke aap in sabhi terms se sehmat maane jaate hain.</p>
-                </div>
-                <h3>1. Account &amp; Eligibility</h3>
-                <ul>
-                    <li>Aapki age 18+ honi chahiye ya kisi guardian ki nigarani me hi order place karein.</li>
-                    <li>Account ki sari information sahi aur updated honi chahiye.</li>
-                    <li>Login credentials ki suraksha aapki zimmedari hai.</li>
-                </ul>
-                <h3>2. Pricing &amp; Payment</h3>
-                <ul>
-                    <li>Sabhi prices Indian Rupees (₹) me hain aur taxes included hain.</li>
-                    <li>UPI / Online payment par aapko ₹20 ka instant discount milega.</li>
-                    <li>COD (Cash on Delivery) order par delivery ke time payment karna hoga.</li>
-                    <li>Dkart kisi bhi galti se huwi pricing ko correct karne ka adhikar rakhta hai.</li>
-                </ul>
-                <h3>3. Orders</h3>
-                <ul>
-                    <li>Order confirm hone ke baad aapko notification milega.</li>
-                    <li>Stock unavailable hone par order cancel kiya ja sakta hai aur paisa refund hoga.</li>
-                    <li>Aap apne \"My Orders\" section me jaakar order ko cancel kar sakte hain.</li>
-                </ul>
-                <h3>4. Intellectual Property</h3>
-                <p>Website ka content, logo, images, design – sab Dkart ki property hai. Bina permission copy / use karna prohibited hai.</p>
-                <h3>5. Limitation of Liability</h3>
-                <p>Dkart kisi bhi indirect ya consequential nuksaan ke liye liable nahi hoga. Hamari maximum liability order ki amount tak seemit hai.</p>
-                <h3>6. Governing Law</h3>
-                <p>Ye terms Indian laws ke according govern hote hain. Koi bhi vivad jurisdiction ki adalat me suljhaaya jayega.</p>
-                <h3>7. Changes to Terms</h3>
-                <p>Dkart in terms ko kabhi bhi update kar sakta hai. Updated terms website par publish hone ke baad lagu maane jayenge.</p>
-            `
-        },
-        return: {
-            title: 'Return & Refund Policy',
-            html: `
-                <div class=\"policy-card\">
-                    <h2>Return &amp; Refund Policy</h2>
-                    <div class=\"last-upd\">Last Updated: January 2026</div>
-                    <p>Hum aapki santushti chahte hain. Agar product me koi problem hai to neeche di gayi policy follow karein.</p>
-                </div>
-                <h3>1. Return Window</h3>
-                <ul>
-                    <li><b>7 din</b> ke andar return request kar sakte hain (delivery date se).</li>
-                    <li>Cosmetics, innerwear, food items – hygiene reasons ki wajah se non-returnable hain.</li>
-                </ul>
-                <h3>2. Eligible for Return</h3>
-                <ul>
-                    <li>Product damaged / defective ho.</li>
-                    <li>Galat product / size aaya ho.</li>
-                    <li>Description se bilkul different ho.</li>
-                </ul>
-                <h3>3. Return Process</h3>
-                <ul>
-                    <li>WhatsApp <b>+91 8521694137</b> par order ID aur photo / video bhejein.</li>
-                    <li>Approval ke baad pickup arrange kiya jayega ya aapko return address diya jayega.</li>
-                    <li>Product original packaging, tags aur invoice ke saath wapas karein.</li>
-                </ul>
-                <h3>4. Refund Process</h3>
-                <ul>
-                    <li>Product receive hone aur quality check ke baad <b>5–7 working days</b> me refund process hoga.</li>
-                    <li>UPI / Online payment ka refund seedha source account me jayega.</li>
-                    <li>COD orders ka refund UPI / Bank transfer ke through diya jayega.</li>
-                </ul>
-                <h3>5. Cancellation</h3>
-                <ul>
-                    <li>Aap apne \"My Orders\" page se kisi bhi waqt order cancel kar sakte hain (delivery se pehle).</li>
-                    <li>Pre-paid (UPI) orders ka full refund 5–7 din me kar diya jayega.</li>
-                </ul>
-                <h3>6. Non-Returnable Items</h3>
-                <ul>
-                    <li>Innerwear, swimwear, cosmetics, perfumes, food &amp; grocery.</li>
-                    <li>Customised / made-to-order products.</li>
-                    <li>Used / damaged-by-customer items.</li>
-                </ul>
-            `
-        },
-        privacy: {
-            title: 'Privacy Policy',
-            html: `
-                <div class=\"policy-card\">
-                    <h2>Privacy Policy</h2>
-                    <div class=\"last-upd\">Last Updated: January 2026</div>
-                    <p>Aapki privacy hamare liye important hai. Ye policy bataati hai ki hum aapki kaunsi information collect karte hain aur kaise use karte hain.</p>
-                </div>
-                <h3>1. Information We Collect</h3>
-                <ul>
-                    <li>Naam, email, mobile number, delivery address.</li>
-                    <li>Order &amp; payment details.</li>
-                    <li>Device / browser info aur usage data.</li>
-                </ul>
-                <h3>2. How We Use</h3>
-                <ul>
-                    <li>Order process karne aur delivery ke liye.</li>
-                    <li>Customer support aur communication ke liye.</li>
-                    <li>Service improvement aur personalised offers ke liye.</li>
-                </ul>
-                <h3>3. Data Sharing</h3>
-                <p>Hum aapka data sirf delivery partners, payment gateways aur legal authorities ke saath share karte hain – aur sirf zaroori extent tak. Hum aapka data bechte nahi hain.</p>
-                <h3>4. Security</h3>
-                <p>Hum industry-standard security measures use karte hain. Lekin internet par 100% security guarantee nahi di ja sakti.</p>
-                <h3>5. Your Rights</h3>
-                <ul>
-                    <li>Apni information access / update / delete karne ka right.</li>
-                    <li>Marketing emails se unsubscribe karne ka right.</li>
-                </ul>
-                <h3>6. Contact</h3>
-                <p>Privacy ke kisi bhi sawaal ke liye WhatsApp <b>+91 8521694137</b> par message karein.</p>
-            `
-        },
-        shipping: {
-            title: 'Shipping Policy',
-            html: `
-                <div class=\"policy-card\">
-                    <h2>Shipping Policy</h2>
-                    <div class=\"last-upd\">Last Updated: January 2026</div>
-                    <p>Hum poore Bharat me delivery dete hain. Order place hone ke baad neeche di gayi timeline lagti hai.</p>
-                </div>
-                <h3>1. Delivery Time</h3>
-                <ul>
-                    <li>Metro cities: <b>3–5 working days</b></li>
-                    <li>Other cities / remote areas: <b>5–8 working days</b></li>
-                    <li>Weekend / holidays par delivery affect ho sakti hai.</li>
-                </ul>
-                <h3>2. Shipping Charges</h3>
-                <ul>
-                    <li>Most orders par <b>FREE delivery</b>.</li>
-                    <li>Kuch remote pincodes par small shipping charge lag sakta hai – checkout par dikhega.</li>
-                </ul>
-                <h3>3. Tracking</h3>
-                <p>Order ship hone ke baad aapko tracking link milega. \"My Orders\" section me bhi status dikhta hai.</p>
-                <h3>4. Address &amp; Pincode</h3>
-                <ul>
-                    <li>Sahi address aur pincode aapki zimmedari hai.</li>
-                    <li>Galat address ki wajah se delivery fail hone par re-shipping charge lag sakta hai.</li>
-                </ul>
-            `
-        },
-        contact: {
-            title: 'Contact Us',
-            html: `
-                <div class=\"policy-card\">
-                    <h2>Contact Us</h2>
-                    <div class=\"last-upd\">We are here to help</div>
-                    <p>Kisi bhi sawaal, complaint ya help ke liye humse contact karein. Hum jaldi se reply karte hain.</p>
-                </div>
-                <h3>WhatsApp Support</h3>
-                <p><a href=\"https://wa.me/918521694137\" style=\"color:#25D366; font-weight:700; text-decoration:none;\"><i class=\"fa-brands fa-whatsapp\"></i> +91 85216 94137</a></p>
-                <h3>Working Hours</h3>
-                <p>Monday – Saturday: 10:00 AM – 8:00 PM<br>Sunday: 11:00 AM – 5:00 PM</p>
-                <h3>Brand</h3>
-                <p>Dkart — Shop More, Save More.<br>100% Trusted • Fast Delivery</p>
-            `
-        }
-    };
-
-    window.showPolicy = (key) => {
-        const data = POLICIES[key];
-        if (!data) return;
-        document.getElementById('policy-view-title').innerText = data.title;
-        document.getElementById('policy-content').innerHTML = data.html;
-        hideAllViews();
-        document.body.classList.add('view-open');
-        document.getElementById('policy-view').style.display = 'block';
-        document.getElementById('policy-view').scrollTo(0, 0);
+        cont.innerHTML = '<div class="empty-state"><i class="fa-solid fa-spinner fa-spin"></i><p>Orders load ho rahe hain...</p></div>';
+        let orders = [];
+        try { if (currentUser) { const snap = await getDocs(query(collection(db, "orders"), where("userId", "==", currentUser.uid))); orders = snap.docs.map(d => ({ id: d.id, ...d.data() })); orders.sort((a,b) => { const tA = a.time && a.time.toDate ? a.time.toDate().getTime() : 0; const tB = b.time && b.time.toDate ? b.time.toDate().getTime() : 0; return tB - tA; }); } else { orders = JSON.parse(localStorage.getItem('dk_orders')) || []; } } catch(err) { console.error(err); orders = JSON.parse(localStorage.getItem('dk_orders')) || []; }
+        if (orders.length === 0) { cont.innerHTML = '<div class="empty-state"><i class="fa-solid fa-bag-shopping"></i><p>Abhi koi order nahi hai</p></div>'; return; }
+        cont.innerHTML = orders.map(o => `<div class="order-card"><div class="order-top"><img src="${o.img || 'Dkart.jpg'}" class="order-img" onerror="this.src='https://via.placeholder.com/70'"><div class="order-info" style="flex:1; min-width:0;"><h4>${o.name || 'Product'}</h4><p>Size: ${o.size || 'Free Size'}</p><p class="price-tag">₹${o.price || '-'}</p></div></div>${statusTrackerHTML(o.status)}<div class="order-meta"><span><i class="fa-regular fa-calendar"></i> ${formatOrderTime(o.time)}</span><span style="color:${getStatusIndex(o.status) === 3 ? '#00e676' : 'var(--accent)'}; font-weight:700;">${o.status || 'Pending'}</span></div></div>`).join('');
     };
 
     window.showProfile = () => { hideAllViews(); setActiveNav('nav-profile'); document.body.classList.add('view-open'); document.getElementById('profile-view').style.display = 'block'; };
@@ -1186,10 +907,10 @@
     window.hideAllViews = () => { document.querySelectorAll('.full-view').forEach(v => v.style.display = 'none'); document.body.classList.remove('view-open'); setActiveNav('nav-home'); };
     window.switchAuthTab = (tab) => { document.getElementById('tab-login-btn').classList.toggle('active', tab === 'login'); document.getElementById('tab-register-btn').classList.toggle('active', tab === 'register'); document.getElementById('login-form').classList.toggle('active', tab === 'login'); document.getElementById('register-form').classList.toggle('active', tab === 'register'); };
     window.loginUser = async () => { try { await signInWithPopup(auth, provider); dkToast('Login Success ✅', 'success'); } catch (err) { dkAlert(err.message, 'error', 'Login Failed'); } };
-    window.emailLogin = async () => { const email = document.getElementById('login-email').value.trim(), password = document.getElementById('login-password').value; if(!email || !password) return dkAlert(\"Email aur Password bhariye!\", 'warn'); try { await signInWithEmailAndPassword(auth, email, password); dkToast('Login Success ✅', 'success'); document.getElementById('login-email').value = ''; document.getElementById('login-password').value = ''; } catch (err) { dkAlert(err.message, 'error', 'Login Failed'); } };
-    window.emailRegister = async () => { const name = document.getElementById('reg-name').value.trim(), email = document.getElementById('reg-email').value.trim(), password = document.getElementById('reg-password').value; if(!name || !email || !password) return dkAlert(\"Sari details bhariye!\", 'warn'); if(password.length < 6) return dkAlert(\"Password kam se kam 6 characters ka hona chahiye!\", 'warn'); try { const userCred = await createUserWithEmailAndPassword(auth, email, password); await updateProfile(userCred.user, { displayName: name }); dkAlert(\"Welcome \" + name + \"! Account banaya gaya hai.\", 'success', 'Account Created'); document.getElementById('reg-name').value = ''; document.getElementById('reg-email').value = ''; document.getElementById('reg-password').value = ''; } catch (err) { dkAlert(err.message, 'error', 'Register Failed'); } };
+    window.emailLogin = async () => { const email = document.getElementById('login-email').value.trim(), password = document.getElementById('login-password').value; if(!email || !password) return dkAlert("Email aur Password bhariye!", 'warn'); try { await signInWithEmailAndPassword(auth, email, password); dkToast('Login Success ✅', 'success'); document.getElementById('login-email').value = ''; document.getElementById('login-password').value = ''; } catch (err) { dkAlert(err.message, 'error', 'Login Failed'); } };
+    window.emailRegister = async () => { const name = document.getElementById('reg-name').value.trim(), email = document.getElementById('reg-email').value.trim(), password = document.getElementById('reg-password').value; if(!name || !email || !password) return dkAlert("Sari details bhariye!", 'warn'); if(password.length < 6) return dkAlert("Password kam se kam 6 characters ka hona chahiye!", 'warn'); try { const userCred = await createUserWithEmailAndPassword(auth, email, password); await updateProfile(userCred.user, { displayName: name }); dkAlert("Welcome " + name + "! Account banaya gaya hai.", 'success', 'Account Created'); document.getElementById('reg-name').value = ''; document.getElementById('reg-email').value = ''; document.getElementById('reg-password').value = ''; } catch (err) { dkAlert(err.message, 'error', 'Register Failed'); } };
     window.logoutUser = async () => { try { await signOut(auth); dkToast('Logout ho gaya', 'success'); } catch (err) { dkAlert(err.message, 'error'); } };
-    window.forgotPassword = async () => { const prefilled = document.getElementById('login-email').value.trim(); const proceed = (email) => { email = (email || '').trim(); if(!email || !email.includes('@')) return dkAlert(\"Sahi email daalein!\", 'warn'); sendPasswordResetEmail(auth, email).then(() => dkAlert(\"Password reset link bhej diya gaya hai!\n\nApna inbox aur Spam folder check karein:\n\" + email, 'success', 'Email Sent')).catch(err => dkAlert(err.message, 'error')); }; if (prefilled) proceed(prefilled); else dkPrompt('Forgot Password', 'Apna registered email daalein, hum reset link bhej denge:', 'you@example.com', proceed); };
+    window.forgotPassword = async () => { const prefilled = document.getElementById('login-email').value.trim(); const proceed = (email) => { email = (email || '').trim(); if(!email || !email.includes('@')) return dkAlert("Sahi email daalein!", 'warn'); sendPasswordResetEmail(auth, email).then(() => dkAlert("Password reset link bhej diya gaya hai!\n\nApna inbox aur Spam folder check karein:\n" + email, 'success', 'Email Sent')).catch(err => dkAlert(err.message, 'error')); }; if (prefilled) proceed(prefilled); else dkPrompt('Forgot Password', 'Apna registered email daalein, hum reset link bhej denge:', 'you@example.com', proceed); };
 
     onAuthStateChanged(auth, (user) => { const authSection = document.getElementById('auth-section'), loggedInSection = document.getElementById('profile-logged-in'); if(user){ currentUser = user; authSection.style.display = 'none'; loggedInSection.style.display = 'block'; const displayName = user.displayName || (user.email ? user.email.split('@')[0] : 'User'); document.getElementById('profile-name').innerText = displayName; document.getElementById('user-email').innerText = user.email || ''; document.getElementById('profile-avatar').innerText = displayName.charAt(0).toUpperCase(); } else { currentUser = null; authSection.style.display = 'block'; loggedInSection.style.display = 'none'; } });
 
